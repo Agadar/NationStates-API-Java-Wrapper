@@ -1,15 +1,15 @@
-package com.github.agadar.nsapi.converter;
+package com.github.agadar.nsapi.adapter;
 
 import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * Creates a String List from a String and vice versa. Elements are expected to be split by commas.
+ * Converts a colon-separated String to a List of Strings.
  * 
  * @author Martin
  */
-public class StringToStringListAdapter extends XmlAdapter<String, List<String>>
+public class ColonSeparatedToListAdapter extends XmlAdapter<String, List<String>>
 {
     @Override
     public String marshal(List<String> bt) throws Exception
@@ -21,7 +21,7 @@ public class StringToStringListAdapter extends XmlAdapter<String, List<String>>
     @Override
     public List<String> unmarshal(String vt) throws Exception
     {
-        return Arrays.<String>asList(vt.split(","));
+        return Arrays.<String>asList(vt.split(":"));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.github.agadar.nsapi.domain;
 
-import com.github.agadar.nsapi.converter.StringToStringListAdapter;
+import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -31,7 +31,7 @@ public class Nation
     public String Banner;
     
     @XmlElementWrapper(name = "BANNERS")
-    @XmlElement(name="BANNER")
+    @XmlElement(name = "BANNER")
     public List<String> Banners;
     
     @XmlElement(name="CAPITAL")
@@ -60,7 +60,7 @@ public class Nation
     public String CustomReligion;
     
     @XmlElementWrapper(name = "DEATHS")
-    @XmlElement(name="CAUSE")
+    @XmlElement(name = "CAUSE")
     public List<DeathCause> Deaths;
     
     @XmlElement(name = "DEMONYM")
@@ -75,26 +75,24 @@ public class Nation
     @XmlElement(name = "DISPATCHES")
     public int NumberOfDispatches;
     
-    /**
-     * This nations's dispatches. Includes factbooks.
-     */
+    /** This nations's dispatches. Includes factbooks. */
     @XmlElementWrapper(name = "DISPATCHLIST")
-    @XmlElement(name="DISPATCH")
+    @XmlElement(name = "DISPATCH")
     public List<Dispatch> Dispatches;
     
     @XmlElement(name = "ENDORSEMENTS")
-    @XmlJavaTypeAdapter(StringToStringListAdapter.class)
+    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
     public List<String> Endorsements;
     
     @XmlElement(name = "FACTBOOKS")
     public int NumberOfFactbooks;
     
     @XmlElementWrapper(name = "FACTBOOKLIST")
-    @XmlElement(name="FACTBOOK")
+    @XmlElement(name = "FACTBOOK")
     public List<Dispatch> Factbooks;
     
     @XmlElement(name = "FIRSTLOGIN")
-    public long FirstLogin; // Unix timestamp
+    public long FirstLogin;
     
     @XmlElement(name = "FLAG")
     public String FlagUrl;
@@ -102,7 +100,8 @@ public class Nation
     @XmlElement(name = "FOUNDED")
     public String Founded;
     
-    //freedom;
+    @XmlElement(name = "FREEDOM")
+    public Freedom Freedom;
     
     @XmlElement(name = "FULLNAME")
     public String FullName;
@@ -113,7 +112,8 @@ public class Nation
     @XmlElement(name = "GDP")
     public int GrossDomesticProduct;
     
-    //govt;
+    @XmlElement(name = "GOVT")
+    public GovernmentExpenditure GovernmentExpenditure;
     
     @XmlElement(name = "GOVTDESC")
     public String GovernmentDescription;
@@ -121,7 +121,9 @@ public class Nation
     @XmlElement(name = "GOVTPRIORITY")
     public String GovernmentPriority;
     
-    //happenings;
+    @XmlElementWrapper(name = "HAPPENINGS")
+    @XmlElement(name = "EVENT")
+    public List<Happening> RecentHappenings;
     
     @XmlElement(name = "INCOME")
     public int AverageIncome;
@@ -136,12 +138,14 @@ public class Nation
     public String LastActivity;
     
     @XmlElement(name = "LASTLOGIN")
-    public long LastLogin; // Unix timestamp; should be converted to readable date
+    public long LastLogin;
     
     @XmlElement(name = "LEADER")
     public String Leader;
     
-    //legislation;
+    @XmlElementWrapper(name = "LEGISLATION")
+    @XmlElement(name = "LAW")
+    public List<String> RecentLegislation;
     
     @XmlElement(name = "MAJORINDUSTRY")
     public String MajorIndustry;
@@ -179,7 +183,8 @@ public class Nation
     @XmlElement(name = "SCVOTE")
     public String SecurityCouncilVote;
     
-    //sectors;
+    @XmlElement(name = "SECTORS")
+    public EconomySectors EconomySectors;
     
     @XmlElement(name = "SENSIBILITIES")
     public String PopulationDescription;
@@ -187,20 +192,26 @@ public class Nation
     @XmlElement(name = "TAX")
     public double AverageIncomeTaxRate;
     
+    /** True if the nation is not currently blocking recruitment telegrams */
     @XmlElement(name = "TGCANRECRUIT")
-    public int CanSendRecruitmentTelegrams; // should be boolean
+    public boolean CanReceiveRecruitmentTelegrams;
     
+    /** True if the nation is not currently blocking campaign telegrams */
     @XmlElement(name = "TGCANCAMPAIGN")
-    public int CanSendCampaignTelegrams; // should be boolean
+    public boolean CanReceiveCampaignTelegrams;
     
     @XmlElement(name = "TYPE")
     public String GovernmentType;
     
+    /** String indicating whether the nation is a member of the World Assembly. 
+    *   Corresponds to the 'WA' shard, but its XML-tag is 'UNSTATUS'. */
     @XmlElement(name = "UNSTATUS")
-    public String WorldAssemblyStatus; // corresponds to WA shard
+    public String WorldAssemblyStatus;
     
     @XmlElement(name = "WCENSUS")
     public int CensusRankInWorld;
     
-    //zombie
+    /** This nation's statistics of the current or last zombie event. */
+    @XmlElement(name = "ZOMBIE")
+    public ZombieInfo ZombieInfo;
 }
