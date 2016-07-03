@@ -1,11 +1,7 @@
 package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.Nation;
-import com.github.agadar.nsapi.enums.Council;
-import com.github.agadar.nsapi.enums.NationShard;
-import com.github.agadar.nsapi.enums.RegionShard;
-import com.github.agadar.nsapi.enums.WorldAssemblyShard;
-import com.github.agadar.nsapi.enums.WorldShard;
+import com.github.agadar.nsapi.enums.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -49,9 +45,8 @@ public class NationStatesAPI
     
     /**
      * Constructor, sets up the JAXBContext.
-     * @throws NationStatesAPIException if initialization failed
      */
-    public NationStatesAPI() throws NationStatesAPIException
+    public NationStatesAPI()
     {
         try
         {
@@ -71,9 +66,8 @@ public class NationStatesAPI
      *                   compendium of the most commonly sought shards are
      *                   returned.
      * @return the data of the retrieved nation, or null if it wasn't found
-     * @throws NationStatesAPIException if the request failed
      */
-    public Nation nation(String nationName, NationShard... shards) throws NationStatesAPIException
+    public Nation nation(String nationName, NationShard... shards)
     {
         // Empty check on nation name
         if (nationName == null || nationName.isEmpty())
@@ -95,9 +89,8 @@ public class NationStatesAPI
      * @param shards     the shards to return. If no shards are supplied, then a
      *                   compendium of the most commonly sought shards are
      *                   returned.
-     * @throws NationStatesAPIException if the request failed
      */
-    public void region(String regionName, RegionShard... shards) throws NationStatesAPIException
+    public void region(String regionName, RegionShard... shards)
     {
         if (regionName == null || regionName.isEmpty())
         {
@@ -114,9 +107,8 @@ public class NationStatesAPI
      * Makes a World request.
      *
      * @param shards the shards to return. At least one shard must be supplied.
-     * @throws NationStatesAPIException if the request failed
      */
-    public void world(WorldShard... shards) throws NationStatesAPIException
+    public void world(WorldShard... shards)
     {
         if (shards.length == 0)
         {
@@ -132,10 +124,8 @@ public class NationStatesAPI
      *
      * @param council the council to request data from. May not be null.
      * @param shards  the shards to return.
-     * @throws NationStatesAPIException if the request failed
      */
-    public void worldAssembly(Council council,
-            WorldAssemblyShard... shards) throws NationStatesAPIException
+    public void worldAssembly(Council council, WorldAssemblyShard... shards)
     {
         if (council == null)
         {
@@ -152,7 +142,7 @@ public class NationStatesAPI
      * @param urlStr the url to make the request to
      * @return the retrieved data, in XML-format
      */
-    private <T> T makeRequest(String urlStr, Class<T> responseType) throws NationStatesAPIException
+    private <T> T makeRequest(String urlStr, Class<T> responseType)
     {
         try
         {
@@ -163,7 +153,7 @@ public class NationStatesAPI
             conn.setRequestProperty("User-Agent", USER_AGENT);
             int responseCode = conn.getResponseCode();
             
-            // If the resource was not found, return empty string
+            // If the resource was not found, return null.
             if (responseCode == 404)
             {
                 return null;
@@ -173,7 +163,7 @@ public class NationStatesAPI
             {
                 throw new NationStatesAPIException("Request to NationStates API failed : HTTP error code : " + conn.getResponseCode());
             }
-            
+
             // Read and convert the response body.
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             StreamSource xml = new StreamSource(conn.getInputStream());

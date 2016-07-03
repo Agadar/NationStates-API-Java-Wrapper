@@ -1,75 +1,206 @@
 package com.github.agadar.nsapi.domain;
 
+import com.github.agadar.nsapi.converter.StringToStringListAdapter;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * Representation of a Nation.
+ * Representation of a nation.
  *
  * @author Martin
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "NATION")
 public class Nation
 {
-    public String ADMIRABLE;
-    public String ANIMAL;
-    public String ANIMALTRAIT;
-    public String BANNER;
-    public String BANNERS;
-    public String CAPITAL;
-    public String CATEGORY;
-    //census;
-    public String CRIME;
-    public String CURRENCY;
-    public String CUSTOMLEADER;
-    public String CUSTOMCAPITAL;
-    public String CUSTOMRELIGION;
-    //deaths;
-    public String DEMONYM;
-    public String DEMONYM2;
-    public String DEMONYM2PLURAL;
-    public int DISPATCHES;
-    //dispatchlist;
-    public String ENDORSEMENTS; // Should be converted to String[]
-    public int FACTBOOKS;
-    //factbooklist;
-    public int FIRSTLOGIN; // Unix timestamp; should be converted to readable date
-    public String FLAG;
-    public String FOUNDED;
+    @XmlElement(name = "ADMIRABLE")
+    public String Admirable;
+    
+    @XmlElement(name = "ANIMAL")
+    public String Animal;
+    
+    @XmlElement(name = "ANIMALTRAIT")
+    public String AnimalTrait;
+    
+    @XmlElement(name = "BANNER")
+    public String Banner;
+    
+    @XmlElementWrapper(name = "BANNERS")
+    @XmlElement(name="BANNER")
+    public List<String> Banners;
+    
+    @XmlElement(name="CAPITAL")
+    public String Capital;
+    
+    @XmlElement(name="CATEGORY")
+    public String Category;
+    
+    @XmlElementWrapper(name = "CENSUS")
+    @XmlElement(name = "SCALE")
+    public List<CensusScale> Census;
+    
+    @XmlElement(name = "CRIME")
+    public String CrimeDescription;
+    
+    @XmlElement(name = "CURRENCY")
+    public String Currency;
+    
+    @XmlElement(name = "CUSTOMLEADER")
+    public String CustomLeader;
+    
+    @XmlElement(name = "CUSTOMCAPITAL")
+    public String CustomCapital;
+    
+    @XmlElement(name = "CUSTOMRELIGION")
+    public String CustomReligion;
+    
+    @XmlElementWrapper(name = "DEATHS")
+    @XmlElement(name="CAUSE")
+    public List<DeathCause> Deaths;
+    
+    @XmlElement(name = "DEMONYM")
+    public String Demonym;
+    
+    @XmlElement(name = "DEMONYM2")
+    public String Demonym2;
+    
+    @XmlElement(name = "DEMONYM2PLURAL")
+    public String Demonym2Plural;
+    
+    @XmlElement(name = "DISPATCHES")
+    public int NumberOfDispatches;
+    
+    /**
+     * This nations's dispatches. Includes factbooks.
+     */
+    @XmlElementWrapper(name = "DISPATCHLIST")
+    @XmlElement(name="DISPATCH")
+    public List<Dispatch> Dispatches;
+    
+    @XmlElement(name = "ENDORSEMENTS")
+    @XmlJavaTypeAdapter(StringToStringListAdapter.class)
+    public List<String> Endorsements;
+    
+    @XmlElement(name = "FACTBOOKS")
+    public int NumberOfFactbooks;
+    
+    @XmlElementWrapper(name = "FACTBOOKLIST")
+    @XmlElement(name="FACTBOOK")
+    public List<Dispatch> Factbooks;
+    
+    @XmlElement(name = "FIRSTLOGIN")
+    public long FirstLogin; // Unix timestamp
+    
+    @XmlElement(name = "FLAG")
+    public String FlagUrl;
+    
+    @XmlElement(name = "FOUNDED")
+    public String Founded;
+    
     //freedom;
-    public String FULLNAME;
-    public String GAVOTE;
-    public int GDP;
+    
+    @XmlElement(name = "FULLNAME")
+    public String FullName;
+    
+    @XmlElement(name = "GAVOTE")
+    public String GeneralAssemblyVote;
+    
+    @XmlElement(name = "GDP")
+    public int GrossDomesticProduct;
+    
     //govt;
-    public String GOVTDESC;
-    public String GOVTPRIORITY;
+    
+    @XmlElement(name = "GOVTDESC")
+    public String GovernmentDescription;
+    
+    @XmlElement(name = "GOVTPRIORITY")
+    public String GovernmentPriority;
+    
     //happenings;
-    public int INCOME;
-    public String INDUSTRYDESC;
-    public String INFLUENCE;
-    public String LASTACTIVITY;
-    public int LASTLOGIN; // Unix timestamp; should be converted to readable date
-    public String LEADER;
+    
+    @XmlElement(name = "INCOME")
+    public int AverageIncome;
+    
+    @XmlElement(name = "INDUSTRYDESC")
+    public String IndustryDescription;
+    
+    @XmlElement(name = "INFLUENCE")
+    public String RegionalInfluence;
+    
+    @XmlElement(name = "LASTACTIVITY")
+    public String LastActivity;
+    
+    @XmlElement(name = "LASTLOGIN")
+    public long LastLogin; // Unix timestamp; should be converted to readable date
+    
+    @XmlElement(name = "LEADER")
+    public String Leader;
+    
     //legislation;
-    public String MAJORINDUSTRY;
-    public String MOTTO;
-    public String NAME;
-    public String NOTABLE;
-    public int POOREST;
-    public int POPULATION; // 14.000 -> 14 billion
-    public double PUBLICSECTOR;
-    public int RCENSUS;
-    public String REGION;
-    public String RELIGION;
-    public int RICHEST;
-    public String SCVOTE;
+    
+    @XmlElement(name = "MAJORINDUSTRY")
+    public String MajorIndustry;
+    
+    @XmlElement(name = "MOTTO")
+    public String Motto;
+    
+    @XmlElement(name = "NAME")
+    public String Name;
+    
+    @XmlElement(name = "NOTABLE")
+    public String NotableFor;
+    
+    @XmlElement(name = "POOREST")
+    public int PoorestIncome;
+    
+    @XmlElement(name = "POPULATION")
+    public int Population; // 14.000 -> 14 billion
+    
+    @XmlElement(name = "PUBLICSECTOR")
+    public double PublicSector;
+    
+    @XmlElement(name = "RCENSUS")
+    public int CensusRankInRegion;
+    
+    @XmlElement(name = "REGION")
+    public String RegionName;
+    
+    @XmlElement(name = "RELIGION")
+    public String Religion;
+    
+    @XmlElement(name = "RICHEST")
+    public int RichestIncome;
+    
+    @XmlElement(name = "SCVOTE")
+    public String SecurityCouncilVote;
+    
     //sectors;
-    public String SENSIBILITIES;
-    public double TAX;
-    public int TGCANRECRUIT; // should be boolean
-    public int TGCANCAMPAIGN; // should be boolean
-    public String TYPE;
-    public String WA;
-    public int WCENSUS;
+    
+    @XmlElement(name = "SENSIBILITIES")
+    public String PopulationDescription;
+    
+    @XmlElement(name = "TAX")
+    public double AverageIncomeTaxRate;
+    
+    @XmlElement(name = "TGCANRECRUIT")
+    public int CanSendRecruitmentTelegrams; // should be boolean
+    
+    @XmlElement(name = "TGCANCAMPAIGN")
+    public int CanSendCampaignTelegrams; // should be boolean
+    
+    @XmlElement(name = "TYPE")
+    public String GovernmentType;
+    
+    @XmlElement(name = "UNSTATUS")
+    public String WorldAssemblyStatus; // corresponds to WA shard
+    
+    @XmlElement(name = "WCENSUS")
+    public int CensusRankInWorld;
+    
     //zombie
 }
