@@ -14,15 +14,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ZOMBIE")
 public class ZombieInfo 
 {
+    /** The action the nation undertook. Not used for regions. */
     @XmlElement(name = "ZACTION")
     public String Action;
     
+    /** The number of survivors */
     @XmlElement(name = "SURVIVORS")
     public int Survivors;
     
+    /** The number of zombies */
     @XmlElement(name = "ZOMBIES")
     public int Zombies;
     
+    /** The number of dead people */
     @XmlElement(name = "DEAD")
     public int Dead;
 }

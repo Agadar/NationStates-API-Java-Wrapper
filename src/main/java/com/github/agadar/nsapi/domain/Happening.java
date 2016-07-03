@@ -14,9 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "EVENT")
 public class Happening 
 {
+    /** UNIX timestamp of when this happening took place */
     @XmlElement(name = "TIMESTAMP")
     public long Timestamp;
     
+    /** Description of the happening */
     @XmlElement(name = "TEXT")
-    public String Text;
+    public String Description;
 }

@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.Nation;
+import com.github.agadar.nsapi.domain.Region;
 import com.github.agadar.nsapi.enums.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -50,7 +51,7 @@ public class NationStatesAPI
     {
         try
         {
-            jc = JAXBContext.newInstance(Nation.class);
+            jc = JAXBContext.newInstance(Nation.class, Region.class);
         }
         catch (JAXBException ex)
         {
@@ -89,18 +90,21 @@ public class NationStatesAPI
      * @param shards     the shards to return. If no shards are supplied, then a
      *                   compendium of the most commonly sought shards are
      *                   returned.
+     * @return the data of the retrieved region, or null if it wasn't found
      */
-    public void region(String regionName, RegionShard... shards)
+    public Region region(String regionName, RegionShard... shards)
     {
+        // Empty check on region name
         if (regionName == null || regionName.isEmpty())
         {
             throw new IllegalArgumentException(
                     "Region name may not be null or empty!");
         }
 
+        // Make GET request, then convert XML to Region and return it
         String url = REGION_URL + spacesToUnderscores(regionName)
                              + encodeShards("&", shards);
-        //String raw = makeRequest(url);
+        return makeRequest(url, Region.class);
     }
 
     /**

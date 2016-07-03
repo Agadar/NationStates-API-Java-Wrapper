@@ -15,9 +15,11 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "CAUSE")
 public class DeathCause 
 {
+    /** Description of the death cause */
     @XmlAttribute(name = "type")
-    public String Type;
+    public String Description;
     
+    /** The percentage of the population that dies of this death cause */
     @XmlValue
     public double Percentage;
 }

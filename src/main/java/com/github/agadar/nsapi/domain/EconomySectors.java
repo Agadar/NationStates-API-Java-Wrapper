@@ -15,15 +15,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "SECTORS")
 public class EconomySectors 
 {
+    /** Percentage of the economy that is black market */
     @XmlElement(name = "BLACKMARKET")
     public double BlackMarket;
     
+    /** Percentage of the economy that is government */
     @XmlElement(name = "GOVERNMENT")
     public double Government;
     
+    /** Percentage of the economy that is privately owned */
     @XmlElement(name = "INDUSTRY")
     public double PrivateIndustry;
     
+    /** Percentage of the economy that is state-owned */
     @XmlElement(name = "PUBLIC")
     public double StateOwnedIndustry;
 }
