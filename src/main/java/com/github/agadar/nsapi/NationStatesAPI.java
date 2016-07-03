@@ -19,34 +19,22 @@ import javax.xml.transform.stream.StreamSource;
  */
 public class NationStatesAPI
 {
-    /**
-     * URL to the Nation API
-     */
+    /** URL to the Nation API */
     private static final String NATION_URL = "http://www.nationstates.net/cgi-bin/api.cgi?nation=";
-    /**
-     * URL to the Region API
-     */
+    /** URL to the Region API */
     private static final String REGION_URL = "http://www.nationstates.net/cgi-bin/api.cgi?region=";
-    /**
-     * URL to the World API
-     */
+    /** URL to the World API */
     private static final String WORLD_URL = "http://www.nationstates.net/cgi-bin/api.cgi?";
-    /**
-     * URL to the World Assembly API
-     */
+    /** URL to the World Assembly API */
     private static final String WA_URL = "http://www.nationstates.net/cgi-bin/api.cgi?wa=";
-    /**
-     * The user agent with which this library makes requests
-     */
-    private static final String USER_AGENT = "com.github.agadar.nationstates-api-java-wrapper";
-    /**
-     * The JAXBContext for this API.
-     */
+    /** The user agent with which this library makes requests */
+    private static final String USER_AGENT = "Agadar's Wrapper (https://github.com/Agadar/NationStates-API-Java-Wrapper)";
+    /** The NationStates API version this wrapper uses */
+    private static final String API_VERSION = "&v=8";
+    /** The JAXBContext for this API. */
     private final JAXBContext jc;
     
-    /**
-     * Constructor, sets up the JAXBContext.
-     */
+    /** Constructor, sets up the JAXBContext. */
     public NationStatesAPI()
     {
         try
@@ -79,7 +67,7 @@ public class NationStatesAPI
 
         // Make GET request, then convert XML to Nation and return it
         String url = NATION_URL + spacesToUnderscores(nationName)
-                             + encodeShards("&", shards);
+                             + encodeShards("&", shards) + API_VERSION;
         return makeRequest(url, Nation.class);
     }
 
@@ -103,7 +91,7 @@ public class NationStatesAPI
 
         // Make GET request, then convert XML to Region and return it
         String url = REGION_URL + spacesToUnderscores(regionName)
-                             + encodeShards("&", shards);
+                             + encodeShards("&", shards) + API_VERSION;
         return makeRequest(url, Region.class);
     }
 
@@ -119,7 +107,7 @@ public class NationStatesAPI
             throw new IllegalArgumentException("'shards' may not be empty!");
         }
 
-        String url = WORLD_URL + encodeShards("", shards);
+        String url = WORLD_URL + encodeShards("", shards) + API_VERSION;
         //String raw = makeRequest(url);
     }
 
@@ -136,7 +124,7 @@ public class NationStatesAPI
             throw new IllegalArgumentException("'council' may not be null!");
         }
 
-        String url = WA_URL + council.getValue() + encodeShards("&", shards);
+        String url = WA_URL + council.getCouncilNumber() + encodeShards("&", shards) + API_VERSION;
         //String raw = makeRequest(url);
     }
 
@@ -214,12 +202,12 @@ public class NationStatesAPI
         {
             return "";
         }
-
-        String gen = prefix + "q=" + shards[0].name();
+        
+        String gen = prefix + "q=" + shards[0].toString();
 
         for (int i = 1; i < shards.length; i++)
         {
-            gen += "+" + shards[i].name();
+            gen += "+" + shards[i].toString();
         }
 
         return gen;

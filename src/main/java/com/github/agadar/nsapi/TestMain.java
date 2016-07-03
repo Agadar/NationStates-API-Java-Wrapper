@@ -1,7 +1,7 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.Nation;
-import com.github.agadar.nsapi.enums.NationShard;
+import com.github.agadar.nsapi.domain.Region;
+import com.github.agadar.nsapi.enums.RegionShard;
 
 /**
  *
@@ -16,21 +16,15 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        Nation nation = ns.nation("agadar", NationShard.NAME, NationShard.ZOMBIE);
-        System.out.println(nation.Name);
+        Region r = ns.region("the north pacific", RegionShard.EmbassiesRMBPerms, RegionShard.Factbook);
         
-        System.out.println(nation.ZombieInfo.Action + ", " + nation.ZombieInfo.Dead + ", "
-        + nation.ZombieInfo.Survivors + ", " + nation.ZombieInfo.Zombies + ", ");
+        //System.out.println(r.EmbassiesRMBPerms + " " + r.Factbook);
         
-//        for (Dispatch d : nation.Factbooks)
+//        for (Embassy e : r.Embassies)
 //        {
-//            System.out.println(d.Author + ", " + d.Category + ", " + d.SubCategory 
-//                + ", " + d.Title + ", " + d.CreatedOn + ", " + d.Id + ", " +
-//                d.LastEditedOn + ", " + d.Score + ", " + d.Views);
+//            System.out.println(e.RegionName + " " + e.Status);
 //        }
-        //NationStatesAPI.region("the western isles");
-        //NationStatesAPI.world(WorldShard.nations, WorldShard.poll);
-        //NationStatesAPI.worldAssembly(Council.General_Assembly, WorldAssemblyShard.happenings);
+        
     }
     
 }

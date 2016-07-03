@@ -10,15 +10,26 @@ public enum Council
     GENERAL_ASSEMBLY(1),
     SECURITY_COUNCIL(2);
     
-    private final int value;
+    /** The underlying council number */
+    private final int councilNumber;
     
-    private Council(int value) 
+    /**
+     * Instantiate a new entry with the given underlying council number.
+     * 
+     * @param councilNumber the underlying council number
+     */
+    private Council(int councilNumber) 
     {
-        this.value = value;
+        this.councilNumber = councilNumber;
     }
 
-    public int getValue() 
+    /**
+     * Return the underlying council number.
+     * 
+     * @return the underlying council number
+     */
+    public int getCouncilNumber() 
     {
-        return value;
+        return councilNumber;
     }
 }

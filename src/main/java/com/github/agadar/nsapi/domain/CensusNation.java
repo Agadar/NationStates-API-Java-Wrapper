@@ -2,7 +2,7 @@ package com.github.agadar.nsapi.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class CensusNation 
 {
     /** The nation's name */
-    @XmlAttribute(name = "NAME")
+    @XmlElement(name = "NAME")
     public String NationName;
     
     /** The nation's regional or world-wide rank on the census scale */
-    @XmlAttribute(name = "RANK")
+    @XmlElement(name = "RANK")
     public String Rank;
     
     /** The nation's score on the scale */
-    @XmlAttribute(name = "SCORE")
+    @XmlElement(name = "SCORE")
     public double Score;
 }
