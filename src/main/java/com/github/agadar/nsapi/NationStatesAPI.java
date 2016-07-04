@@ -2,6 +2,8 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.Nation;
 import com.github.agadar.nsapi.domain.Region;
+import com.github.agadar.nsapi.domain.World;
+import com.github.agadar.nsapi.domain.WorldAssembly;
 import com.github.agadar.nsapi.enums.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -19,18 +21,44 @@ import javax.xml.transform.stream.StreamSource;
  */
 public class NationStatesAPI
 {
-    /** URL to the Nation API */
-    private static final String NATION_URL = "http://www.nationstates.net/cgi-bin/api.cgi?nation=";
-    /** URL to the Region API */
-    private static final String REGION_URL = "http://www.nationstates.net/cgi-bin/api.cgi?region=";
-    /** URL to the World API */
-    private static final String WORLD_URL = "http://www.nationstates.net/cgi-bin/api.cgi?";
-    /** URL to the World Assembly API */
-    private static final String WA_URL = "http://www.nationstates.net/cgi-bin/api.cgi?wa=";
+    /** Available resources for the NS api */
+    private enum NSResource
+    {
+        Nation("nation"),
+        Region("region"),
+        WorldAssembly("wa"),
+        World("");
+        
+        /** The underlying resource string */
+        private final String resourceString;
+
+        /**
+         * Instantiate a new entry with the given resource string.
+         * 
+         * @param shardName the name of the resource string
+         */
+        private NSResource(String resourceString) 
+        {
+            this.resourceString = resourceString;
+        }
+
+        /**
+         * Return the resource string
+         * 
+         * @return the resource string
+         */
+        public String getResourceString() 
+        {
+            return resourceString;
+        }
+    }
+    
+    /** Base URL to the Nation API */
+    private static final String BASE_URL = "http://www.nationstates.net/cgi-bin/api.cgi?";
     /** The user agent with which this library makes requests */
     private static final String USER_AGENT = "Agadar's Wrapper (https://github.com/Agadar/NationStates-API-Java-Wrapper)";
     /** The NationStates API version this wrapper uses */
-    private static final String API_VERSION = "&v=8";
+    private static final int API_VERSION = 8;
     /** The JAXBContext for this API. */
     private final JAXBContext jc;
     
@@ -50,7 +78,7 @@ public class NationStatesAPI
     /**
      * Makes a Nation request.
      *
-     * @param nationName the name of the nation. Should not be empty or null.
+     * @param nationName the name of the nation.
      * @param shards     the shards to return. If no shards are supplied, then a
      *                   compendium of the most commonly sought shards are
      *                   returned.
@@ -58,40 +86,22 @@ public class NationStatesAPI
      */
     public Nation nation(String nationName, NationShard... shards)
     {
-        // Empty check on nation name
-        if (nationName == null || nationName.isEmpty())
-        {
-            throw new IllegalArgumentException(
-                    "Nation name may not be null or empty!");
-        }
-
-        // Make GET request, then convert XML to Nation and return it
-        String url = NATION_URL + spacesToUnderscores(nationName)
-                             + encodeShards("&", shards) + API_VERSION;
+        String url = buildURL(NSResource.Nation, nationName, shards);
         return makeRequest(url, Nation.class);
     }
 
     /**
      * Makes a Region request.
      *
-     * @param regionName the name of the region. Should not be empty or null.
+     * @param regionName the name of the region.
      * @param shards     the shards to return. If no shards are supplied, then a
      *                   compendium of the most commonly sought shards are
      *                   returned.
      * @return the data of the retrieved region, or null if it wasn't found
      */
     public Region region(String regionName, RegionShard... shards)
-    {
-        // Empty check on region name
-        if (regionName == null || regionName.isEmpty())
-        {
-            throw new IllegalArgumentException(
-                    "Region name may not be null or empty!");
-        }
-
-        // Make GET request, then convert XML to Region and return it
-        String url = REGION_URL + spacesToUnderscores(regionName)
-                             + encodeShards("&", shards) + API_VERSION;
+    {       
+        String url = buildURL(NSResource.Region, regionName, shards);
         return makeRequest(url, Region.class);
     }
 
@@ -99,39 +109,45 @@ public class NationStatesAPI
      * Makes a World request.
      *
      * @param shards the shards to return. At least one shard must be supplied.
+     * @return the requested world data
      */
-    public void world(WorldShard... shards)
+    public World world(WorldShard... shards)
     {
-        if (shards.length == 0)
+        // Check whether at least 1 shard is supplied
+        if (shards == null || shards.length == 0)
         {
             throw new IllegalArgumentException("'shards' may not be empty!");
         }
 
-        String url = WORLD_URL + encodeShards("", shards) + API_VERSION;
-        //String raw = makeRequest(url);
+        String url = buildURL(NSResource.World, null, shards);
+        return makeRequest(url, World.class);
     }
 
     /**
      * Makes a World Assembly request.
      *
-     * @param council the council to request data from. May not be null.
+     * @param council the council to request data from.
      * @param shards  the shards to return.
+     * @return the requested WA data
      */
-    public void worldAssembly(Council council, WorldAssemblyShard... shards)
+    public WorldAssembly worldAssembly(Council council, WorldAssemblyShard... shards)
     {
+        // Check whether council is not null
         if (council == null)
         {
             throw new IllegalArgumentException("'council' may not be null!");
         }
 
-        String url = WA_URL + council.getCouncilNumber() + encodeShards("&", shards) + API_VERSION;
-        //String raw = makeRequest(url);
+        String url = buildURL(NSResource.WorldAssembly, 
+                              String.valueOf(council.getCouncilNumber()), shards);
+        return makeRequest(url, WorldAssembly.class);
     }
 
     /**
      * Makes the GET request to the NationStates API.
      *
      * @param urlStr the url to make the request to
+     * @param responseType the type of the returned data
      * @return the retrieved data, in XML-format
      */
     private <T> T makeRequest(String urlStr, Class<T> responseType)
@@ -178,39 +194,52 @@ public class NationStatesAPI
     }
 
     /**
-     * Replaces each space in the String with an underscore.
+     * Generates a String URL based on the supplied parameters.
      *
-     * @param s the String to encode
-     * @return the encoded String
+     * @param resource the resource to consume
+     * @param resourceValue the id value for the resource (nation name, region name...)
+     * @param shards the shards to consume
+     * @return the generated String URL
      */
-    private static String spacesToUnderscores(String s)
+    private static String buildURL(NSResource resource, String resourceValue,
+            Enum... shards)
     {
-        return s.replace(' ', '_');
-    }
-
-    /**
-     * Generates a String based on the supplied shards. Returns an empty string
-     * if shards is empty.
-     *
-     * @param prefix the character to prefix the generated string with.
-     * @param shards the shards to generate a String of.
-     * @return the generated String
-     */
-    private static String encodeShards(String prefix, Enum... shards)
-    {
-        if (shards.length == 0)
+        // Ensure resource is not null
+        if (resource == null)
         {
-            return "";
+            throw new IllegalArgumentException("'resource' may not be null or empty!");
         }
         
-        String gen = prefix + "q=" + shards[0].toString();
-
-        for (int i = 1; i < shards.length; i++)
+        // Start out by concatenating base url and API version number
+        String url = BASE_URL + "v=" + API_VERSION;
+        
+        // If we're not using the top resource, then append resource and resourceValue
+        if (!resource.getResourceString().isEmpty())
         {
-            gen += "+" + shards[i].toString();
+            // Ensure resourceValue is not null or empty           
+            if (resourceValue == null || resourceValue.isEmpty())
+            {
+                throw new IllegalArgumentException("'resourceValue' may not be "
+                        + "null or empty when not using the top level resource!");
+            }
+            
+            // Append resource and resourceValue
+            url += "&" + resource.getResourceString() + "=" + resourceValue.replace(' ', '_');
         }
+        
+        // If there are shards present, then append them to url
+        if (shards != null && shards.length > 0)
+        {
+            url += "&q=" + shards[0].toString();
 
-        return gen;
+            for (int i = 1; i < shards.length; i++)
+            {
+                url += "+" + shards[i].toString();
+            }
+        }
+        
+        // Finally, return the generated url
+        return url;
     }
 
 }

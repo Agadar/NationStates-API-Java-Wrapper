@@ -18,7 +18,7 @@ public class TestMain
         NationStatesAPI ns = new NationStatesAPI();
         Region r = ns.region("the north pacific", RegionShard.EmbassiesRMBPerms, RegionShard.Factbook);
         
-        //System.out.println(r.EmbassiesRMBPerms + " " + r.Factbook);
+        System.out.println(r.EmbassiesRMBPerms + " " + r.Factbook);
         
 //        for (Embassy e : r.Embassies)
 //        {
