@@ -1,9 +1,10 @@
 package com.github.agadar.nsapi.enums;
 
 /**
- * Shards available for World requests.
+ * Shards available for World requests. These shards have a 1:1 correspondence 
+ * with the variable fields in World.java.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 public enum WorldShard
 {

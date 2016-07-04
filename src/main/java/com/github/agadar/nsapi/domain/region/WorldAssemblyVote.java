@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * The region's votes for the current General Assembly or Security Council resolution.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "GAVOTE")

@@ -17,7 +17,7 @@ import javax.xml.transform.stream.StreamSource;
 /**
  * The Java wrapper for the NationStates API.
  *
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 public class NationStatesAPI
 {

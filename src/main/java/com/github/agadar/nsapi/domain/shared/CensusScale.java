@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Representation of a nation's or region's census scale statistics.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SCALE")

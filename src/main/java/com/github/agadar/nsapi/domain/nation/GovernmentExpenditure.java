@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Represents a government's expenditure. All values are percentages.
  * All percentages together should naturally equal 100.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "GOVT")

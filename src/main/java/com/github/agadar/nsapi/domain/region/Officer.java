@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 /**
  * A regional officer.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "OFFICER")

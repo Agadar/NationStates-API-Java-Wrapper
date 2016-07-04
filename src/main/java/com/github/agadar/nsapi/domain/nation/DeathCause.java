@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 /**
  * Representation of a cause of death.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CAUSE")

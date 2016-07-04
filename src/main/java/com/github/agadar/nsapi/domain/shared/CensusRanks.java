@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Lists the regional census scale scores of a region's top 20 scoring nations, 
  * or the world-wide census scale scores of the world's top 20 scoring nations.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUSRANKS")

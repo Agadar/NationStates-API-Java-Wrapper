@@ -1,7 +1,5 @@
 package com.github.agadar.nsapi.domain.nation;
 
-import com.github.agadar.nsapi.domain.nation.GovernmentExpenditure;
-import com.github.agadar.nsapi.domain.nation.Freedom;
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScale;
 import com.github.agadar.nsapi.domain.shared.Dispatch;
@@ -16,9 +14,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * Representation of a nation.
+ * Representation of a nation. This class's fields have a 1:1 correspondence 
+ * with the shards in NationShard.java.
  *
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")

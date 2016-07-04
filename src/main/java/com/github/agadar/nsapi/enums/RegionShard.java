@@ -2,26 +2,26 @@ package com.github.agadar.nsapi.enums;
 
 /**
  * Shards available for Region requests. These shards have a 1:1 correspondence 
- * with the variable fields in Region.class.
+ * with the variable fields in Region.java.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 public enum RegionShard
 {
-    /** This region's census scale scores */
+    /** This region's census scale scores. */
     Census("CENSUS"),
-    /** The census scale scores of this region's nations */
+    /** The census scale scores of this region's nations. */
     CensusRanks("CENSUSRANKS"),
     /** 
      * The name of the nation that is the region's world assembly delegate.
      * Returns '0' if no delegate exists.
      */    
     Delegate("DELEGATE"),
-    /** The authorities granted to the region's world assembly delegate */
+    /** The authorities granted to the region's world assembly delegate. */
     DelegateAuthorities("DELEGATEAUTH"),
-    /** The number of endorsements the region's world assembly delegate has */
+    /** The number of endorsements the region's world assembly delegate has. */
     DelegateEndorsements("DELEGATEVOTES"),
-    /** The region's embassies */
+    /** The region's embassies. */
     Embassies("EMBASSIES"),
     /** 
      * Regional Message Board permissions for regions with which this region exchanges embassies.
@@ -34,17 +34,17 @@ public enum RegionShard
      * 'all': All residents of embassy regions.
      */
     EmbassiesRMBPerms("EMBASSYRMB"),
-    /** The complete mark-up of the regional factbook */
+    /** The complete mark-up of the regional factbook. */
     Factbook("FACTBOOK"),
-    /** URL to the region's flag image */
+    /** URL to the region's flag image. */
     FlagUrl("FLAG"),
     /** The name of the region's founding nation. Returns '0' if none exists. */
     Founder("FOUNDER"),
-    /** The authorities granted to the region's founder */
+    /** The authorities granted to the region's founder. */
     FounderAuthorities("FOUNDERAUTH"),
-    /** The region's votes for the current General Assembly resolution */
+    /** The region's votes for the current General Assembly resolution. */
     GeneralAssemblyVote("GAVOTE"),
-    /** List of the most recent of this region's happenings */
+    /** List of the most recent of this region's happenings. */
     RecentHappenings("HAPPENINGS"),
     /** List of history. Not sure what these are. */
     History("HISTORY"),
@@ -56,13 +56,18 @@ public enum RegionShard
     NationNames("NATIONS"),
     /** The number of nations that inhabit this region. */
     NumberOfNations("NUMNATIONS"),
-    /** List of regional officers */
-    Officers("OFFICERS");
-//    POLL,
-//    POWER,
-//    SCVOTE,
-//    TAGS,
-//    ZOMBIE;
+    /** List of regional officers. */
+    Officers("OFFICERS"),
+    /** The regional poll that is currently being conducted. */
+    CurrentPoll("POLL"),
+    /** The region's power. */
+    Power("POWER"),
+    /** The region's votes for the current Security Council resolution. */
+    SecurityCouncilVote("SCVOTE"),
+    /** The region's tags. */
+    Tags("TAGS"),
+    /** This region's statistics of the current or last zombie event. */
+    ZombieInfo("ZOMBIE");
     
     /** The underlying shard name */
     private final String shardName;

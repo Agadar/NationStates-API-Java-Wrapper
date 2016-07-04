@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Representation of a dispatch. Also used for factbooks, as those are a type of dispatch.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlRootElement(name = "DISPATCH")
 public class Dispatch 

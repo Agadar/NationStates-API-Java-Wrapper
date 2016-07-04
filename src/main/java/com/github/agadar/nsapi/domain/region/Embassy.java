@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 /**
  * Representation of an embassy.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "EMBASSY")
@@ -23,7 +23,8 @@ public class Embassy
      * 'requested': if the region invited another region to build embassies;
      * 'pending': if the invitation or request was accepted and the embassies are underway;
      * 'rejected': if the region rejected an invitation;
-     * 'denied': if the other region rejected the request.
+     * 'denied': if the other region rejected the request;
+     * 'closing': if the embassies are being closed.
      */
     @XmlAttribute(name = "type")
     public String Status;

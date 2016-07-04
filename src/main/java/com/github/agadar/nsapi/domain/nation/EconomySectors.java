@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Represents a nation's economy sectors. All values are percentages.
  * All values together should naturally equal 100.
  * 
- * @author Martin
+ * @author Agadar <https://github.com/Agadar/>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SECTORS")
