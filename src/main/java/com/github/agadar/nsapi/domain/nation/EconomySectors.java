@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.nation;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

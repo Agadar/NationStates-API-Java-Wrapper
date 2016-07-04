@@ -1,6 +1,12 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.nation;
 
+import com.github.agadar.nsapi.domain.nation.GovernmentExpenditure;
+import com.github.agadar.nsapi.domain.nation.Freedom;
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
+import com.github.agadar.nsapi.domain.shared.CensusScale;
+import com.github.agadar.nsapi.domain.shared.Dispatch;
+import com.github.agadar.nsapi.domain.shared.Happening;
+import com.github.agadar.nsapi.domain.shared.ZombieInfo;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

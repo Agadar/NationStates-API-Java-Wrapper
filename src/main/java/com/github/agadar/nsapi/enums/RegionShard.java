@@ -41,15 +41,23 @@ public enum RegionShard
     /** The name of the region's founding nation. Returns '0' if none exists. */
     Founder("FOUNDER"),
     /** The authorities granted to the region's founder */
-    FounderAuthorities("FOUNDERAUTH");
-//    GAVOTE,
-//    HAPPENINGS,
-//    HISTORY,
-//    MESSAGES,
-//    NAME,
-//    NATIONS,
-//    NUMNATIONS,
-//    OFFICERS,
+    FounderAuthorities("FOUNDERAUTH"),
+    /** The region's votes for the current General Assembly resolution */
+    GeneralAssemblyVote("GAVOTE"),
+    /** List of the most recent of this region's happenings */
+    RecentHappenings("HAPPENINGS"),
+    /** List of history. Not sure what these are. */
+    History("HISTORY"),
+    /** List of 10 most recent regional messages. */
+    RegionalMessages("MESSAGES"),
+    /** The region's name. */
+    Name("NAME"),
+    /** List of nations that inhabit this region. */
+    NationNames("NATIONS"),
+    /** The number of nations that inhabit this region. */
+    NumberOfNations("NUMNATIONS"),
+    /** List of regional officers */
+    Officers("OFFICERS");
 //    POLL,
 //    POWER,
 //    SCVOTE,

@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.wa;
 
 /**
  * Representation of the World Assembly.

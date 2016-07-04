@@ -1,6 +1,11 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.region;
 
+import com.github.agadar.nsapi.domain.region.RegionalMessage;
 import com.github.agadar.nsapi.adapter.AuthCodesToAuthNamesAdapter;
+import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nsapi.domain.shared.CensusRanks;
+import com.github.agadar.nsapi.domain.shared.CensusScale;
+import com.github.agadar.nsapi.domain.shared.Happening;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -77,4 +82,41 @@ public class Region
     @XmlElement(name = "FOUNDERAUTH")
     @XmlJavaTypeAdapter(AuthCodesToAuthNamesAdapter.class)
     public List<String> FounderAuthorities;
+    
+    /** The region's votes for the current General Assembly resolution */
+    @XmlElement(name = "GAVOTE")
+    public WorldAssemblyVote GeneralAssemblyVote;
+    
+    /** List of the most recent of this nation's happenings */
+    @XmlElementWrapper(name = "HAPPENINGS")
+    @XmlElement(name = "EVENT")
+    public List<Happening> RecentHappenings;
+    
+    /** List of the most recent history. Not sure what these represent. */
+    @XmlElementWrapper(name = "HISTORY")
+    @XmlElement(name = "EVENT")
+    public List<Happening> History;
+    
+    /** List of 10 most recent regional messages. */
+    @XmlElementWrapper(name = "MESSAGES")
+    @XmlElement(name = "POST")
+    public List<RegionalMessage> RegionalMessages;
+    
+    /** The region's name. */
+    @XmlElement(name = "NAME")
+    public String Name;
+    
+    /** List of nations that inhabit this region. */
+    @XmlElement(name = "NATIONS")
+    @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
+    public List<String> NationNames;
+    
+    /** The number of nations that inhabit this region. */
+    @XmlElement(name = "NUMNATIONS")
+    public int NumberOfNations;
+    
+    /** List of regional officers */
+    @XmlElementWrapper(name = "OFFICERS")
+    @XmlElement(name = "OFFICER")
+    public List<Officer> Officers;
 }

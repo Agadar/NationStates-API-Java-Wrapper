@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.world;
 
 /**
  * Representation of the World.

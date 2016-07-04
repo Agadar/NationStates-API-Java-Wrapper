@@ -1,9 +1,9 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.Nation;
-import com.github.agadar.nsapi.domain.Region;
-import com.github.agadar.nsapi.domain.World;
-import com.github.agadar.nsapi.domain.WorldAssembly;
+import com.github.agadar.nsapi.domain.nation.Nation;
+import com.github.agadar.nsapi.domain.region.Region;
+import com.github.agadar.nsapi.domain.world.World;
+import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.enums.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;

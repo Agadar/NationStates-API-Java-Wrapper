@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.Region;
+import com.github.agadar.nsapi.domain.region.Officer;
+import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.enums.RegionShard;
 
 /**
@@ -16,9 +17,19 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        Region r = ns.region("the north pacific", RegionShard.EmbassiesRMBPerms, RegionShard.Factbook);
+        Region r = ns.region("the western isles", RegionShard.Officers);
         
-        System.out.println(r.EmbassiesRMBPerms + " " + r.Factbook);
+        for (Officer f : r.Officers)
+        {
+            System.out.print(f.NationName);
+            
+            for (String s : f.Authorities)
+            {
+                System.out.print(" " + s);
+            }
+            
+            System.out.println();
+        }
         
 //        for (Embassy e : r.Embassies)
 //        {

@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain;
+package com.github.agadar.nsapi.domain.shared;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
