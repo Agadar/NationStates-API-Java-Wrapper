@@ -25,5 +25,5 @@ public class CensusRanks
     /** The nation scores */
     @XmlElementWrapper(name = "NATIONS")
     @XmlElement(name = "NATION")
-    public List<CensusNation> Nations;
+    public List<NationCensusScore> Nations;
 }

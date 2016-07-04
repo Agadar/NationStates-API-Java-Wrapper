@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
-public class CensusNation 
+public class NationCensusScore 
 {
     /** The nation's name */
     @XmlElement(name = "NAME")

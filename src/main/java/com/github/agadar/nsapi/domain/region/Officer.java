@@ -1,6 +1,6 @@
 package com.github.agadar.nsapi.domain.region;
 
-import com.github.agadar.nsapi.adapter.AuthCodesToAuthNamesAdapter;
+import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,7 +27,7 @@ public class Officer
     
     /** The authorities granted to this officer. */
     @XmlElement(name = "AUTHORITY")
-    @XmlJavaTypeAdapter(AuthCodesToAuthNamesAdapter.class)
+    @XmlJavaTypeAdapter(CharsToAuthNamesAdapter.class)
     public List<String> Authorities;
     
     /** UNIX timestamp of when this officer position was assigned. */

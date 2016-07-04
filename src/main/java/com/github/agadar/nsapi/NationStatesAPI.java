@@ -2,8 +2,8 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
-import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
+import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.enums.*;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -56,7 +56,8 @@ public class NationStatesAPI
     /** Base URL to the Nation API */
     private static final String BASE_URL = "http://www.nationstates.net/cgi-bin/api.cgi?";
     /** The user agent with which this library makes requests */
-    private static final String USER_AGENT = "Agadar's Wrapper (https://github.com/Agadar/NationStates-API-Java-Wrapper)";
+    private static final String USER_AGENT = "Agadar's Wrapper "
+            + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
     /** The NationStates API version this wrapper uses */
     private static final int API_VERSION = 8;
     /** The JAXBContext for this API. */
@@ -67,7 +68,8 @@ public class NationStatesAPI
     {
         try
         {
-            jc = JAXBContext.newInstance(Nation.class, Region.class);
+            jc = JAXBContext.newInstance(Nation.class, Region.class, World.class,
+                WorldAssembly.class);
         }
         catch (JAXBException ex)
         {

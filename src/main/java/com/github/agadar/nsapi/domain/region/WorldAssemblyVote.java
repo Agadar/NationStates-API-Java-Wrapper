@@ -14,9 +14,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "GAVOTE")
 public class WorldAssemblyVote 
 {
+    /** Number of nations that voted FOR. */
     @XmlElement(name = "FOR")
     public int For;
     
+    /** Number of nations that voted AGAINST. */
     @XmlElement(name = "AGAINST")
     public int Against;
 }

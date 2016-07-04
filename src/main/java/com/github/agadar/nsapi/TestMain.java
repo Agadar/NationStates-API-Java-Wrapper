@@ -1,7 +1,8 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.region.Region;
-import com.github.agadar.nsapi.enums.RegionShard;
+import com.github.agadar.nsapi.domain.wa.WorldAssembly;
+import com.github.agadar.nsapi.enums.Council;
+import com.github.agadar.nsapi.enums.WorldAssemblyShard;
 
 /**
  *
@@ -16,9 +17,10 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        Region r = ns.region("the western isles", RegionShard.Tags);
+        WorldAssembly wa = ns.worldAssembly(Council.SECURITY_COUNCIL, WorldAssemblyShard.Resolution);
         
-        System.out.println(r.Tags.get(2));
+        
+        System.out.println(wa.Resolution.Council.name());
         
 //        for (Embassy e : r.Embassies)
 //        {

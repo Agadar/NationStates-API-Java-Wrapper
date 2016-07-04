@@ -7,12 +7,19 @@ package com.github.agadar.nsapi.enums;
  */
 public enum Authority 
 {
+    /** Executive */
     X("Executive"),
+    /** World Assembly */
     W("World Assembly"),
+    /** Appearance */
     A("Appearance"),
+    /** Border Control */
     B("Border Control"),
+    /** Communications */
     C("Communications"),
+    /** Embassies */
     E("Embassies"),
+    /** Polls */
     P("Polls");
         
     /** The underlying authority name */

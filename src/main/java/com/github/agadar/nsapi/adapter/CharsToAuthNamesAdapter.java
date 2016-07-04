@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class AuthCodesToAuthNamesAdapter extends XmlAdapter<String, List<String>>
+public class CharsToAuthNamesAdapter extends XmlAdapter<String, List<String>>
 {
 
     @Override

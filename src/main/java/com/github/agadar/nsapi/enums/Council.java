@@ -7,7 +7,9 @@ package com.github.agadar.nsapi.enums;
  */
 public enum Council 
 {
+    /** The General Assembly */
     GENERAL_ASSEMBLY(1),
+    /** The Security Council */
     SECURITY_COUNCIL(2);
     
     /** The underlying council number */
@@ -31,5 +33,24 @@ public enum Council
     public int getCouncilNumber() 
     {
         return councilNumber;
+    }
+    
+    /**
+     * Returns the Council instance that has the given council number.
+     * 
+     * @param councilNumber the council number
+     * @return the corresponding Council, or null if there is none
+     */
+    public static Council getByNumber(int councilNumber)
+    {
+        for (Council c : values())
+        {
+            if (c.getCouncilNumber() == councilNumber)
+            {
+                return c;
+            }
+        }
+        
+        return null;
     }
 }
