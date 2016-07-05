@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.enums;
+package com.github.agadar.nsapi.enums.shard;
 
 /**
  * Shards available for World Assembly requests. These shards have a 1:1
@@ -23,13 +23,14 @@ public enum WorldAssemblyShard
     /** Current proposed resolutions. */
     CurrentProposals("PROPOSALS"),
     /** The current resolution at vote, or a specific one if an id is supplied. */
-    Resolution("RESOLUTION");
+    Resolution("RESOLUTION"),
     // The following shards have to be implemented once a resolution is at vote,
     // so that we know what kind of XML they yield.
 //    VOTETRACK,
 //    DELLOG,
 //    DELVOTES,
-//    LASTRESOLUTION;
+    /** Brief description of the end result of the last proposed resolution. */
+    LastResolutionResult("LASTRESOLUTION");
 
     /** The underlying shard name */
     private final String shardName;

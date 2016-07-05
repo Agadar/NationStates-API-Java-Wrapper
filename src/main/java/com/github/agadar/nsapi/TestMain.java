@@ -2,7 +2,7 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.enums.Council;
-import com.github.agadar.nsapi.enums.WorldAssemblyShard;
+import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
 
 /**
  *
@@ -17,10 +17,10 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        WorldAssembly wa = ns.worldAssembly(Council.SECURITY_COUNCIL, WorldAssemblyShard.Resolution);
+        WorldAssembly wa = ns.worldAssembly(Council.SECURITY_COUNCIL, WorldAssemblyShard.LastResolutionResult);
         
         
-        System.out.println(wa.Resolution.Council.name());
+        System.out.println(wa.LastResolutionResult);
         
 //        for (Embassy e : r.Embassies)
 //        {

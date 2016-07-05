@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.enums;
+package com.github.agadar.nsapi.enums.shard;
 
 /**
  * Shards available for Nation requests. These shards have a 1:1 correspondence 

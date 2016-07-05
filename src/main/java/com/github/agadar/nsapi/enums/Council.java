@@ -39,18 +39,10 @@ public enum Council
      * Returns the Council instance that has the given council number.
      * 
      * @param councilNumber the council number
-     * @return the corresponding Council, or null if there is none
+     * @return the corresponding Council
      */
     public static Council getByNumber(int councilNumber)
     {
-        for (Council c : values())
-        {
-            if (c.getCouncilNumber() == councilNumber)
-            {
-                return c;
-            }
-        }
-        
-        return null;
+        return values()[councilNumber - 1];
     }
 }

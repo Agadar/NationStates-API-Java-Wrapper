@@ -2,7 +2,7 @@ package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
-import com.github.agadar.nsapi.domain.shared.CensusRanks;
+import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.CensusScale;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
@@ -31,7 +31,7 @@ public class Region
     
     /** The census scale scores of this region's nations. */
     @XmlElement(name = "CENSUSRANKS")
-    public CensusRanks CensusRanks;
+    public NationCensusScoreRanks CensusRanks;
     
     /** 
      * The name of the nation that is the region's world assembly delegate.

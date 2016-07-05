@@ -56,4 +56,8 @@ public class WorldAssembly
     /** The current resolution at vote, or a specific one if an id is supplied. */
     @XmlElement(name = "RESOLUTION")
     public Resolution Resolution;
+    
+    /** Brief description of the end result of the last proposed resolution. */
+    @XmlElement(name = "LASTRESOLUTION")
+    public String LastResolutionResult;
 }

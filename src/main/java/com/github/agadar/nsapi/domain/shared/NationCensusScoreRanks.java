@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUSRANKS")
-public class CensusRanks 
+public class NationCensusScoreRanks 
 {
     /** The id of the scale */
     @XmlAttribute(name = "id")

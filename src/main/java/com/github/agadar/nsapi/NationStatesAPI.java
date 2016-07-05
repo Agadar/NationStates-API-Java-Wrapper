@@ -1,5 +1,9 @@
 package com.github.agadar.nsapi;
 
+import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
+import com.github.agadar.nsapi.enums.shard.NationShard;
+import com.github.agadar.nsapi.enums.shard.WorldShard;
+import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
