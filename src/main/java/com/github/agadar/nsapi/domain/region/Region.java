@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.domain.region;
 import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
-import com.github.agadar.nsapi.domain.shared.CensusScale;
+import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Region
     /** This region's census scale scores. */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public List<CensusScale> Census;
+    public List<CensusScore> Census;
     
     /** The census scale scores of this region's nations. */
     @XmlElement(name = "CENSUSRANKS")

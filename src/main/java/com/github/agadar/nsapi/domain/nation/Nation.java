@@ -1,7 +1,7 @@
 package com.github.agadar.nsapi.domain.nation;
 
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
-import com.github.agadar.nsapi.domain.shared.CensusScale;
+import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Dispatch;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
@@ -58,7 +58,7 @@ public class Nation
     /** This nation's census scale scores */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public List<CensusScale> Census;
+    public List<CensusScore> Census;
     
     /** Description of crime in this nation */
     @XmlElement(name = "CRIME")

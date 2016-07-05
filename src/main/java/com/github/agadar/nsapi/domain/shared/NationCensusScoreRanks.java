@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Lists the regional census scale scores of a region's top 20 scoring nations, 
- * or the world-wide census scale scores of the world's top 20 scoring nations.
+ * Lists the census scores of a region's top 20 scoring nations, 
+ * or the census scores of the world's top 20 scoring nations.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
