@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain.region;
+package com.github.agadar.nsapi.domain.shared;
 
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
 import java.util.List;

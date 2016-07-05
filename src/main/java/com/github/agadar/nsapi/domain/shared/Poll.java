@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.domain.region;
+package com.github.agadar.nsapi.domain.shared;
 
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;

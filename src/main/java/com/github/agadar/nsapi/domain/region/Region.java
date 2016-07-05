@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.domain.region;
 
+import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;

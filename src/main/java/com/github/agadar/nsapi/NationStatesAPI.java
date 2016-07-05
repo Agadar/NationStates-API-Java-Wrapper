@@ -131,7 +131,6 @@ public class NationStatesAPI
         {
             throw new IllegalArgumentException("'shards' may not be empty!");
         }
-
         String url = buildURL(NSResource.World, null, shards);
         return makeRequest(url, World.class);
     }

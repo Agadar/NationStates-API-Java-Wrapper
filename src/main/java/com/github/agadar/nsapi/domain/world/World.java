@@ -5,6 +5,7 @@ import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Dispatch;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
+import com.github.agadar.nsapi.domain.shared.Poll;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +16,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of the world. This class's fields have a 1:1 correspondence 
- * with the shards in WorldShard.java.
+ * with the shards in WorldShard.java, with the exception of the field Regions,
+ * which corresponds to both the Regions shard and the RegionsByTag shard.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
@@ -78,4 +80,21 @@ public class World
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
     public List<String> NewestNations;
+    
+    /** The number of nations in the world. */
+    @XmlElement(name = "NUMNATIONS")
+    public int NumberOfNations;
+    
+    /** The number of regions in the world. */
+    @XmlElement(name = "NUMREGIONS")
+    public int NumberOfRegions;
+    
+    /** The selected poll. */
+    @XmlElement(name = "POLL")
+    public Poll SelectedPoll;
+    
+    /** List of all regions in the world, or the regions selected by tag. */
+    @XmlElement(name = "REGIONS")
+    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
+    public List<String> Regions;
 }
