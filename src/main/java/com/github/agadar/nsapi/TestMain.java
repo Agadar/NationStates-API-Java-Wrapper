@@ -18,9 +18,9 @@ public class TestMain
     {
         NationStatesAPI ns = new NationStatesAPI();
         WorldAssembly wa = ns.worldAssembly(Council.SECURITY_COUNCIL, WorldAssemblyShard.LastResolutionResult);
-        
-        
         System.out.println(wa.LastResolutionResult);
+        
+        //System.out.println(wa.LastResolutionResult);
         
 //        for (Embassy e : r.Embassies)
 //        {

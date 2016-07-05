@@ -1,17 +1,19 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
-import com.github.agadar.nsapi.enums.shard.NationShard;
-import com.github.agadar.nsapi.enums.shard.WorldShard;
-import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.enums.*;
+import com.github.agadar.nsapi.enums.shard.NationShard;
+import com.github.agadar.nsapi.enums.shard.RegionShard;
+import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
+import com.github.agadar.nsapi.enums.shard.WorldShard;
+import com.sun.istack.internal.logging.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -31,7 +33,8 @@ public class NationStatesAPI
         Nation("nation"),
         Region("region"),
         WorldAssembly("wa"),
-        World("");
+        World(""),
+        Version("a");
         
         /** The underlying resource string */
         private final String resourceString;
@@ -57,12 +60,12 @@ public class NationStatesAPI
         }
     }
     
-    /** Base URL to the Nation API */
+    /** Base URL to the Nation API. */
     private static final String BASE_URL = "http://www.nationstates.net/cgi-bin/api.cgi?";
-    /** The user agent with which this library makes requests */
+    /** The user agent with which this library makes requests. */
     private static final String USER_AGENT = "Agadar's Wrapper "
             + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
-    /** The NationStates API version this wrapper uses */
+    /** The NationStates API version this wrapper uses. */
     private static final int API_VERSION = 8;
     /** The JAXBContext for this API. */
     private final JAXBContext jc;
@@ -70,6 +73,7 @@ public class NationStatesAPI
     /** Constructor, sets up the JAXBContext. */
     public NationStatesAPI()
     {
+        // Try setting up the JAXBContext.
         try
         {
             jc = JAXBContext.newInstance(Nation.class, Region.class, World.class,
@@ -79,6 +83,9 @@ public class NationStatesAPI
         {
             throw new NationStatesAPIException("Failed to initialize NationStatesAPI instance!", ex);
         }
+        
+        // Verify the NationStates API version this library intents to consume.
+        verifyVersion();
     }
 
     /**
@@ -148,13 +155,58 @@ public class NationStatesAPI
                               String.valueOf(council.getCouncilNumber()), shards);
         return makeRequest(url, WorldAssembly.class);
     }
-
+    
     /**
-     * Makes the GET request to the NationStates API.
+     * Verifies whether the latest live NationStates API version equals the
+     * version this library intents to consume. The possible outcomes are:
+     * 
+     * 1. The versions are the same: everything is fine;
+     * 2. The live version is one count higher: a warning is printed, but
+     * otherwise everything is fine;
+     * 3. The live version is two or more counts higher, or less: this library
+     * will likely not work properly, and thus an exception is thrown.
+     */
+    private void verifyVersion()
+    {
+        // Build url and make call.
+        String url = buildURL(NSResource.Version, "version");
+        String liveVersionStr = makeRequest(url).trim();
+        int liveVersion = Integer.valueOf(liveVersionStr);
+        
+        switch (liveVersion)
+        {
+            case API_VERSION:
+                break;
+            case API_VERSION + 1:
+                Logger.getLogger(NationStatesAPI.class).warning("This library "
+                    + "wants to consume NationStates API version '" + API_VERSION 
+                    + "' but the latest live version is '" + liveVersionStr + "'. "
+                    + "This library will work, but it is advised to update it.");
+                break;
+            default:
+                throw new NationStatesAPIException("This library wants to consume "
+                    + "NationStates API version '" + API_VERSION + "' but this"
+                    + " version is no longer live. Please update this library.");
+        }
+    }
+    
+    /**
+     * Makes a GET request to the NationStates API.
      *
      * @param urlStr the url to make the request to
-     * @param responseType the type of the returned data
-     * @return the retrieved data, in XML-format
+     * @return the retrieved data
+     */
+    private String makeRequest(String urlStr)
+    {
+        return makeRequest(urlStr, null);
+    }
+
+    /**
+     * Makes a GET request to the NationStates API.
+     *
+     * @param urlStr the url to make the request to
+     * @param responseType the type of the returned data. If null, this method returns a String.
+     * @return the retrieved data
      */
     private <T> T makeRequest(String urlStr, Class<T> responseType)
     {
@@ -178,15 +230,28 @@ public class NationStatesAPI
                 throw new NationStatesAPIException("Request to NationStates API failed : HTTP error code : " + conn.getResponseCode());
             }
 
-            // Read and convert the response body.
-            Unmarshaller unmarshaller = jc.createUnmarshaller();
-            StreamSource xml = new StreamSource(conn.getInputStream());
-            JAXBElement<T> je1 = unmarshaller.unmarshal(xml, responseType);
-            T converted = je1.getValue();
-            
-            // Close connection and return.
-            conn.disconnect();
-            return converted;
+            if (responseType != null && !responseType.equals(String.class))
+            {
+                // Read and convert the response body.
+                Unmarshaller unmarshaller = jc.createUnmarshaller();
+                StreamSource xml = new StreamSource(conn.getInputStream());
+                JAXBElement<T> je1 = unmarshaller.unmarshal(xml, responseType);
+                T converted = je1.getValue();
+                
+                // Close connection and return.
+                conn.disconnect();
+                return converted;
+            }
+            else
+            {
+                // Read input stream.
+                Scanner s = new Scanner(conn.getInputStream()).useDelimiter("\\A");
+                String result = s.hasNext() ? s.next() : "";
+                
+                // Return retrieved string.
+                conn.disconnect();
+                return (T) result;
+            }
         }
         catch (IOException ex)
         {
