@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.domain.shared;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -14,6 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "EVENT")
 public class Happening 
 {
+    /** Id of this happening. */
+    @XmlAttribute(name = "id")
+    public long Id;
+    
     /** UNIX timestamp of when this happening took place */
     @XmlElement(name = "TIMESTAMP")
     public long Timestamp;

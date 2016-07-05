@@ -8,7 +8,7 @@ package com.github.agadar.nsapi.enums.shard;
  */
 public enum WorldShard
 {
-    /** The world's census scale scores. */
+    /** The world's census scores. */
     Census("CENSUS"),
     /** Id of the current census. */
     CensusId("CENSUSID"),
@@ -16,16 +16,24 @@ public enum WorldShard
     CensusDescriptions("CENSUSDESC"),
     /** Name of the current or selected census. */
     CensusName("CENSUSNAME"),
-    /** The census scale scores of the world's nations. */
+    /** The census scores of the world's nations. */
     CensusRanks("CENSUSRANKS"),
-    e("CENSUSSCALE"),
-    f("CENSUSTITLE"),
-    g("DISPATCH"),
-    h("DISPATCHLIST"),
-    i("FEATUREDREGION"),
-    j("HAPPENINGS"),
-    k("NATIONS"),
-    l("NEWNATIONS"),
+    /** The scale of the current or selected census. */
+    CensusScale("CENSUSSCALE"),
+    /** The title of the current or selected census. */
+    CensusTitle("CENSUSTITLE"),
+    /** The selected dispatch. Includes the dispatch text. */
+    SelectedDispatch("DISPATCH"),
+    /** The latest hottest or selected dispatches. Does not include dispatches' texts. */
+    Dispatches("DISPATCHLIST"),
+    /** Name of today's featured region. */
+    FeaturedRegion("FEATUREDREGION"),
+    /** List of the most recent or selected happenings. */
+    Happenings("HAPPENINGS"),
+    /** List of all nations in the world. */
+    Nations("NATIONS"),
+    /** List of newest nations. */
+    NewestNations("NEWNATIONS"),
     m("NUMNATIONS"),
     n("NUMREGIONS"),
     o("POLL"),
