@@ -1,5 +1,8 @@
 package com.github.agadar.nsapi;
 
+import com.github.agadar.nsapi.domain.nation.Nation;
+import com.github.agadar.nsapi.enums.shard.NationShard;
+
 /**
  *
  * @author Agadar <https://github.com/Agadar/>
@@ -19,7 +22,8 @@ public class TestMain
         while (true)
         {
             rl.Await();
-            System.out.println("Called " + ++counter + " times!");
+            Nation n = ns.nation("agadar", NationShard.Founded);
+            System.out.println(counter + " - " + n.Founded);
         }
     }
     

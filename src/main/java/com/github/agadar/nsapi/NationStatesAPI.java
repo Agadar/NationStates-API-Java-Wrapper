@@ -67,6 +67,11 @@ public class NationStatesAPI
             + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
     /** The NationStates API version this wrapper uses. */
     private static final int API_VERSION = 8;
+    /** 
+     * The rate limiter for normal API calls. The mandated rate limit is 50
+     * requests per 30 seconds; we go with 35 seconds just to be safe.
+     */ 
+    private static final RateLimiter rateLimiter = new RateLimiter(50, 35000);
     /** The JAXBContext for this API. */
     private final JAXBContext jc;
     
@@ -209,6 +214,9 @@ public class NationStatesAPI
      */
     private <T> T makeRequest(String urlStr, Class<T> responseType)
     {
+        // Enforce rate limit on API calls.
+        rateLimiter.Await();
+        
         try
         {
             // Prepare request, then make it
@@ -223,10 +231,18 @@ public class NationStatesAPI
             {
                 return null;
             }
+            // If we messed up and violated the rate limit, throw an exception.
+            else if (responseCode == 429)
+            {
+                throw new NationStatesAPIException("Too many requests: rate limit"
+                        + " was violated! We're forced to wait up to 15 "
+                        + "minutes before we can send a request again!");
+            }
             // If something went wrong while processing the request, throw error
             else if (responseCode != 200)
             {
-                throw new NationStatesAPIException("Request to NationStates API failed : HTTP error code : " + conn.getResponseCode());
+                throw new NationStatesAPIException("Request to NationStates API "
+                    + "failed! HTTP message: " + conn.getResponseMessage());
             }
 
             if (responseType != null && !responseType.equals(String.class))
