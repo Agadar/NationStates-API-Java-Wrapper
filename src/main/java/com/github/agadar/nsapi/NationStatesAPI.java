@@ -69,9 +69,11 @@ public class NationStatesAPI
     private static final int API_VERSION = 8;
     /** 
      * The rate limiter for normal API calls. The mandated rate limit is 50
-     * requests per 30 seconds; we go with 35 seconds just to be safe.
+     * requests per 30 seconds. To make sure we're on the safe side, we reduce 
+     * this to 45 requests per 30 seconds. To get a spread-like pattern instead
+     * of a burst-like pattern, we make this into 9 requests per 6 seconds.
      */ 
-    private static final RateLimiter rateLimiter = new RateLimiter(50, 35000);
+    private static final RateLimiter rateLimiter = new RateLimiter(3, 2000);
     /** The JAXBContext for this API. */
     private final JAXBContext jc;
     

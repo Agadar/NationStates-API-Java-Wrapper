@@ -13,17 +13,17 @@ public class TestMain
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NationStatesAPIException
+    public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        RateLimiter rl = new RateLimiter(50, 30000);
+        //RateLimiter rl = new RateLimiter(5, 10000);
         int counter = 0;
+        
         
         while (true)
         {
-            rl.Await();
-            Nation n = ns.nation("agadar", NationShard.Founded);
-            System.out.println(counter + " - " + n.Founded);
+            Nation n = ns.nation("agadar", NationShard.Founded);           
+            System.out.println(++counter + " " + n.Founded);
         }
     }
     

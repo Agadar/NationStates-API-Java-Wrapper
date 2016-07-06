@@ -43,10 +43,8 @@ public class RateLimiter
      */
     public synchronized void Await()
     {
-        // Retrieve oldest and latest timestamps, calculate difference.
-        long oldest = roundBuffer[index];
-        long latest = System.currentTimeMillis();
-        long diff = latest - oldest;
+        // Retrieve oldest and current timestamps, calculate difference.
+        long diff = System.currentTimeMillis() - roundBuffer[index];
         
         // If the difference is less than the y in 'x requests per y milliseconds'
         // then print a warning and sleep for the duration of the difference.
@@ -61,12 +59,12 @@ public class RateLimiter
             }
             catch (InterruptedException ex)
             {
-                throw new NationStatesAPIException("RateLimiter.class blew up!", ex);
+                throw new RuntimeException("RateLimiter.class blew up!", ex);
             }
         }
         
         // Finally, update the oldest timestamp and increment the index.
-        roundBuffer[index] = latest;
+        roundBuffer[index] = System.currentTimeMillis();
         index = ++index % roundBuffer.length;
     }
 }
