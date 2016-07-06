@@ -5,6 +5,7 @@ import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Dispatch;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,13 +37,11 @@ public class Nation
     public String AnimalTrait;
     
     /** The Rift banner code of this nation's primary banner, or of a randomly
-        chosen eligible banner if no primary banner is set. Can be prepended
-        by '/images/banners/' and appended by '.jpg' to convert into an image URL.*/
+        chosen eligible banner if no primary banner is set.*/
     @XmlElement(name = "BANNER")
     public String Banner;
     
-    /** The eligible Rift banner codes of this nation. Codes can be prepended
-        by '/images/banners/' and appended by '.jpg' to convert into image URLs. */
+    /** The eligible Rift banner codes of this nation. */
     @XmlElementWrapper(name = "BANNERS")
     @XmlElement(name = "BANNER")
     public List<String> Banners;
@@ -278,4 +277,46 @@ public class Nation
     /** This nation's statistics of the current or last zombie event. */
     @XmlElement(name = "ZOMBIE")
     public ZombieInfo ZombieInfo;
+    
+    /** The pattern used for building URLS that point to images behind Rift codes. */
+    private final static String BANNER_URL = "https://www.nationstates.net/images/banners/%s.jpg";
+    
+    /**
+     * Builds an URL that points to the image behind the given Rift code.
+     *
+     * @param riftCode the Rift code to build an URL of
+     * @return an URL that points to the image behind the given Rift code
+     */
+    private String riftCodeToURL(String riftCode)
+    {
+        return riftCode == null || riftCode.isEmpty() ? null : 
+               String.format(BANNER_URL, riftCode);
+    }
+    
+    /**
+     * Gives the URL that points to the image behind Banner.
+     * 
+     * @return the URL that points to the image behind Banner
+     */
+    public String BannerAsURL()
+    {
+        return riftCodeToURL(Banner);
+    }
+    
+    /**
+     * Gives the URLs that point to the images behind Banners.
+     * 
+     * @return the URLs that point to the images behind Banners.
+     */
+    public List<String> BannersAsURLs()
+    {
+        if (Banners == null)
+        {
+            return null;
+        }
+        
+        List<String> urls = new ArrayList<>();       
+        Banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));       
+        return urls;
+    }
 }

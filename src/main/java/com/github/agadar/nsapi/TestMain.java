@@ -16,15 +16,8 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        //RateLimiter rl = new RateLimiter(5, 10000);
-        int counter = 0;
-        
-        
-        while (true)
-        {
-            Nation n = ns.nation("agadar", NationShard.Founded);           
-            System.out.println(++counter + " " + n.Founded);
-        }
+        Nation n = ns.nation("agadar", NationShard.Banner);
+        System.out.println(n.BannerAsURL());
     }
     
 }
