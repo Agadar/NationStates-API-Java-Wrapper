@@ -2,6 +2,8 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.enums.shard.NationShard;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,8 +18,11 @@ public class TestMain
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
         NationStatesAPI ns = new NationStatesAPI();
-        Nation n = ns.nation("agadar", NationShard.Banner);
-        System.out.println(n.BannerAsURL());
+        List<NationShard> shards = new ArrayList<>();
+        shards.add(NationShard.Name);
+        shards.add(NationShard.Census);
+        Nation n = ns.nation("agadar", shards, null);
+        System.out.println(n);
     }
     
 }

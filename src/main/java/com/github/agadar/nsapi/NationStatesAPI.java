@@ -13,6 +13,7 @@ import com.sun.istack.internal.logging.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -110,6 +111,39 @@ public class NationStatesAPI
         return makeRequest(url, Nation.class);
     }
 
+    /**
+     * Makes a Nation request.
+     *
+     * @param nationName the name of the nation.
+     * @param shards     the shards to return. The Census shard is included by default.
+     * @param censusIds  the id's of the censusses to return. If none is supplied, then
+     *                   only the current census is retrieved.
+     * @return the data of the retrieved nation, or null if it wasn't found
+     */
+    public Nation nation(String nationName, List<NationShard> shards, int... censusIds)
+    {
+        // Ensure shards contains the Census shard.
+        if (!shards.contains(NationShard.Census))
+        {
+            shards.add(NationShard.Census);
+        }
+        
+        String url = buildURL(NSResource.Nation, nationName, shards.toArray(new Enum[shards.size()]));
+        
+        // Append id's to url.
+        if (censusIds != null && censusIds.length > 0)
+        {
+            url += "&scale=" + censusIds[0];
+            
+            for (int i = 1; i < censusIds.length; i++)
+            {
+                url += "+" + censusIds[i];
+            }
+        }
+        
+        return makeRequest(url, Nation.class);
+    }
+    
     /**
      * Makes a Region request.
      *

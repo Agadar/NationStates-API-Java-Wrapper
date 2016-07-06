@@ -319,4 +319,49 @@ public class Nation
         Banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));       
         return urls;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Nation{" + "Admirable=" + Admirable + ", Animal=" + Animal +
+               ", AnimalTrait=" + AnimalTrait + ", Banner=" + Banner +
+               ", Banners=" + Banners + ", Capital=" + Capital + ", Category=" +
+               Category + ", Census=" + Census + ", CrimeDescription=" +
+               CrimeDescription + ", Currency=" + Currency + ", CustomLeader=" +
+               CustomLeader + ", CustomCapital=" + CustomCapital +
+               ", CustomReligion=" + CustomReligion + ", Deaths=" + Deaths +
+               ", Demonym=" + Demonym + ", Demonym2=" + Demonym2 +
+               ", Demonym2Plural=" + Demonym2Plural + ", NumberOfDispatches=" +
+               NumberOfDispatches + ", Dispatches=" + Dispatches +
+               ", EndorsedBy=" + EndorsedBy + ", NumberOfFactbooks=" +
+               NumberOfFactbooks + ", Factbooks=" + Factbooks + ", FirstLogin=" +
+               FirstLogin + ", FlagUrl=" + FlagUrl + ", Founded=" + Founded +
+               ", Freedom=" + Freedom + ", FullName=" + FullName +
+               ", GeneralAssemblyVote=" + GeneralAssemblyVote +
+               ", GrossDomesticProduct=" + GrossDomesticProduct +
+               ", GovernmentExpenditure=" + GovernmentExpenditure +
+               ", GovernmentDescription=" + GovernmentDescription +
+               ", GovernmentPriority=" + GovernmentPriority +
+               ", RecentHappenings=" + RecentHappenings + ", AverageIncome=" +
+               AverageIncome + ", EconomyDescription=" + EconomyDescription +
+               ", RegionalInfluence=" + RegionalInfluence + ", LastActivity=" +
+               LastActivity + ", LastLogin=" + LastLogin + ", Leader=" + Leader +
+               ", RecentLegislation=" + RecentLegislation + ", MajorIndustry=" +
+               MajorIndustry + ", Motto=" + Motto + ", Name=" + Name +
+               ", NotableFor=" + NotableFor + ", PoorestIncome=" + PoorestIncome +
+               ", Population=" + Population + ", PublicSector=" + PublicSector +
+               ", CensusRankInRegion=" + CensusRankInRegion + ", RegionName=" +
+               RegionName + ", Religion=" + Religion + ", RichestIncome=" +
+               RichestIncome + ", SecurityCouncilVote=" + SecurityCouncilVote +
+               ", EconomySectors=" + EconomySectors + ", PopulationDescription=" +
+               PopulationDescription + ", AverageIncomeTaxRate=" +
+               AverageIncomeTaxRate + ", CanReceiveRecruitmentTelegrams=" +
+               CanReceiveRecruitmentTelegrams + ", CanReceiveCampaignTelegrams=" +
+               CanReceiveCampaignTelegrams + ", GovernmentType=" + GovernmentType +
+               ", WorldAssemblyStatus=" + WorldAssemblyStatus +
+               ", CensusRankInWorld=" + CensusRankInWorld + ", ZombieInfo=" +
+               ZombieInfo + '}';
+    }
+    
+    
 }
