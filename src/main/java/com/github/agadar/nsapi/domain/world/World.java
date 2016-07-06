@@ -16,8 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of the world. This class's fields have a 1:1 correspondence 
- * with the shards in WorldShard.java, with the exception of the field Regions,
- * which corresponds to both the Regions shard and the RegionsByTag shard.
+ * with the shards in WorldShard.java.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
@@ -93,8 +92,32 @@ public class World
     @XmlElement(name = "POLL")
     public Poll SelectedPoll;
     
-    /** List of all regions in the world, or the regions selected by tag. */
+    /** List of all regions in the world (index 0), or the regions selected by tag (index 0 or 1). */
     @XmlElement(name = "REGIONS")
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> Regions;
+    private List<RegionList> Regions;
+    
+    /** 
+     * If the Regions shard was used alone or together with RegionsByTag, then 
+     * this returns the retrieved Regions. If ONLY the RegionsByTag shard was 
+     * used, this returns the retrieved RegionsByTag. Else, returns null.
+     * 
+     * @return region names
+     */
+    public List<String> Regions()
+    {
+        return Regions == null || Regions.isEmpty() ? null : Regions.get(0).Regions;
+    }
+    
+    /**
+     * If the RegionsByTag shard was used alone or together with Regions, then
+     * this returns the retrieved RegionsByTag. If ONLY the Regions shard was
+     * used, this returns the retrieved Regions. Else, returns null.
+     * 
+     * @return region names
+     */
+    public List<String> RegionsByTag()
+    {
+        List<String> regions = Regions();       
+        return regions == null || Regions.size() < 2 ? regions : Regions.get(1).Regions;
+    }
 }

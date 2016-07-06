@@ -2,8 +2,7 @@ package com.github.agadar.nsapi.enums.shard;
 
 /**
  * Shards available for World requests. These shards have a 1:1 correspondence 
- * with the variable fields in World.java, with the exception of the shards
- * Regions and RegionsByTag, which both correspond to the variable field Regions.
+ * with the variable fields in World.java.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
@@ -43,10 +42,7 @@ public enum WorldShard
     SelectedPoll("POLL"),
     /** List of all regions in the world. */
     Regions("REGIONS"),
-    /** 
-     * List of regions selected by tag. Corresponds to the same variable
-     * field as Regions.
-     */
+    /** List of regions selected by tag. */
     RegionsByTag("REGIONSBYTAG");
     
     /** The underlying shard name */

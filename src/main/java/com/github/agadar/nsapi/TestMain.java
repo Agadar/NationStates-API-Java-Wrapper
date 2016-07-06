@@ -17,8 +17,8 @@ public class TestMain
     {
         NationStatesAPI ns = new NationStatesAPI();
         World w = ns.world(WorldShard.CensusDescriptions);
-        System.out.println(w.CensusDescriptions.DescriptionForNations);
-        
+        System.out.println(w.Regions() == null);
+        System.out.println(w.RegionsByTag() == null);
     }
     
 }
