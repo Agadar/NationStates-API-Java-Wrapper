@@ -157,7 +157,8 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
         
         // Print generated url for testing purposes
         if (DEBUG)
-            System.out.println("Generated URL: " + url);
+            System.out.println("------------ Generated URL ------------" + 
+                System.lineSeparator() + url);
         
         return makeRequest(url);
     }
@@ -207,7 +208,8 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
             
             // Print retrieved xml if we're debugging
             if (DEBUG)
-                System.out.println(xml);
+                System.out.println("------------ Retrieved XML ------------" + 
+                    System.lineSeparator() + xml);
             
             
             // Discover our return type.

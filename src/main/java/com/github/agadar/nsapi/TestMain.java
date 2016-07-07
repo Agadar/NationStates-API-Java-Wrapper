@@ -1,8 +1,10 @@
 package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.nation.Nation;
+import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.shared.CensusScoreHistory;
 import com.github.agadar.nsapi.enums.shard.NationShard;
+import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.query.NSQuery;
 
 /**
@@ -19,8 +21,12 @@ public class TestMain
     {
         //.censusModes(CensusMode.History)
         
-        Nation n = NSQuery.nation("testlandia").shards(NationShard.Census, NationShard.Name)
-                .censusIds(44).censusHistoryFrom(1457856000)
+//        Nation n = NSQuery.nation("testlandia").shards(NationShard.Census, NationShard.Name)
+//                .censusIds(22, 44).censusHistoryFrom(1457856000)
+//                .execute();
+        
+        Region n = NSQuery.region("the_western_isles").shards(RegionShard.Census, RegionShard.Name)
+                .censusIds(3).censusHistoryFrom(1457856000)
                 .execute();
         
         CensusScoreHistory one = n.Census.get(0).History.get(0);

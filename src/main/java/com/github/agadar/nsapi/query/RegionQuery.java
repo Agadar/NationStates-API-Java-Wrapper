@@ -9,7 +9,7 @@ import com.github.agadar.nsapi.enums.shard.RegionShard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class RegionQuery extends NSQuery<RegionQuery, RegionShard, Region>
+public class RegionQuery extends CensusQuery<RegionQuery, RegionShard, Region>
 {
     /**
      * Constructor. Sets the name of the region to query.

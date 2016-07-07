@@ -24,5 +24,5 @@ public class NationCensusScore
     
     /** The nation's score on the scale */
     @XmlElement(name = "SCORE")
-    public double Score;
+    public String Score;
 }

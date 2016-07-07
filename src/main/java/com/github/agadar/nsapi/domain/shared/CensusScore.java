@@ -25,7 +25,7 @@ public class CensusScore
      * Supplied by default.
      */ 
     @XmlElement(name = "SCORE")
-    public double Score;
+    public String Score;
     
     /** 
      * The nation's or region's world-wide rank on the scale. e.g. '334' means 

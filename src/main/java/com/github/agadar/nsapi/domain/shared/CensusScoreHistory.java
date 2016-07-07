@@ -20,5 +20,5 @@ public class CensusScoreHistory
     
     /** What was scored that timestamp. */
     @XmlElement(name = "SCORE")
-    public long Score = 1;
+    public String Score;
 }
