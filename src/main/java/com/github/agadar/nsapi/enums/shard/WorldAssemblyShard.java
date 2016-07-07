@@ -6,7 +6,7 @@ package com.github.agadar.nsapi.enums.shard;
  *
  * @author Agadar <https://github.com/Agadar/>
  */
-public enum WorldAssemblyShard
+public enum WorldAssemblyShard implements Shard
 {
     /** The number of member nations. Same for both councils. */
     NumberOfMembers("NUMNATIONS"),
@@ -45,13 +45,8 @@ public enum WorldAssemblyShard
         this.shardName = shardName;
     }
 
-    /**
-     * Return the underlying shard name.
-     *
-     * @return the underlying shard name
-     */
     @Override
-    public String toString()
+    public String shardName()
     {
         return shardName;
     }

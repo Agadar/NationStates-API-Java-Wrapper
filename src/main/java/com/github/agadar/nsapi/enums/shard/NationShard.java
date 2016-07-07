@@ -6,7 +6,7 @@ package com.github.agadar.nsapi.enums.shard;
  *
  * @author Agadar <https://github.com/Agadar/>
  */
-public enum NationShard
+public enum NationShard implements Shard
 {
     /** One of two adjectives for this nation, e.g. 'cultured', 'safe', etc. */
     Admirable("ADMIRABLE"),
@@ -148,13 +148,8 @@ public enum NationShard
         this.shardName = shardName;
     }
 
-    /**
-     * Return the underlying shard name.
-     * 
-     * @return the underlying shard name
-     */
     @Override
-    public String toString() 
+    public String shardName()
     {
         return shardName;
     }

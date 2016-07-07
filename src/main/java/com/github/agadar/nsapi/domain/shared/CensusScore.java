@@ -61,16 +61,4 @@ public class CensusScore
      */
     @XmlElement(name = "POINT")
     public List<CensusScoreHistory> History;
-
-    @Override
-    public String toString()
-    {
-        return "CensusScore{" + "Id=" + Id + ", Score=" + Score + ", WorldRank=" +
-               WorldRank + ", RegionalRank=" + RegionalRank +
-               ", WorldRankPercentage=" + WorldRankPercentage +
-               ", RegionalRankPercentage=" + RegionalRankPercentage +
-               ", History=" + History + '}';
-    }
-    
-    
 }

@@ -9,12 +9,13 @@ import com.github.agadar.nsapi.enums.shard.NationShard;
 import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
-import com.sun.istack.internal.logging.Logger;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -29,7 +30,7 @@ import javax.xml.transform.stream.StreamSource;
 public class NationStatesAPI
 {
     /** Available resources for the NS api */
-    private enum NSResource
+    public static enum NSResource
     {
         Nation("nation"),
         Region("region"),
@@ -77,6 +78,18 @@ public class NationStatesAPI
     private static final RateLimiter rateLimiter = new RateLimiter(3, 2000);
     /** The JAXBContext for this API. */
     private final JAXBContext jc;
+    
+    static
+    {
+        try
+        {
+            JAXBContext j = JAXBContext.newInstance();
+        }
+        catch (JAXBException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
     
     /** Constructor, sets up the JAXBContext. */
     public NationStatesAPI()
@@ -218,10 +231,10 @@ public class NationStatesAPI
             case API_VERSION:
                 break;
             case API_VERSION + 1:
-                Logger.getLogger(NationStatesAPI.class).warning("This library "
-                    + "wants to consume NationStates API version '" + API_VERSION 
-                    + "' but the latest live version is '" + liveVersionStr + "'. "
-                    + "This library will work, but it is advised to update it.");
+                Logger.getLogger(NationStatesAPI.class.getName()).log(Level.WARNING,
+                    "This library wants to consume NationStates API version ''{0}'' "
+                    + "but the latest live version is ''{1}''. This library will work,"
+                    + " but it is advised to update it.", new Object[]{API_VERSION, liveVersionStr});
                 break;
             default:
                 throw new NationStatesAPIException("This library wants to consume "

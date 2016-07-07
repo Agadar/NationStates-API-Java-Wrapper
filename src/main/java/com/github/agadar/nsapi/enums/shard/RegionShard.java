@@ -6,7 +6,7 @@ package com.github.agadar.nsapi.enums.shard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public enum RegionShard
+public enum RegionShard implements Shard
 {
     /** This region's census scale scores. */
     Census("CENSUS"),
@@ -82,13 +82,8 @@ public enum RegionShard
         this.shardName = shardName;
     }
 
-    /**
-     * Return the underlying shard name.
-     * 
-     * @return the underlying shard name
-     */
     @Override
-    public String toString() 
+    public String shardName()
     {
         return shardName;
     }

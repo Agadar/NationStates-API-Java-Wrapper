@@ -1,9 +1,9 @@
 package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.domain.nation.Nation;
+import com.github.agadar.nsapi.domain.shared.CensusScoreHistory;
 import com.github.agadar.nsapi.enums.shard.NationShard;
-import java.util.ArrayList;
-import java.util.List;
+import com.github.agadar.nsapi.query.NSQuery;
 
 /**
  *
@@ -17,12 +17,14 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
-        NationStatesAPI ns = new NationStatesAPI();
-        List<NationShard> shards = new ArrayList<>();
-        shards.add(NationShard.Name);
-        shards.add(NationShard.Census);
-        Nation n = ns.nation("agadar", shards, null);
-        System.out.println(n);
+        //.censusModes(CensusMode.History)
+        
+        Nation n = NSQuery.nation("testlandia").shards(NationShard.Census, NationShard.Name)
+                .censusIds(44).censusHistoryFrom(1457856000)
+                .execute();
+        
+        CensusScoreHistory one = n.Census.get(0).History.get(0);
+        System.out.println(one.Timestamp + " " + one.Score);
     }
     
 }

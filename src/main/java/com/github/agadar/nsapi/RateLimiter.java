@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi;
 
-import com.sun.istack.internal.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Enforces rate limiting for x requests per y milliseconds.
@@ -51,8 +52,8 @@ public class RateLimiter
         if (diff < milliseconds)
         {
             long sleepFor = milliseconds - diff;
-            Logger.getLogger(RateLimiter.class).warning("Rate limit reached!"
-                        + " Thread put to sleep for " + sleepFor + " milliseconds.");           
+            Logger.getLogger(RateLimiter.class.getName()).log(Level.WARNING, 
+                "Rate limit reached! Thread put to sleep for {0} milliseconds.", sleepFor);           
             try
             {
                 Thread.sleep(sleepFor);

@@ -20,14 +20,5 @@ public class CensusScoreHistory
     
     /** What was scored that timestamp. */
     @XmlElement(name = "SCORE")
-    public long Score;
-
-    @Override
-    public String toString()
-    {
-        return "CensusScoreHistory{" + "Timestamp=" + Timestamp + ", Score=" +
-               Score + '}';
-    }
-    
-    
+    public long Score = 1;
 }
