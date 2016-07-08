@@ -57,8 +57,9 @@ public class World
     @XmlElement(name = "DISPATCH")
     public Dispatch SelectedDispatch;
     
-    /** The latest hottest or selected dispatches. Does not include dispatches' texts. */
-    @XmlElement(name = "DISPATCHLIST")
+    /** The newest or selected dispatches. Does not include dispatches' texts. */
+    @XmlElementWrapper(name = "DISPATCHLIST")
+    @XmlElement(name = "DISPATCH")
     public List<Dispatch> Dispatches;
     
     /** Name of today's featured region. */

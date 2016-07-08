@@ -27,8 +27,8 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        Region r = NSAPI.region("the western isles").shards(RegionShard.CensusRanks).censusRanksStart(5).execute();
-        System.out.println(r.CensusRanks.Id);
+        World w = NSAPI.world(WorldShard.RegionsByTag).regionsWithTags("socialist").regionsWithoutTags("minuscule").execute();
+        System.out.println(w.RegionsByTag().get(0));
     }
     
 }

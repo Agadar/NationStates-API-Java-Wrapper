@@ -12,6 +12,9 @@ import com.github.agadar.nsapi.enums.shard.WAShard;
  */
 public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
 {
+    /** The id of the resolution to retrieve. */
+    private int resolutionId;
+    
     /**
      * Constructor. Sets the council type to query.
      * 
@@ -20,6 +23,19 @@ public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
     public WAQuery(Council council)
     {
         super(String.valueOf(council.getCouncilNumber()));
+    }
+    
+    /**
+     * Sets the id of the resolution to retrieve. Does nothing if the 
+     * Resolution shard is not selected.
+     * 
+     * @param resolutionId the id of the resolution to retrieve
+     * @return this
+     */
+    public final WAQuery resolutionId(int resolutionId)
+    {
+        this.resolutionId = resolutionId;
+        return this;
     }
     
     @Override
@@ -35,5 +51,12 @@ public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
         {
             throw new NationStatesAPIException("No council number supplied!");
         }
+    }
+
+    @Override
+    protected String buildURL()
+    {
+        String url = super.buildURL();
+        return resolutionId == 0 ? url : url + "&id=" + resolutionId;
     }
 }

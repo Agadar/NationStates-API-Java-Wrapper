@@ -22,7 +22,7 @@ public enum WorldShard implements Shard
     CensusScale("CENSUSSCALE"),
     /** The title of the current or selected census. */
     CensusTitle("CENSUSTITLE"),
-    /** The selected dispatch. Includes the dispatch text. */
+    /** The selected dispatch. Includes the dispatch text. An id must be supplied. */
     SelectedDispatch("DISPATCH"),
     /** The latest hottest or selected dispatches. Does not include dispatches' texts. */
     Dispatches("DISPATCHLIST"),
@@ -42,7 +42,7 @@ public enum WorldShard implements Shard
     SelectedPoll("POLL"),
     /** List of all regions in the world. */
     Regions("REGIONS"),
-    /** List of regions selected by tag. */
+    /** List of regions selected by tag. Tags must be supplied. */
     RegionsByTag("REGIONSBYTAG");
     
     /** The underlying shard name */
