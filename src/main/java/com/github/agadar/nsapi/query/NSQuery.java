@@ -6,7 +6,9 @@ import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.domain.world.World;
+import com.github.agadar.nsapi.enums.Council;
 import com.github.agadar.nsapi.enums.shard.Shard;
+import com.github.agadar.nsapi.enums.shard.WorldShard;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.ParameterizedType;
@@ -73,7 +75,7 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
     }
     
     /**
-     * Starts building a nation query.
+     * Starts building a nation query, using the given nation name.
      * 
      * @param nationName name of the nation to query
      * @return a new nation query
@@ -84,7 +86,7 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
     }
     
     /**
-     * Starts building a region query.
+     * Starts building a region query, using the given region name.
      * 
      * @param regionName name of the region to query
      * @return a new region query
@@ -95,24 +97,26 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
     }
     
     /**
-     * Starts building a world query.
+     * Starts building a world query, using the selected shards.
      * 
+     * @param shards the selected shards
      * @return a new world query
      */
-//    public static WorldQuery world()
-//    {
-//        return new WorldQuery();
-//    }
+    public static WorldQuery world(WorldShard... shards)
+    {
+        return new WorldQuery(shards);
+    }
     
     /**
-     * Starts building a World Assembly query.
+     * Starts building a World Assembly query, using the selected council type.
      * 
+     * @param council the council type to query
      * @return a new World Assembly query
      */
-//    public static WAQuery wa()
-//    {
-//        return new WAQuery();
-//    }
+    public static WAQuery wa(Council council)
+    {
+        return new WAQuery(council);
+    }
     
     /** 
      * The resource value, e.g. the nation's or region's name. 
@@ -207,9 +211,9 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
             String xml = s.hasNext() ? s.next() : "";
             
             // Print retrieved xml if we're debugging
-            if (DEBUG)
-                System.out.println("------------ Retrieved XML ------------" + 
-                    System.lineSeparator() + xml);
+            //if (DEBUG)
+              //  System.out.println("------------ Retrieved XML ------------" + 
+                    //System.lineSeparator() + xml);
             
             
             // Discover our return type.

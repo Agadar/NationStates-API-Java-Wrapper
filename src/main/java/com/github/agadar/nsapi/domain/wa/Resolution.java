@@ -2,9 +2,11 @@ package com.github.agadar.nsapi.domain.wa;
 
 import com.github.agadar.nsapi.adapter.IntToCouncilAdapter;
 import com.github.agadar.nsapi.enums.Council;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -65,4 +67,42 @@ public class Resolution
     /** Number of nations that voted AGAINST. */
     @XmlElement(name = "TOTAL_VOTES_AGAINST")
     public int VotesAgainst;
+    
+    /**
+     * A log containing when what delegates voted, and what for, during the
+     * resolution currently at vote.
+     */
+    @XmlElementWrapper(name = "DELLOG")
+    @XmlElement(name = "ENTRY")
+    public List<DelLogEntry> DelegateLog;
+    
+    /**
+     * Same as DelegateLog, but only contains the LAST action for each delegate
+     * that voted FOR.
+     */
+    @XmlElementWrapper(name = "DELVOTES_FOR")
+    @XmlElement(name = "DELEGATE")
+    public List<DelLogEntry> DelegateVotesFor;
+    
+    /**
+     * Same as DelegateLog, but only contains the LAST action for each delegate
+     * that voted AGAINST.
+     */
+    @XmlElementWrapper(name = "DELVOTES_AGAINST")
+    @XmlElement(name = "DELEGATE")
+    public List<DelLogEntry> DelegateVotesAgainst;
+    
+    /**
+     * A track record of the total FOR votes of the resolution currently at vote.
+     */
+    @XmlElementWrapper(name = "VOTE_TRACK_FOR")
+    @XmlElement(name = "N")
+    public List<Integer> VoteTrackFor;
+        
+    /**
+     * A track record of the total AGAINST votes of the resolution currently at vote.
+     */
+    @XmlElementWrapper(name = "VOTE_TRACK_AGAINST")
+    @XmlElement(name = "N")
+    public List<Integer> VoteTrackAgainst;
 }

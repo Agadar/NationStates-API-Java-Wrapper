@@ -2,11 +2,14 @@ package com.github.agadar.nsapi.enums.shard;
 
 /**
  * Shards available for World Assembly requests. These shards have a 1:1
- * correspondence with the variable fields in WorldAssembly.java.
+ * correspondence with the variable fields in WorldAssembly.java, except for
+ * VoteTrack and DelegateVotes: VoteTrack fills the fields VoteTrackFor and
+ * VoteTrackAgainst, and DelegateVotes fills the fields DelegateVotesFor and
+ * DelegateVotesAgainst.
  *
  * @author Agadar <https://github.com/Agadar/>
  */
-public enum WorldAssemblyShard implements Shard
+public enum WAShard implements Shard
 {
     /** The number of member nations. Same for both councils. */
     NumberOfMembers("NUMNATIONS"),
@@ -24,11 +27,22 @@ public enum WorldAssemblyShard implements Shard
     CurrentProposals("PROPOSALS"),
     /** The current resolution at vote, or a specific one if an id is supplied. */
     Resolution("RESOLUTION"),
-    // The following shards have to be implemented once a resolution is at vote,
-    // so that we know what kind of XML they yield.
-//    VOTETRACK,
-//    DELLOG,
-//    DELVOTES,
+    /** 
+     * A track record of the total votes of the resolution currently at vote. 
+     * Only works in conjunction with the Resolution shard.
+     */
+    VoteTrack("VOTETRACK"),
+    /**
+     * A log containing when what delegates voted, and what for, during the
+     * resolution currently at vote. Only works in conjunction with the 
+     * Resolution shard.
+     */
+    DelegateLog("DELLOG"),
+    /**
+     * Same as DelegateLog, but only contains the last action for each delegate.
+     * Only works in conjunction with the Resolution shard.
+     */
+    DelegateVotes("DELVOTES"),
     /** Brief description of the end result of the last proposed resolution. */
     LastResolutionResult("LASTRESOLUTION");
 
@@ -40,7 +54,7 @@ public enum WorldAssemblyShard implements Shard
      *
      * @param shardName the name of the underlying shard
      */
-    private WorldAssemblyShard(String shardName)
+    private WAShard(String shardName)
     {
         this.shardName = shardName;
     }

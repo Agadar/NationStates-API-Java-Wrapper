@@ -66,8 +66,7 @@ public abstract class CensusQuery<Q extends NSQuery, S extends Shard, R> extends
     
     /**
      * Sets the lower bound in UNIX timestamp for the History census mode.
-     * Does nothing if the Census shard or the History census mode is not 
-     * selected.
+     * Implicitly sets the History census mode.
      * 
      * @param timestamp the lower bound in UNIX timestamp for the History census 
      * mode
@@ -81,8 +80,7 @@ public abstract class CensusQuery<Q extends NSQuery, S extends Shard, R> extends
     
     /**
      * Sets the upper bound in UNIX timestamp for the History census mode.
-     * Does nothing if the Census shard or the History census mode is not 
-     * selected.
+     * Implicitly sets the History census mode.
      * 
      * @param timestamp the upper bound in UNIX timestamp for the History census 
      * mode

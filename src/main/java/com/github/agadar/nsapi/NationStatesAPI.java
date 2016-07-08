@@ -7,7 +7,7 @@ import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.enums.*;
 import com.github.agadar.nsapi.enums.shard.NationShard;
 import com.github.agadar.nsapi.enums.shard.RegionShard;
-import com.github.agadar.nsapi.enums.shard.WorldAssemblyShard;
+import com.github.agadar.nsapi.enums.shard.WAShard;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -196,7 +196,7 @@ public class NationStatesAPI
      * @param shards  the shards to return.
      * @return the requested WA data
      */
-    public WorldAssembly worldAssembly(Council council, WorldAssemblyShard... shards)
+    public WorldAssembly worldAssembly(Council council, WAShard... shards)
     {
         // Check whether council is not null
         if (council == null)
