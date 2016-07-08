@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class CommaSeparatedToListAdapter extends XmlAdapter<String, List<String>>
+public final class CommaSeparatedToListAdapter extends XmlAdapter<String, List<String>>
 {
     @Override
     public String marshal(List<String> bt) throws Exception

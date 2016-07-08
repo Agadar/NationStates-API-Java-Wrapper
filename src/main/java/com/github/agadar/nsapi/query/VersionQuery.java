@@ -8,7 +8,7 @@ import com.github.agadar.nsapi.NationStatesAPIException;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class VersionQuery extends NSQuery<VersionQuery, Integer>
+public final class VersionQuery extends NSQuery<VersionQuery, Integer>
 {
     /** Constructor. */
     public VersionQuery()

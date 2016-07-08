@@ -5,7 +5,7 @@ package com.github.agadar.nsapi;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class NationStatesAPIException extends RuntimeException
+public final class NationStatesAPIException extends RuntimeException
 {
     public NationStatesAPIException()
     {

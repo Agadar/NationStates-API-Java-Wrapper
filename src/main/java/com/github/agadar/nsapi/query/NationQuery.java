@@ -9,7 +9,7 @@ import com.github.agadar.nsapi.enums.shard.NationShard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard>
+public final class NationQuery extends CensusQuery<NationQuery, Nation, NationShard>
 {
     /**
      * Constructor. Sets the name of the nation to query.

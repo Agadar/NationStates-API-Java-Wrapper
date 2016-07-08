@@ -7,7 +7,7 @@ import com.github.agadar.nsapi.NationStatesAPIException;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
+public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
 {
     /** The nation to verify. */
     private final String nation;
@@ -57,11 +57,6 @@ public class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
     @Override
     protected String buildURL()
     {
-        String url = super.buildURL();
-        
-        // Append verification strings.
-        url += String.format("&nation=%s&checksum=%s", nation, checksum);
-        
-        return url;
+        return super.buildURL() + String.format("&nation=%s&checksum=%s", nation, checksum);
     }
 }

@@ -10,7 +10,7 @@ import com.github.agadar.nsapi.enums.shard.WAShard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
+public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
 {
     /**
      * Constructor. Sets the council type to query.

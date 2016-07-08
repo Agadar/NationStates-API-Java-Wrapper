@@ -12,6 +12,8 @@ import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.enums.shard.WAShard;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import com.github.agadar.nsapi.query.NSQuery;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -23,9 +25,10 @@ public class TestMain
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NationStatesAPIException, InterruptedException
+    public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        System.out.println(NSAPI.verify("agadar", "AyBpKO-UAUtMPHpQcIVPqqdQi8jex-d2nqKvY0WNnJ8").execute());
+        Region r = NSAPI.region("the western isles").shards(RegionShard.CensusRanks).censusRanksStart(5).execute();
+        System.out.println(r.CensusRanks.Id);
     }
     
 }

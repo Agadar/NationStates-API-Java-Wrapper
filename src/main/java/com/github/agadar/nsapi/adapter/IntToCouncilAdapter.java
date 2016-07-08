@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class IntToCouncilAdapter extends XmlAdapter<Integer, Council>
+public final class IntToCouncilAdapter extends XmlAdapter<Integer, Council>
 {
     @Override
     public Integer marshal(Council bt) throws Exception

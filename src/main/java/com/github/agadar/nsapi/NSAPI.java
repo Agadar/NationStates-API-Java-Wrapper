@@ -4,6 +4,7 @@ import com.github.agadar.nsapi.enums.*;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import com.github.agadar.nsapi.query.NationQuery;
 import com.github.agadar.nsapi.query.RegionQuery;
+import com.github.agadar.nsapi.query.TelegramQuery;
 import com.github.agadar.nsapi.query.VerifyQuery;
 import com.github.agadar.nsapi.query.VersionQuery;
 import com.github.agadar.nsapi.query.WAQuery;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Agadar <https://github.com/Agadar/>
  */
-public class NSAPI
+public final class NSAPI
 {
     /** The NationStates API version this wrapper uses. */
     public static final int API_VERSION = 8;
@@ -108,10 +109,24 @@ public class NSAPI
      * 
      * @param nation the nation to verify
      * @param checksum the verification checksum
-     * @return true if nation was verified, otherwise false
+     * @return a new verify query
      */
     public static VerifyQuery verify(String nation, String checksum)
     {
         return new VerifyQuery(nation, checksum);
+    }
+    
+    /**
+     * Starts building a query that sends a telegram.
+     * 
+     * @param clientKey the client key
+     * @param telegramId the telegram id
+     * @param secretKey the telegram's secret key
+     * @param nation the nation to send the telegram to
+     * @return a new telegram query
+     */
+    public static TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String nation)
+    {
+        return new TelegramQuery(clientKey, telegramId, secretKey, nation);
     }
 }
