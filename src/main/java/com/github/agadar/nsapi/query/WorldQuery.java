@@ -9,7 +9,7 @@ import com.github.agadar.nsapi.enums.shard.WorldShard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class WorldQuery extends CensusQuery<WorldQuery, WorldShard, World>
+public class WorldQuery extends CensusQuery<WorldQuery, World, WorldShard>
 {
     /**
      * Constructor. Accepts one or more shards.

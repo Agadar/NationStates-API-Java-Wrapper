@@ -8,7 +8,7 @@ import java.util.logging.Logger;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class RateLimiter 
+public final class RateLimiter 
 {
     /** The round buffer we're using, with length set to x in 'x requests per y milliseconds. */
     private final long[] roundBuffer;

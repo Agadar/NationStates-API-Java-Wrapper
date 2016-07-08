@@ -10,7 +10,7 @@ import com.github.agadar.nsapi.enums.shard.WAShard;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public class WAQuery extends NSQuery<WAQuery, WAShard, WorldAssembly>
+public class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
 {
     /**
      * Constructor. Sets the council type to query.
@@ -36,12 +36,4 @@ public class WAQuery extends NSQuery<WAQuery, WAShard, WorldAssembly>
             throw new NationStatesAPIException("No council number supplied!");
         }
     }
-
-    @Override
-    protected String buildURL()
-    {
-        return "https://www.nationstates.net/cgi-bin/api.cgi?wa=1&q=resolution"
-                + "+votetrack+dellog+delvotes";
-    }
-
 }

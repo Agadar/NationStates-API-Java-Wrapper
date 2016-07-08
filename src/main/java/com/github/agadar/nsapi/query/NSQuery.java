@@ -22,15 +22,14 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * A query to the NationStates API.
+ * Top parent class for all Queries to the NationStates API.
  * 
  * @author Agadar <https://github.com/Agadar/>
  * 
  * @param <Q> the child class that extends this abstract class
- * @param <S> the shard type the child class accepts
  * @param <R> the type the child class' execute()-function returns
  */
-public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
+public abstract class NSQuery<Q extends NSQuery, R>
 {
     /** Base URL to the Nation API. */
     private static final String BASE_URL = "https://www.nationstates.net/cgi-bin/api.cgi?";
@@ -118,14 +117,21 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
         return new WAQuery(council);
     }
     
+    /**
+     * Starts building a utility query. Used for such things as version checking, sending telegrams, and verifying user accounts.
+     * 
+     * @return a new utility query
+     */
+    public static MiscQuery misc()
+    {
+        return new MiscQuery();
+    }
+    
     /** 
      * The resource value, e.g. the nation's or region's name. 
      * Set by the constructor.
      */
-    protected final String resourceValue;
-    
-    /** See shards(...). */
-    protected S[] shards;
+    protected String resourceValue;
     
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
@@ -135,18 +141,6 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
     protected NSQuery(String resourceValue)
     {
         this.resourceValue = resourceValue;
-    }
-    
-    /**
-     * Sets the shards.
-     * 
-     * @param shards the shards to set
-     * @return this
-     */
-    public final Q shards(S... shards)
-    {        
-        this.shards = shards;
-        return (Q) this;
     }
     
     /**
@@ -214,13 +208,13 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
             //if (DEBUG)
               //  System.out.println("------------ Retrieved XML ------------" + 
                     //System.lineSeparator() + xml);
-            
-            
+                       
             // Discover our return type.
             Class classOfThis = ((Class) ((ParameterizedType) this.getClass()
-                    .getGenericSuperclass()).getActualTypeArguments()[2]);
-
-            if (classOfThis != null && !classOfThis.equals(String.class))
+                    .getGenericSuperclass()).getActualTypeArguments()[1]);
+            
+            if (classOfThis != null && !classOfThis.equals(String.class) &&
+                !classOfThis.equals(Void.class))
             {
                 // Read and convert the response body.
                 Unmarshaller unmarshaller = jc.createUnmarshaller();
@@ -273,17 +267,6 @@ public abstract class NSQuery<Q extends NSQuery, S extends Shard, R>
             
             // Append resource and resourceValue
             url += "&" + resourceString() + "=" + resourceValue.replace(' ', '_');
-        }
-        
-        // If there are shards present, then append them to url
-        if (shards != null && shards.length > 0)
-        {
-            url += "&q=" + shards[0].shardName();
-
-            for (int i = 1; i < shards.length; i++)
-            {
-                url += "+" + shards[i].shardName();
-            }
         }
         
         // Finally, return the generated url

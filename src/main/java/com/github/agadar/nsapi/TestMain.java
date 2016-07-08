@@ -25,28 +25,7 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
-        //.censusModes(CensusMode.History)
-        
-//        Nation n = NSQuery.nation("testlandia").shards(NationShard.Census, NationShard.Name)
-//                .censusIds(22, 44).censusHistoryFrom(1457856000)
-//                .execute();
-        
-//        Region n = NSQuery.region("the_western_isles").shards(RegionShard.Census, RegionShard.Name)
-//                .censusIds(3).censusHistoryFrom(1457856000)
-//                .execute();
-        
-//        World n = NSQuery.world(WorldShard.Census, WorldShard.NumberOfNations)
-//                .censusIds(3).censusHistoryFrom(1457856000).execute();
-        
-        WorldAssembly a = NSQuery.wa(Council.GENERAL_ASSEMBLY).shards(WAShard.DelegateLog).execute();
-
-        System.out.println(a.VoteTrackFor().get(3));
-        System.out.println(a.VoteTrackAgainst().get(3));
-        
-        
-        //DelLogEntry d = a.DelegateLog.get(0);
-        //System.out.println(d.Timestamp + " " + d.DelegateName + " " + d.Votes + " " + d.Action);
-        
+        NSQuery.misc().verifyVersion().execute();
     }
     
 }

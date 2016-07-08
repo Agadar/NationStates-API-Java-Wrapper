@@ -4,16 +4,15 @@ import com.github.agadar.nsapi.enums.CensusMode;
 import com.github.agadar.nsapi.enums.shard.Shard;
 
 /**
- * Intermediate parent class for NationQuery, RegionQuery and WorldQuery,
- * adding options for censusses.
+ * Intermediate parent class that adds options for censusses.
  * 
  * @author Agadar <https://github.com/Agadar/>
  * 
  * @param <Q> the child class that extends this abstract class
- * @param <S> the shard type the child class accepts
  * @param <R> the type the child class' execute()-function returns
+ * @param <S> the shard type the child class accepts
  */
-public abstract class CensusQuery<Q extends NSQuery, S extends Shard, R> extends NSQuery<Q, S, R>
+public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> extends ShardQuery<Q, R, S>
 {
     /** See censusIds(...). */
     private int[] censusIds;
