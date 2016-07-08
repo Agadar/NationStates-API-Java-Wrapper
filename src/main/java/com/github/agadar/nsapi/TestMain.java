@@ -7,6 +7,7 @@ import com.github.agadar.nsapi.domain.wa.DelLogEntry;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.enums.Council;
+import com.github.agadar.nsapi.enums.HapFilter;
 import com.github.agadar.nsapi.enums.shard.NationShard;
 import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.enums.shard.WAShard;
@@ -27,14 +28,13 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        boolean valid = NSAPI.verify("agadar", "QL9wNIHBVIJr3Ac2W51O8eyhaNWm7i0sac52oYuXfHU").token("dicks").execute();
-        //System.out.println(valid);
-        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").execute();
-        //System.out.println(valid);
-        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").token("dicks").execute();
-        //System.out.println(valid);
-        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").token("dicks").execute();
-        System.out.println(valid);
+        World w = NSAPI.world(WorldShard.Happenings).happeningsBeforeId(101067403)
+            .happeningsFilter(HapFilter.founding, HapFilter.move, HapFilter.cte)
+            .happeningsLimit(5).happeningsOfRegion("the_pacific")
+            .happeningsSinceId(101066160).execute();
+        
+        System.out.println(w.Happenings.size());
+        System.out.println(w.Happenings.get(0).Timestamp);
     }
     
 }

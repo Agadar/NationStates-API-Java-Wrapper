@@ -28,7 +28,7 @@ public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
     public VerifyQuery(String nation, String code)
     {
         super("verify");
-        this.nation = nation;
+        this.nation = nation.replace(' ', '_');
         this.checksum = code;
     }
     
@@ -40,7 +40,7 @@ public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
      * @param token application-specific token
      * @return this
      */
-    public VerifyQuery token(String token)
+    public final VerifyQuery token(String token)
     {
         this.token = token;
         return this;

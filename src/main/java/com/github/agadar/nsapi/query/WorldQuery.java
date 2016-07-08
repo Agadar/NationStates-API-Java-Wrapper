@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.world.World;
+import com.github.agadar.nsapi.enums.HapFilter;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 
 /**
@@ -32,6 +33,21 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /** Regions WITHOUT these tags are retrieved. */
     private String[] regionsWithoutTags;
     
+    /** The nation or region to view happenings of. */
+    private String happeningsView;
+    
+    /** The filters for happenings. */
+    private HapFilter[] happeningsFilter;
+    
+    /** The maximum number of happenings to retrieve. */
+    private int happeningsLimit;
+    
+    /** For restricting happenings to those with higher event id's than this. */
+    private int happeningsSinceId;
+    
+    /** For restricting happenings to those with lower event id's than this. */
+    private int happeningsBeforeId;
+    
     /**
      * Constructor. Accepts one or more shards.
      * 
@@ -50,9 +66,9 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param nation the author to list dispatches of
      * @return this
      */
-    public WorldQuery dispatchAuthor(String nation)
+    public final WorldQuery dispatchAuthor(String nation)
     {
-        this.dispatchAuthor = nation;
+        this.dispatchAuthor = nation.replace(' ', '_');
         return this;
     }
     
@@ -63,7 +79,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param category the category to list dispatches of
      * @return this
      */
-    public WorldQuery dispatchCategory(String category)
+    public final WorldQuery dispatchCategory(String category)
     {
         this.dispatchCategory = category;
         return this;
@@ -76,7 +92,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param subcategory the subcategory to list dispatches of
      * @return this
      */
-    public WorldQuery dispatchSubcategory(String subcategory)
+    public final WorldQuery dispatchSubcategory(String subcategory)
     {
         this.dispatchSubcategory = subcategory;
         return this;
@@ -88,7 +104,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * 
      * @return this
      */
-    public WorldQuery dispatchGetBest()
+    public final WorldQuery dispatchGetBest()
     {
         this.dispatchGetBest = true;
         return this;
@@ -101,7 +117,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param dispatchId id of the dispatch to select.
      * @return this
      */
-    public WorldQuery dispatchId(int dispatchId)
+    public final WorldQuery dispatchId(int dispatchId)
     {
         this.dispatchId = dispatchId;
         return this;
@@ -114,7 +130,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param tags the tags
      * @return this 
      */
-    public WorldQuery regionsWithTags(String... tags)
+    public final WorldQuery regionsWithTags(String... tags)
     {
         regionsWithTags = tags;
         return this;
@@ -127,12 +143,90 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param tags the tags
      * @return this 
      */
-    public WorldQuery regionsWithoutTags(String... tags)
+    public final WorldQuery regionsWithoutTags(String... tags)
     {
         regionsWithoutTags = tags;
         return this;
     }
     
+    /**
+     * Sets the nation to view happenings of. Does nothing if the Happenings
+     * shard is not selected.
+     * 
+     * @param nation the nation to view happenings of
+     * @return this
+     */
+    public final WorldQuery happeningsOfNation(String nation)
+    {
+        this.happeningsView = "nation." + nation.replace(' ', '_');
+        return this;
+    }
+    
+    /**
+     * Sets the region to view happenings of. Does nothing if the Happenings
+     * shard is not selected.
+     * 
+     * @param region the region to view happenings of
+     * @return this
+     */
+    public final WorldQuery happeningsOfRegion(String region)
+    {
+        this.happeningsView = "region." + region.replace(' ', '_');
+        return this;
+    }
+    
+    /**
+     * Sets the filters for happenings. Does nothing if the Happenings shard
+     * is not selected.
+     * 
+     * @param filters the filters for happenings
+     * @return this
+     */
+    public final WorldQuery happeningsFilter(HapFilter... filters)
+    {
+        this.happeningsFilter = filters;
+        return this;
+    }
+    
+    /**
+     * Sets the maximum number of happenings to retrieve. Does nothing if the 
+     * Happenings shard is not selected.
+     * 
+     * @param limit the maximum number of happenings to retrieve
+     * @return this
+     */
+    public final WorldQuery happeningsLimit(int limit)
+    {
+        this.happeningsLimit = limit;
+        return this;
+    }
+    
+    /**
+     * If this is set, only happenings with a higher id than the one supplied
+     * will be retrieved.
+     * 
+     * @param id the id
+     * @return this
+     */
+    public final WorldQuery happeningsSinceId(int id)
+    {
+        this.happeningsSinceId = id;
+        return this;
+    }
+    
+    /**
+     * If this is set, only happenings with a lower id than the one supplied
+     * will be retrieved.
+     * 
+     * @param id the id
+     * @return this
+     */
+    public final WorldQuery happeningsBeforeId(int id)
+    {
+        this.happeningsBeforeId = id;
+        return this;
+    }
+       
     @Override
     protected String resourceString()
     {
@@ -203,6 +297,37 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
             {
                 url += ",-" + regionsWithoutTags[i];
             }
+        }
+        
+        if (happeningsView != null && !happeningsView.isEmpty() && 
+            !happeningsView.equals("nation.") && !happeningsView.equals("region."))
+        {
+            url += "&view=" + happeningsView;
+        }
+        
+        if (happeningsFilter != null && happeningsFilter.length > 0)
+        {
+            url += "&filter=" + happeningsFilter[0].name();
+            
+            for (int i = 1; i < happeningsFilter.length; i++)
+            {
+                url += "+" + happeningsFilter[i];
+            }
+        }
+        
+        if (happeningsLimit != 0)
+        {
+            url += "&limit=" + happeningsLimit;
+        }
+        
+        if (happeningsSinceId != 0)
+        {
+            url += "&sinceid=" + happeningsSinceId;
+        }
+        
+        if (happeningsBeforeId != 0)
+        {
+            url += "&beforeid=" + happeningsBeforeId;
         }
         
         return url;
