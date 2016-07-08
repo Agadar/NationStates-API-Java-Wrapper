@@ -25,7 +25,7 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException
     {
-        NSQuery.misc().verifyVersion().execute();
+        System.out.println(NSAPI.verify("agadar", "AyBpKO-UAUtMPHpQcIVPqqdQi8jex-d2nqKvY0WNnJ8").execute());
     }
     
 }

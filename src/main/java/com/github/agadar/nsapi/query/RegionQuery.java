@@ -16,7 +16,7 @@ public class RegionQuery extends CensusQuery<RegionQuery, Region, RegionShard>
      * 
      * @param regionName name of the region to query
      */
-    protected RegionQuery(String regionName)
+    public RegionQuery(String regionName)
     {
         super(regionName);
     }

@@ -16,7 +16,7 @@ public class WorldQuery extends CensusQuery<WorldQuery, World, WorldShard>
      * 
      * @param shards the shards to select
      */
-    protected WorldQuery(WorldShard... shards)
+    public WorldQuery(WorldShard... shards)
     {
         super("");
         this.shards = shards;

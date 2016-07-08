@@ -16,7 +16,7 @@ public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard>
      * 
      * @param nationName name of the nation to query
      */
-    protected NationQuery(String nationName)
+    public NationQuery(String nationName)
     {
         super(nationName);
     }

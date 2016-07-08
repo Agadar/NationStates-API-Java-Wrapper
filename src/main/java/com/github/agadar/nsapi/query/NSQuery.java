@@ -1,20 +1,20 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.RateLimiter;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.domain.world.World;
-import com.github.agadar.nsapi.enums.Council;
-import com.github.agadar.nsapi.enums.shard.Shard;
-import com.github.agadar.nsapi.enums.shard.WorldShard;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.ParameterizedType;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -38,9 +38,6 @@ public abstract class NSQuery<Q extends NSQuery, R>
     private static final String USER_AGENT = "Agadar's Wrapper "
             + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
     
-    /** The NationStates API version this wrapper uses. */
-    private static final int API_VERSION = 8;
-    
     /** 
      * The rate limiter for normal API calls. The mandated rate limit is 50
      * requests per 30 seconds. To make sure we're on the safe side, we reduce 
@@ -52,10 +49,10 @@ public abstract class NSQuery<Q extends NSQuery, R>
     /** The JAXBContext for this API. */
     private static final JAXBContext jc;
     
-    /** If we're debugging, we do some prints here and there. */
-    private static final boolean DEBUG = true;
+    /** The logger for this object. */
+    private static final Logger logger = Logger.getLogger(NSQuery.class.getName());
     
-    /** Static 'constructor'. Sets up the JAXBContext and verifies the version. */
+    /** Static 'constructor' that sets up the JAXBContext. */
     static
     {
         // Try setting up the JAXBContext.
@@ -68,63 +65,6 @@ public abstract class NSQuery<Q extends NSQuery, R>
         {
             throw new NationStatesAPIException("Failed to initialize NationStatesAPI instance!", ex);
         }
-        
-        // Verify the NationStates API version this library intents to consume.
-        //verifyVersion();
-    }
-    
-    /**
-     * Starts building a nation query, using the given nation name.
-     * 
-     * @param nationName name of the nation to query
-     * @return a new nation query
-     */
-    public static NationQuery nation(String nationName)
-    {
-        return new NationQuery(nationName);
-    }
-    
-    /**
-     * Starts building a region query, using the given region name.
-     * 
-     * @param regionName name of the region to query
-     * @return a new region query
-     */
-    public static RegionQuery region(String regionName)
-    {
-        return new RegionQuery(regionName);
-    }
-    
-    /**
-     * Starts building a world query, using the selected shards.
-     * 
-     * @param shards the selected shards
-     * @return a new world query
-     */
-    public static WorldQuery world(WorldShard... shards)
-    {
-        return new WorldQuery(shards);
-    }
-    
-    /**
-     * Starts building a World Assembly query, using the selected council type.
-     * 
-     * @param council the council type to query
-     * @return a new World Assembly query
-     */
-    public static WAQuery wa(Council council)
-    {
-        return new WAQuery(council);
-    }
-    
-    /**
-     * Starts building a utility query. Used for such things as version checking, sending telegrams, and verifying user accounts.
-     * 
-     * @return a new utility query
-     */
-    public static MiscQuery misc()
-    {
-        return new MiscQuery();
     }
     
     /** 
@@ -152,12 +92,7 @@ public abstract class NSQuery<Q extends NSQuery, R>
     {
         validateQueryParameters();
         String url = buildURL();
-        
-        // Print generated url for testing purposes
-        if (DEBUG)
-            System.out.println("------------ Generated URL ------------" + 
-                System.lineSeparator() + url);
-        
+        logger.log(Level.INFO, "Generated URL: {0}", url);
         return makeRequest(url);
     }
     
@@ -200,46 +135,17 @@ public abstract class NSQuery<Q extends NSQuery, R>
                     + "failed! HTTP message: " + conn.getResponseMessage());
             }
             
-            // Retrieve XML string from stream
+            // Retrieve string from stream
             Scanner s = new Scanner(conn.getInputStream()).useDelimiter("\\A");
-            String xml = s.hasNext() ? s.next() : "";
+            String response = s.hasNext() ? s.next().trim() : "";
             
-            // Print retrieved xml if we're debugging
-            //if (DEBUG)
-              //  System.out.println("------------ Retrieved XML ------------" + 
-                    //System.lineSeparator() + xml);
-                       
-            // Discover our return type.
-            Class classOfThis = ((Class) ((ParameterizedType) this.getClass()
-                    .getGenericSuperclass()).getActualTypeArguments()[1]);
-            
-            if (classOfThis != null && !classOfThis.equals(String.class) &&
-                !classOfThis.equals(Void.class))
-            {
-                // Read and convert the response body.
-                Unmarshaller unmarshaller = jc.createUnmarshaller();
-                StreamSource xmlstream = new StreamSource(new StringReader(xml));
-                JAXBElement<R> je1 = unmarshaller.unmarshal(xmlstream, classOfThis);
-                R converted = je1.getValue();
-                
-                // Close connection and return.
-                conn.disconnect();
-                return converted;
-            }
-            else
-            {
-                // Return retrieved string.
-                conn.disconnect();
-                return (R) xml;
-            }
+            // Close connection and return translated response.
+            conn.disconnect();
+            return translateResponse(response);
         }
         catch (IOException ex)
         {
             throw new NationStatesAPIException("Request to NationStates API failed!", ex);
-        }
-        catch (JAXBException ex)
-        {
-            throw new NationStatesAPIException("Failed to convert retrieved XML!", ex);
         }
     }
     
@@ -253,7 +159,7 @@ public abstract class NSQuery<Q extends NSQuery, R>
     protected String buildURL()
     {
         // Start out by concatenating base url and API version number
-        String url = BASE_URL + "v=" + API_VERSION;
+        String url = BASE_URL + "v=" + NSAPI.API_VERSION;
         
         // If we're not using the top resource, then append resource and resourceValue
         if (!resourceString().isEmpty())
@@ -287,4 +193,34 @@ public abstract class NSQuery<Q extends NSQuery, R>
      * @return the resource string of this Query
      */
     protected abstract String resourceString();
+    
+    /**
+     * Translates the string response to the object this Query wishes to return
+     * via its execute() function. The standard way to translate is via JAXB,
+     * which assumes the string is in a valid XML-format. Child classes might
+     * want to override this function if they wish to return primitives or
+     * something else.
+     * 
+     * @param response the response to translate
+     * @return the translated response
+     */
+    protected R translateResponse(String response)
+    {
+        // Discover our return type.
+        Class classOfThis = ((Class) ((ParameterizedType) this.getClass()
+            .getGenericSuperclass()).getActualTypeArguments()[1]);
+        
+        // Read and convert the response body.
+        try 
+        {
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            StreamSource xmlstream = new StreamSource(new StringReader(response));
+            JAXBElement<R> je1 = unmarshaller.unmarshal(xmlstream, classOfThis);
+            return je1.getValue();
+        } 
+        catch (JAXBException ex)
+        {
+            throw new NationStatesAPIException("Failed to convert retrieved XML!", ex);
+        }
+    }
 }

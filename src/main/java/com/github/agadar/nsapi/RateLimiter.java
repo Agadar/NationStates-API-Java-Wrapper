@@ -10,6 +10,9 @@ import java.util.logging.Logger;
  */
 public final class RateLimiter 
 {
+    /** The logger for this object. */
+    private static final Logger logger = Logger.getLogger(RateLimiter.class.getName());
+    
     /** The round buffer we're using, with length set to x in 'x requests per y milliseconds. */
     private final long[] roundBuffer;
     /** The y in 'x requests per y milliseconds'. */
@@ -52,8 +55,9 @@ public final class RateLimiter
         if (diff < milliseconds)
         {
             long sleepFor = milliseconds - diff;
-            Logger.getLogger(RateLimiter.class.getName()).log(Level.WARNING, 
-                "Rate limit reached! Thread put to sleep for {0} milliseconds.", sleepFor);           
+            logger.log(Level.INFO, "Rate limit reached. Thread put to sleep for "
+                    + "{0} milliseconds.", sleepFor);
+            
             try
             {
                 Thread.sleep(sleepFor);
