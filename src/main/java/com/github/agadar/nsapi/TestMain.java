@@ -27,8 +27,14 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        World w = NSAPI.world(WorldShard.RegionsByTag).regionsWithTags("socialist").regionsWithoutTags("minuscule").execute();
-        System.out.println(w.RegionsByTag().get(0));
+        boolean valid = NSAPI.verify("agadar", "QL9wNIHBVIJr3Ac2W51O8eyhaNWm7i0sac52oYuXfHU").token("dicks").execute();
+        //System.out.println(valid);
+        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").execute();
+        //System.out.println(valid);
+        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").token("dicks").execute();
+        //System.out.println(valid);
+        //valid = NSAPI.verify("agadar", "lOrIj83BfRXOU1kSzlSHPhklTpaAS-WOPNPiClJ6pjA").token("dicks").execute();
+        System.out.println(valid);
     }
     
 }
