@@ -29,6 +29,11 @@ public final class NSAPI
      * Sets the User Agent, and then immediately verifies the version. Trying to
      * set the User Agent a second time is illegal.
      * 
+     * NationStates moderators should be able to identify you and your script
+     * via your User Agent. As such, try providing at least your nation name,
+     * and preferably include your e-mail address, a link to a website you own, 
+     * or something else that can help them contact you if needed.
+     * 
      * @param userAgent the User Agent to use for API calls
      */
     public static void setUserAgent(String userAgent)

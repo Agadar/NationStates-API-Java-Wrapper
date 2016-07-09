@@ -29,13 +29,10 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        TelegramQuery q = NSAPI.telegram("client", "id", "key", "nation");
+        NSAPI.setUserAgent("Agadar's Java Wrapper");
         
-        while (true)
-        {
-            q.execute();
-        }
-        
+        Nation n = NSAPI.nation("agadar").execute();
+        System.out.println(n.Animal);
 
     }
     
