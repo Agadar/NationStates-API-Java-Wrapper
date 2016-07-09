@@ -41,10 +41,6 @@ public abstract class NSQuery<Q extends NSQuery, R>
     /** The logger for this object. */
     private static final Logger logger = Logger.getLogger(NSQuery.class.getName());
     
-    /** The user agent with which this library makes requests. */
-    protected static final String USER_AGENT = "Agadar's Wrapper "
-            + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
-    
     /**
      * The general rate limiter for all API calls. The mandated rate limit is 50
      * requests per 30 seconds. To make sure we're on the safe side, we reduce
@@ -125,7 +121,7 @@ public abstract class NSQuery<Q extends NSQuery, R>
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", USER_AGENT);
+            conn.setRequestProperty("User-Agent", NSAPI.getUserAgent());
             int responseCode = conn.getResponseCode();
             String response = String.format("NationStates API returned: '%s' from URL: %s", 
                 responseCode + " " + conn.getResponseMessage(), urlStr);
@@ -147,17 +143,15 @@ public abstract class NSQuery<Q extends NSQuery, R>
             }
             else
             {
-                logger.log(Level.SEVERE, response);
-                
                 // If the resource simply wasn't found, just return null.
                 if (responseCode == 404)
                 {
+                    logger.log(Level.WARNING, response);
                     return null;
                 }
                 
                 // Else, something worse is going on. Throw an exception.
-                return null;
-                //throw new IOException(response);
+                throw new NationStatesAPIException(response);
             }
         }
         catch (IOException ex)
@@ -205,12 +199,21 @@ public abstract class NSQuery<Q extends NSQuery, R>
     }
     
     /**
-     * Validates the query parameters before executing the query.
-     * If the query parameters are invalid, an exception should be thrown.
-     * 
-     * @throws NationStatesAPIException if the query parameters are invalid
+     * Validates the query parameters before executing the query. If the query
+     * parameters are invalid, an exception is thrown. Child classes will want
+     * to override this class (making sure to still call
+     * super.validateQueryParameters()) if they have additional parameters to 
+     * validate.
      */
-    protected abstract void validateQueryParameters() throws NationStatesAPIException;
+    protected void validateQueryParameters()
+    {
+        String userAgent = NSAPI.getUserAgent();
+        
+        if (userAgent == null || userAgent.isEmpty())
+        {
+            throw new NationStatesAPIException("No User Agent set!");
+        }
+    }
     
     /**
      * Gives the resource string of this Query, e.g. 'nation', 'region', etc.

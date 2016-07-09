@@ -234,8 +234,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     }
 
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (shards == null || shards.length == 0)
         {
             throw new IllegalArgumentException("No shards selected!");

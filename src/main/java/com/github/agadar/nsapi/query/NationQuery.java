@@ -28,8 +28,10 @@ public final class NationQuery extends CensusQuery<NationQuery, Nation, NationSh
     }
 
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (resourceValue == null || resourceValue.isEmpty())
         {
             throw new NationStatesAPIException("No or empty nation name supplied!");

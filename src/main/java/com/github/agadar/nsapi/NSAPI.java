@@ -22,16 +22,37 @@ public final class NSAPI
     /** The NationStates API version this wrapper uses. */
     public static final int API_VERSION = 8;
     
-    /** Static 'constructor' that validates the API version. */
-    static
+    /** The user agent with which this library makes requests. */
+    private static String USER_AGENT;
+    
+    /**
+     * Sets the User Agent, and then immediately verifies the version. Trying to
+     * set the User Agent a second time is illegal.
+     * 
+     * @param userAgent the User Agent to use for API calls
+     */
+    public static void setUserAgent(String userAgent)
     {
-        // Retrieve live version.
+        // Make sure we're not setting the user agent again.
+        if (USER_AGENT != null && !USER_AGENT.isEmpty())
+        {
+            throw new NationStatesAPIException("User Agent is already set!");
+        }
+        
+        // Make sure the new value is not null or empty.
+        if (userAgent == null || userAgent.isEmpty())
+        {
+            throw new NationStatesAPIException("Tried to set null or empty User Agent!");
+        }
+        
+        // If all is well, set the user agent and do a version check.
+        USER_AGENT = userAgent;
         int liveVersion = version().execute();
         
         // Validate live version and log appropriate messages.
         Logger logger = Logger.getLogger(NSAPI.class.getName());
         String start = String.format("Version check: wrapper wants to "
-                + "consume NationStates API version '%s', latest live version is"
+                + "use version '%s', latest live version is"
                 + " '%s'.", API_VERSION, liveVersion);
         
         switch (liveVersion)
@@ -47,6 +68,16 @@ public final class NSAPI
                 logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
                         + " update the wrapper.", start);
         }
+    }
+    
+    /**
+     * Getter for the User Agent.
+     * 
+     * @return the User Agent
+     */
+    public static String getUserAgent()
+    {
+        return USER_AGENT;
     }
     
     /**

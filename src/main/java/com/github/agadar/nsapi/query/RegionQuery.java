@@ -44,8 +44,10 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
     }
     
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (resourceValue == null || resourceValue.isEmpty())
         {
             throw new NationStatesAPIException("No or empty region name supplied!");

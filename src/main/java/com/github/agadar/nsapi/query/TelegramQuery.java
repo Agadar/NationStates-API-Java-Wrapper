@@ -86,8 +86,10 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Void>
     }
 
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (clientKey == null || clientKey.isEmpty())
         {
             throw new NationStatesAPIException("No or empty client key supplied!");

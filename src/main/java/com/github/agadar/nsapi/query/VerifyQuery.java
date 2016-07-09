@@ -53,8 +53,10 @@ public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
     }
 
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (nation == null || nation.isEmpty())
         {
             throw new NationStatesAPIException("No or empty nation name supplied!");

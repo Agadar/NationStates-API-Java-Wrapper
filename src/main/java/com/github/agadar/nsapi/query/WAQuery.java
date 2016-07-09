@@ -45,8 +45,10 @@ public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
     }
 
     @Override
-    protected void validateQueryParameters() throws NationStatesAPIException
+    protected void validateQueryParameters()
     {
+        super.validateQueryParameters();
+        
         if (resourceValue == null || resourceValue.isEmpty())
         {
             throw new NationStatesAPIException("No council number supplied!");
