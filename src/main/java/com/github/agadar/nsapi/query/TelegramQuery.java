@@ -1,14 +1,39 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NationStatesAPIException;
+import static com.github.agadar.nsapi.query.NSQuery.rateLimiter;
+import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
+import com.github.agadar.nsapi.ratelimiter.RateLimiter;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A query to the NationStates API's utility resource, sending a telegram.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public final class TelegramQuery extends NSQuery<TelegramQuery, Boolean>
+public final class TelegramQuery extends NSQuery<TelegramQuery, Void>
 {
+    /**
+     * The rate limiter for normal telegrams. The mandated rate limit is 1
+     * telegram per 30 seconds. To make sure we're on the safe side, we reduce
+     * this to 1 telegram per 35 seconds.
+     */
+    protected static final DependantRateLimiter TGrateLimiter = 
+        new DependantRateLimiter(1, 35000, rateLimiter);
+    
+    /**
+     * The rate limiter for recruitment telegrams. The mandated rate limit is 1
+     * telegram per 180 seconds. To make sure we're on the safe side, we reduce
+     * this to 1 telegram per 185 seconds.
+     */
+    protected static final DependantRateLimiter RecruitTGrateLimiter = 
+        new DependantRateLimiter(1, 185000, TGrateLimiter);
+    
     /** The client key for sending telegrams. */
     private final String clientKey;
     
@@ -20,6 +45,9 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Boolean>
     
     /** The nation to send the telegram to. */
     private final String nation;
+    
+    /** Whether the telegram to send is a recruitment telegram. */
+    private boolean isRecruitment = false;
     
     /**
      * Constructor.
@@ -36,6 +64,19 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Boolean>
         this.telegramId = telegramId;
         this.secretKey = secretKey;
         this.nation = nation.replace(' ', '_');
+    }
+    
+    /**
+     * Ensures the telegram will be send as if it is a recruitment telegram. 
+     * If you're sending a recruitment telegram, then this should be set, or the 
+     * mandated rate limit might be violated and your telegrams won't be send.
+     * 
+     * @return this
+     */
+    public TelegramQuery isRecruitment()
+    {
+        isRecruitment = true;
+        return this;
     }
     
     @Override
@@ -69,9 +110,9 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Boolean>
     }
     
     @Override
-    protected Boolean translateResponse(String response)
+    protected Void translateResponse(String response)
     {
-        return response.equals("1");
+        return null;
     }
     
     @Override
@@ -84,5 +125,16 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Boolean>
             telegramId, secretKey, nation);
         
         return url;
+    }
+
+    @Override
+    protected RateLimiter getRateLimiter()
+    {
+        if (isRecruitment)
+        {
+            return RecruitTGrateLimiter;
+        }
+        
+        return TGrateLimiter;
     }
 }

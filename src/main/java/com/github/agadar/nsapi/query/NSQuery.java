@@ -2,12 +2,13 @@ package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
-import com.github.agadar.nsapi.RateLimiter;
+import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.domain.world.World;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.lang.reflect.ParameterizedType;
 import java.net.HttpURLConnection;
@@ -34,23 +35,23 @@ public abstract class NSQuery<Q extends NSQuery, R>
     /** Base URL to the Nation API. */
     private static final String BASE_URL = "https://www.nationstates.net/cgi-bin/api.cgi?";
     
-    /** The user agent with which this library makes requests. */
-    private static final String USER_AGENT = "Agadar's Wrapper "
-            + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
-    
-    /** 
-     * The rate limiter for normal API calls. The mandated rate limit is 50
-     * requests per 30 seconds. To make sure we're on the safe side, we reduce 
-     * this to 45 requests per 30 seconds. To get a spread-like pattern instead
-     * of a burst-like pattern, we make this into 9 requests per 6 seconds.
-     */ 
-    private static final RateLimiter rateLimiter = new RateLimiter(3, 2000);
-    
     /** The JAXBContext for this API. */
     private static final JAXBContext jc;
     
     /** The logger for this object. */
     private static final Logger logger = Logger.getLogger(NSQuery.class.getName());
+    
+    /** The user agent with which this library makes requests. */
+    protected static final String USER_AGENT = "Agadar's Wrapper "
+            + "(https://github.com/Agadar/NationStates-API-Java-Wrapper)";
+    
+    /**
+     * The general rate limiter for all API calls. The mandated rate limit is 50
+     * requests per 30 seconds. To make sure we're on the safe side, we reduce
+     * this to 45 requests per 30 seconds. To get a spread-like pattern instead
+     * of a burst-like pattern, we make this into 3 requests per 2 seconds.
+     */
+    protected static final RateLimiter rateLimiter = new RateLimiter(3, 2000);
     
     /** Static 'constructor' that sets up the JAXBContext. */
     static
@@ -92,60 +93,85 @@ public abstract class NSQuery<Q extends NSQuery, R>
     {
         validateQueryParameters();
         String url = buildURL();
-        logger.log(Level.INFO, "Generated URL: {0}", url);
         return makeRequest(url);
     }
     
     /**
-     * Makes a GET request to the NationStates API.
+     * Returns the rate limiter to use in the makeRequest()-function. Child
+     * classes can override this to supply their own rate limiter if needed.
+     * 
+     * @return the rate limiter to use in the makeRequest()-function
+     */
+    protected RateLimiter getRateLimiter()
+    {
+        return rateLimiter;
+    }
+    
+    /**
+     * Makes a GET request to the NationStates API. Throws exceptions if the call
+     * failed. If the requested nation/region/etc. simply wasn't found, it returns null.
      *
      * @param urlStr the url to make the request to
-     * @return the retrieved data
+     * @return the retrieved data, or null if the resource wasn't found
      */
-    private R makeRequest(String urlStr)
+    protected R makeRequest(String urlStr)
     {
         // Enforce rate limit on API calls.
-        rateLimiter.Await();
+        getRateLimiter().Await();
         
+        // Prepare request, then make it
+        HttpURLConnection conn = null;
         try
         {
-            // Prepare request, then make it
             URL url = new URL(urlStr);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", USER_AGENT);
             int responseCode = conn.getResponseCode();
+            String response = String.format("NationStates API returned: '%s' from URL: %s", 
+                responseCode + " " + conn.getResponseMessage(), urlStr);
             
-            // If the resource was not found, return null.
-            if (responseCode == 404)
+            // Depending on whether or not an error was returned, either throw
+            // it or continue as planned.
+            InputStream stream = conn.getErrorStream();
+            if (stream == null) 
             {
+                stream = conn.getInputStream();
+                logger.log(Level.INFO, response);
+                
+                // Retrieve string from stream
+                Scanner s = new Scanner(stream).useDelimiter("\\A");
+                String body = s.hasNext() ? s.next().trim() : "";
+            
+                // Return translated response.
+                return translateResponse(body);
+            }
+            else
+            {
+                logger.log(Level.SEVERE, response);
+                
+                // If the resource simply wasn't found, just return null.
+                if (responseCode == 404)
+                {
+                    return null;
+                }
+                
+                // Else, something worse is going on. Throw an exception.
                 return null;
+                //throw new IOException(response);
             }
-            // If we messed up and violated the rate limit, throw an exception.
-            else if (responseCode == 429)
-            {
-                throw new NationStatesAPIException("Too many requests: rate limit"
-                        + " was violated! We're forced to wait up to 15 "
-                        + "minutes before we can send a request again!");
-            }
-            // If something went wrong while processing the request, throw error
-            else if (responseCode != 200)
-            {
-                throw new NationStatesAPIException("Request to NationStates API "
-                    + "failed! HTTP message: " + conn.getResponseMessage());
-            }
-            
-            // Retrieve string from stream
-            Scanner s = new Scanner(conn.getInputStream()).useDelimiter("\\A");
-            String response = s.hasNext() ? s.next().trim() : "";
-            
-            // Close connection and return translated response.
-            conn.disconnect();
-            return translateResponse(response);
         }
         catch (IOException ex)
         {
-            throw new NationStatesAPIException("Request to NationStates API failed!", ex);
+            throw new NationStatesAPIException(ex);
+        }
+        finally
+        {
+            // Always close the HttpURLConnection
+            if (conn != null) 
+            {
+                conn.disconnect();
+            }
         }
     }
     

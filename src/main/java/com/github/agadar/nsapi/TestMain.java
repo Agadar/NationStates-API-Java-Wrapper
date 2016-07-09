@@ -13,6 +13,7 @@ import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.enums.shard.WAShard;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import com.github.agadar.nsapi.query.NSQuery;
+import com.github.agadar.nsapi.query.TelegramQuery;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -28,13 +29,14 @@ public class TestMain
      */
     public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
     {
-        World w = NSAPI.world(WorldShard.Happenings).happeningsBeforeId(101067403)
-            .happeningsFilter(HapFilter.founding, HapFilter.move, HapFilter.cte)
-            .happeningsLimit(5).happeningsOfRegion("the_pacific")
-            .happeningsSinceId(101066160).execute();
+        TelegramQuery q = NSAPI.telegram("client", "id", "key", "nation");
         
-        System.out.println(w.Happenings.size());
-        System.out.println(w.Happenings.get(0).Timestamp);
+        while (true)
+        {
+            q.execute();
+        }
+        
+
     }
     
 }

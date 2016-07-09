@@ -1,24 +1,24 @@
-package com.github.agadar.nsapi;
+package com.github.agadar.nsapi.ratelimiter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Enforces rate limiting for x requests per y milliseconds.
+ * Enforces thread-safe rate limiting for x requests per y milliseconds.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public final class RateLimiter 
+public class RateLimiter
 {
     /** The logger for this object. */
-    private static final Logger logger = Logger.getLogger(RateLimiter.class.getName());
+    protected static final Logger logger = Logger.getLogger(RateLimiter.class.getName());
     
     /** The round buffer we're using, with length set to x in 'x requests per y milliseconds. */
-    private final long[] roundBuffer;
+    protected final long[] roundBuffer;
     /** The y in 'x requests per y milliseconds'. */
-    private final long milliseconds;
+    protected final long milliseconds;
     /** The current index in the round buffer, starting at 0. */
-    private int index = 0;
+    protected int index = 0;
     
     /**
      * Constructs a new RateLimiter.
