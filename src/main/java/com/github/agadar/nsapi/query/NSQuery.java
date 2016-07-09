@@ -92,8 +92,7 @@ public abstract class NSQuery<Q extends NSQuery, R>
     public final R execute()
     {
         validateQueryParameters();
-        String url = buildURL();
-        return makeRequest(url);
+        return makeRequest(buildURL().replace(' ', '_'));
     }
     
     /**
@@ -198,7 +197,7 @@ public abstract class NSQuery<Q extends NSQuery, R>
             }
             
             // Append resource and resourceValue
-            url += "&" + resourceString() + "=" + resourceValue.replace(' ', '_');
+            url += "&" + resourceString() + "=" + resourceValue;
         }
         
         // Finally, return the generated url

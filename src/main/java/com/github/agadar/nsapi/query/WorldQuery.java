@@ -68,7 +68,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      */
     public final WorldQuery dispatchAuthor(String nation)
     {
-        this.dispatchAuthor = nation.replace(' ', '_');
+        this.dispatchAuthor = nation;
         return this;
     }
     
@@ -158,7 +158,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      */
     public final WorldQuery happeningsOfNation(String nation)
     {
-        this.happeningsView = "nation." + nation.replace(' ', '_');
+        this.happeningsView = "nation." + nation;
         return this;
     }
     
@@ -171,7 +171,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      */
     public final WorldQuery happeningsOfRegion(String region)
     {
-        this.happeningsView = "region." + region.replace(' ', '_');
+        this.happeningsView = "region." + region;
         return this;
     }
     

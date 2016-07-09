@@ -63,7 +63,7 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Void>
         this.clientKey = clientKey;
         this.telegramId = telegramId;
         this.secretKey = secretKey;
-        this.nation = nation.replace(' ', '_');
+        this.nation = nation;
     }
     
     /**
