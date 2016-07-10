@@ -1,6 +1,8 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NationStatesAPIException;
+import java.io.InputStream;
+import java.util.Scanner;
 
 /**
  * A query to the NationStates API's utility resource, verifying a user. Users
@@ -8,7 +10,7 @@ import com.github.agadar.nsapi.NationStatesAPIException;
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
+public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean>
 {
     /** The nation to verify. */
     private final String nation;
@@ -69,9 +71,11 @@ public final class VerifyQuery extends NSQuery<VerifyQuery, Boolean>
     }
 
     @Override
-    protected Boolean translateResponse(String response)
+    protected Boolean translateResponse(InputStream response)
     {
-        return response.equals("1");
+        Scanner s = new Scanner(response).useDelimiter("\\A");
+        String body = s.hasNext() ? s.next().trim() : "";
+        return body.equals("1");
     }
 
     @Override

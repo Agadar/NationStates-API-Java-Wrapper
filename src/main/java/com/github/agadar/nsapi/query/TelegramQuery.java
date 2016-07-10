@@ -1,22 +1,17 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NationStatesAPIException;
-import static com.github.agadar.nsapi.query.NSQuery.rateLimiter;
+import static com.github.agadar.nsapi.query.APIQuery.rateLimiter;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStream;
 
 /**
  * A query to the NationStates API's utility resource, sending a telegram.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public final class TelegramQuery extends NSQuery<TelegramQuery, Void>
+public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
 {
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1
@@ -112,7 +107,7 @@ public final class TelegramQuery extends NSQuery<TelegramQuery, Void>
     }
     
     @Override
-    protected Void translateResponse(String response)
+    protected Void translateResponse(InputStream response)
     {
         return null;
     }

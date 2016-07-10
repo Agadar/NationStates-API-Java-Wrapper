@@ -11,7 +11,7 @@ import com.github.agadar.nsapi.enums.shard.Shard;
  * @param <R> the type the child class' execute()-function returns
  * @param <S> the shard type the child class accepts
  */
-public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> extends NSQuery<Q, R>
+public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> extends APIQuery<Q, R>
 {
     /** See shards(...). */
     protected S[] shards;

@@ -2,6 +2,7 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.enums.*;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
+import com.github.agadar.nsapi.query.DailyDumpQuery;
 import com.github.agadar.nsapi.query.NationQuery;
 import com.github.agadar.nsapi.query.RegionQuery;
 import com.github.agadar.nsapi.query.TelegramQuery;
@@ -164,5 +165,16 @@ public final class NSAPI
     public static TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String nation)
     {
         return new TelegramQuery(clientKey, telegramId, secretKey, nation);
+    }
+    
+    /**
+     * Starts building a query that retrieves the daily data dump.
+     * 
+     * @param mode the daily dump mode to use
+     * @return a new version query
+     */
+    public static DailyDumpQuery dailydump(DailyDumpMode mode)
+    {
+        return new DailyDumpQuery(mode);
     }
 }

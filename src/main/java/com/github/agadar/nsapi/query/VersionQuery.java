@@ -1,12 +1,15 @@
 package com.github.agadar.nsapi.query;
 
+import java.io.InputStream;
+import java.util.Scanner;
+
 /**
  * A query to the NationStates API's utility resource, retrieving the version
  * number of the latest live API.
  * 
  * @author Agadar <https://github.com/Agadar/>
  */
-public final class VersionQuery extends NSQuery<VersionQuery, Integer>
+public final class VersionQuery extends APIQuery<VersionQuery, Integer>
 {
     /** Constructor. */
     public VersionQuery()
@@ -21,8 +24,10 @@ public final class VersionQuery extends NSQuery<VersionQuery, Integer>
     }
 
     @Override
-    protected Integer translateResponse(String response)
+    protected Integer translateResponse(InputStream response)
     {
-        return Integer.valueOf(response);
+        Scanner s = new Scanner(response).useDelimiter("\\A");
+        String body = s.hasNext() ? s.next().trim() : "";
+        return Integer.valueOf(body);
     }
 }
