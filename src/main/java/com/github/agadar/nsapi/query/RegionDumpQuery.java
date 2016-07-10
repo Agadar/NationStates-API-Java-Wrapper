@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.DailyDumpQuery;
 import com.github.agadar.nsapi.domain.DailyDumpRegions;
 import com.github.agadar.nsapi.enums.DailyDumpMode;
 

@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import java.io.InputStream;
 import java.util.Scanner;

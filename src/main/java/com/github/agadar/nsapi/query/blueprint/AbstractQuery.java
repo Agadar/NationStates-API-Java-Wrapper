@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.query;
+package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
@@ -41,7 +41,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     /** Static 'constructor' that sets up the JAXBContext. */
     static
     {
-        // Try setting up the JAXBContext.
+        // Try setting up the JAXBContext, using all top domain classes.
         try
         {
             jc = JAXBContext.newInstance(DailyDumpNations.class, 

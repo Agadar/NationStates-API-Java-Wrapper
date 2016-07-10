@@ -1,7 +1,7 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
-import static com.github.agadar.nsapi.query.APIQuery.rateLimiter;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;

@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import java.io.InputStream;
 import java.util.Scanner;
 

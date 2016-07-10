@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.ShardQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.enums.Council;

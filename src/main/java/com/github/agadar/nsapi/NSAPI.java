@@ -2,7 +2,6 @@ package com.github.agadar.nsapi;
 
 import com.github.agadar.nsapi.enums.*;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
-import com.github.agadar.nsapi.query.DailyDumpQuery;
 import com.github.agadar.nsapi.query.NationDumpQuery;
 import com.github.agadar.nsapi.query.NationQuery;
 import com.github.agadar.nsapi.query.RegionDumpQuery;

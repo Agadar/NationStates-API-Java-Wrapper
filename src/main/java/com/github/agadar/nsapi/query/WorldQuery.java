@@ -1,7 +1,9 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 import com.github.agadar.nsapi.domain.world.World;
+import com.github.agadar.nsapi.enums.DispatchCat;
+import com.github.agadar.nsapi.enums.DispatchSubCat;
 import com.github.agadar.nsapi.enums.HapFilter;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 
@@ -16,10 +18,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     private String dispatchAuthor;
     
     /** Category to list dispatches of. */
-    private String dispatchCategory;
+    private DispatchCat dispatchCategory;
     
     /** Subcategory to list dispatches of. */
-    private String dispatchSubcategory;
+    private DispatchSubCat dispatchSubcategory;
     
     /** Whether to get the best dispatches (as opposed to newest). */
     private boolean dispatchGetBest = false;
@@ -79,7 +81,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param category the category to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchCategory(String category)
+    public final WorldQuery dispatchCategory(DispatchCat category)
     {
         this.dispatchCategory = category;
         return this;
@@ -92,7 +94,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param subcategory the subcategory to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchSubcategory(String subcategory)
+    public final WorldQuery dispatchSubcategory(DispatchSubCat subcategory)
     {
         this.dispatchSubcategory = subcategory;
         return this;
@@ -254,13 +256,13 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
             url += "&dispatchauthor=" + dispatchAuthor;
         }
         
-        if (dispatchCategory != null && !dispatchCategory.isEmpty())
+        if (dispatchCategory != null)
         {
-            url += "&dispatchcategory=" + dispatchCategory;
+            url += "&dispatchcategory=" + dispatchCategory.name();
             
-            if (dispatchSubcategory != null && !dispatchSubcategory.isEmpty())
+            if (dispatchSubcategory != null)
             {
-                url += ":" + dispatchSubcategory;
+                url += ":" + dispatchSubcategory.name();
             }
         }
         

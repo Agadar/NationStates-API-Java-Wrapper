@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query;
 
+import com.github.agadar.nsapi.query.blueprint.CensusQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.enums.shard.NationShard;

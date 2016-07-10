@@ -1,10 +1,9 @@
-package com.github.agadar.nsapi.query;
+package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
-import com.github.agadar.nsapi.domain.DailyDumpRegions;
 import com.github.agadar.nsapi.enums.DailyDumpMode;
-import static com.github.agadar.nsapi.query.AbstractQuery.logger;
+import static com.github.agadar.nsapi.query.blueprint.AbstractQuery.logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,9 +1,7 @@
-package com.github.agadar.nsapi.query;
+package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
-import java.io.InputStream;
 
 /**
  * Top parent class for all Queries to the NationStates API.

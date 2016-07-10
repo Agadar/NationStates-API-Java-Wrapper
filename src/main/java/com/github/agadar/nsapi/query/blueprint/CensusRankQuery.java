@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi.query;
+package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.enums.shard.Shard;
 
