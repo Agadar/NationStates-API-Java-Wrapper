@@ -3,7 +3,9 @@ package com.github.agadar.nsapi;
 import com.github.agadar.nsapi.enums.*;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import com.github.agadar.nsapi.query.DailyDumpQuery;
+import com.github.agadar.nsapi.query.NationDumpQuery;
 import com.github.agadar.nsapi.query.NationQuery;
+import com.github.agadar.nsapi.query.RegionDumpQuery;
 import com.github.agadar.nsapi.query.RegionQuery;
 import com.github.agadar.nsapi.query.TelegramQuery;
 import com.github.agadar.nsapi.query.VerifyQuery;
@@ -168,13 +170,28 @@ public final class NSAPI
     }
     
     /**
-     * Starts building a query that retrieves the daily data dump.
+     * Starts building a query that retrieves the daily region dump.
      * 
      * @param mode the daily dump mode to use
-     * @return a new version query
+     * @return a new daily region dump query
      */
-    public static DailyDumpQuery dailydump(DailyDumpMode mode)
+    public static RegionDumpQuery regiondump(DailyDumpMode mode)
     {
-        return new DailyDumpQuery(mode);
+        return new RegionDumpQuery(mode);
+    }
+    
+    /**
+     * Starts building a query that retrieves the daily nation dump. 
+     * 
+     * Warning: reading the XML file and parsing it to objects may cause a 
+     * java.lang.OutOfMemoryError on older machines due to the sheer number of
+     * Nation objects being created from parsing the retrieved XML file.
+     * 
+     * @param mode the daily dump mode to use
+     * @return a new daily nation dump query
+     */
+    public static NationDumpQuery nationdump(DailyDumpMode mode)
+    {
+        return new NationDumpQuery(mode);
     }
 }

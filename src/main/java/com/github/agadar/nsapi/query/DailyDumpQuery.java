@@ -23,15 +23,12 @@ import java.util.zip.GZIPInputStream;
  * Query for retrieving daily dumps from NationStates.
  *
  * @author Agadar <https://github.com/Agadar/>
+ * 
+ * @param <Q> the child class that extends this abstract class
+ * @param <R> the type the child class' execute()-function returns
  */
-public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegions>
-{
-    /** Name of the regions gzip file. */
-    private final static String REGIONS_FILE_NAME = "regions.xml.gz";
-    
-    /** Name of the nations gzip file. */
-    private final static String NATIONS_FILE_NAME = "nations.xml.gz"; // to be implemented
-    
+public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R>
+{   
     /** Path to the default download directory. */
     private final static String DEFAULT_DIR;
     
@@ -79,10 +76,10 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
      * @param dir a specific directory to download the gzip in
      * @return this
      */
-    public final DailyDumpQuery downloadDir(String dir)
+    public final Q downloadDir(String dir)
     {
         this.downloadDir = dir;
-        return this;
+        return (Q) this;
     }
     
     /**
@@ -92,20 +89,28 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
      * @param dir a specific directory to download the gzip in
      * @return this
      */
-    public final DailyDumpQuery readFromDir(String dir)
+    public final Q readFromDir(String dir)
     {
         this.readFromDir = dir;
-        return this;
+        return (Q) this;
     }
+    
+    /**
+     * Gives the file name to use. Daily regions dump is 'regions.xml.gz', daily
+     * nations dump is 'nations.xml.gz'.
+     * 
+     * @return 
+     */
+    protected abstract String getFileName();
     
     @Override
     protected String buildURL()
     {
-        return super.buildURL() + "pages/" + REGIONS_FILE_NAME;
+        return super.buildURL() + "pages/" + getFileName();
     }
 
     @Override
-    protected DailyDumpRegions translateResponse(InputStream response)
+    protected R translateResponse(InputStream response)
     {
         try
         {
@@ -119,34 +124,34 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
     }
 
     @Override
-    public DailyDumpRegions execute()
+    public R execute()
     {
         validateQueryParameters();
+        boolean downloadAndRead = mode == DailyDumpMode.DownloadAndRead;
         
-        if (mode == DailyDumpMode.DownloadAndRead)
+        if (downloadAndRead || mode == DailyDumpMode.Download)
         {
             // Download.
             String dir = downloadDir != null && !downloadDir.isEmpty() ? 
                          downloadDir : DEFAULT_DIR;
             download(dir);
-            
-            // Read locally.
-            dir = readFromDir != null && !readFromDir.isEmpty() ? 
-                         readFromDir : DEFAULT_DIR;
-            return readLocal(dir);
         }
-        else if (mode == DailyDumpMode.ReadLocal)
+        
+        if (downloadAndRead || mode == DailyDumpMode.ReadLocal)
         {
             // Read locally.
             String dir = readFromDir != null && !readFromDir.isEmpty() ? 
                          readFromDir : DEFAULT_DIR;
             return readLocal(dir);
         }
-        else
+        else if (mode == DailyDumpMode.ReadRemote)
         {
             // Read remotely.
             return makeRequest(buildURL());
         }
+        
+        // If mode == DailyDumpMode.Download, return null.
+        return null;
     }
 
     @Override
@@ -159,7 +164,6 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
             throw new NationStatesAPIException("'mode' may not be null!");
         }
     }
-
     
     /**
      * Downloads the gzip file. This code is almost identical to makeRequest(...),
@@ -190,7 +194,7 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
             if (stream == null) 
             {
                 logger.log(Level.INFO, response);
-                Path path = new File(directory + "\\" + REGIONS_FILE_NAME).toPath();
+                Path path = new File(directory + "\\" + getFileName()).toPath();
                 Files.copy(conn.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             }
             else
@@ -220,11 +224,11 @@ public class DailyDumpQuery extends AbstractQuery<DailyDumpQuery, DailyDumpRegio
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private DailyDumpRegions readLocal(String directory)
+    private R readLocal(String directory)
     {
         try
         {
-            return translateResponse(new FileInputStream(directory + "\\" + REGIONS_FILE_NAME));
+            return translateResponse(new FileInputStream(directory + "\\" + getFileName()));
         }
         catch (IOException ex)
         {

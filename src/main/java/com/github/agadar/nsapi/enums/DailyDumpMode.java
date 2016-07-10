@@ -11,6 +11,8 @@ public enum DailyDumpMode
     ReadLocal,
     /** Reads the gzip file directly from the server. */
     ReadRemote,
+    /** Downloads the gzip file from the server. */
+    Download,
     /** Downloads the gzip file from the server, then reads it from the file system. */
     DownloadAndRead,
 }

@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi;
 
+import com.github.agadar.nsapi.domain.DailyDumpNations;
 import com.github.agadar.nsapi.domain.DailyDumpRegions;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.domain.region.Region;
@@ -39,11 +40,17 @@ public class TestMain
 //        System.out.println(n.Regions.size());
 //        System.out.println(n.Regions.get(0).Name);
         
-          NSAPI.setUserAgent("Agadar Test");
-          DailyDumpRegions ddr = NSAPI.dailydump(DailyDumpMode.DownloadAndRead)
+          NSAPI.setUserAgent("Agadar's Java Wrapper <test>");
+          
+          DailyDumpRegions ddr = NSAPI.regiondump(DailyDumpMode.DownloadAndRead)
                   .downloadDir("C:\\Users\\Martin\\Documents")
                   .readFromDir("C:\\Users\\Martin\\Documents").execute();
           System.out.println(ddr.Regions.size());
+          
+          DailyDumpNations ndr = NSAPI.nationdump(DailyDumpMode.DownloadAndRead)
+                  .downloadDir("C:\\Users\\Martin\\Documents")
+                  .readFromDir("C:\\Users\\Martin\\Documents").execute();
+          System.out.println(ndr.Nations.size());
     }
     
 }
