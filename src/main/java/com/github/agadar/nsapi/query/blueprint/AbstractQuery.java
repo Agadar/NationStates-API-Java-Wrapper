@@ -76,17 +76,19 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     public R execute()
     {
         validateQueryParameters();
-        return makeRequest(buildURL().replace(' ', '_'));
+        return makeRequest(buildURL().replace(' ', '_'), returnType);
     }
     
     /**
      * Makes a GET request to the NationStates API. Throws exceptions if the call
      * failed. If the requested nation/region/etc. simply wasn't found, it returns null.
      *
+     * @param <T> type to parse to
      * @param urlStr the url to make the request to
+     * @param type type to parse to
      * @return the retrieved data, or null if the resource wasn't found
      */
-    protected final R makeRequest(String urlStr)
+    protected final <T extends R> T makeRequest(String urlStr, Class<T> type)
     {     
         // Prepare request, then make it
         HttpURLConnection conn = null;
@@ -107,7 +109,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
             {
                 logger.log(Level.INFO, response);               
                 stream = conn.getInputStream();
-                R result = translateResponse(stream, returnType);
+                T result = translateResponse(stream, type);
                 closeInputStreamQuietly(stream);
                 return result;
             }

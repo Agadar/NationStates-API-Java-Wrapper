@@ -141,12 +141,12 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             // Read locally.
             String dir = readFromDir != null && !readFromDir.isEmpty() ? 
                          readFromDir : DEFAULT_DIR;
-            return readLocal(dir);
+            return readLocal(dir, returnType);
         }
         else if (mode == DailyDumpMode.ReadRemote)
         {
             // Read remotely.
-            return makeRequest(buildURL());
+            return makeRequest(buildURL(), returnType);
         }
         
         // If mode == DailyDumpMode.Download, return null.
@@ -227,12 +227,12 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private R readLocal(String directory)
+    private <T extends R> T readLocal(String directory, Class<T> type)
     {
         try
         {
             InputStream stream = new FileInputStream(directory + "\\" + getFileName());
-            R obj = translateResponse(stream, returnType);
+            T obj = translateResponse(stream, type);
             closeInputStreamQuietly(stream);
             return obj;
         }
