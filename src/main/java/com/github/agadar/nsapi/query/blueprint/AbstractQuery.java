@@ -68,15 +68,27 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     }
     
     /**
-     * Executes this query, returning any result. Child classes may want to
-     * override this if they want to use rate limiters and such.
+     * Executes this query, returning any result.
      * 
      * @return the result
      */
-    public R execute()
+    public final R execute()
+    {
+        return execute(returnType);
+    }
+    
+    /**
+     * Executes this query, returning any result. Child classes may want to
+     * override this if they want to use rate limiters and such.
+     * 
+     * @param <T> the type to return
+     * @param type the type to return
+     * @return the result, of the given type
+     */
+    public <T extends R> T execute(Class<T> type)
     {
         validateQueryParameters();
-        return makeRequest(buildURL().replace(' ', '_'), returnType);
+        return makeRequest(buildURL().replace(' ', '_'), type);
     }
     
     /**

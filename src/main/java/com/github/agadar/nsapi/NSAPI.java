@@ -98,7 +98,7 @@ public final class NSAPI
         } 
         catch (JAXBException ex)
         {
-            throw new NationStatesAPIException("Failed to parse XML!", ex);
+            throw new NationStatesAPIException(ex);
         }
     }
     

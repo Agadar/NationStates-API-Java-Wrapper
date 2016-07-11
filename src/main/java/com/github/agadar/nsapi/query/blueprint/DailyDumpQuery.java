@@ -123,7 +123,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     @Override
-    public R execute()
+    public <T extends R> T execute(Class<T> type)
     {
         validateQueryParameters();
         boolean downloadAndRead = mode == DailyDumpMode.DownloadAndRead;
@@ -141,12 +141,12 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             // Read locally.
             String dir = readFromDir != null && !readFromDir.isEmpty() ? 
                          readFromDir : DEFAULT_DIR;
-            return readLocal(dir, returnType);
+            return readLocal(dir, type);
         }
         else if (mode == DailyDumpMode.ReadRemote)
         {
             // Read remotely.
-            return makeRequest(buildURL(), returnType);
+            return makeRequest(buildURL(), type);
         }
         
         // If mode == DailyDumpMode.Download, return null.

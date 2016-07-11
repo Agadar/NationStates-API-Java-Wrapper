@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.DailyDumpRegions;
-import com.github.agadar.nsapi.enums.DailyDumpMode;
+import com.github.agadar.nsapi.enums.shard.NationShard;
 
 /**
  *
@@ -16,9 +15,11 @@ public class TestMain
     public static void main(String[] args)
     {
         NSAPI.setUserAgent("Agadar's Java Wrapper <testing>");
-        //Nation n = NSAPI.nation("agadar234234243").shards(NationShard.FullName).execute();
-        DailyDumpRegions n = NSAPI.regiondump(DailyDumpMode.ReadRemote).execute();
-        System.out.println(n.Regions.size());
+        NSAPI.registerJaxbTypes(NationTest.class);
+        NationTest n = NSAPI.nation("agadar").shards(NationShard.FullName).execute(
+                NationTest.class);
+        String s = n.fancy();
+        System.out.println(s);
         
         
 //        try 
