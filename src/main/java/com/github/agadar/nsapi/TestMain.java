@@ -1,10 +1,7 @@
 package com.github.agadar.nsapi;
 
-import com.github.agadar.nsapi.domain.world.World;
-import com.github.agadar.nsapi.enums.DispatchCat;
-import com.github.agadar.nsapi.enums.DispatchSubCat;
-import com.github.agadar.nsapi.enums.shard.WorldShard;
-import java.security.NoSuchAlgorithmException;
+import com.github.agadar.nsapi.domain.nation.Nation;
+import com.github.agadar.nsapi.enums.shard.NationShard;
 
 /**
  *
@@ -16,23 +13,29 @@ public class TestMain
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NationStatesAPIException, InterruptedException, NoSuchAlgorithmException
+    public static void main(String[] args)
     {
-//        DailyDumpQuery dd = new DailyDumpQuery();
-//        //dd.download();
-//        DailyDumpRegions n = dd.readRemote();
-//        
-//        System.out.println(n.Regions.size());
-//        System.out.println(n.Regions.get(0).Name);
+        NSAPI.setUserAgent("Agadar's Java Wrapper <testing>");
+        Nation n = NSAPI.nation("agadar").shards(NationShard.FullName).execute();
+        System.out.println(n.FullName);
         
-          NSAPI.setUserAgent("Agadar's Java Wrapper <test>");
-          
-          World w = NSAPI.world(WorldShard.Dispatches).dispatchCategory(
-                  DispatchCat.Factbook).dispatchSubcategory(
-                          DispatchSubCat.Gameplay).dispatchAuthor("agadar").execute();
-          
-          System.out.println(w.Dispatches.size());
-          System.out.println(w.Dispatches.get(0).Title);
+        
+//        try 
+//        {
+//            JAXBContext jc = JAXBContext.newInstance(DailyDumpNations.class, 
+//                DailyDumpRegions.class, World.class, WorldAssembly.class);
+//            
+//            Unmarshaller unmarshaller = jc.createUnmarshaller();
+//            StreamSource xmlstream = new StreamSource("C:\\Users\\Martin\\Desktop\\regions.xml");
+//            JAXBElement je1 = unmarshaller.unmarshal(xmlstream, DailyDumpRegionsChild.class);
+//            DailyDumpRegionsChild regions = (DailyDumpRegionsChild) je1.getValue();
+//            System.out.println(regions.Regions.size());
+//            System.out.println(regions.atIndex(5).Name);
+//        } 
+//        catch (JAXBException ex)
+//        {
+//            throw new NationStatesAPIException("Failed to parse XML!", ex);
+//        }
     }
     
 }

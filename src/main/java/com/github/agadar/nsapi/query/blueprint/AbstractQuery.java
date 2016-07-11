@@ -2,10 +2,6 @@ package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
-import com.github.agadar.nsapi.domain.DailyDumpNations;
-import com.github.agadar.nsapi.domain.DailyDumpRegions;
-import com.github.agadar.nsapi.domain.wa.WorldAssembly;
-import com.github.agadar.nsapi.domain.world.World;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
@@ -13,11 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
 /**
  * Top parent class for all Queries to NationStates in general.
@@ -34,24 +25,6 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     
     /** Base URL to NationStates. */
     private static final String BASE_URL = "https://www.nationstates.net/";
-    
-    /** The JAXBContext for this API. */
-    private static final JAXBContext jc;
-    
-    /** Static 'constructor' that sets up the JAXBContext. */
-    static
-    {
-        // Try setting up the JAXBContext, using all top domain classes.
-        try
-        {
-            jc = JAXBContext.newInstance(DailyDumpNations.class, 
-                DailyDumpRegions.class, World.class, WorldAssembly.class);
-        }
-        catch (JAXBException ex)
-        {
-            throw new NationStatesAPIException(ex);
-        }
-    }
     
     /**
      * Validates the query parameters before executing the query. If the query
@@ -167,30 +140,6 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
             .getGenericSuperclass()).getActualTypeArguments()[1]);
         
         // Read and convert the response body.
-        return (R) xmlToObject(response, classOfThis);
-    }
-    
-    /**
-     * Uses JAXB to parse the supplied XML stream to an instance of the
-     * specified type.
-     * 
-     * @param <T> the type to parse to
-     * @param xml the XML stream
-     * @param toType the type to parse to
-     * @return instance of the specified type
-     */
-    protected final static <T> T xmlToObject(InputStream xml, Class<T> toType)
-    {
-        try 
-        {
-            Unmarshaller unmarshaller = jc.createUnmarshaller();
-            StreamSource xmlstream = new StreamSource(xml);
-            JAXBElement<T> je1 = unmarshaller.unmarshal(xmlstream, toType);
-            return je1.getValue();
-        } 
-        catch (JAXBException ex)
-        {
-            throw new NationStatesAPIException("Failed to parse XML!", ex);
-        }
+        return (R) NSAPI.xmlToObject(response, classOfThis);
     }
 }
