@@ -27,7 +27,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     private static final String BASE_URL = "https://www.nationstates.net/";
     
     /** The return type of this Query's execute()-method. */
-    protected final Class<R> returnType;
+    private final Class<R> returnType;
     
     /**
      * Constructor, setting the returnType.
