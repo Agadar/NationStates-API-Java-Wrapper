@@ -142,7 +142,9 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
      * want to override this function if they wish to return primitives or
      * something else.
      * 
+     * @param <T> type to parse to
      * @param response the response to translate
+     * @param type type to parse to
      * @return the translated response
      */
     protected <T extends R> T translateResponse(InputStream response, Class<T> type)
