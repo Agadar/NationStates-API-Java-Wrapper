@@ -113,13 +113,12 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
             }
             else
             {
-                // Close stream
+                logger.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
                 
                 // If the resource simply wasn't found, just return null.
                 if (responseCode == 404)
                 {
-                    logger.log(Level.WARNING, response);
                     return null;
                 }
                 

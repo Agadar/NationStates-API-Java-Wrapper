@@ -194,11 +194,15 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             {
                 logger.log(Level.INFO, response);
                 Path path = new File(directory + "\\" + getFileName()).toPath();
-                Files.copy(conn.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                stream = conn.getInputStream();
+                Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
+                closeInputStreamQuietly(stream);
             }
             else
             {
                 // Else, throw an exception.
+                logger.log(Level.WARNING, response);
+                closeInputStreamQuietly(stream);
                 throw new NationStatesAPIException(response);
             }
         }
@@ -227,7 +231,10 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     {
         try
         {
-            return translateResponse(new FileInputStream(directory + "\\" + getFileName()), returnType);
+            InputStream stream = new FileInputStream(directory + "\\" + getFileName());
+            R obj = translateResponse(stream, returnType);
+            closeInputStreamQuietly(stream);
+            return obj;
         }
         catch (IOException ex)
         {
