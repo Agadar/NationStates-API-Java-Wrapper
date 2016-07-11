@@ -27,7 +27,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     private static final String BASE_URL = "https://www.nationstates.net/";
     
     /** The return type of this Query's execute()-method. */
-    private final Class<R> returnType;
+    protected final Class<R> returnType;
     
     /**
      * Constructor, setting the returnType.
@@ -106,7 +106,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
             if (stream == null) 
             {
                 logger.log(Level.INFO, response);
-                return translateResponse(conn.getInputStream());
+                return translateResponse(conn.getInputStream(), returnType);
             }
             else
             {
@@ -145,9 +145,9 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
      * @param response the response to translate
      * @return the translated response
      */
-    protected R translateResponse(InputStream response)
+    protected <T extends R> T translateResponse(InputStream response, Class<T> type)
     {
         // Read and convert the response body.
-        return (R) NSAPI.xmlToObject(response, returnType);
+        return NSAPI.xmlToObject(response, type);
     }
 }

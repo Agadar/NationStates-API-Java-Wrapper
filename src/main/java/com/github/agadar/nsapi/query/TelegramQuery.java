@@ -1,7 +1,7 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;
@@ -107,7 +107,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     }
     
     @Override
-    protected Void translateResponse(InputStream response)
+    protected <T extends Void> T translateResponse(InputStream response, Class<T> type)
     {
         return null;
     }

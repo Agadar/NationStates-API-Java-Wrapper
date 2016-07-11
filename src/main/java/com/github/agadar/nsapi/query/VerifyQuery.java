@@ -1,7 +1,7 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -72,11 +72,11 @@ public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean>
     }
 
     @Override
-    protected Boolean translateResponse(InputStream response)
+    protected <T extends Boolean> T translateResponse(InputStream response, Class<T> type)
     {
         Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
-        return body.equals("1");
+        return (T) Boolean.valueOf(body.equals("1"));
     }
 
     @Override

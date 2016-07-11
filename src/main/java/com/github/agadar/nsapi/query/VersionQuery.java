@@ -25,10 +25,10 @@ public final class VersionQuery extends APIQuery<VersionQuery, Integer>
     }
 
     @Override
-    protected Integer translateResponse(InputStream response)
+    protected <T extends Integer> T translateResponse(InputStream response, Class<T> type)
     {
         Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
-        return Integer.valueOf(body);
+        return (T) Integer.valueOf(body);
     }
 }

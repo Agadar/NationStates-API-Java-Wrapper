@@ -109,12 +109,12 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     @Override
-    protected R translateResponse(InputStream response)
+    protected <T extends R> T translateResponse(InputStream response, Class<T> type)
     {
         try
         {
             response = new GZIPInputStream(response);
-            return super.translateResponse(response);
+            return super.translateResponse(response, type);
         }
         catch (IOException ex)
         {
@@ -227,7 +227,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     {
         try
         {
-            return translateResponse(new FileInputStream(directory + "\\" + getFileName()));
+            return translateResponse(new FileInputStream(directory + "\\" + getFileName()), returnType);
         }
         catch (IOException ex)
         {
