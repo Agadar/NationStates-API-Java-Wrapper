@@ -26,6 +26,18 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     /** Base URL to NationStates. */
     private static final String BASE_URL = "https://www.nationstates.net/";
     
+    /** The return type of this Query's execute()-method. */
+    private final Class<R> returnType;
+    
+    /**
+     * Constructor, setting the returnType.
+     */
+    protected AbstractQuery()
+    {
+        returnType = ((Class) ((ParameterizedType) this.getClass()
+            .getGenericSuperclass()).getActualTypeArguments()[1]);
+    }
+    
     /**
      * Validates the query parameters before executing the query. If the query
      * parameters are invalid, an exception is thrown. Child classes will want
@@ -135,11 +147,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
      */
     protected R translateResponse(InputStream response)
     {
-        // Discover our return type.
-        Class classOfThis = ((Class) ((ParameterizedType) this.getClass()
-            .getGenericSuperclass()).getActualTypeArguments()[1]);
-        
         // Read and convert the response body.
-        return (R) NSAPI.xmlToObject(response, classOfThis);
+        return (R) NSAPI.xmlToObject(response, returnType);
     }
 }
