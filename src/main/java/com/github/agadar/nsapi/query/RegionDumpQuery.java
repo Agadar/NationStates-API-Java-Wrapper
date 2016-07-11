@@ -7,7 +7,7 @@ import com.github.agadar.nsapi.enums.DailyDumpMode;
 /**
  * Query for retrieving daily region dumps from NationStates.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, DailyDumpRegions>
 {

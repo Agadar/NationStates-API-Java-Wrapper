@@ -6,7 +6,7 @@ import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 /**
  * Top parent class for all Queries to the NationStates API.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  * 
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns

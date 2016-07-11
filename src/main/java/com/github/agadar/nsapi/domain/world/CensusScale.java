@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 /**
  * The scale of the current or selected census.
  *  
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUSSCALE")

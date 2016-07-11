@@ -7,7 +7,7 @@ package com.github.agadar.nsapi.enums.shard;
  * VoteTrackAgainst, and DelegateVotes fills the fields DelegateVotesFor and
  * DelegateVotesAgainst.
  *
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum WAShard implements Shard
 {

@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.enums;
 /**
  * Regional authority codes to authority names.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum Authority 
 {

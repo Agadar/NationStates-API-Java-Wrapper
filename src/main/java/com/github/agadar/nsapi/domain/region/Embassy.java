@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 /**
  * Representation of an embassy.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "EMBASSY")

@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.enums;
 /**
  * Available values for the Mode option for the Census shard.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum CensusMode
 {

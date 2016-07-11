@@ -8,7 +8,7 @@ import com.github.agadar.nsapi.enums.shard.NationShard;
 /**
  * A query to the NationStates API's nation resource.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class NationQuery extends CensusQuery<NationQuery, Nation, NationShard>
 {

@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * limiter's Await()- function calls the supplied rate limiter's
  * Await()-function, on top of its normal functionality.
  *
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class DependantRateLimiter extends RateLimiter
 {

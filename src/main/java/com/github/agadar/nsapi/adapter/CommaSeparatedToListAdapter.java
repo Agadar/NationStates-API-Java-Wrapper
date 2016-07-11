@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Converts a comma-separated String to a List of Strings.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class CommaSeparatedToListAdapter extends XmlAdapter<String, List<String>>
 {

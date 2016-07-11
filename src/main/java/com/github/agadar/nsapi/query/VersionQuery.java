@@ -8,7 +8,7 @@ import java.util.Scanner;
  * A query to the NationStates API's utility resource, retrieving the version
  * number of the latest live API.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class VersionQuery extends APIQuery<VersionQuery, Integer>
 {

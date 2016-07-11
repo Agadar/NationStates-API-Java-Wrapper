@@ -5,7 +5,7 @@ import com.github.agadar.nsapi.enums.shard.Shard;
 /**
  * Intermediate parent class that adds options for census ranks.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  * 
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns

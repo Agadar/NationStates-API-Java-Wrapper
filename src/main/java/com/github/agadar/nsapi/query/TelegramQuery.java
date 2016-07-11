@@ -9,7 +9,7 @@ import java.io.InputStream;
 /**
  * A query to the NationStates API's utility resource, sending a telegram.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
 {

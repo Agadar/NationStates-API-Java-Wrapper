@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Top parent class for all Queries to NationStates in general.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  * 
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns

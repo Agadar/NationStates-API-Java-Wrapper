@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * Representation of a region. This class's fields have a 1:1 correspondence 
  * with the shards in RegionShard.java.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "REGION")
@@ -60,7 +60,7 @@ public class Region
      * Descriptions of the codes:
      * 
      * '0': No embassy posting;
-     * 'con': Delegates & Founders of embassy regions;
+     * 'con': Delegates and Founders of embassy regions;
      * 'off': Officers of embassy regions;
      * 'com': Officers of embassy regions with Communications authority;
      * 'all': All residents of embassy regions.

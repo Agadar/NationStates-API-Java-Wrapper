@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.enums;
 /**
  * The different councils within the World Assembly.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum Council 
 {

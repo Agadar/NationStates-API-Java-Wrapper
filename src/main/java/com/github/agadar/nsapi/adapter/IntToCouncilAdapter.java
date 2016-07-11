@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Converts an integer to a Council.java enum value.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class IntToCouncilAdapter extends XmlAdapter<Integer, Council>
 {

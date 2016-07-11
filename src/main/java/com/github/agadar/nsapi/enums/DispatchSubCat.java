@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.enums;
 /**
  * The possible subcategories for dispatches.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum DispatchSubCat 
 {

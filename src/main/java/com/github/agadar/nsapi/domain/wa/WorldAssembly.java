@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * are both filled by the VoteTrack shard, and the latter two are filled by the
  * DelegateVotes shard.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "WA")
@@ -68,7 +68,7 @@ public class WorldAssembly
      * A log containing when what delegates voted, and what for, during the
      * resolution currently at vote.
      * 
-     * @return 
+     * @return log containing when what delegates voted, and what for
      */
     public List<DelLogEntry> DelegateLog()
     {
@@ -82,7 +82,7 @@ public class WorldAssembly
      * Same as DelegateLog, but only contains the LAST action for each delegate
      * that voted FOR.
      * 
-     * @return 
+     * @return log containing when what delegates voted
      */
     public List<DelLogEntry> DelegateVotesFor()
     {
@@ -96,7 +96,7 @@ public class WorldAssembly
      * Same as DelegateLog, but only contains the LAST action for each delegate
      * that voted AGAINST.
      * 
-     * @return 
+     * @return log containing when what delegates voted
      */
     public List<DelLogEntry> DelegateVotesAgainst()
     {
@@ -109,7 +109,7 @@ public class WorldAssembly
     /**
      * A track record of the total FOR votes of the resolution currently at vote.
      * 
-     * @return 
+     * @return track record of the total FOR votes
      */
     public List<Integer> VoteTrackFor()
     {
@@ -122,7 +122,7 @@ public class WorldAssembly
     /**
      * A track record of the total AGAINST votes of the resolution currently at vote.
      * 
-     * @return 
+     * @return track record of the total AGAINST votes
      */
     public List<Integer> VoteTrackAgainst()
     {

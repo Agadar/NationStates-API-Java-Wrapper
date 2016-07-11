@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Converts a String containing authority codes to a List of authority names.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<String>>
 {

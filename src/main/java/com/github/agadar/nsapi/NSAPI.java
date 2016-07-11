@@ -30,7 +30,7 @@ import javax.xml.transform.stream.StreamSource;
 /**
  * The starting point for consumers of this Java wrapper for the NatioNStates API.
  *
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class NSAPI
 {

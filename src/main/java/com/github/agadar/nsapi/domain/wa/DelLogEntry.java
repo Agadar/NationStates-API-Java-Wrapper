@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Represents an entry in the World Assembly's delegate logs for the current
  * resolution at vote. Used for DelegateLog, DelegateVotesFor, and DelegateVotesAgainst.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ENTRY")

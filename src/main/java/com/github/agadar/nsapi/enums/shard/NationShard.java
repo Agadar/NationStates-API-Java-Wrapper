@@ -4,7 +4,7 @@ package com.github.agadar.nsapi.enums.shard;
  * Shards available for Nation requests. These shards have a 1:1 correspondence 
  * with the variable fields in Nation.java.
  *
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum NationShard implements Shard
 {

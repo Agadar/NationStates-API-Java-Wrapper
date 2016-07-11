@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Converts a colon-separated String to a List of Strings.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class ColonSeparatedToListAdapter extends XmlAdapter<String, List<String>>
 {

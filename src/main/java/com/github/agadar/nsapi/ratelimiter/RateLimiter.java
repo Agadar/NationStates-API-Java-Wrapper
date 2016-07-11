@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 /**
  * Enforces thread-safe rate limiting for x requests per y milliseconds.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public class RateLimiter
 {

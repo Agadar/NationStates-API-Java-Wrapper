@@ -4,7 +4,7 @@ package com.github.agadar.nsapi.enums.shard;
  * Shards available for Region requests. These shards have a 1:1 correspondence 
  * with the variable fields in Region.java.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum RegionShard implements Shard
 {
@@ -28,7 +28,7 @@ public enum RegionShard implements Shard
      * Descriptions of the codes:
      * 
      * '0': No embassy posting;
-     * 'con': Delegates & Founders of embassy regions;
+     * 'con': Delegates and Founders of embassy regions;
      * 'off': Officers of embassy regions;
      * 'com': Officers of embassy regions with Communications authority;
      * 'all': All residents of embassy regions.

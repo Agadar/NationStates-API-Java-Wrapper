@@ -3,7 +3,7 @@ package com.github.agadar.nsapi;
 /**
  * Custom exception for Agadar's NationStates API Java Wrapper.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class NationStatesAPIException extends RuntimeException
 {

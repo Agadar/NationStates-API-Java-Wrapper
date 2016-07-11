@@ -8,7 +8,7 @@ import com.github.agadar.nsapi.enums.shard.RegionShard;
 /**
  * A query to the NationStates API's region resource.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShard>
 {

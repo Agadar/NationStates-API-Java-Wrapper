@@ -9,7 +9,7 @@ import java.util.Scanner;
  * A query to the NationStates API's utility resource, verifying a user. Users
  * can retrieve their code at https://www.nationstates.net/page=verify_login.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean>
 {

@@ -9,7 +9,7 @@ import com.github.agadar.nsapi.enums.shard.WAShard;
 /**
  * A query to the NationStates API's World Assembly resource.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard>
 {

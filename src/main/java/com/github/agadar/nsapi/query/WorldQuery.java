@@ -10,7 +10,7 @@ import com.github.agadar.nsapi.enums.shard.WorldShard;
 /**
  * A query to the NationStates API's world resource.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard>
 {

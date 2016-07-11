@@ -3,7 +3,7 @@ package com.github.agadar.nsapi.enums;
 /**
  * The modes available for the daily dump Queries.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum DailyDumpMode 
 {

@@ -21,7 +21,7 @@ import java.util.zip.GZIPInputStream;
 /**
  * Query for retrieving daily dumps from NationStates.
  *
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  * 
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
@@ -98,7 +98,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Gives the file name to use. Daily regions dump is 'regions.xml.gz', daily
      * nations dump is 'nations.xml.gz'.
      * 
-     * @return 
+     * @return the file name to use
      */
     protected abstract String getFileName();
     
