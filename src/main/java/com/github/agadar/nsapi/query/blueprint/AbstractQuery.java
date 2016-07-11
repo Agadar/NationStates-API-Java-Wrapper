@@ -105,11 +105,17 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
             InputStream stream = conn.getErrorStream();
             if (stream == null) 
             {
-                logger.log(Level.INFO, response);
-                return translateResponse(conn.getInputStream(), returnType);
+                logger.log(Level.INFO, response);               
+                stream = conn.getInputStream();
+                R result = translateResponse(stream, returnType);
+                closeInputStreamQuietly(stream);
+                return result;
             }
             else
             {
+                // Close stream
+                closeInputStreamQuietly(stream);
+                
                 // If the resource simply wasn't found, just return null.
                 if (responseCode == 404)
                 {
@@ -151,5 +157,24 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     {
         // Read and convert the response body.
         return NSAPI.xmlToObject(response, type);
+    }
+    
+    /**
+     * Closes the given InputStream. If an exception occurs, the exception is
+     * logged, not thrown or returned. Use this if you don't particularly care
+     * about catching exceptions thrown by closing InputStreams.
+     * 
+     * @param stream the InputStream to close
+     */
+    protected final static void closeInputStreamQuietly(InputStream stream)
+    {
+        try
+        {
+            stream.close();
+        }
+        catch (IOException ex)
+        {
+            logger.log(Level.SEVERE, null, ex);
+        }
     }
 }
