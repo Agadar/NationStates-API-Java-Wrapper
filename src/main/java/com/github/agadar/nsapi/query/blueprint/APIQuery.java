@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
+import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 
 /**
@@ -54,25 +55,33 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
         getRateLimiter().Await();
         return super.execute(type);
     }
+
+    @Override
+    protected void validateQueryParameters()
+    {
+        super.validateQueryParameters();
+        String resourceString = resourceString();
+        
+        // Ensure resourceValue is not null or empty if the resource string isn't either.
+        if (resourceString != null && !resourceString.isEmpty() &&
+                (resourceValue == null || resourceValue.isEmpty()))
+        {        
+            throw new NationStatesAPIException("'resourceValue' may not be "
+                + "null or empty if 'resourceString' isn't null or empty!");
+        }
+    }
     
     @Override
     protected String buildURL()
     {
         // Start out by concatenating base url and API version number
         String url = super.buildURL() + "cgi-bin/api.cgi?v=" + NSAPI.API_VERSION;
+        String resourceString = resourceString();
         
         // If we're not using the top resource, then append resource and resourceValue
-        if (!resourceString().isEmpty())
+        if (resourceString != null && !resourceString.isEmpty())
         {
-            // Ensure resourceValue is not null or empty           
-            if (resourceValue == null || resourceValue.isEmpty())
-            {
-                throw new IllegalArgumentException("'resourceValue' may not be "
-                        + "null or empty when not using the top level resource!");
-            }
-            
-            // Append resource and resourceValue
-            url += "&" + resourceString() + "=" + resourceValue;
+            url += "&" + resourceString + "=" + resourceValue;
         }
         
         // Finally, return the generated url
