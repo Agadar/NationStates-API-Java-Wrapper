@@ -230,17 +230,17 @@ public final class NSAPI
     }
     
     /**
-     * Starts building a query that sends a telegram.
+     * Starts building a query that sends (a) telegram(s).
      * 
      * @param clientKey the client key
      * @param telegramId the telegram id
      * @param secretKey the telegram's secret key
-     * @param nation the nation to send the telegram to
+     * @param nations the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public static TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String nation)
+    public static TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String... nations)
     {
-        return new TelegramQuery(clientKey, telegramId, secretKey, nation);
+        return new TelegramQuery(clientKey, telegramId, secretKey, nations);
     }
     
     /**

@@ -50,7 +50,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
     
     @Override
-    public final <T extends R> T execute(Class<T> type)
+    public <T extends R> T execute(Class<T> type)
     {
         getRateLimiter().Await();
         return super.execute(type);

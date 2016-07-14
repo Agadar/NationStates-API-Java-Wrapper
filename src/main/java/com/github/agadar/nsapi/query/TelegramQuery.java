@@ -7,27 +7,33 @@ import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;
 
 /**
- * A query to the NationStates API's utility resource, sending a telegram.
+ * A query to the NationStates API's utility resource, sending (a) telegram(s).
  * 
  * @author Agadar (https://github.com/Agadar/)
  */
 public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
 {
+    /** The mandated time between telegrams. */
+    private static final int timeBetweenTGs = 35000;
+    
+    /** The mandated time between recruitment telegrams. */
+    private static final int timeBetweenRecruitTGs = 185000;
+    
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1
      * telegram per 30 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 35 seconds.
      */
-    protected static final DependantRateLimiter TGrateLimiter = 
-        new DependantRateLimiter(1, 35000, rateLimiter);
+    private static final DependantRateLimiter TGrateLimiter = 
+        new DependantRateLimiter(1, timeBetweenTGs, rateLimiter);
     
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 185 seconds.
      */
-    protected static final DependantRateLimiter RecruitTGrateLimiter = 
-        new DependantRateLimiter(1, 185000, TGrateLimiter);
+    private static final DependantRateLimiter RecruitTGrateLimiter = 
+        new DependantRateLimiter(1, timeBetweenRecruitTGs, TGrateLimiter);
     
     /** The client key for sending telegrams. */
     private final String clientKey;
@@ -38,8 +44,8 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     /** The telegram's secret key. */
     private final String secretKey;
     
-    /** The nation to send the telegram to. */
-    private final String nation;
+    /** The nations to send the telegram to. */
+    private final String[] nations;
     
     /** Whether the telegram to send is a recruitment telegram. */
     private boolean isRecruitment = false;
@@ -50,15 +56,15 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
      * @param clientKey the client key
      * @param telegramId the telegram id
      * @param secretKey the telegram's secret key
-     * @param nation the nation to send the telegram to
+     * @param nations the nation(s) to send the telegram to
      */
-    public TelegramQuery(String clientKey, String telegramId, String secretKey, String nation)
+    public TelegramQuery(String clientKey, String telegramId, String secretKey, String... nations)
     {
         super("sendTG");
         this.clientKey = clientKey;
         this.telegramId = telegramId;
         this.secretKey = secretKey;
-        this.nation = nation;
+        this.nations = nations;
     }
     
     /**
@@ -100,9 +106,9 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
             throw new NationStatesAPIException("No or empty secret key supplied!");
         }
         
-        if (nation == null || nation.isEmpty())
+        if (nations == null || nations.length < 1)
         {
-            throw new NationStatesAPIException("No or empty nation name supplied!");
+            throw new NationStatesAPIException("No addressees supplied!");
         }
     }
     
@@ -112,14 +118,62 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
         return null;
     }
     
+    /**
+     * The estimated time it will take to send all of this query's telegrams, in
+     * milliseconds. Assumes no interference from other TelegramQueries being
+     * executed simultaneously.
+     * 
+     * @return the estimated time in milliseconds
+     */
+    public long estimatedDuration()
+    {
+        // Null-check on nations
+        if (nations == null || nations.length < 1)
+        {
+            return 0;
+        }
+        
+        // Calculate and return estimated time
+        int individual = isRecruitment ? timeBetweenRecruitTGs : timeBetweenTGs;
+        return nations.length * individual;
+    }
+
+    @Override
+    public <T extends Void> T execute(Class<T> type)
+    {
+        // Validate parameters and build base url.
+        validateQueryParameters();
+        String baseUrl = buildURL();
+        
+        // For each addressee, call makeRequest(...).
+        for (String nation : nations)
+        {
+            // Build final url and wait for the rate limiter to go.
+            String url = baseUrl + nation.replace(' ', '_');
+            getRateLimiter().Await();
+            
+            try
+            {
+                makeRequest(url, type);
+            }
+            catch (NationStatesAPIException ex)
+            {
+                // Ignore this exception, as we don't care about a single
+                // telegram failing, and it is already logged in makeRequest.
+            }
+        }
+        
+        return null;
+    }
+    
     @Override
     protected String buildURL()
     {
         String url = super.buildURL();
         
         // Append telegram fields.
-        url += String.format("&client=%s&tgid=%s&key=%s&to=%s", clientKey,
-            telegramId, secretKey, nation);
+        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey,
+            telegramId, secretKey);
         
         return url;
     }
