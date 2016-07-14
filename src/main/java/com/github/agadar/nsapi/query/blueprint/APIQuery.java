@@ -18,9 +18,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * The general rate limiter for all API calls. The mandated rate limit is 50
      * requests per 30 seconds. To make sure we're on the safe side, we reduce
      * this to 45 requests per 30 seconds. To get a spread-like pattern instead
-     * of a burst-like pattern, we make this into 3 requests per 2 seconds.
+     * of a burst-like pattern, we make this into 6 requests per 4 seconds.
      */
-    protected static final RateLimiter rateLimiter = new RateLimiter(3, 2000);
+    protected static final RateLimiter rateLimiter = new RateLimiter(6, 4000);
     
     /** 
      * The resource value, e.g. the nation's or region's name. 

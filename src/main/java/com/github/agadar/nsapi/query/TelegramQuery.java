@@ -14,15 +14,15 @@ import java.io.InputStream;
 public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
 {
     /** The mandated time between telegrams. */
-    private static final int timeBetweenTGs = 35000;
+    private static final int timeBetweenTGs = 31000;
     
     /** The mandated time between recruitment telegrams. */
-    private static final int timeBetweenRecruitTGs = 185000;
+    private static final int timeBetweenRecruitTGs = 181000;
     
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1
      * telegram per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 35 seconds.
+     * this to 1 telegram per 31 seconds.
      */
     private static final DependantRateLimiter TGrateLimiter = 
         new DependantRateLimiter(1, timeBetweenTGs, rateLimiter);
@@ -30,7 +30,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 185 seconds.
+     * this to 1 telegram per 181 seconds.
      */
     private static final DependantRateLimiter RecruitTGrateLimiter = 
         new DependantRateLimiter(1, timeBetweenRecruitTGs, TGrateLimiter);
