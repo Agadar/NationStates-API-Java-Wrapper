@@ -28,7 +28,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 /**
- * The starting point for consumers of this Java wrapper for the NatioNStates API.
+ * The starting point for consumers of this Java wrapper for the NationStates API.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -143,8 +143,8 @@ public final class NSAPI
                 logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
                 break;
             case API_VERSION + 1:
-                logger.log(Level.WARNING, "{0} Wrapper should work correctly, but it"
-                        + " is advised to update the wrapper.", start);
+                logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
+                        + "dumps. Please update the wrapper.", start);
                 break;
             default:
                 logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
