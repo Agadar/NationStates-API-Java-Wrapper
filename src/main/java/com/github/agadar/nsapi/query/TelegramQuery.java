@@ -1,10 +1,14 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.event.TelegramSentEvent;
+import com.github.agadar.nsapi.event.TelegramSentListener;
 import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -34,6 +38,9 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
      */
     private static final DependantRateLimiter RecruitTGrateLimiter = 
         new DependantRateLimiter(1, timeBetweenRecruitTGs, TGrateLimiter);
+    
+    /** List of listeners. */
+    private final List<TelegramSentListener> listeners = new ArrayList<>();
     
     /** The client key for sending telegrams. */
     private final String clientKey;
@@ -77,6 +84,27 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     public TelegramQuery isRecruitment()
     {
         isRecruitment = true;
+        return this;
+    }
+    
+    /**
+     * Registers new telegram event listeners.
+     * 
+     * @param newListeners the listeners to register
+     * @return this
+     */
+    public TelegramQuery addListeners(TelegramSentListener... newListeners)
+    {
+        synchronized (listeners)
+        {
+            for (TelegramSentListener listener : newListeners)
+            {
+                if (!listeners.contains(listener))
+                {
+                    listeners.add(listener);
+                }
+            }
+        }
         return this;
     }
     
@@ -146,10 +174,12 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
         String baseUrl = buildURL();
         
         // For each addressee, call makeRequest(...).
-        for (String nation : nations)
+        for (int i = 0; i < nations.length; i++)
         {
             // Build final url and wait for the rate limiter to go.
+            String nation = nations[i];
             String url = baseUrl + nation.replace(' ', '_');
+            boolean queued = true;
             getRateLimiter().Await();
             
             try
@@ -158,8 +188,17 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
             }
             catch (NationStatesAPIException ex)
             {
-                // Ignore this exception, as we don't care about a single
-                // telegram failing, and it is already logged in makeRequest.
+                queued = false;
+            }
+            
+            // Fire a new telegram sent event.
+            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, i);
+            synchronized(listeners)
+            {
+                for (TelegramSentListener tsl : listeners)
+                {
+                    tsl.handleTelegramSent(event);
+                }      
             }
         }
         
