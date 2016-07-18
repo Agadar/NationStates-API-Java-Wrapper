@@ -12,7 +12,7 @@ public class TelegramSentEvent extends EventObject
     /** Name of the nation the telegram was sent to. */
     public final String Addressee;
     
-    /** Whether or not the telegram was succesfully queued. */
+    /** Whether or not the telegram was successfully queued. */
     public final boolean Queued;
     
     /** 
@@ -26,7 +26,7 @@ public class TelegramSentEvent extends EventObject
      * 
      * @param source the object that fired the event
      * @param addressee the name of the nation the telegram was sent to
-     * @param queued whether or not the telegram was succesfully queued
+     * @param queued whether or not the telegram was successfully queued
      * @param positionInQuery the position of the sent telegram in the query
      */
     public TelegramSentEvent(Object source, String addressee, boolean queued, int positionInQuery)
