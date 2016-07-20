@@ -38,6 +38,8 @@ public enum RegionShard implements Shard
     Factbook("FACTBOOK"),
     /** URL to the region's flag image. */
     FlagUrl("FLAG"),
+    /** Description of when this region was founded. */
+    Founded("FOUNDED"),
     /** The name of the region's founding nation. Returns '0' if none exists. */
     Founder("FOUNDER"),
     /** The authorities granted to the region's founder. */

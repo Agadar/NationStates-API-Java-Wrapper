@@ -1,11 +1,11 @@
 package com.github.agadar.nsapi.domain.region;
 
-import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
-import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
+import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
+import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -75,6 +75,10 @@ public class Region
     /** URL to the region's flag image. */
     @XmlElement(name = "FLAG")
     public String FlagUrl;
+    
+    /** Description of when this region was founded. */
+    @XmlElement(name = "FOUNDED")
+    public String Founded;
     
     /** The name of the region's founding nation. Returns '0' if none exists. */
     @XmlElement(name = "FOUNDER")

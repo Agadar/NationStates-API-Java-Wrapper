@@ -2,7 +2,6 @@ package com.github.agadar.nsapi.ratelimiter;
 
 import static com.github.agadar.nsapi.ratelimiter.RateLimiter.logger;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Enforces thread-safe rate limiting for x requests per y milliseconds. This
