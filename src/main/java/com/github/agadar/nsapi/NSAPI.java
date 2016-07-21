@@ -103,8 +103,8 @@ public final class NSAPI
     }
     
     /**
-     * Sets the User Agent, and then immediately verifies the version. Trying to
-     * set the User Agent a second time is illegal.
+     * Sets the User Agent. If this is the first time the User Agent is set, then 
+     * a version check is automatically done as well.
      * 
      * NationStates moderators should be able to identify you and your script
      * via your User Agent. As such, try providing at least your nation name,
@@ -115,12 +115,6 @@ public final class NSAPI
      */
     public static void setUserAgent(String userAgent)
     {
-        // Make sure we're not setting the user agent again.
-        if (USER_AGENT != null && !USER_AGENT.isEmpty())
-        {
-            throw new NationStatesAPIException("User Agent is already set!");
-        }
-        
         // Make sure the new value is not null or empty.
         if (userAgent == null || userAgent.isEmpty())
         {
@@ -128,27 +122,33 @@ public final class NSAPI
         }
         
         // If all is well, set the user agent and do a version check.
+        final boolean isNotSetYet = USER_AGENT == null || USER_AGENT.isEmpty();
         USER_AGENT = userAgent;
-        int liveVersion = version().execute();
         
-        // Validate live version and log appropriate messages.
-        Logger logger = Logger.getLogger(NSAPI.class.getName());
-        String start = String.format("Version check: wrapper wants to "
-                + "use version '%s', latest live version is"
-                + " '%s'.", API_VERSION, liveVersion);
-        
-        switch (liveVersion)
-        {
-            case API_VERSION:
-                logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
-                break;
-            case API_VERSION + 1:
-                logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
-                        + "dumps. Please update the wrapper.", start);
-                break;
-            default:
-                logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
-                        + " update the wrapper.", start);
+        // Do version check if this is the first time the User Agent is set.
+        if (isNotSetYet)
+        {       
+            int liveVersion = version().execute();
+
+            // Validate live version and log appropriate messages.
+            Logger logger = Logger.getLogger(NSAPI.class.getName());
+            String start = String.format("Version check: wrapper wants to "
+                    + "use version '%s', latest live version is"
+                    + " '%s'.", API_VERSION, liveVersion);
+
+            switch (liveVersion)
+            {
+                case API_VERSION:
+                    logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
+                    break;
+                case API_VERSION + 1:
+                    logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
+                            + "dumps. Please update the wrapper.", start);
+                    break;
+                default:
+                    logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
+                            + " update the wrapper.", start);
+            }
         }
     }
     
