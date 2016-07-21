@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Enumerator for the id's of the various census scales.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum CensusId 
 {
@@ -130,8 +130,8 @@ public enum CensusId
     /**
      * Returns the CensusId mapped to the given id.
      * 
-     * @param id
-     * @return 
+     * @param id the id
+     * @return the CensusId mapped to the given id
      */
     public static CensusId getById(int id)
     {

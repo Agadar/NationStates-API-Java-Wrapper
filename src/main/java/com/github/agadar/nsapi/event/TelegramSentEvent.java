@@ -5,7 +5,7 @@ import java.util.EventObject;
 /**
  * Event fired when a telegram has been sent.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public class TelegramSentEvent extends EventObject
 {
