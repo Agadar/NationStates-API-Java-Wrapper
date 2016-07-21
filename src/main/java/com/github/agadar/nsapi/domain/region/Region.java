@@ -80,6 +80,10 @@ public class Region
     @XmlElement(name = "FOUNDED")
     public String Founded;
     
+    /** UNIX timestamp of when this region was founded. */
+    @XmlElement(name = "FOUNDEDTIME")
+    public Long FoundedTime;
+    
     /** The name of the region's founding nation. Returns '0' if none exists. */
     @XmlElement(name = "FOUNDER")
     public String Founder;

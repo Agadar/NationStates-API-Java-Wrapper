@@ -40,6 +40,8 @@ public enum RegionShard implements Shard
     FlagUrl("FLAG"),
     /** Description of when this region was founded. */
     Founded("FOUNDED"),
+    /** UNIX timestamp of when this region was founded. */
+    FoundedTime("FOUNDEDTIME"),
     /** The name of the region's founding nation. Returns '0' if none exists. */
     Founder("FOUNDER"),
     /** The authorities granted to the region's founder. */

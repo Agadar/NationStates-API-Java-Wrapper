@@ -61,6 +61,8 @@ public enum NationShard implements Shard
     FlagUrl("FLAG"),
     /** Description of when this nation was founded. */
     Founded("FOUNDED"),
+    /** UNIX timestamp of when this nation was founded. */
+    FoundedTime("FOUNDEDTIME"),
     /** The nation's civil rights, economy, and political freedoms scores. */
     Freedom("FREEDOM"),
     /** The nation's full name. */

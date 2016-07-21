@@ -131,6 +131,10 @@ public class Nation
     @XmlElement(name = "FOUNDED")
     public String Founded;
     
+    /** UNIX timestamp of when this nation was founded. */
+    @XmlElement(name = "FOUNDEDTIME")
+    public Long FoundedTime;
+    
     /** The nation's civil rights, economy, and political freedoms scores. */
     @XmlElement(name = "FREEDOM")
     public Freedom Freedom;
