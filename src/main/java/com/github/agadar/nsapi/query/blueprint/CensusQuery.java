@@ -39,7 +39,9 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
     /**
      * Sets the census id's. Does nothing if none of the following shards are
      * set: Census, CensusRanks, CensusName, CensusDescriptions, CensusScale, 
-     * or CensusTitle.
+     * or CensusTitle. 
+     * 
+     * Note: setting multiple id's is only supported for the Census shard.
      * 
      * @param censusIds the census id's to set
      * @return this
