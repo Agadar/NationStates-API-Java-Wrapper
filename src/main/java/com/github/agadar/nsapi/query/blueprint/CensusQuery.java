@@ -1,5 +1,6 @@
 package com.github.agadar.nsapi.query.blueprint;
 
+import com.github.agadar.nsapi.enums.CensusId;
 import com.github.agadar.nsapi.enums.CensusMode;
 import com.github.agadar.nsapi.enums.shard.Shard;
 
@@ -15,7 +16,7 @@ import com.github.agadar.nsapi.enums.shard.Shard;
 public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> extends ShardQuery<Q, R, S>
 {
     /** See censusIds(...). */
-    private int[] censusIds;
+    private CensusId[] censusIds;
     
     /** See censusModes(...). */
     private CensusMode[] censusModes;
@@ -43,14 +44,40 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * 
      * Note: setting multiple id's is only supported for the Census shard.
      * 
+     * Deprecated. Will be removed in v.2.0. Use the method that takes CensusId 
+     * enumerator instead.
+     * 
      * @param censusIds the census id's to set
      * @return this
      */
+    @Deprecated
     public final Q censusIds(int... censusIds)
+    {
+        this.censusIds = new CensusId[censusIds.length];    // reset censusIds
+        
+        for (int i = 0; i < censusIds.length; i++)
+        {
+            this.censusIds[i] = CensusId.getById(censusIds[i]);
+        }
+        
+        return (Q) this;
+    }
+    
+    /**
+     * Sets the census id's. Does nothing if none of the following shards are
+     * set: Census, CensusRanks, CensusName, CensusDescriptions, CensusScale, 
+     * or CensusTitle. 
+     * 
+     * Note: setting multiple id's is only supported for the Census shard.
+     * 
+     * @param censusIds the census id's to set
+     * @return this
+     */
+    public final Q censusIds(CensusId... censusIds)
     {
         this.censusIds = censusIds;
         return (Q) this;
-    }   
+    }
     
     /**
      * Sets the census modes. Does nothing if the Census shard is not selected.
@@ -101,11 +128,11 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
         // If census id's were supplied, append them to url
         if (censusIds != null && censusIds.length > 0)
         {
-            url += "&scale=" + censusIds[0];
+            url += "&scale=" + censusIds[0].getId();
             
             for (int i = 1; i < censusIds.length; i++)
             {
-                url += "+" + censusIds[i];
+                url += "+" + censusIds[i].getId();
             }
         }
         
