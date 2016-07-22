@@ -1,11 +1,11 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 import com.github.agadar.nsapi.domain.world.World;
 import com.github.agadar.nsapi.enums.DispatchCat;
 import com.github.agadar.nsapi.enums.DispatchSubCat;
 import com.github.agadar.nsapi.enums.HapFilter;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
+import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 
 /**
  * A query to the NationStates API's world resource.
@@ -152,28 +152,42 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     }
     
     /**
-     * Sets the nation to view happenings of. Does nothing if the Happenings
+     * Sets the nation(s) to view happenings of. Does nothing if the Happenings
      * shard is not selected.
      * 
-     * @param nation the nation to view happenings of
+     * @param nation the nation(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfNation(String nation)
+    public final WorldQuery happeningsOfNation(String... nation)
     {
-        this.happeningsView = "nation." + nation;
+        this.happeningsView = nation.length == 1 ? "nation." : "nations.";
+        this.happeningsView += nation[0];
+        
+        for (int i = 1; i < nation.length; i++)
+        {
+            this.happeningsView += "," + nation[i];
+        }
+        
         return this;
     }
     
     /**
-     * Sets the region to view happenings of. Does nothing if the Happenings
+     * Sets the region(s) to view happenings of. Does nothing if the Happenings
      * shard is not selected.
      * 
-     * @param region the region to view happenings of
+     * @param region the region(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfRegion(String region)
+    public final WorldQuery happeningsOfRegion(String... region)
     {
-        this.happeningsView = "region." + region;
+        this.happeningsView = region.length == 1 ? "region." : "regions.";
+        this.happeningsView += region[0];
+        
+        for (int i = 1; i < region.length; i++)
+        {
+            this.happeningsView += "," + region[i];
+        }
+        
         return this;
     }
     
@@ -304,7 +318,8 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
         }
         
         if (happeningsView != null && !happeningsView.isEmpty() && 
-            !happeningsView.equals("nation.") && !happeningsView.equals("region."))
+            !happeningsView.equals("nation.") && !happeningsView.equals("region.")
+                && !happeningsView.equals("nations.") && !happeningsView.equals("regions."))
         {
             url += "&view=" + happeningsView;
         }
