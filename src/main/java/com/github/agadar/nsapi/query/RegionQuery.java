@@ -1,9 +1,9 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.enums.shard.RegionShard;
+import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 
 /**
  * A query to the NationStates API's region resource.
@@ -14,6 +14,9 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
 {
     /** Offset for the 10 most recent regional messages. */
     private int offset;
+    
+    /** The id of the post to start from. */
+    private long fromId;
     
     /**
      * Constructor. Sets the name of the region to query.
@@ -38,6 +41,19 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
         return this;
     }
     
+    /**
+     * Sets the id of the post to start from. Does nothing if the RegionalMessages
+     * shard is not selected.
+     * 
+     * @param id the id of the post to start from
+     * @return this
+     */
+    public final RegionQuery messagesFromId(long id)
+    {
+        this.fromId = id;
+        return this;
+    }
+    
     @Override
     protected String resourceString()
     {
@@ -59,6 +75,8 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
     protected String buildURL()
     {
         String url = super.buildURL();
-        return offset == 0 ? url : url + "&offset=" + offset;
+        url += offset == 0 ? "" : "&offset=" + offset;
+        url += fromId == 0 ? "" : "&fromid=" + fromId;
+        return url;
     }
 }
