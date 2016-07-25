@@ -1,5 +1,8 @@
 package com.github.agadar.nsapi.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Regional authority codes to authority names.
  * 
@@ -21,9 +24,32 @@ public enum Authority
     E("Embassies"),
     /** Polls */
     P("Polls");
-        
+    
+    /** Reverse mapping. */
+    private final static Map<String, Authority> reverse = new HashMap<>();
+    
+    /** Static init for filling the reverse mapping. */
+    static
+    {
+        for (Authority auth : values())
+        {
+            reverse.put(auth.toString(), auth);
+        }
+    }
+    
     /** The underlying authority name */
-    private final String authName;
+    private final String AuthName;
+    
+    /**
+     * Returns the Authority holding a specific authName.
+     * 
+     * @param authName string to find the corresponding Authority of
+     * @return the corresponding Authority
+     */
+    public static Authority getByAuthName(String authName)
+    {
+        return reverse.get(authName);
+    }
     
     /**
      * Instantiate a new entry with the given authority name.
@@ -32,7 +58,7 @@ public enum Authority
      */
     private Authority(String authName) 
     {
-        this.authName = authName;
+        this.AuthName = authName;
     }
 
     /**
@@ -43,6 +69,6 @@ public enum Authority
     @Override
     public String toString() 
     {
-        return authName;
+        return AuthName;
     }
 }

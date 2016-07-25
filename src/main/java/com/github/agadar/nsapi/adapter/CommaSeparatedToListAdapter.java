@@ -5,7 +5,7 @@ import java.util.List;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * Converts a comma-separated String to a List of Strings.
+ * Converts a comma-separated String to a List of Strings and vice versa.
  * 
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -14,8 +14,7 @@ public final class CommaSeparatedToListAdapter extends XmlAdapter<String, List<S
     @Override
     public String marshal(List<String> bt) throws Exception
     {
-        // We never actually marshal something, so no need to implement this method.
-        throw new UnsupportedOperationException("Not implemented.");
+        return String.join(",", bt.toArray(new String[bt.size()]));
     }
 
     @Override
