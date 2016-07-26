@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 
 /**
@@ -22,11 +23,21 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      */
     protected static final RateLimiter rateLimiter = new RateLimiter(6, 4000);
     
+    /**
+     * Rate limiter for API calls when scraping. Reduces the rate limit further 
+     * to just 1 request per second, as suggested by the official documentation.
+     */
+    private static final DependantRateLimiter reducedRateLimiter = 
+        new DependantRateLimiter(1, 1000, rateLimiter);
+    
     /** 
      * The resource value, e.g. the nation's or region's name. 
      * Set by the constructor.
      */
-    protected String resourceValue;
+    protected final String resourceValue;
+    
+    /** Whether to use the reduced rate limiter. */
+    private boolean slowMode = false;
     
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
@@ -39,6 +50,20 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
     
     /**
+     * Makes the Query execute in slow mode, reducing the rate limit from 6
+     * requests per 4 seconds to only 1 request per second. This is suggested
+     * by the official documentations when scraping i.e. when requesting a LOT
+     * of data that cannot be retrieved from the daily dumps.
+     * 
+     * @return this 
+     */
+    public Q slowMode()
+    {
+        slowMode = true;
+        return (Q) this;
+    }
+    
+    /**
      * Returns the rate limiter to use in the makeRequest()-function. Child
      * classes can override this to supply their own rate limiter if needed.
      * 
@@ -46,7 +71,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      */
     protected RateLimiter getRateLimiter()
     {
-        return rateLimiter;
+        return slowMode ? reducedRateLimiter : rateLimiter;
     }
     
     @Override
