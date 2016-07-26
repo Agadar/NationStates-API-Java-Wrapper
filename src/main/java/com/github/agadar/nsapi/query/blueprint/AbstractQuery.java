@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nsapi.XmlConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
@@ -169,7 +170,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R>
     protected <T extends R> T translateResponse(InputStream response, Class<T> type)
     {
         // Read and convert the response body.
-        return NSAPI.xmlToObject(response, type);
+        return XmlConverter.xmlToObject(response, type);
     }
     
     /**
