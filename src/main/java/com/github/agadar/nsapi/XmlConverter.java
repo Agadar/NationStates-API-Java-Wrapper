@@ -15,7 +15,7 @@ import javax.xml.transform.stream.StreamSource;
 /**
  * Converts XML streams to properly annotated objects, and vice versa.
  * 
- * @author Agadar <https://github.com/Agadar/>
+ * @author Agadar (https://github.com/Agadar/)
  */
 public class XmlConverter 
 {
