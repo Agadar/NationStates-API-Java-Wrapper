@@ -180,6 +180,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
             String nation = nations[i];
             String url = baseUrl + nation.replace(' ', '_');
             boolean queued = true;
+            String message = "";
             getRateLimiter().Await();
             
             try
@@ -189,16 +190,17 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
             catch (NationStatesAPIException ex)
             {
                 queued = false;
+                message = ex.getMessage();
             }
             
             // Fire a new telegram sent event.
-            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, i);
+            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, message, i);
             synchronized(listeners)
             {
-                for (TelegramSentListener tsl : listeners)
+                listeners.stream().forEach((tsl) ->
                 {
                     tsl.handleTelegramSent(event);
-                }      
+                });      
             }
         }
         
