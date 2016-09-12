@@ -308,7 +308,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
             
             if (!hasWithTags)
             {
-                url += "&tags=" + regionsWithoutTags[start++];
+                url += "&tags=-" + regionsWithoutTags[start++];
             }
             
             for (int i = start; i < regionsWithoutTags.length; i++)
