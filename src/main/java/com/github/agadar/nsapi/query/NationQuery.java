@@ -35,7 +35,7 @@ public final class NationQuery extends CensusQuery<NationQuery, Nation, NationSh
      */
     public final NationQuery canReceiveTelegramFromRegion(String region)   
     {
-        this.canReceiveTelegramFromRegion = region;
+        this.canReceiveTelegramFromRegion = region.trim();
         return this;
     }
     
