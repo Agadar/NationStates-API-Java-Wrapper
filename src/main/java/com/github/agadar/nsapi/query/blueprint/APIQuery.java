@@ -18,10 +18,10 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * The general rate limiter for all API calls. The mandated rate limit is 50
      * requests per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 45 requests per 30 seconds. To get a spread-like pattern instead
-     * of a burst-like pattern, we make this into 6 requests per 4 seconds.
+     * this to 50 requests per 30.5 seconds. To get a spread-like pattern instead
+     * of a burst-like pattern, we make this into 10 requests per 6.1 seconds.
      */
-    protected static final RateLimiter rateLimiter = new RateLimiter(6, 4000);
+    protected static final RateLimiter rateLimiter = new RateLimiter(10, 6100);
     
     /**
      * Rate limiter for API calls when scraping. Reduces the rate limit further 
@@ -77,8 +77,21 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     @Override
     public <T extends R> T execute(Class<T> type)
     {
-        getRateLimiter().Await();
-        return super.execute(type);
+        final RateLimiter limiter = getRateLimiter();
+        limiter.Lock();
+        
+        try
+        {
+            return super.execute(type);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            limiter.Unlock();
+        }
     }
 
     @Override

@@ -17,16 +17,16 @@ import java.util.List;
  */
 public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
 {
-    /** The mandated time between telegrams. */
-    private static final int timeBetweenTGs = 31000;
+    /** The mandated time between normal and campaign telegrams. */
+    public static final int timeBetweenTGs = 30500;
     
     /** The mandated time between recruitment telegrams. */
-    private static final int timeBetweenRecruitTGs = 181000;
+    public static final int timeBetweenRecruitTGs = 180500;
     
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1
      * telegram per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 31 seconds.
+     * this to 1 telegram per 30.5 seconds.
      */
     private static final DependantRateLimiter TGrateLimiter = 
         new DependantRateLimiter(1, timeBetweenTGs, rateLimiter);
@@ -34,7 +34,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 181 seconds.
+     * this to 1 telegram per 180.5 seconds.
      */
     private static final DependantRateLimiter RecruitTGrateLimiter = 
         new DependantRateLimiter(1, timeBetweenRecruitTGs, TGrateLimiter);
@@ -181,16 +181,21 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
             String url = baseUrl + nation.replace(' ', '_');
             boolean queued = true;
             String message = "";
-            getRateLimiter().Await();
+            final RateLimiter limiter = getRateLimiter();
+            limiter.Lock();
             
             try
             {
                 makeRequest(url, type);
             }
-            catch (NationStatesAPIException ex)
+            catch (Exception ex)
             {
                 queued = false;
                 message = ex.getMessage();
+            }
+            finally
+            {
+                limiter.Unlock();
             }
             
             // Fire a new telegram sent event.
@@ -223,9 +228,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void>
     protected RateLimiter getRateLimiter()
     {
         if (isRecruitment)
-        {
             return RecruitTGrateLimiter;
-        }
         
         return TGrateLimiter;
     }
