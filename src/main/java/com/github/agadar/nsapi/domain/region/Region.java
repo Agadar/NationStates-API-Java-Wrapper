@@ -112,6 +112,21 @@ public class Region
     @XmlElement(name = "POST")
     public List<RegionalMessage> RegionalMessages;
     
+    /** Rankings of nations with most RMB posts made. */
+    @XmlElementWrapper(name = "MOSTPOSTS")
+    @XmlElement(name = "NATION")
+    public List<MostPostsRank> MostPostsRanks;
+    
+    /** Rankings of nations with most RMB likes received. */
+    @XmlElementWrapper(name = "MOSTLIKED")
+    @XmlElement(name = "NATION")
+    public List<MostLikedRank> MostLikedRanks;
+    
+    /** Rankings of nations with most RMB likes given. */
+    @XmlElementWrapper(name = "MOSTLIKES")
+    @XmlElement(name = "NATION")
+    public List<MostLikesRank> MostLikesRanks;
+    
     /** The region's name. */
     @XmlElement(name = "NAME")
     public String Name;
