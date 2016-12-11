@@ -269,7 +269,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param time the timestamp
      * @return this
      */
-    public final WorldQuery happeningsBeforeId(long time)
+    public final WorldQuery happeningsBeforeTime(long time)
     {
         this.happeningsBeforeTime = time;
         return this;
