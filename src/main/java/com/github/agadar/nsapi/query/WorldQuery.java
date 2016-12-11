@@ -50,6 +50,12 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /** For restricting happenings to those with lower event id's than this. */
     private int happeningsBeforeId;
     
+    /** For restricting happenings to those with higher timestamps than this. */
+    private long happeningsSinceTime;
+    
+    /** For restricting happenings to those with lower timestamps than this. */
+    private long happeningsBeforeTime;
+    
     /**
      * Constructor. Accepts one or more shards.
      * 
@@ -242,6 +248,32 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
         this.happeningsBeforeId = id;
         return this;
     }
+    
+    /**
+     * If this is set, only happenings with a later timestamp than the one supplied
+     * will be retrieved.
+     * 
+     * @param time the timestamp
+     * @return this
+     */
+    public final WorldQuery happeningsSinceTime(long time)
+    {
+        this.happeningsSinceTime = time;
+        return this;
+    }
+    
+    /**
+     * If this is set, only happenings with an earlier timestamp than the one supplied
+     * will be retrieved.
+     * 
+     * @param time the timestamp
+     * @return this
+     */
+    public final WorldQuery happeningsBeforeId(long time)
+    {
+        this.happeningsBeforeTime = time;
+        return this;
+    }
        
     @Override
     protected String resourceString()
@@ -334,19 +366,29 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
             }
         }
         
-        if (happeningsLimit != 0)
+        if (happeningsLimit > 0)
         {
             url += "&limit=" + happeningsLimit;
         }
         
-        if (happeningsSinceId != 0)
+        if (happeningsSinceId > 0)
         {
             url += "&sinceid=" + happeningsSinceId;
         }
         
-        if (happeningsBeforeId != 0)
+        if (happeningsBeforeId > 0)
         {
             url += "&beforeid=" + happeningsBeforeId;
+        }
+        
+        if (happeningsSinceTime > 0)
+        {
+            url += "&sincetime=" + happeningsSinceTime;
+        }
+        
+        if (happeningsBeforeTime > 0)
+        {
+            url += "&beforetime=" + happeningsBeforeTime;
         }
         
         return url;
