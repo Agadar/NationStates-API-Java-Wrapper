@@ -117,12 +117,12 @@ public class Region
     @XmlElement(name = "NATION")
     public List<MostPostsRank> MostPostsRanks;
     
-    /** Rankings of nations with most RMB likes received. */
+    /** Rankings of nations with most RMB likes given. */
     @XmlElementWrapper(name = "MOSTLIKED")
     @XmlElement(name = "NATION")
     public List<MostLikedRank> MostLikedRanks;
     
-    /** Rankings of nations with most RMB likes given. */
+    /** Rankings of nations with most RMB likes received. */
     @XmlElementWrapper(name = "MOSTLIKES")
     @XmlElement(name = "NATION")
     public List<MostLikesRank> MostLikesRanks;

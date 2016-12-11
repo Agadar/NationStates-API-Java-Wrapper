@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * A nation's total RMB likes given over a previously specified period of time.
+ * A nation's total RMB likes received over a previously specified period of time.
  * 
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -18,7 +18,7 @@ public class MostLikesRank
     @XmlElement(name = "NAME")
     public String Name;
     
-    /** Number of likes given by this nation.*/
+    /** Number of likes received by this nation.*/
     @XmlElement(name = "LIKES")
     public int Likes;
 }

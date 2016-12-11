@@ -54,9 +54,9 @@ public enum RegionShard implements Shard
     History("HISTORY"),
     /** List of 10 most recent regional messages. */
     RegionalMessages("MESSAGES"),
-    /** Ranking of nations with most RMB likes received. */
-    MostLiked("MOSTLIKED"),
     /** Ranking of nations with most RMB likes given. */
+    MostLiked("MOSTLIKED"),
+    /** Ranking of nations with most RMB likes received. */
     MostLikes("MOSTLIKES"),
     /** Ranking of nations with most RMB posts made. */
     MostPosts("MOSTPOSTS"),
