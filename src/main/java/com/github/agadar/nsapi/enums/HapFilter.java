@@ -22,5 +22,5 @@ public enum HapFilter
     resolution,
     member,
     /** Endorsement. */
-    edo;
+    endo;
 }
