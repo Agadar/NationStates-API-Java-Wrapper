@@ -45,10 +45,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     private int happeningsLimit;
     
     /** For restricting happenings to those with higher event id's than this. */
-    private int happeningsSinceId;
+    private long happeningsSinceId;
     
     /** For restricting happenings to those with lower event id's than this. */
-    private int happeningsBeforeId;
+    private long happeningsBeforeId;
     
     /** For restricting happenings to those with higher timestamps than this. */
     private long happeningsSinceTime;
@@ -230,7 +230,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param id the id
      * @return this
      */
-    public final WorldQuery happeningsSinceId(int id)
+    public final WorldQuery happeningsSinceId(long id)
     {
         this.happeningsSinceId = id;
         return this;
@@ -243,7 +243,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param id the id
      * @return this
      */
-    public final WorldQuery happeningsBeforeId(int id)
+    public final WorldQuery happeningsBeforeId(long id)
     {
         this.happeningsBeforeId = id;
         return this;
