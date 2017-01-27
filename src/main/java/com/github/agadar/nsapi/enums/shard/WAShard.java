@@ -9,32 +9,48 @@ package com.github.agadar.nsapi.enums.shard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum WAShard implements Shard
-{
-    /** The number of member nations. Same for both councils. */
+public enum WAShard implements Shard {
+
+    /**
+     * The number of member nations. Same for both councils.
+     */
     NumberOfMembers("NUMNATIONS"),
-    /** The number of delegates. Same for both councils. */
+    /**
+     * The number of delegates. Same for both councils.
+     */
     NumberOfDelegates("NUMDELEGATES"),
-    /** The list of delegates. Same for both councils. */
+    /**
+     * The list of delegates. Same for both councils.
+     */
     Delegates("DELEGATES"),
-    /** The list of member nations. Same for both councils. */
+    /**
+     * The list of member nations. Same for both councils.
+     */
     Members("MEMBERS"),
-    /** Most recent happenings. Same for both councils. */
+    /**
+     * Most recent happenings. Same for both councils.
+     */
     RecentHappenings("HAPPENINGS"),
-    /** Most recent member log entries. Same for both councils. */
+    /**
+     * Most recent member log entries. Same for both councils.
+     */
     RecentMemberLog("MEMBERLOG"),
-    /** Current proposed resolutions. */
+    /**
+     * Current proposed resolutions.
+     */
     CurrentProposals("PROPOSALS"),
-    /** The current resolution at vote, or a specific one if an id is supplied. */
+    /**
+     * The current resolution at vote, or a specific one if an id is supplied.
+     */
     Resolution("RESOLUTION"),
-    /** 
-     * A track record of the total votes of the resolution currently at vote. 
+    /**
+     * A track record of the total votes of the resolution currently at vote.
      * Only works in conjunction with the Resolution shard.
      */
     VoteTrack("VOTETRACK"),
     /**
      * A log containing when what delegates voted, and what for, during the
-     * resolution currently at vote. Only works in conjunction with the 
+     * resolution currently at vote. Only works in conjunction with the
      * Resolution shard.
      */
     DelegateLog("DELLOG"),
@@ -43,10 +59,14 @@ public enum WAShard implements Shard
      * Only works in conjunction with the Resolution shard.
      */
     DelegateVotes("DELVOTES"),
-    /** Brief description of the end result of the last proposed resolution. */
+    /**
+     * Brief description of the end result of the last proposed resolution.
+     */
     LastResolutionResult("LASTRESOLUTION");
 
-    /** The underlying shard name */
+    /**
+     * The underlying shard name
+     */
     private final String shardName;
 
     /**
@@ -54,14 +74,12 @@ public enum WAShard implements Shard
      *
      * @param shardName the name of the underlying shard
      */
-    private WAShard(String shardName)
-    {
+    private WAShard(String shardName) {
         this.shardName = shardName;
     }
 
     @Override
-    public String shardName()
-    {
+    public String shardName() {
         return shardName;
     }
 }

@@ -22,199 +22,178 @@ import java.util.zip.GZIPInputStream;
  * Query for retrieving daily dumps from NationStates.
  *
  * @author Agadar (https://github.com/Agadar/)
- * 
+ *
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
  */
-public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R>
-{   
-    /** Path to the default download directory. */
+public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R> {
+
+    /**
+     * Path to the default download directory.
+     */
     private final static String DEFAULT_DIR;
-    
-    /** What mode to use. */
+
+    /**
+     * What mode to use.
+     */
     private final DailyDumpMode mode;
-    
-    /** The directory to download the gzip in, instead of the default directory. */
+
+    /**
+     * The directory to download the gzip in, instead of the default directory.
+     */
     private String downloadDir;
-    
-    /** The directory to load the gzip from, instead of the default directory. */
+
+    /**
+     * The directory to load the gzip from, instead of the default directory.
+     */
     private String readFromDir;
-    
-    /** 
-     * Static 'constructor' to define the default download dir, which should be 
+
+    /**
+     * Static 'constructor' to define the default download dir, which should be
      * the dir of the running JAR, or where-ever this class is loaded from.
      */
-    static
-    {
-        try
-        {
+    static {
+        try {
             CodeSource codeSource = DailyDumpQuery.class.getProtectionDomain().getCodeSource();
             File jarFile = new File(codeSource.getLocation().toURI().getPath());
             DEFAULT_DIR = jarFile.getParentFile().getPath();
-        }
-        catch (URISyntaxException ex)
-        {
+        } catch (URISyntaxException ex) {
             throw new NationStatesAPIException(ex);
         }
     }
-    
+
     /**
      * Constructor, accepting a mode.
-     * 
+     *
      * @param mode the daily dump mode to use
      */
-    public DailyDumpQuery(DailyDumpMode mode)
-    {
+    public DailyDumpQuery(DailyDumpMode mode) {
         this.mode = mode;
     }
-    
+
     /**
-     * Sets a specific directory to download the gzip file in, which will be 
+     * Sets a specific directory to download the gzip file in, which will be
      * used instead of the default directory.
-     * 
+     *
      * @param dir a specific directory to download the gzip in
      * @return this
      */
-    public final Q downloadDir(String dir)
-    {
+    public final Q downloadDir(String dir) {
         this.downloadDir = dir;
         return (Q) this;
     }
-    
+
     /**
      * Sets a specific directory to read the gzip file from, which will be used
      * instead of the default directory.
-     * 
+     *
      * @param dir a specific directory to download the gzip in
      * @return this
      */
-    public final Q readFromDir(String dir)
-    {
+    public final Q readFromDir(String dir) {
         this.readFromDir = dir;
         return (Q) this;
     }
-    
+
     /**
      * Gives the file name to use. Daily regions dump is 'regions.xml.gz', daily
      * nations dump is 'nations.xml.gz'.
-     * 
+     *
      * @return the file name to use
      */
     protected abstract String getFileName();
-    
+
     @Override
-    protected String buildURL()
-    {
+    protected String buildURL() {
         return super.buildURL() + "pages/" + getFileName();
     }
 
     @Override
-    protected <T extends R> T translateResponse(InputStream response, Class<T> type)
-    {
-        try
-        {
+    protected <T extends R> T translateResponse(InputStream response, Class<T> type) {
+        try {
             response = new GZIPInputStream(response);
             return super.translateResponse(response, type);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             throw new NationStatesAPIException(ex);
         }
     }
 
     @Override
-    public <T extends R> T execute(Class<T> type)
-    {
+    public <T extends R> T execute(Class<T> type) {
         validateQueryParameters();
         boolean downloadAndRead = mode == DailyDumpMode.DownloadAndRead;
-        
-        if (downloadAndRead || mode == DailyDumpMode.Download)
-        {
+
+        if (downloadAndRead || mode == DailyDumpMode.Download) {
             // Download.
-            String dir = downloadDir != null && !downloadDir.isEmpty() ? 
-                         downloadDir : DEFAULT_DIR;
+            String dir = downloadDir != null && !downloadDir.isEmpty()
+                    ? downloadDir : DEFAULT_DIR;
             download(dir);
         }
-        
-        if (downloadAndRead || mode == DailyDumpMode.ReadLocal)
-        {
+
+        if (downloadAndRead || mode == DailyDumpMode.ReadLocal) {
             // Read locally.
-            String dir = readFromDir != null && !readFromDir.isEmpty() ? 
-                         readFromDir : DEFAULT_DIR;
+            String dir = readFromDir != null && !readFromDir.isEmpty()
+                    ? readFromDir : DEFAULT_DIR;
             return readLocal(dir, type);
-        }
-        else if (mode == DailyDumpMode.ReadRemote)
-        {
+        } else if (mode == DailyDumpMode.ReadRemote) {
             // Read remotely.
             return makeRequest(buildURL(), type);
         }
-        
+
         // If mode == DailyDumpMode.Download, return null.
         return null;
     }
 
     @Override
-    protected void validateQueryParameters()
-    {
+    protected void validateQueryParameters() {
         super.validateQueryParameters();
-        
-        if (mode == null)
-        {
+
+        if (mode == null) {
             throw new NationStatesAPIException("'mode' may not be null!");
         }
     }
-    
+
     /**
-     * Downloads the gzip file. This code is almost identical to makeRequest(...),
-     * only it doesn't return anything, 404-codes throw exceptions, and instead
-     * of sending the retrieved InputStream to translateResponse(...), it is
-     * saved to the file system.
-     * 
+     * Downloads the gzip file. This code is almost identical to
+     * makeRequest(...), only it doesn't return anything, 404-codes throw
+     * exceptions, and instead of sending the retrieved InputStream to
+     * translateResponse(...), it is saved to the file system.
+     *
      * @param directory the directory to download it to
      */
-    private void download(String directory)
-    {
+    private void download(String directory) {
         // Prepare request, then make it
         HttpURLConnection conn = null;
-        try
-        {
+        try {
             String urlStr = buildURL();
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", NSAPI.getUserAgent());
             int responseCode = conn.getResponseCode();
-            String response = String.format("NationStates API returned: '%s' from URL: %s", 
-                responseCode + " " + conn.getResponseMessage(), urlStr);
-            
+            String response = String.format("NationStates API returned: '%s' from URL: %s",
+                    responseCode + " " + conn.getResponseMessage(), urlStr);
+
             // Depending on whether or not an error was returned, either throw
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
-            if (stream == null) 
-            {
+            if (stream == null) {
                 logger.log(Level.INFO, response);
                 Path path = new File(directory + "\\" + getFileName()).toPath();
                 stream = conn.getInputStream();
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
                 closeInputStreamQuietly(stream);
-            }
-            else
-            {
+            } else {
                 // Else, throw an exception.
                 logger.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
                 throw new NationStatesAPIException(response);
             }
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             throw new NationStatesAPIException(ex);
-        }
-        finally
-        {
+        } finally {
             // Always close the HttpURLConnection
-            if (conn != null) 
-            {
+            if (conn != null) {
                 conn.disconnect();
             }
         }
@@ -223,21 +202,17 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     /**
      * Reads the gzip file from the target directory, returning its parsed
      * contents.
-     * 
+     *
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private <T extends R> T readLocal(String directory, Class<T> type)
-    {
-        try
-        {
+    private <T extends R> T readLocal(String directory, Class<T> type) {
+        try {
             InputStream stream = new FileInputStream(directory + "\\" + getFileName());
             T obj = translateResponse(stream, type);
             closeInputStreamQuietly(stream);
             return obj;
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             throw new NationStatesAPIException(ex);
         }
     }

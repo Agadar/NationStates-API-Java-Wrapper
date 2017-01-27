@@ -95,8 +95,9 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     /**
-     * Sets this telegram query as a dry run, meaning no actual telegrams
-     * will be sent.
+     * Sets this telegram query as a dry run, meaning no actual telegrams will
+     * be sent.
+     *
      * @return this
      */
     public TelegramQuery isDryRun() {

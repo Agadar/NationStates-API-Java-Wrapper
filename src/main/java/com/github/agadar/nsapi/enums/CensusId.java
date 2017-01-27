@@ -5,11 +5,11 @@ import java.util.Map;
 
 /**
  * Enumerator for the id's of the various census scales.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum CensusId 
-{
+public enum CensusId {
+
     CivilRights(0),
     Economy(1),
     PoliticalFreedom(2),
@@ -91,50 +91,51 @@ public enum CensusId
     ForeignAid(78),
     BlackMarket(79),
     Residency(80);
-    
-    /** The underlying id. */
+
+    /**
+     * The underlying id.
+     */
     private final int Id;
-    
-    /** Map for reverse look-up via id. */
+
+    /**
+     * Map for reverse look-up via id.
+     */
     private final static Map<Integer, CensusId> Reverse = new HashMap<>();
-    
-    /** Static 'constructor' for filling the reverse map. */
-    static
-    {
-        for (CensusId censusId : values())
-        {
+
+    /**
+     * Static 'constructor' for filling the reverse map.
+     */
+    static {
+        for (CensusId censusId : values()) {
             Reverse.put(censusId.Id, censusId);
         }
     }
-    
+
     /**
      * Instantiate a new entry with the given id.
-     * 
+     *
      * @param id the id
      */
-    private CensusId(int id) 
-    {
+    private CensusId(int id) {
         this.Id = id;
     }
 
     /**
      * Returns the id.
-     * 
+     *
      * @return the id
      */
-    public int getId() 
-    {
+    public int getId() {
         return Id;
     }
-    
+
     /**
      * Returns the CensusId mapped to the given id.
-     * 
+     *
      * @param id the id
      * @return the CensusId mapped to the given id
      */
-    public static CensusId getById(int id)
-    {
+    public static CensusId getById(int id) {
         return Reverse.get(id);
     }
 }

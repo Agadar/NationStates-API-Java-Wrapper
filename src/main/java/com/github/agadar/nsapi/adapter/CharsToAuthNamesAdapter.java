@@ -8,36 +8,31 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Converts a String containing authority codes to a List of authority names,
  * and vice versa.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<String>>
-{
+public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<String>> {
 
     @Override
-    public String marshal(List<String> bt) throws Exception
-    {
+    public String marshal(List<String> bt) throws Exception {
         String codes = "";
-        
-        for (String s : bt)
-        {
+
+        for (String s : bt) {
             codes += Authority.getByAuthName(s);
         }
-        
+
         return codes;
     }
 
     @Override
-    public List<String> unmarshal(String vt) throws Exception
-    {
+    public List<String> unmarshal(String vt) throws Exception {
         final List<String> names = new ArrayList<>();
-        
-        for (String letter : vt.split(""))
-        {
+
+        for (String letter : vt.split("")) {
             final String name = Authority.valueOf(letter).toString();
             names.add(name);
         }
-        
+
         return names;
     }
 }

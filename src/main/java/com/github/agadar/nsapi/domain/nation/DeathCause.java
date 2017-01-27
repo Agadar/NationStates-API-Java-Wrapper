@@ -8,18 +8,22 @@ import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Representation of a cause of death.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CAUSE")
-public class DeathCause 
-{
-    /** Description of the death cause */
+public class DeathCause {
+
+    /**
+     * Description of the death cause
+     */
     @XmlAttribute(name = "type")
     public String Description;
-    
-    /** The percentage of the population that dies of this death cause */
+
+    /**
+     * The percentage of the population that dies of this death cause
+     */
     @XmlValue
     public double Percentage;
 }

@@ -1,100 +1,153 @@
 package com.github.agadar.nsapi.enums.shard;
 
 /**
- * Shards available for Region requests. These shards have a 1:1 correspondence 
+ * Shards available for Region requests. These shards have a 1:1 correspondence
  * with the variable fields in Region.java.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum RegionShard implements Shard
-{
-    /** This region's census scale scores. */
+public enum RegionShard implements Shard {
+
+    /**
+     * This region's census scale scores.
+     */
     Census("CENSUS"),
-    /** The census scale scores of this region's nations. */
+    /**
+     * The census scale scores of this region's nations.
+     */
     CensusRanks("CENSUSRANKS"),
-    /** 
+    /**
      * The name of the nation that is the region's world assembly delegate.
      * Returns '0' if no delegate exists.
-     */    
+     */
     Delegate("DELEGATE"),
-    /** The authorities granted to the region's world assembly delegate. */
+    /**
+     * The authorities granted to the region's world assembly delegate.
+     */
     DelegateAuthorities("DELEGATEAUTH"),
-    /** The number of endorsements the region's world assembly delegate has. */
+    /**
+     * The number of endorsements the region's world assembly delegate has.
+     */
     DelegateEndorsements("DELEGATEVOTES"),
-    /** The region's embassies. */
+    /**
+     * The region's embassies.
+     */
     Embassies("EMBASSIES"),
-    /** 
-     * Regional Message Board permissions for regions with which this region exchanges embassies.
-     * Descriptions of the codes:
-     * 
-     * '0': No embassy posting;
-     * 'con': Delegates and Founders of embassy regions;
-     * 'off': Officers of embassy regions;
-     * 'com': Officers of embassy regions with Communications authority;
-     * 'all': All residents of embassy regions.
+    /**
+     * Regional Message Board permissions for regions with which this region
+     * exchanges embassies. Descriptions of the codes:
+     *
+     * '0': No embassy posting; 'con': Delegates and Founders of embassy
+     * regions; 'off': Officers of embassy regions; 'com': Officers of embassy
+     * regions with Communications authority; 'all': All residents of embassy
+     * regions.
      */
     EmbassiesRMBPerms("EMBASSYRMB"),
-    /** The complete mark-up of the regional factbook. */
+    /**
+     * The complete mark-up of the regional factbook.
+     */
     Factbook("FACTBOOK"),
-    /** URL to the region's flag image. */
+    /**
+     * URL to the region's flag image.
+     */
     FlagUrl("FLAG"),
-    /** Description of when this region was founded. */
+    /**
+     * Description of when this region was founded.
+     */
     Founded("FOUNDED"),
-    /** UNIX timestamp of when this region was founded. */
+    /**
+     * UNIX timestamp of when this region was founded.
+     */
     FoundedTime("FOUNDEDTIME"),
-    /** The name of the region's founding nation. Returns '0' if none exists. */
+    /**
+     * The name of the region's founding nation. Returns '0' if none exists.
+     */
     Founder("FOUNDER"),
-    /** The authorities granted to the region's founder. */
+    /**
+     * The authorities granted to the region's founder.
+     */
     FounderAuthorities("FOUNDERAUTH"),
-    /** The region's votes for the current General Assembly resolution. */
+    /**
+     * The region's votes for the current General Assembly resolution.
+     */
     GeneralAssemblyVote("GAVOTE"),
-    /** List of the most recent of this region's happenings. */
+    /**
+     * List of the most recent of this region's happenings.
+     */
     RecentHappenings("HAPPENINGS"),
-    /** List of history. Not sure what these are. */
+    /**
+     * List of history. Not sure what these are.
+     */
     History("HISTORY"),
-    /** List of 10 most recent regional messages. */
+    /**
+     * List of 10 most recent regional messages.
+     */
     RegionalMessages("MESSAGES"),
-    /** Ranking of nations with most RMB likes given. */
+    /**
+     * Ranking of nations with most RMB likes given.
+     */
     MostLiked("MOSTLIKED"),
-    /** Ranking of nations with most RMB likes received. */
+    /**
+     * Ranking of nations with most RMB likes received.
+     */
     MostLikes("MOSTLIKES"),
-    /** Ranking of nations with most RMB posts made. */
+    /**
+     * Ranking of nations with most RMB posts made.
+     */
     MostPosts("MOSTPOSTS"),
-    /** The region's name. */
+    /**
+     * The region's name.
+     */
     Name("NAME"),
-    /** List of nations that inhabit this region. */
+    /**
+     * List of nations that inhabit this region.
+     */
     NationNames("NATIONS"),
-    /** The number of nations that inhabit this region. */
+    /**
+     * The number of nations that inhabit this region.
+     */
     NumberOfNations("NUMNATIONS"),
-    /** List of regional officers. */
+    /**
+     * List of regional officers.
+     */
     Officers("OFFICERS"),
-    /** The regional poll that is currently being conducted. */
+    /**
+     * The regional poll that is currently being conducted.
+     */
     CurrentPoll("POLL"),
-    /** The region's power. */
+    /**
+     * The region's power.
+     */
     Power("POWER"),
-    /** The region's votes for the current Security Council resolution. */
+    /**
+     * The region's votes for the current Security Council resolution.
+     */
     SecurityCouncilVote("SCVOTE"),
-    /** The region's tags. */
+    /**
+     * The region's tags.
+     */
     Tags("TAGS"),
-    /** This region's statistics of the current or last zombie event. */
+    /**
+     * This region's statistics of the current or last zombie event.
+     */
     ZombieInfo("ZOMBIE");
-    
-    /** The underlying shard name */
+
+    /**
+     * The underlying shard name
+     */
     private final String shardName;
-    
+
     /**
      * Instantiate a new entry with the given shard name.
-     * 
+     *
      * @param shardName the name of the underlying shard
      */
-    private RegionShard(String shardName) 
-    {
+    private RegionShard(String shardName) {
         this.shardName = shardName;
     }
 
     @Override
-    public String shardName()
-    {
+    public String shardName() {
         return shardName;
     }
 }

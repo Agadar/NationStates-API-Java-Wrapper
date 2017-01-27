@@ -2,11 +2,11 @@ package com.github.agadar.nsapi.enums;
 
 /**
  * The possible options for the happenings filter for the World resource.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum HapFilter 
-{
+public enum HapFilter {
+
     law,
     change,
     dispatch,
@@ -16,11 +16,15 @@ public enum HapFilter
     admin,
     move,
     founding,
-    /** Ceased to exist. */
+    /**
+     * Ceased to exist.
+     */
     cte,
     vote,
     resolution,
     member,
-    /** Endorsement. */
+    /**
+     * Endorsement.
+     */
     endo;
 }

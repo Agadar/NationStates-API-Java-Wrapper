@@ -7,18 +7,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entry in a CensusScore's history list.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "POINT")
-public class CensusScoreHistory 
-{
-    /** The UNIX timestamp of this record. */
+public class CensusScoreHistory {
+
+    /**
+     * The UNIX timestamp of this record.
+     */
     @XmlElement(name = "TIMESTAMP")
     public long Timestamp;
-    
-    /** What was scored that timestamp. */
+
+    /**
+     * What was scored that timestamp.
+     */
     @XmlElement(name = "SCORE")
     public String Score;
 }

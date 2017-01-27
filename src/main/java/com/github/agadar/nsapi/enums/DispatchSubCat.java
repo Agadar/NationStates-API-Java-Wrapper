@@ -2,11 +2,11 @@ package com.github.agadar.nsapi.enums;
 
 /**
  * The possible subcategories for dispatches.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum DispatchSubCat 
-{
+public enum DispatchSubCat {
+
     // Factbook
     Overview,
     History,
@@ -18,11 +18,9 @@ public enum DispatchSubCat
     International,
     Trivia,
     Miscellaneous,
-    
     // Factbook & Account
     Military,
     Culture,
-    
     // Account
     Trade,
     Sport,
@@ -30,13 +28,11 @@ public enum DispatchSubCat
     Diplomacy,
     Science,
     Other,
-    
     // Bulletin
     Policy,
     News,
     Opinion,
     Campaign,
-    
     // Meta
     Gameplay,
     Reference;
