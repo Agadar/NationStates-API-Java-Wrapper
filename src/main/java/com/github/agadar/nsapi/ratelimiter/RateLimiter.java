@@ -74,6 +74,7 @@ public class RateLimiter {
             try {
                 Thread.sleep(sleepFor);
             } catch (InterruptedException ex) {
+                lock.unlock();
                 throw new RuntimeException("RateLimiter.class blew up!", ex);
             }
         }
