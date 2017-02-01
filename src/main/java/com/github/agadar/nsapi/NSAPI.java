@@ -31,7 +31,7 @@ public final class NSAPI {
     /**
      * The NationStates API version this wrapper uses.
      */
-    public static final int API_VERSION = 8;
+    public static final int API_VERSION = 9;
 
     /**
      * The user agent with which this library makes requests.
