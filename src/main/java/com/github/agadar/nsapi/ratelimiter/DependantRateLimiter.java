@@ -22,18 +22,13 @@ public final class DependantRateLimiter extends RateLimiter {
      */
     public DependantRateLimiter(int requests, int milliseconds, RateLimiter dependant) {
         super(requests, milliseconds);
-
-        if (dependant == null) {
-            throw new IllegalArgumentException("'dependant' should not be null!");
-        }
-
+        assert dependant != null;
         this.dependant = dependant;
     }
 
     @Override
-    public void Lock() {
-        super.Lock();
-        dependant.Lock();
+    public boolean Lock() {
+        return super.Lock() ? dependant.Lock() : false;
     }
 
     @Override

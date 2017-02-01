@@ -9,6 +9,7 @@ import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -190,14 +191,12 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         String baseUrl = buildURL();
 
         // For each addressee, call makeRequest(...) if it isn't a dry run.
-        for (int i = 0; i < nations.length; i++) {
+        for (int i = 0; i < nations.length && getRateLimiter().Lock(); i++) {
             // Build final url and wait for the rate limiter to go.
-            String nation = nations[i];
-            String url = baseUrl + nation.replace(' ', '_');
+            final String nation = nations[i];
+            final String url = baseUrl + nation.replace(' ', '_');
             boolean queued = true;
             String message = "";
-            final RateLimiter limiter = getRateLimiter();
-            limiter.Lock();
 
             try {
                 // If not a dry run, make the API call.
@@ -205,10 +204,12 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                     makeRequest(url, type);
                 }
             } catch (Exception ex) {
+                // If anything went wrong, make sure we log it in the event.
                 queued = false;
                 message = ex.getMessage();
             } finally {
-                limiter.Unlock();
+                // Always unlock the rate limiter to prevent deadlock.
+                getRateLimiter().Unlock();
             }
 
             // Fire a new telegram sent event.
@@ -219,18 +220,13 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 });
             }
         }
-
         return null;
     }
 
     @Override
     protected String buildURL() {
         String url = super.buildURL();
-
-        // Append telegram fields.
-        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey,
-                telegramId, secretKey);
-
+        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey, telegramId, secretKey); // Append telegram fields.
         return url;
     }
 
@@ -239,7 +235,6 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         if (isRecruitment) {
             return RecruitTGrateLimiter;
         }
-
         return TGrateLimiter;
     }
 }

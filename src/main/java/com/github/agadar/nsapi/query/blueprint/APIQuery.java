@@ -76,16 +76,16 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
 
     @Override
     public <T extends R> T execute(Class<T> type) {
-        final RateLimiter limiter = getRateLimiter();
-        limiter.Lock();
-
-        try {
-            return super.execute(type);
-        } catch (Exception ex) {
-            throw ex;
-        } finally {
-            limiter.Unlock();
+        if (getRateLimiter().Lock()) {
+            try {
+                return super.execute(type);
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                getRateLimiter().Unlock();
+            }
         }
+        return null;
     }
 
     @Override
