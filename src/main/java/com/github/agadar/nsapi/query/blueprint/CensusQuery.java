@@ -51,30 +51,6 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      *
      * Note: setting multiple id's is only supported for the Census shard.
      *
-     * Deprecated. Will be removed in v.2.0. Use the method that takes CensusId
-     * enumerator instead.
-     *
-     * @param censusIds the census id's to set
-     * @return this
-     */
-    @Deprecated
-    public final Q censusIds(int... censusIds) {
-        this.censusIds = new CensusId[censusIds.length];    // reset censusIds
-
-        for (int i = 0; i < censusIds.length; i++) {
-            this.censusIds[i] = CensusId.getById(censusIds[i]);
-        }
-
-        return (Q) this;
-    }
-
-    /**
-     * Sets the census id's. Does nothing if none of the following shards are
-     * set: Census, CensusRanks, CensusName, CensusDescriptions, CensusScale, or
-     * CensusTitle.
-     *
-     * Note: setting multiple id's is only supported for the Census shard.
-     *
      * @param censusIds the census id's to set
      * @return this
      */

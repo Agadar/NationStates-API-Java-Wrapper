@@ -24,7 +24,7 @@ public class NationCensusScore {
      * The nation's regional or world-wide rank on the census scale
      */
     @XmlElement(name = "RANK")
-    public String rank;
+    public int rank;
 
     /**
      * The nation's score on the scale
