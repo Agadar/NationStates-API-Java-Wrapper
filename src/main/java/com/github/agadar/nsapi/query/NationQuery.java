@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.query.blueprint.CensusQuery;
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.nation.Nation;
 import com.github.agadar.nsapi.enums.shard.NationShard;
 
@@ -49,7 +48,7 @@ public final class NationQuery extends CensusQuery<NationQuery, Nation, NationSh
         super.validateQueryParameters();
 
         if (resourceValue == null || resourceValue.isEmpty()) {
-            throw new NationStatesAPIException("No or empty nation name supplied!");
+            throw new IllegalArgumentException("No or empty nation name supplied!");
         }
     }
 

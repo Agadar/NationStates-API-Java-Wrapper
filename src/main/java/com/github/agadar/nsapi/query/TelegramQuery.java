@@ -1,6 +1,5 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.event.TelegramSentEvent;
 import com.github.agadar.nsapi.event.TelegramSentListener;
 import com.github.agadar.nsapi.query.blueprint.APIQuery;
@@ -9,7 +8,6 @@ import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -145,19 +143,19 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         super.validateQueryParameters();
 
         if (clientKey == null || clientKey.isEmpty()) {
-            throw new NationStatesAPIException("No or empty client key supplied!");
+            throw new IllegalArgumentException("No or empty client key supplied!");
         }
 
         if (telegramId == null || telegramId.isEmpty()) {
-            throw new NationStatesAPIException("No or empty telegram id supplied!");
+            throw new IllegalArgumentException("No or empty telegram id supplied!");
         }
 
         if (secretKey == null || secretKey.isEmpty()) {
-            throw new NationStatesAPIException("No or empty secret key supplied!");
+            throw new IllegalArgumentException("No or empty secret key supplied!");
         }
 
         if (nations == null || nations.length < 1) {
-            throw new NationStatesAPIException("No addressees supplied!");
+            throw new IllegalArgumentException("No addressees supplied!");
         }
     }
 

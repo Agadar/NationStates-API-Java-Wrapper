@@ -55,7 +55,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
         String userAgent = NSAPI.getUserAgent();
 
         if (userAgent == null || userAgent.isEmpty()) {
-            throw new NationStatesAPIException("No User Agent set!");
+            throw new IllegalArgumentException("No User Agent set!");
         }
     }
 

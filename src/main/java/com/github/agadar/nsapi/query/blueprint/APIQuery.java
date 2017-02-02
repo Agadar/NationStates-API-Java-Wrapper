@@ -96,7 +96,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
         // Ensure resourceValue is not null or empty if the resource string isn't either.
         if (resourceString != null && !resourceString.isEmpty()
                 && (resourceValue == null || resourceValue.isEmpty())) {
-            throw new NationStatesAPIException("'resourceValue' may not be "
+            throw new IllegalArgumentException("'resourceValue' may not be "
                     + "null or empty if 'resourceString' isn't null or empty!");
         }
     }

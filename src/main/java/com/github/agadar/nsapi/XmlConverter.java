@@ -22,12 +22,12 @@ public class XmlConverter {
     /**
      * The JAXBContext for this API.
      */
-    private static JAXBContext jc;
+    private static JAXBContext jaxbContext;
 
     /**
      * The classes for the JAXBContext.
      */
-    private static final List<Class> jaxbContextClasses = new ArrayList<>();
+    private static final List<Class> JAXB_CONTEXT_CLASSES = new ArrayList<>();
 
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to
@@ -39,12 +39,12 @@ public class XmlConverter {
      */
     public final static synchronized void registerTypes(Class... types) {
         // Place new types in jaxbContextClasses.
-        jaxbContextClasses.addAll(Arrays.asList(types));
-        int numberOfClasses = jaxbContextClasses.size();
+        JAXB_CONTEXT_CLASSES.addAll(Arrays.asList(types));
+        final int numberOfClasses = JAXB_CONTEXT_CLASSES.size();
 
         // Use jaxbContextClasses to reinitialize the JAXB context.
         try {
-            jc = JAXBContext.newInstance(jaxbContextClasses.toArray(new Class[numberOfClasses]));
+            jaxbContext = JAXBContext.newInstance(JAXB_CONTEXT_CLASSES.toArray(new Class[numberOfClasses]));
         } catch (JAXBException ex) {
             throw new NationStatesAPIException(ex);
         }
@@ -61,7 +61,7 @@ public class XmlConverter {
      */
     public final static <T> T xmlToObject(InputStream xml, Class<T> toType) {
         try {
-            Unmarshaller unmarshaller = jc.createUnmarshaller();
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             StreamSource xmlstream = new StreamSource(xml);
             JAXBElement<T> je1 = unmarshaller.unmarshal(xmlstream, toType);
             return je1.getValue();
@@ -78,7 +78,7 @@ public class XmlConverter {
      */
     public final static ByteArrayOutputStream objectToXml(Object obj) {
         try {
-            Marshaller marshaller = jc.createMarshaller();
+            Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             marshaller.marshal(obj, stream);

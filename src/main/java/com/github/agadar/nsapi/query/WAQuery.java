@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.query.blueprint.ShardQuery;
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.wa.WorldAssembly;
 import com.github.agadar.nsapi.enums.Council;
 import com.github.agadar.nsapi.enums.shard.WAShard;
@@ -49,7 +48,7 @@ public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard> {
         super.validateQueryParameters();
 
         if (resourceValue == null || resourceValue.isEmpty()) {
-            throw new NationStatesAPIException("No council number supplied!");
+            throw new IllegalArgumentException("No council number supplied!");
         }
     }
 

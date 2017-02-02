@@ -15,8 +15,7 @@ import com.github.agadar.nsapi.query.VerifyQuery;
 import com.github.agadar.nsapi.query.VersionQuery;
 import com.github.agadar.nsapi.query.WAQuery;
 import com.github.agadar.nsapi.query.WorldQuery;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,50 +46,6 @@ public final class NSAPI {
     }
 
     /**
-     * Adds the given classes to the JAXB context so that they can be parsed to
-     * from retrieved XML responses and files. Classes that inherit any of the
-     * classes in the domain-package don't need any xml-annotations. Classes
-     * that do no inherit those classes, do need xml-annotations.
-     *
-     * Deprecated. Use XmlConverter.registerTypes(...) instead.
-     *
-     * @param types the classes to add to the JAXB context
-     */
-    @Deprecated
-    public final static synchronized void registerJaxbTypes(Class... types) {
-        XmlConverter.registerTypes(types);
-    }
-
-    /**
-     * Uses JAXB to parse the supplied XML stream to an instance of the
-     * specified type.
-     *
-     * Deprecated. Use XmlConverter.xmlToObject(...) instead.
-     *
-     * @param <T> the type to parse to
-     * @param xml the XML stream
-     * @param toType the type to parse to
-     * @return instance of the specified type
-     */
-    @Deprecated
-    public final static <T> T xmlToObject(InputStream xml, Class<T> toType) {
-        return XmlConverter.xmlToObject(xml, toType);
-    }
-
-    /**
-     * Uses JAXB to parse an object to an output stream.
-     *
-     * Deprecated. Use XmlConverter.objectToXml instead.
-     *
-     * @param obj object to parse to output stream
-     * @return an output stream
-     */
-    @Deprecated
-    public final static ByteArrayOutputStream objectToXml(Object obj) {
-        return XmlConverter.objectToXml(obj);
-    }
-
-    /**
      * Sets the User Agent. If this is the first time the User Agent is set,
      * then a version check is automatically done as well.
      *
@@ -100,11 +55,12 @@ public final class NSAPI {
      * or something else that can help them contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
+     * @throws IllegalArgumentException if userAgent is null or empty.
      */
     public static void setUserAgent(String userAgent) {
         // Make sure the new value is not null or empty.
         if (userAgent == null || userAgent.isEmpty()) {
-            throw new NationStatesAPIException("Tried to set null or empty User Agent!");
+            throw new IllegalArgumentException("User Agent may not be null or empty");
         }
 
         // If all is well, set the user agent and do a version check.

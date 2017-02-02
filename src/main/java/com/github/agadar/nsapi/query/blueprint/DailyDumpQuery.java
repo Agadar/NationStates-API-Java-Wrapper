@@ -149,7 +149,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         super.validateQueryParameters();
 
         if (mode == null) {
-            throw new NationStatesAPIException("'mode' may not be null!");
+            throw new IllegalArgumentException("'mode' may not be null!");
         }
     }
 

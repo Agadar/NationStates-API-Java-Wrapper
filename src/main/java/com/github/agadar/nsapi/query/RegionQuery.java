@@ -1,6 +1,5 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.domain.region.Region;
 import com.github.agadar.nsapi.enums.shard.RegionShard;
 import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
@@ -121,7 +120,7 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
         super.validateQueryParameters();
 
         if (resourceValue == null || resourceValue.isEmpty()) {
-            throw new NationStatesAPIException("No or empty region name supplied!");
+            throw new IllegalArgumentException("No or empty region name supplied!");
         }
     }
 

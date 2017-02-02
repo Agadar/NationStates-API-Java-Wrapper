@@ -1,6 +1,5 @@
 package com.github.agadar.nsapi.query;
 
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -64,11 +63,11 @@ public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
         super.validateQueryParameters();
 
         if (nation == null || nation.isEmpty()) {
-            throw new NationStatesAPIException("No or empty nation name supplied!");
+            throw new IllegalArgumentException("No or empty nation name supplied!");
         }
 
         if (checksum == null || checksum.isEmpty()) {
-            throw new NationStatesAPIException("No or empty checksum supplied!");
+            throw new IllegalArgumentException("No or empty checksum supplied!");
         }
     }
 
