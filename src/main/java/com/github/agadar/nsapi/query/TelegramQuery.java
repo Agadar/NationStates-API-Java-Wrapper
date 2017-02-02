@@ -5,6 +5,7 @@ import com.github.agadar.nsapi.event.TelegramSentListener;
 import com.github.agadar.nsapi.query.blueprint.APIQuery;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,28 +20,28 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     /**
      * The mandated time between normal and campaign telegrams.
      */
-    public static final int timeBetweenTGs = 30050;
+    public static final int TIME_BETWEEN_TELEGRAMS = 30050;
 
     /**
      * The mandated time between recruitment telegrams.
      */
-    public static final int timeBetweenRecruitTGs = 180050;
+    public static final int TIME_BETWEEN_RECRUITMENT_TELEGRAMS = 180050;
 
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1
      * telegram per 30 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 30.05 seconds.
      */
-    private static final DependantRateLimiter TGrateLimiter
-            = new DependantRateLimiter(1, timeBetweenTGs, RATE_LIMITER);
+    private static final DependantRateLimiter TELEGRAM_RATE_LIMITER
+            = new DependantRateLimiter(1, TIME_BETWEEN_TELEGRAMS, RATE_LIMITER);
 
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 180.05 seconds.
      */
-    private static final DependantRateLimiter RecruitTGrateLimiter
-            = new DependantRateLimiter(1, timeBetweenRecruitTGs, TGrateLimiter);
+    private static final DependantRateLimiter RECRUITMENT_TELEGRAM_RATE_LIMITER
+            = new DependantRateLimiter(1, TIME_BETWEEN_RECRUITMENT_TELEGRAMS, TELEGRAM_RATE_LIMITER);
 
     /**
      * List of listeners.
@@ -160,7 +161,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     @Override
-    protected <T extends Void> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T translateResponse(InputStream response, Class<T> type) {
         return null;
     }
 
@@ -178,12 +179,12 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         }
 
         // Calculate and return estimated time
-        int individual = isRecruitment ? timeBetweenRecruitTGs : timeBetweenTGs;
+        int individual = isRecruitment ? TIME_BETWEEN_RECRUITMENT_TELEGRAMS : TIME_BETWEEN_TELEGRAMS;
         return nations.length * individual;
     }
 
     @Override
-    public <T extends Void> T execute(Class<T> type) {
+    public <T> T execute(Class<T> type) {
         // Validate parameters and build base url.
         validateQueryParameters();
         String baseUrl = buildURL();
@@ -231,8 +232,8 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     @Override
     protected RateLimiter getRateLimiter() {
         if (isRecruitment) {
-            return RecruitTGrateLimiter;
+            return RECRUITMENT_TELEGRAM_RATE_LIMITER;
         }
-        return TGrateLimiter;
+        return TELEGRAM_RATE_LIMITER;
     }
 }

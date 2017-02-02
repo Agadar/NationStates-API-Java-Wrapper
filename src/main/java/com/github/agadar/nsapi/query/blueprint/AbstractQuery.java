@@ -88,7 +88,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param type the type to return
      * @return the result, of the given type
      */
-    public <T extends R> T execute(Class<T> type) {
+    public <T> T execute(Class<T> type) {
         validateQueryParameters();
         return makeRequest(buildURL().replace(' ', '_'), type);
     }
@@ -103,7 +103,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param type type to parse to
      * @return the retrieved data, or null if the resource wasn't found
      */
-    protected final <T extends R> T makeRequest(String urlStr, Class<T> type) {
+    protected final <T> T makeRequest(String urlStr, Class<T> type) {
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
@@ -158,7 +158,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param type type to parse to
      * @return the translated response
      */
-    protected <T extends R> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T translateResponse(InputStream response, Class<T> type) {
         // Read and convert the response body.
         return XmlConverter.xmlToObject(response, type);
     }

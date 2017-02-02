@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.query.blueprint.APIQuery;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public final class VersionQuery extends APIQuery<VersionQuery, Integer> {
     }
 
     @Override
-    protected <T extends Integer> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T translateResponse(InputStream response, Class<T> type) {
         Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
         return (T) Integer.valueOf(body);

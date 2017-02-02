@@ -110,7 +110,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     @Override
-    protected <T extends R> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T translateResponse(InputStream response, Class<T> type) {
         try {
             response = new GZIPInputStream(response);
             return super.translateResponse(response, type);
@@ -120,7 +120,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     @Override
-    public <T extends R> T execute(Class<T> type) {
+    public <T> T execute(Class<T> type) {
         validateQueryParameters();
         boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
@@ -205,7 +205,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private <T extends R> T readLocal(String directory, Class<T> type) {
+    private <T> T readLocal(String directory, Class<T> type) {
         try {
             InputStream stream = new FileInputStream(directory + "\\" + getFileName());
             T obj = translateResponse(stream, type);
