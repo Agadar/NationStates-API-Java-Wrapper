@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<String>> {
 
     @Override
-    public String marshal(List<String> bt) throws Exception {
+    public String marshal(List<String> bt) {
         String codes = "";
 
         for (String s : bt) {
@@ -26,7 +26,7 @@ public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<Strin
     }
 
     @Override
-    public List<String> unmarshal(String vt) throws Exception {
+    public List<String> unmarshal(String vt) {
         final List<String> names = new ArrayList<>();
 
         for (String letter : vt.split("")) {

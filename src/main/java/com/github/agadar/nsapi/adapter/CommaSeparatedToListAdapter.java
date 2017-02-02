@@ -13,12 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public final class CommaSeparatedToListAdapter extends XmlAdapter<String, List<String>> {
 
     @Override
-    public String marshal(List<String> bt) throws Exception {
+    public String marshal(List<String> bt) {
         return String.join(",", bt.toArray(new String[bt.size()]));
     }
 
     @Override
-    public List<String> unmarshal(String vt) throws Exception {
+    public List<String> unmarshal(String vt) {
         return Arrays.<String>asList(vt.split(","));
     }
 

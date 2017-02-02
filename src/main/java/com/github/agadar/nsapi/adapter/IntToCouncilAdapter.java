@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public final class IntToCouncilAdapter extends XmlAdapter<Integer, Council> {
 
     @Override
-    public Integer marshal(Council bt) throws Exception {
+    public Integer marshal(Council bt) {
         return bt.getCouncilNumber();
     }
 
     @Override
-    public Council unmarshal(Integer vt) throws Exception {
+    public Council unmarshal(Integer vt) {
         return Council.getByNumber(vt);
     }
 

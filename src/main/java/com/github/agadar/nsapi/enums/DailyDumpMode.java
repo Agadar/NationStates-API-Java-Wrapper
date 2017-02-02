@@ -22,5 +22,6 @@ public enum DailyDumpMode {
      * Downloads the gzip file from the server, then reads it from the file
      * system.
      */
-    DOWNLOAD_THEN_READ_LOCAL,
+    DOWNLOAD_THEN_READ_LOCAL
+    ;
 }

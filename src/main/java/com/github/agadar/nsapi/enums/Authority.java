@@ -64,6 +64,9 @@ public enum Authority {
      * @return the corresponding Authority
      */
     public static Authority getByAuthName(String authName) {
+        if (!STRINGS_TO_ENUMS.containsKey(authName)) {
+            throw new IllegalArgumentException("'" + authName + "' cannot be parsed to this enum");
+        }
         return STRINGS_TO_ENUMS.get(authName);
     }
 

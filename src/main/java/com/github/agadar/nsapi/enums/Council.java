@@ -36,7 +36,14 @@ public enum Council {
      * @return the corresponding Council
      */
     public static Council getByNumber(int councilNumber) {
-        return values()[councilNumber - 1];
+        switch (councilNumber) {
+            case 1:
+                return GENERAL_ASSEMBLY;
+            case 2:
+                return SECURITY_COUNCIL;
+            default:
+                throw new IllegalArgumentException("'councilNumber' should be either 1 or 2");
+        }
     }
     
     /**
