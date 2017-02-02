@@ -12,7 +12,6 @@ public class StringToEmbassyAdapter extends XmlAdapter<String, EmbassyStatus> {
 
     @Override
     public EmbassyStatus unmarshal(String vt) {
-        System.out.println("                PRAISE KEK                -");
         return EmbassyStatus.getByString(vt);
     }
 
