@@ -77,7 +77,7 @@ public class Region {
      * regions.
      */
     @XmlElement(name = "EMBASSYRMB")
-    public String embassiesRMBPerms;
+    public String embassiesRMBPermissions;
 
     /**
      * The complete mark-up of the regional factbook.
@@ -95,13 +95,13 @@ public class Region {
      * Description of when this region was founded.
      */
     @XmlElement(name = "FOUNDED")
-    public String founded;
+    public String foundedDescription;
 
     /**
      * UNIX timestamp of when this region was founded.
      */
     @XmlElement(name = "FOUNDEDTIME")
-    public Long foundedTime;
+    public Long founded;
 
     /**
      * The name of the region's founding nation. Returns '0' if none exists.

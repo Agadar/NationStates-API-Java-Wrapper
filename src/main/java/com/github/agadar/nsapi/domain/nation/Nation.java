@@ -180,13 +180,13 @@ public class Nation {
      * Description of when this nation was founded.
      */
     @XmlElement(name = "FOUNDED")
-    public String founded;
+    public String foundedDescription;
 
     /**
      * UNIX timestamp of when this nation was founded.
      */
     @XmlElement(name = "FOUNDEDTIME")
-    public Long foundedTime;
+    public Long founded;
 
     /**
      * The nation's civil rights, economy, and political freedoms scores.
@@ -326,7 +326,7 @@ public class Nation {
      * The nation's regional census rank.
      */
     @XmlElement(name = "RCENSUS")
-    public int censusRankInRegion;
+    public int regionalCensusRank;
 
     /**
      * Name of the region this nation is in.
@@ -399,7 +399,7 @@ public class Nation {
      * The nation's world-wide census rank.
      */
     @XmlElement(name = "WCENSUS")
-    public int censusRankInWorld;
+    public int worldCensusRank;
 
     /**
      * This nation's statistics of the current or last zombie event.

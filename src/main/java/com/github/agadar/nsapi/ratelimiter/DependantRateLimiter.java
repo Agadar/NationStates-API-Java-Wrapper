@@ -22,7 +22,10 @@ public final class DependantRateLimiter extends RateLimiter {
      */
     public DependantRateLimiter(int requests, int milliseconds, RateLimiter dependant) {
         super(requests, milliseconds);
-        assert dependant != null;
+        
+        if (dependant == null) {
+            throw new IllegalArgumentException("'dependant' may not be null");
+        }
         this.dependant = dependant;
     }
 
