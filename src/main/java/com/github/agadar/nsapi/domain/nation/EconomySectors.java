@@ -19,23 +19,23 @@ public class EconomySectors {
      * Percentage of the economy that is black market
      */
     @XmlElement(name = "BLACKMARKET")
-    public double BlackMarket;
+    public double blackMarket;
 
     /**
      * Percentage of the economy that is government
      */
     @XmlElement(name = "GOVERNMENT")
-    public double Government;
+    public double government;
 
     /**
      * Percentage of the economy that is privately owned
      */
     @XmlElement(name = "INDUSTRY")
-    public double PrivateIndustry;
+    public double privateIndustry;
 
     /**
      * Percentage of the economy that is state-owned
      */
     @XmlElement(name = "PUBLIC")
-    public double StateOwnedIndustry;
+    public double stateOwnedIndustry;
 }

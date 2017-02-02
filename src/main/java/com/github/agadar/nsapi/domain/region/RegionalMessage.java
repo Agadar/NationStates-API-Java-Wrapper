@@ -1,7 +1,9 @@
 package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -22,19 +24,19 @@ public class RegionalMessage {
      * The message's id
      */
     @XmlAttribute(name = "id")
-    public long Id;
+    public long id;
 
     /**
      * UNIX timestamp of when this message was posted
      */
     @XmlElement(name = "TIMESTAMP")
-    public long Timestamp;
+    public long timestamp;
 
     /**
      * Name of the nation that posted the message
      */
     @XmlElement(name = "NATION")
-    public String Author;
+    public String author;
 
     /**
      * The message's status. Can be any of the following:
@@ -45,31 +47,31 @@ public class RegionalMessage {
      * viewable; 9: Post was suppressed by a moderator and is not viewable.
      */
     @XmlElement(name = "STATUS")
-    public int Status;
+    public int status;
 
     /**
      * Name of the nation that suppressed this post. Only set if the post is
      * suppressed and done so by a non-moderator (status 1).
      */
     @XmlElement(name = "SUPPRESSOR")
-    public String Suppressor;
+    public String suppressor;
 
     /**
      * The number of likes this message received
      */
     @XmlElement(name = "LIKES")
-    public int NumberOfLikes;
+    public int numberOfLikes;
 
     /**
      * List of nations that liked this message
      */
     @XmlElement(name = "LIKERS")
     @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
-    public List<String> LikedBy;
+    public List<String> likedBy;
 
     /**
      * The text of the message
      */
     @XmlElement(name = "MESSAGE")
-    public String Text;
+    public String text;
 }

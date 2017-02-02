@@ -6,25 +6,43 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum HapFilter {
+    LAW("law"),
+    CHANGE("change"),
+    DISPATCH("dispatch"),
+    REGIONAL_MESSAGE_BOARD("rmb"),
+    EMBASSY("embassy"),
+    EJECT("eject"),
+    ADMIN("admin"),
+    MOVE("move"),
+    FOUNDING("founding"),
+    CEASED_TO_EXIST("cte"),
+    VOTE("vote"),
+    RESOLUTION("resolution"),
+    MEMBER("member"),
+    ENDORSEMENT("endo")
+    ;
+    
+    /**
+     * The subcategories as they're known by the server.
+     */
+    private final String underlying;
 
-    law,
-    change,
-    dispatch,
-    rmb,
-    embassy,
-    eject,
-    admin,
-    move,
-    founding,
     /**
-     * Ceased to exist.
+     * Return the underlying string.
+     *
+     * @return the underlying string.
      */
-    cte,
-    vote,
-    resolution,
-    member,
+    @Override
+    public String toString() {
+        return underlying;
+    }
+    
     /**
-     * Endorsement.
+     * Instantiate a new entry with the given underlying string.
+     *
+     * @param underlying The underlying string.
      */
-    endo;
+    private HapFilter(String underlying) {
+        this.underlying = underlying;
+    }
 }

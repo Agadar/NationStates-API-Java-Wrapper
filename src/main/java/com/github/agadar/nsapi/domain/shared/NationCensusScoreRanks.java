@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi.domain.shared;
 
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -22,12 +23,12 @@ public class NationCensusScoreRanks {
      * The id of the scale
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * The nation scores
      */
     @XmlElementWrapper(name = "NATIONS")
     @XmlElement(name = "NATION")
-    public List<NationCensusScore> Nations;
+    public List<NationCensusScore> nations;
 }

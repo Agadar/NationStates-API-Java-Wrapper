@@ -2,7 +2,9 @@ package com.github.agadar.nsapi.domain.wa;
 
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
 import com.github.agadar.nsapi.domain.shared.Happening;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,60 +29,60 @@ public class WorldAssembly {
      * The number of member nations. Same for both councils.
      */
     @XmlElement(name = "NUMNATIONS")
-    public int NumberOfMembers;
+    public int numberOfMembers;
 
     /**
      * The number of delegates. Same for both councils.
      */
     @XmlElement(name = "NUMDELEGATES")
-    public int NumberOfDelegates;
+    public int numberOfDelegates;
 
     /**
      * The list of delegates. Same for both councils.
      */
     @XmlElement(name = "DELEGATES")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> Delegates;
+    public List<String> delegates;
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> Members;
+    public List<String> members;
 
     /**
      * Most recent happenings. Same for both councils.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public List<Happening> RecentHappenings;
+    public List<Happening> recentHappenings;
 
     /**
      * Most recent member log entries. Same for both councils.
      */
     @XmlElementWrapper(name = "MEMBERLOG")
     @XmlElement(name = "EVENT")
-    public List<Happening> RecentMemberLog;
+    public List<Happening> recentMemberLog;
 
     /**
      * Current proposed resolutions.
      */
     @XmlElementWrapper(name = "PROPOSALS")
     @XmlElement(name = "PROPOSAL")
-    public List<Proposal> CurrentProposals;
+    public List<Proposal> currentProposals;
 
     /**
      * The current resolution at vote, or a specific one if an id is supplied.
      */
     @XmlElement(name = "RESOLUTION")
-    public Resolution Resolution;
+    public Resolution resolution;
 
     /**
      * Brief description of the end result of the last proposed resolution.
      */
     @XmlElement(name = "LASTRESOLUTION")
-    public String LastResolutionResult;
+    public String lastResolutionResult;
 
     /**
      * A log containing when what delegates voted, and what for, during the
@@ -88,12 +90,8 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted, and what for
      */
-    public List<DelLogEntry> DelegateLog() {
-        if (Resolution == null) {
-            return null;
-        }
-
-        return Resolution.DelegateLog;
+    public List<DelLogEntry> delegateLog() {
+        return (resolution == null) ? null : resolution.delegateLog;
     }
 
     /**
@@ -102,12 +100,8 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelLogEntry> DelegateVotesFor() {
-        if (Resolution == null) {
-            return null;
-        }
-
-        return Resolution.DelegateVotesFor;
+    public List<DelLogEntry> delegateVotesFor() {
+        return (resolution == null) ? null : resolution.delegateVotesFor;
     }
 
     /**
@@ -116,12 +110,8 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelLogEntry> DelegateVotesAgainst() {
-        if (Resolution == null) {
-            return null;
-        }
-
-        return Resolution.DelegateVotesAgainst;
+    public List<DelLogEntry> delegateVotesAgainst() {
+        return (resolution == null) ? null : resolution.delegateVotesAgainst;
     }
 
     /**
@@ -130,12 +120,8 @@ public class WorldAssembly {
      *
      * @return track record of the total FOR votes
      */
-    public List<Integer> VoteTrackFor() {
-        if (Resolution == null) {
-            return null;
-        }
-
-        return Resolution.VoteTrackFor;
+    public List<Integer> voteTrackFor() {
+        return (resolution == null) ? null : resolution.voteTrackFor;
     }
 
     /**
@@ -144,11 +130,7 @@ public class WorldAssembly {
      *
      * @return track record of the total AGAINST votes
      */
-    public List<Integer> VoteTrackAgainst() {
-        if (Resolution == null) {
-            return null;
-        }
-
-        return Resolution.VoteTrackAgainst;
+    public List<Integer> voteTrackAgainst() {
+        return (resolution == null) ? null : resolution.voteTrackAgainst;
     }
 }

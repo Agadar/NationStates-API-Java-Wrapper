@@ -11,28 +11,28 @@ public enum RegionShard implements Shard {
     /**
      * This region's census scale scores.
      */
-    Census("CENSUS"),
+    CENSUS("CENSUS"),
     /**
      * The census scale scores of this region's nations.
      */
-    CensusRanks("CENSUSRANKS"),
+    CENSUS_RANKS("CENSUSRANKS"),
     /**
      * The name of the nation that is the region's world assembly delegate.
      * Returns '0' if no delegate exists.
      */
-    Delegate("DELEGATE"),
+    DELEGATE("DELEGATE"),
     /**
      * The authorities granted to the region's world assembly delegate.
      */
-    DelegateAuthorities("DELEGATEAUTH"),
+    DELEGATE_AUTHORITIES("DELEGATEAUTH"),
     /**
      * The number of endorsements the region's world assembly delegate has.
      */
-    DelegateEndorsements("DELEGATEVOTES"),
+    DELEGATE_ENDORSEMENTS("DELEGATEVOTES"),
     /**
      * The region's embassies.
      */
-    Embassies("EMBASSIES"),
+    EMBASSIES("EMBASSIES"),
     /**
      * Regional Message Board permissions for regions with which this region
      * exchanges embassies. Descriptions of the codes:
@@ -42,95 +42,95 @@ public enum RegionShard implements Shard {
      * regions with Communications authority; 'all': All residents of embassy
      * regions.
      */
-    EmbassiesRMBPerms("EMBASSYRMB"),
+    EMBASSIES_RMB_PERMISSIONS("EMBASSYRMB"),
     /**
      * The complete mark-up of the regional factbook.
      */
-    Factbook("FACTBOOK"),
+    FACTBOOK("FACTBOOK"),
     /**
      * URL to the region's flag image.
      */
-    FlagUrl("FLAG"),
+    FLAG_URL("FLAG"),
     /**
      * Description of when this region was founded.
      */
-    Founded("FOUNDED"),
+    FOUNDED_DESCRIPTION("FOUNDED"),
     /**
      * UNIX timestamp of when this region was founded.
      */
-    FoundedTime("FOUNDEDTIME"),
+    FOUNDED("FOUNDEDTIME"),
     /**
      * The name of the region's founding nation. Returns '0' if none exists.
      */
-    Founder("FOUNDER"),
+    FOUNDER("FOUNDER"),
     /**
      * The authorities granted to the region's founder.
      */
-    FounderAuthorities("FOUNDERAUTH"),
+    FOUNDER_AUTHORITIES("FOUNDERAUTH"),
     /**
      * The region's votes for the current General Assembly resolution.
      */
-    GeneralAssemblyVote("GAVOTE"),
+    GENERAL_ASSEMBLY_VOTE("GAVOTE"),
     /**
      * List of the most recent of this region's happenings.
      */
-    RecentHappenings("HAPPENINGS"),
+    RECENT_HAPPENINGS("HAPPENINGS"),
     /**
      * List of history. Not sure what these are.
      */
-    History("HISTORY"),
+    HISTORY("HISTORY"),
     /**
      * List of 10 most recent regional messages.
      */
-    RegionalMessages("MESSAGES"),
+    REGIONAL_MESSAGES("MESSAGES"),
     /**
      * Ranking of nations with most RMB likes given.
      */
-    MostLiked("MOSTLIKED"),
+    MOST_LIKED("MOSTLIKED"),
     /**
      * Ranking of nations with most RMB likes received.
      */
-    MostLikes("MOSTLIKES"),
+    MOST_LIKES("MOSTLIKES"),
     /**
      * Ranking of nations with most RMB posts made.
      */
-    MostPosts("MOSTPOSTS"),
+    MOST_POSTS("MOSTPOSTS"),
     /**
      * The region's name.
      */
-    Name("NAME"),
+    NAME("NAME"),
     /**
      * List of nations that inhabit this region.
      */
-    NationNames("NATIONS"),
+    NATION_NAMES("NATIONS"),
     /**
      * The number of nations that inhabit this region.
      */
-    NumberOfNations("NUMNATIONS"),
+    NUMBER_OF_NATIONS("NUMNATIONS"),
     /**
      * List of regional officers.
      */
-    Officers("OFFICERS"),
+    OFFICERS("OFFICERS"),
     /**
      * The regional poll that is currently being conducted.
      */
-    CurrentPoll("POLL"),
+    CURRENT_POLL("POLL"),
     /**
      * The region's power.
      */
-    Power("POWER"),
+    POWER("POWER"),
     /**
      * The region's votes for the current Security Council resolution.
      */
-    SecurityCouncilVote("SCVOTE"),
+    SECURITY_COUNCIL_VOTE("SCVOTE"),
     /**
      * The region's tags.
      */
-    Tags("TAGS"),
+    TAGS("TAGS"),
     /**
      * This region's statistics of the current or last zombie event.
      */
-    ZombieInfo("ZOMBIE");
+    ZOMBIE_INFO("ZOMBIE");
 
     /**
      * The underlying shard name

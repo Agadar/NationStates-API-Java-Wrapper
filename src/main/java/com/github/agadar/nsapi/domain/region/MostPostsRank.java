@@ -18,11 +18,11 @@ public class MostPostsRank {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String Name;
+    public String name;
 
     /**
      * Number of posts made by this nation.
      */
     @XmlElement(name = "POSTS")
-    public int Posts;
+    public int posts;
 }

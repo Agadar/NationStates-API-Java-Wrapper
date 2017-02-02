@@ -19,23 +19,23 @@ public class ZombieInfo {
      * The action the nation undertook. Not used for regions.
      */
     @XmlElement(name = "ZACTION")
-    public String Action;
+    public String action;
 
     /**
      * The number of survivors
      */
     @XmlElement(name = "SURVIVORS")
-    public int Survivors;
+    public int survivors;
 
     /**
      * The number of zombies
      */
     @XmlElement(name = "ZOMBIES")
-    public int Zombies;
+    public int zombies;
 
     /**
      * The number of dead people
      */
     @XmlElement(name = "DEAD")
-    public int Dead;
+    public int dead;
 }

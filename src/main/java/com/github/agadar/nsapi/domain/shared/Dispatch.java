@@ -17,60 +17,60 @@ public class Dispatch {
      * This dispatch's id.
      */
     @XmlAttribute(name = "id")
-    public long Id;
+    public long id;
 
     /**
      * The dispatch's title.
      */
     @XmlElement(name = "TITLE")
-    public String Title;
+    public String title;
 
     /**
      * The author nation.
      */
     @XmlElement(name = "AUTHOR")
-    public String Author;
+    public String author;
 
     /**
      * The dispatch's category.
      */
     @XmlElement(name = "CATEGORY")
-    public String Category;
+    public String category;
 
     /**
      * The dispatch's subcategory.
      */
     @XmlElement(name = "SUBCATEGORY")
-    public String SubCategory;
+    public String subCategory;
 
     /**
      * UNIX timestamp when this dispatch was created.
      */
     @XmlElement(name = "CREATED")
-    public long CreatedOn;
+    public long createdOn;
 
     /**
      * UNIX timestamp when this dispatch was last edited.
      */
     @XmlElement(name = "EDITED")
-    public long LastEditedOn;
+    public long lastEditedOn;
 
     /**
      * Number of views of this dispatch.
      */
     @XmlElement(name = "VIEWS")
-    public int Views;
+    public int views;
 
     /**
      * This dispatch's score.
      */
     @XmlElement(name = "SCORE")
-    public int Score;
+    public int score;
 
     /**
      * This dispatch's text. Not provided by the 'nation' resource: Only by the
      * 'world' resource with the SelectedDispatch shard.
      */
     @XmlElement(name = "TEXT")
-    public String Text;
+    public String text;
 }

@@ -9,115 +9,105 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum CensusId {
-
-    CivilRights(0),
-    Economy(1),
-    PoliticalFreedom(2),
-    Population(3),
-    WealthGaps(4),
-    DeathRate(5),
-    Compassion(6),
-    EcoFriendliness(7),
-    SocialConservatism(8),
-    Nudity(9),
-    IndustryAutomobileManufacturing(10),
-    IndustryCheeseExports(11),
-    IndustryBasketWeaving(12),
-    IndustryInformationTechnology(13),
-    IndustryPizzaDelivery(14),
-    IndustryTroutFishing(15),
-    IndustryArmsManufacturing(16),
-    SectorAgriculture(17),
-    IndustryBeverageSales(18),
-    IndustryTimberWoodchipping(19),
-    IndustryMining(20),
-    IndustryInsurance(21),
-    IndustryFurnitureRestoration(22),
-    IndustryRetail(23),
-    IndustryBookPublishing(24),
-    IndustryGambling(25),
-    SectorManufacturing(26),
-    GovernmentSize(27),
-    Welfare(28),
-    PublicHealthcare(29),
-    LawEnforcement(30),
-    BusinessSubsidization(31),
-    Religiousness(32),
-    IncomeEquality(33),
-    Niceness(34),
-    Rudeness(35),
-    Intelligence(36),
-    Ignorance(37),
-    PoliticalApathy(38),
-    Health(39),
-    Cheerfulness(40),
-    Weather(41),
-    Compliance(42),
-    Safety(43),
-    Lifespan(44),
-    IdeologicalRadicality(45),
-    DefenseForces(46),
-    Pacifism(47),
-    EconomicFreedom(48),
-    Taxation(49),
-    FreedomFromTaxation(50),
-    Corruption(51),
-    Integrity(52),
-    Authoritarianism(53),
-    YouthRebelliousness(54),
-    Culture(55),
-    Employment(56),
-    PublicTransport(57),
-    Tourism(58),
-    Weaponization(59),
-    RecreationalDrugUse(60),
-    Obesity(61),
-    Secularism(62),
-    EnvironmentalBeauty(63),
-    Charmlessness(64),
-    Influence(65),
-    WorldAssemblyEndorsements(66),
-    Averageness(67),
-    HumanDevelopmentIndex(68),
-    Primitiveness(69),
-    ScientificAdvancement(70),
-    Inclusiveness(71),
-    AverageIncome(72),
-    AverageIncomeofPoor(73),
-    AverageIncomeofRich(74),
-    PublicEducation(75),
-    EconomicOutput(76),
-    Crime(77),
-    ForeignAid(78),
-    BlackMarket(79),
-    Residency(80);
+    CIVIL_RIGHTS(0),
+    ECONOMY(1),
+    POLITICAL_FREEDOM(2),
+    POPULATION(3),
+    WEALTH_GAPS(4),
+    DEATH_RATE(5),
+    COMPASSION(6),
+    ECO_FRIENDLINESS(7),
+    SOCIAL_CONSERVATISM(8),
+    NUDITY(9),
+    INDUSTRY_AUTOMOBILE_MANUFACTURING(10),
+    INDUSTRY_CHEESE_EXPORTS(11),
+    INDUSTRY_BASKET_WEAVING(12),
+    INDUSTRY_INFORMATION_TECHNOLOGY(13),
+    INDUSTRY_PIZZA_DELIVERY(14),
+    INDUSTRY_TROUT_FISHING(15),
+    INDUSTRY_ARMS_MANUFACTURING(16),
+    SECTOR_AGRICULTURE(17),
+    INDUSTRY_BEVERAGE_SALES(18),
+    INDUSTRY_TIMBERWOOD_CHIPPING(19),
+    INDUSTRY_MINING(20),
+    INDUSTRY_INSURANCE(21),
+    INDUSTRY_FURNITURE_RESTORATION(22),
+    INDUSTRY_RETAIL(23),
+    INDUSTRY_BOOK_PUBLISHING(24),
+    INDUSTRY_GAMBLING(25),
+    SECTOR_MANUFACTURING(26),
+    GOVERNMENT_SIZE(27),
+    WELFARE(28),
+    PUBLIC_HEALTHCARE(29),
+    LAW_ENFORCEMENT(30),
+    BUSINESS_SUBSIDIZATION(31),
+    RELIGIOUSNESS(32),
+    INCOME_EQUALITY(33),
+    NICENESS(34),
+    RUDENESS(35),
+    INTELLIGENCE(36),
+    IGNORANCE(37),
+    POLITICAL_APATHY(38),
+    HEALTH(39),
+    CHEERFULNESS(40),
+    WEATHER(41),
+    COMPLIANCE(42),
+    SAFETY(43),
+    LIFESPAN(44),
+    IDEOLOGICAL_RADICALITY(45),
+    DEFENSE_FORCES(46),
+    PACIFISM(47),
+    ECONOMIC_FREEDOM(48),
+    TAXATION(49),
+    FREEDOM_FROM_TAXATION(50),
+    CORRUPTION(51),
+    INTEGRITY(52),
+    AUTHORITARIANISM(53),
+    YOUTH_REBELLIOUSNESS(54),
+    CULTURE(55),
+    EMPLOYMENT(56),
+    PUBLIC_TRANSPORT(57),
+    TOURISM(58),
+    WEAPONIZATION(59),
+    RECREATIONAL_DRUG_USE(60),
+    OBESITY(61),
+    SECULARISM(62),
+    ENVIRONMENTAL_BEAUTY(63),
+    CHARMLESSNESS(64),
+    INFLUENCE(65),
+    WORLD_ASSEMBLY_ENDORSEMENTS(66),
+    AVERAGENESS(67),
+    HUMAN_DEVELOPMENT_INDEX(68),
+    PRIMITIVENESS(69),
+    SCIENTIFIC_ADVANCEMENT(70),
+    INCLUSIVENESS(71),
+    AVERAGE_INCOME(72),
+    AVERAGE_INCOME_OF_POOR(73),
+    AVERAGE_INCOME_OF_RICH(74),
+    PUBLIC_EDUCATION(75),
+    ECONOMIC_OUTPUT(76),
+    CRIME(77),
+    FOREIGN_AID(78),
+    BLACK_MARKET(79),
+    RESIDENCY(80);
 
     /**
      * The underlying id.
      */
-    private final int Id;
+    private final int id;
 
     /**
      * Map for reverse look-up via id.
      */
-    private final static Map<Integer, CensusId> Reverse = new HashMap<>();
+    private final static Map<Integer, CensusId> INTS_TO_ENUMS = new HashMap<>();
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
         for (CensusId censusId : values()) {
-            Reverse.put(censusId.Id, censusId);
+            INTS_TO_ENUMS.put(censusId.id, censusId);
         }
-    }
-
-    /**
-     * Instantiate a new entry with the given id.
-     *
-     * @param id the id
-     */
-    private CensusId(int id) {
-        this.Id = id;
     }
 
     /**
@@ -126,7 +116,7 @@ public enum CensusId {
      * @return the id
      */
     public int getId() {
-        return Id;
+        return id;
     }
 
     /**
@@ -136,6 +126,15 @@ public enum CensusId {
      * @return the CensusId mapped to the given id
      */
     public static CensusId getById(int id) {
-        return Reverse.get(id);
+        return INTS_TO_ENUMS.get(id);
+    }
+    
+    /**
+     * Instantiate a new entry with the given id.
+     *
+     * @param id the id
+     */
+    private CensusId(int id) {
+        this.id = id;
     }
 }

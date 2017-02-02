@@ -19,11 +19,11 @@ public class CensusScale {
      * Id of this census scale.
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * Scale name of this census.
      */
     @XmlValue
-    public String Scale;
+    public String scale;
 }

@@ -19,71 +19,71 @@ public class GovernmentExpenditure {
      * Percentage spent on the administration
      */
     @XmlElement(name = "ADMINISTRATION")
-    public double Administration;
+    public double administration;
 
     /**
      * Percentage spent on defence
      */
     @XmlElement(name = "DEFENCE")
-    public double Defence;
+    public double defence;
 
     /**
      * Percentage spent on education
      */
     @XmlElement(name = "EDUCATION")
-    public double Education;
+    public double education;
 
     /**
      * Percentage spent on the environment
      */
     @XmlElement(name = "ENVIRONMENT")
-    public double Environment;
+    public double environment;
 
     /**
      * Percentage spent on healthcare
      */
     @XmlElement(name = "HEALTHCARE")
-    public double Healthcare;
+    public double healthcare;
 
     /**
      * Percentage spent on commerce
      */
     @XmlElement(name = "COMMERCE")
-    public double Commerce;
+    public double commerce;
 
     /**
      * Percentage spent on international aid
      */
     @XmlElement(name = "INTERNATIONALAID")
-    public double InternationalAid;
+    public double internationalAid;
 
     /**
      * Percentage spent on law and order
      */
     @XmlElement(name = "LAWANDORDER")
-    public double LawAndOrder;
+    public double lawAndOrder;
 
     /**
      * Percentage spent on public transport
      */
     @XmlElement(name = "PUBLICTRANSPORT")
-    public double PublicTransport;
+    public double publicTransport;
 
     /**
      * Percentage spent on social equality
      */
     @XmlElement(name = "SOCIALEQUALITY")
-    public double SocialEquality;
+    public double socialEquality;
 
     /**
      * Percentage spent on spirituality
      */
     @XmlElement(name = "SPIRITUALITY")
-    public double Spirituality;
+    public double spirituality;
 
     /**
      * Percentage spent on welfare
      */
     @XmlElement(name = "WELFARE")
-    public double Welfare;
+    public double welfare;
 }

@@ -32,7 +32,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      * this to 1 telegram per 30.05 seconds.
      */
     private static final DependantRateLimiter TGrateLimiter
-            = new DependantRateLimiter(1, timeBetweenTGs, rateLimiter);
+            = new DependantRateLimiter(1, timeBetweenTGs, RATE_LIMITER);
 
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1

@@ -1,6 +1,7 @@
 package com.github.agadar.nsapi.domain.shared;
 
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,48 +22,48 @@ public class Poll {
      * The poll's id.
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * The poll's title.
      */
     @XmlElement(name = "TITLE")
-    public String Title;
+    public String title;
 
     /**
      * The poll's description.
      */
     @XmlElement(name = "TEXT")
-    public String Description;
+    public String description;
 
     /**
      * The name of the region the poll is in.
      */
     @XmlElement(name = "REGION")
-    public String Region;
+    public String region;
 
     /**
      * UNIX timestamp on which the poll opened.
      */
     @XmlElement(name = "START")
-    public long OpenedOn;
+    public long openedOn;
 
     /**
      * UNIX timestamp on which the poll will close.
      */
     @XmlElement(name = "STOP")
-    public long ClosingOn;
+    public long closingOn;
 
     /**
      * Name of the nation that opened the poll.
      */
     @XmlElement(name = "AUTHOR")
-    public String AuthorName;
+    public String authorName;
 
     /**
      * The possible options for this poll.
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    public List<PollOption> Options;
+    public List<PollOption> options;
 }

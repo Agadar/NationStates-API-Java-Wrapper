@@ -27,11 +27,11 @@ public class Embassy {
      * embassies are being closed.
      */
     @XmlAttribute(name = "type")
-    public String Status;
+    public String status;
 
     /**
      * The name of the region this embassy is with
      */
     @XmlValue
-    public String RegionName;
+    public String regionName;
 }

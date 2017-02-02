@@ -1,9 +1,10 @@
 package com.github.agadar.nsapi.query.blueprint;
 
+import static com.github.agadar.nsapi.query.blueprint.AbstractQuery.LOGGER;
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.enums.DailyDumpMode;
-import static com.github.agadar.nsapi.query.blueprint.AbstractQuery.logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -121,26 +122,24 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     @Override
     public <T extends R> T execute(Class<T> type) {
         validateQueryParameters();
-        boolean downloadAndRead = mode == DailyDumpMode.DownloadAndRead;
+        boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
-        if (downloadAndRead || mode == DailyDumpMode.Download) {
+        if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
             // Download.
             String dir = downloadDir != null && !downloadDir.isEmpty()
                     ? downloadDir : DEFAULT_DIR;
             download(dir);
         }
 
-        if (downloadAndRead || mode == DailyDumpMode.ReadLocal) {
+        if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             // Read locally.
             String dir = readFromDir != null && !readFromDir.isEmpty()
                     ? readFromDir : DEFAULT_DIR;
             return readLocal(dir, type);
-        } else if (mode == DailyDumpMode.ReadRemote) {
+        } else if (mode == DailyDumpMode.READ_REMOTE) {
             // Read remotely.
             return makeRequest(buildURL(), type);
         }
-
-        // If mode == DailyDumpMode.Download, return null.
         return null;
     }
 
@@ -178,14 +177,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
-                logger.log(Level.INFO, response);
+                LOGGER.log(Level.INFO, response);
                 Path path = new File(directory + "\\" + getFileName()).toPath();
                 stream = conn.getInputStream();
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
                 closeInputStreamQuietly(stream);
             } else {
                 // Else, throw an exception.
-                logger.log(Level.WARNING, response);
+                LOGGER.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
                 throw new NationStatesAPIException(response);
             }

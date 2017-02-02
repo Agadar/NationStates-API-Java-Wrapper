@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi.query.blueprint;
 
 import com.github.agadar.nsapi.NSAPI;
-import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 
@@ -22,14 +21,14 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * instead of a burst-like pattern, we make this into 10 requests per 6.01
      * seconds.
      */
-    protected static final RateLimiter rateLimiter = new RateLimiter(10, 6010);
+    protected static final RateLimiter RATE_LIMITER = new RateLimiter(10, 6010);
 
     /**
      * Rate limiter for API calls when scraping. Reduces the rate limit further
      * to just 1 request per second, as suggested by the official documentation.
      */
-    private static final DependantRateLimiter reducedRateLimiter
-            = new DependantRateLimiter(1, 1000, rateLimiter);
+    private static final DependantRateLimiter SCRAPING_RATE_LIMITER
+            = new DependantRateLimiter(1, 1000, RATE_LIMITER);
 
     /**
      * The resource value, e.g. the nation's or region's name. Set by the
@@ -71,7 +70,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @return the rate limiter to use in the makeRequest()-function
      */
     protected RateLimiter getRateLimiter() {
-        return slowMode ? reducedRateLimiter : rateLimiter;
+        return slowMode ? SCRAPING_RATE_LIMITER : RATE_LIMITER;
     }
 
     @Override

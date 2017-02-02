@@ -18,11 +18,11 @@ public class CensusScoreHistory {
      * The UNIX timestamp of this record.
      */
     @XmlElement(name = "TIMESTAMP")
-    public long Timestamp;
+    public long timestamp;
 
     /**
      * What was scored that timestamp.
      */
     @XmlElement(name = "SCORE")
-    public String Score;
+    public String score;
 }

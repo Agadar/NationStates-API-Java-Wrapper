@@ -11,254 +11,256 @@ public enum NationShard implements Shard {
     /**
      * One of two adjectives for this nation, e.g. 'cultured', 'safe', etc.
      */
-    Admirable("ADMIRABLE"),
+    ADMIRABLE("ADMIRABLE"),
     /**
      * This nation's national animal.
      */
-    Animal("ANIMAL"),
+    ANIMAL("ANIMAL"),
     /**
      * Information about this nation's national animal.
      */
-    AnimalTrait("ANIMALTRAIT"),
+    ANIMAL_TRAIT("ANIMALTRAIT"),
     /**
      * The Rift banner code of this nation's primary banner, or of a randomly
      * chosen eligible banner if no primary banner is set. Can be prepended by
      * '/images/banners/' and appended by '.jpg' to convert into an image URL.
      */
-    Banner("BANNER"),
+    BANNER("BANNER"),
     /**
      * The eligible Rift banner codes of this nation. Codes can be prepended by
      * '/images/banners/' and appended by '.jpg' to convert into image URLs.
      */
-    Banners("BANNERS"),
+    BANNERS("BANNERS"),
     /**
      * This nation's capital. Has default value if none is set.
      */
-    Capital("CAPITAL"),
+    CAPITAL("CAPITAL"),
     /**
      * This nation's government's category e.g. 'Civil Rights Lovefest'.
      */
-    Category("CATEGORY"),
+    CATEGORY("CATEGORY"),
     /**
      * This nation's census scale scores.
      */
-    Census("CENSUS"),
+    CENSUS("CENSUS"),
     /**
      * Description of crime in this nation.
      */
-    CrimeDescription("CRIME"),
+    CRIME_DESCRIPTION("CRIME"),
     /**
      * This nation's currency name.
      */
-    Currency("CURRENCY"),
+    CURRENCY("CURRENCY"),
     /**
      * This nation's leader. Blank if none is set.
      */
-    CustomLeader("CUSTOMLEADER"),
+    CUSTOM_LEADER("CUSTOMLEADER"),
     /**
      * This nation's capital. Blank if none is set.
      */
-    CustomCapital("CUSTOMCAPITAL"),
+    CUSTOM_CAPITAL("CUSTOMCAPITAL"),
     /**
      * This nation's religion. Blank if none is set.
      */
-    CustomReligion("CUSTOMRELIGION"),
+    CUSTOM_RELIGION("CUSTOMRELIGION"),
     /**
      * List of death causes data in this nation.
      */
-    Deaths("DEATHS"),
+    DEATHS("DEATHS"),
     /**
      * Primary demonym.
      */
-    Demonym("DEMONYM"),
+    DEMONYM("DEMONYM"),
     /**
      * Secondary demonym.
      */
-    Demonym2("DEMONYM2"),
+    DEMONYM2("DEMONYM2"),
     /**
      * Plural of secondary demonym.
      */
-    Demonym2Plural("DEMONYM2PLURAL"),
+    DEMONYM2_PLURAL("DEMONYM2PLURAL"),
     /**
      * Number of dispatches written by this nation.
      */
-    NumberOfDispatches("DISPATCHES"),
+    NUMBER_OF_DISPATCHES("DISPATCHES"),
     /**
      * This nations's dispatches. Includes factbooks. Does not include
      * dispatches' texts.
      */
-    Dispatches("DISPATCHLIST"),
+    DISPATCHES("DISPATCHLIST"),
     /**
      * List of nation names that endorsed this nation.
      */
-    EndorsedBy("ENDORSEMENTS"),
+    ENDORSED_BY("ENDORSEMENTS"),
     /**
      * Number of factbooks written by this nation.
      */
-    NumberOfFactbooks("FACTBOOKS"),
-    /* This nation's factbooks. Subset of Dispatches. Does not include dispatches' texts. */
-    Factbooks("FACTBOOKLIST"),
+    NUMBER_OF_FACTBOOKS("FACTBOOKS"),
+    /** 
+     * This nation's factbooks. Subset of Dispatches. Does not include dispatches' texts. 
+     */
+    FACTBOOKS("FACTBOOKLIST"),
     /**
      * UNIX timestamp of when the nation first logged in.
      */
-    FirstLogin("FIRSTLOGIN"),
+    FIRST_LOGIN("FIRSTLOGIN"),
     /**
      * URL to the nation's flag image.
      */
-    FlagUrl("FLAG"),
+    FLAG_URL("FLAG"),
     /**
      * Description of when this nation was founded.
      */
-    Founded("FOUNDED"),
+    FOUNDED_DESCRIPTION("FOUNDED"),
     /**
      * UNIX timestamp of when this nation was founded.
      */
-    FoundedTime("FOUNDEDTIME"),
+    FOUNDED("FOUNDEDTIME"),
     /**
      * The nation's civil rights, economy, and political freedoms scores.
      */
-    Freedom("FREEDOM"),
+    FREEDOM("FREEDOM"),
     /**
      * The nation's full name.
      */
-    FullName("FULLNAME"),
+    FULL_NAME("FULLNAME"),
     /**
      * The nation's vote for the current General Assembly resolution.
      */
-    GeneralAssemblyVote("GAVOTE"),
+    GENERAL_ASSEMBLY_VOTE("GAVOTE"),
     /**
      * The nation's gross domestic product.
      */
-    GrossDomesticProduct("GDP"),
+    GROSS_DOMESTIC_PRODUCT("GDP"),
     /**
      * Overview in percentages of the government's expenditures.
      */
-    GovernmentExpenditure("GOVT"),
+    GOVERNMENT_EXPENDITURE("GOVT"),
     /**
      * Elaborate description of the government.
      */
-    GovernmentDescription("GOVTDESC"),
+    GOVERNMENT_DESCRIPTION("GOVTDESC"),
     /**
      * The expenditure the government spends most on.
      */
-    GovernmentPriority("GOVTPRIORITY"),
+    GOVERNMENT_PRIORITY("GOVTPRIORITY"),
     /**
      * List of the most recent of this nation's happenings.
      */
-    RecentHappenings("HAPPENINGS"),
+    RECENT_HAPPENINGS("HAPPENINGS"),
     /**
      * The average income of the population.
      */
-    AverageIncome("INCOME"),
+    AVERAGE_INCOME("INCOME"),
     /**
      * Elaborate description of this nation's economy.
      */
-    EconomyDescription("INDUSTRYDESC"),
+    ECONOMY_DESCRIPTION("INDUSTRYDESC"),
     /**
      * The regional influence of this nation, e.g. 'Apprentice'.
      */
-    RegionalInfluence("INFLUENCE"),
+    REGIONAL_INFLUENCE("INFLUENCE"),
     /**
      * Description of when this nation was last active.
      */
-    LastActivity("LASTACTIVITY"),
+    LAST_ACTIVITY("LASTACTIVITY"),
     /**
      * UNIX timestamp of when this nation was last logged in.
      */
-    LastLogin("LASTLOGIN"),
+    LAST_LOGIN("LASTLOGIN"),
     /**
      * This nation's leader. Has default value if none is set.
      */
-    Leader("LEADER"),
+    LEADER("LEADER"),
     /**
      * List of this nation's most recent legislations.
      */
-    RecentLegislation("LEGISLATION"),
+    RECENT_LEGISLATION("LEGISLATION"),
     /**
      * This nation's biggest industry.
      */
-    MajorIndustry("MAJORINDUSTRY"),
+    MAJOR_INDUSTRY("MAJORINDUSTRY"),
     /**
      * This nation's national motto.
      */
-    Motto("MOTTO"),
+    MOTTO("MOTTO"),
     /**
      * This nation's name.
      */
-    Name("NAME"),
+    NAME("NAME"),
     /**
      * Description of what this nation is most notable for.
      */
-    NotableFor("NOTABLE"),
+    NOTABLE_FOR("NOTABLE"),
     /**
      * Income of the poorest population.
      */
-    PoorestIncome("POOREST"),
+    POOREST_INCOME("POOREST"),
     /**
      * The population, in millions.
      */
-    Population("POPULATION"),
+    POPULATION("POPULATION"),
     /**
      * The percentage of the economy that is State-Owned or Government.
      */
-    PublicSector("PUBLICSECTOR"),
+    PUBLIC_SECTOR("PUBLICSECTOR"),
     /**
      * The nation's regional census rank.
      */
-    CensusRankInRegion("RCENSUS"),
+    REGIONAL_CENSUS_RANK("RCENSUS"),
     /**
      * Name of the region this nation is in.
      */
-    RegionName("REGION"),
+    REGION_NAME("REGION"),
     /**
      * This nation's religion. Has default value if none is set.
      */
-    Religion("RELIGION"),
+    RELIGION("RELIGION"),
     /**
      * Income of the richest population.
      */
-    RichestIncome("RICHEST"),
+    RICHEST_INCOME("RICHEST"),
     /**
      * The nation's vote for the current Security Council resolution.
      */
-    SecurityCouncilVote("SCVOTE"),
+    SECURITY_COUNCIL_VOTE("SCVOTE"),
     /**
      * Overview in percentages of the government's economy sectors.
      */
-    EconomySectors("SECTORS"),
+    ECONOMY_SECTORS("SECTORS"),
     /**
      * Description of this nation's population.
      */
-    PopulationDescription("SENSIBILITIES"),
+    POPULATION_DESCRIPTION("SENSIBILITIES"),
     /**
      * The income tax rate, expressed as a percentage.
      */
-    AverageIncomeTaxRate("TAX"),
+    AVERAGE_INCOME_TAX_RATE("TAX"),
     /**
      * True if the nation is not currently blocking recruitment telegrams.
      */
-    CanReceiveRecruitmentTelegrams("TGCANRECRUIT"),
+    CAN_RECEIVE_RECRUITMENT_TELEGRAMS("TGCANRECRUIT"),
     /**
      * True if the nation is not currently blocking campaign telegrams.
      */
-    CanReceiveCampaignTelegrams("TGCANCAMPAIGN"),
+    CAN_RECEIVE_CAMPAIGN_TELEGRAMS("TGCANCAMPAIGN"),
     /**
      * The nation's custom government type, e.g. 'Crowned Confederacy'.
      */
-    GovernmentType("TYPE"),
+    GOVERNMENT_TYPE("TYPE"),
     /**
      * String indicating whether the nation is a member of the World Assembly.
      * Corresponds to the 'WA' shard, but its XML-tag is 'UNSTATUS'.
      */
-    WorldAssemblyStatus("WA"),
+    WORLD_ASSEMBLY_STATUS("WA"),
     /**
      * The nation's world-wide census rank
      */
-    CensusRankInWorld("WCENSUS"),
+    WORLD_CENSUS_RANK("WCENSUS"),
     /**
      * This nation's statistics of the current or last zombie event.
      */
-    ZombieInfo("ZOMBIE");
+    ZOMBIE_INFO("ZOMBIE");
 
     /**
      * The underlying shard name.

@@ -12,41 +12,41 @@ public class TelegramSentEvent extends EventObject {
     /**
      * Name of the nation the telegram was sent to.
      */
-    public final String Addressee;
+    public final String recipient;
 
     /**
      * Whether or not the telegram was successfully queued.
      */
-    public final boolean Queued;
+    public final boolean queued;
 
     /**
      * Contains a message elaborating on why the telegram failed to be sent, if
      * applicable.
      */
-    public final String ErrorMessage;
+    public final String errorMessage;
 
     /**
      * The position of the sent telegram in the query. Starts at 0 and
      * increments by 1 for each telegram sent.
      */
-    public final int PositionInQuery;
+    public final int positionInQuery;
 
     /**
      * Constructs a new TelegramSentEvent.
      *
      * @param source the object that fired the event
-     * @param addressee the name of the nation the telegram was sent to
+     * @param recipient the name of the nation the telegram was sent to
      * @param queued whether or not the telegram was successfully queued
      * @param errorMessage a message elaborating on why the telegram failed to
      * be sent, if applicable
      * @param positionInQuery the position of the sent telegram in the query
      */
-    public TelegramSentEvent(Object source, String addressee, boolean queued,
+    public TelegramSentEvent(Object source, String recipient, boolean queued,
             String errorMessage, int positionInQuery) {
         super(source);
-        this.Addressee = addressee;
-        this.Queued = queued;
-        this.ErrorMessage = errorMessage;
-        this.PositionInQuery = positionInQuery;
+        this.recipient = recipient;
+        this.queued = queued;
+        this.errorMessage = errorMessage;
+        this.positionInQuery = positionInQuery;
     }
 }

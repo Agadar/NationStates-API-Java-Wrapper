@@ -1,7 +1,9 @@
 package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,36 +23,36 @@ public class Officer {
      * Name of the nation that is fulfilling this officer position.
      */
     @XmlElement(name = "NATION")
-    public String NationName;
+    public String nationName;
 
     /**
      * Name of the officer position.
      */
     @XmlElement(name = "OFFICE")
-    public String OfficeName;
+    public String officeName;
 
     /**
      * The authorities granted to this officer.
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(CharsToAuthNamesAdapter.class)
-    public List<String> Authorities;
+    public List<String> authorities;
 
     /**
      * UNIX timestamp of when this officer position was assigned.
      */
     @XmlElement(name = "TIME")
-    public long AssignedOn;
+    public long assignedOn;
 
     /**
      * Name of the nation by which this officer position was assigned.
      */
     @XmlElement(name = "BY")
-    public String AssignedBy;
+    public String assignedBy;
 
     /**
      * Order of this officer position in the regional factbook.
      */
     @XmlElement(name = "ORDER")
-    public int Order;
+    public int order;
 }

@@ -19,11 +19,11 @@ public class WorldAssemblyVote {
      * Number of nations that voted FOR.
      */
     @XmlElement(name = "FOR")
-    public int For;
+    public int votesFor;
 
     /**
      * Number of nations that voted AGAINST.
      */
     @XmlElement(name = "AGAINST")
-    public int Against;
+    public int votesAgainst;
 }

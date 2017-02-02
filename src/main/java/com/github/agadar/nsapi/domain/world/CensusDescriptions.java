@@ -19,17 +19,17 @@ public class CensusDescriptions {
      * Id of the census to which these descriptions belong.
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * Description for nations, e.g. 'The following nations have...'
      */
     @XmlElement(name = "NDESC")
-    public String DescriptionForNations;
+    public String descriptionForNations;
 
     /**
      * Description for regions, e.g. 'The following regions have...'
      */
     @XmlElement(name = "RDESC")
-    public String DescriptionForRegions;
+    public String descriptionForRegions;
 }

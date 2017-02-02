@@ -6,34 +6,58 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum DispatchSubCat {
-
     // Factbook
-    Overview,
-    History,
-    Geography,
-    Politics,
-    Legislation,
-    Religion,
-    Economy,
-    International,
-    Trivia,
-    Miscellaneous,
+    OVERVIEW("Overview"),
+    HISTORY("History"),
+    GEOGRAPHY("Geography"),
+    POLITICS("Politics"),
+    LEGISLATION("Legislation"),
+    RELIGION("Religion"),
+    ECONOMY("Economy"),
+    INTERNATIONAL("International"),
+    TRIVIA("Trivia"),
+    MISCELLANEOUS("Miscellaneous"),
     // Factbook & Account
-    Military,
-    Culture,
+    MILITARY("Military"),
+    CULTURE("Culture"),
     // Account
-    Trade,
-    Sport,
-    Drama,
-    Diplomacy,
-    Science,
-    Other,
+    TRADE("Trade"),
+    SPORT("Sport"),
+    DRAMA("Drama"),
+    DIPLOMACY("Diplomacy"),
+    SCIENCE("Science"),
+    OTHER("Other"),
     // Bulletin
-    Policy,
-    News,
-    Opinion,
-    Campaign,
+    POLICY("Policy"),
+    NEWS("News"),
+    OPINION("Opinion"),
+    CAMPAIGN("Campaign"),
     // Meta
-    Gameplay,
-    Reference;
+    GAMEPLAY("Gameplay"),
+    REFERENCE("Reference")
+    ;
+    
+    /**
+     * The subcategories as they're known by the server.
+     */
+    private final String underlying;
+
+    /**
+     * Return the underlying string.
+     *
+     * @return the underlying string.
+     */
+    @Override
+    public String toString() {
+        return underlying;
+    }
+    
+    /**
+     * Instantiate a new entry with the given underlying string.
+     *
+     * @param underlying The underlying string.
+     */
+    private DispatchSubCat(String underlying) {
+        this.underlying = underlying;
+    }
 }

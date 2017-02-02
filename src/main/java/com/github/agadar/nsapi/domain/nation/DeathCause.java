@@ -19,11 +19,11 @@ public class DeathCause {
      * Description of the death cause
      */
     @XmlAttribute(name = "type")
-    public String Description;
+    public String description;
 
     /**
      * The percentage of the population that dies of this death cause
      */
     @XmlValue
-    public double Percentage;
+    public double percentage;
 }

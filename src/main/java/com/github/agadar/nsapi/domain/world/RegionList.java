@@ -1,7 +1,9 @@
 package com.github.agadar.nsapi.domain.world;
 
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,5 +27,5 @@ public class RegionList {
      */
     @XmlValue
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> Regions;
+    public List<String> regions;
 }

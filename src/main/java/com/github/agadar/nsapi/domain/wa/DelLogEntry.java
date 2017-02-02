@@ -20,24 +20,24 @@ public class DelLogEntry {
      * UNIX timestamp of when the vote was made.
      */
     @XmlElement(name = "TIMESTAMP")
-    public long Timestamp;
+    public long timestamp;
 
     /**
      * Name of the delegate that made the vote.
      */
     @XmlElement(name = "NATION")
-    public String DelegateName;
+    public String delegateName;
 
     /**
      * How the delegate voted (FOR, AGAINST, or WITHDREW). Always blank in
      * DelegateVotesFor and DelegateVotesAgainst.
      */
     @XmlElement(name = "ACTION")
-    public String Action;
+    public String action;
 
     /**
      * The voting power with which the delegate voted (always 0 if WITHDREW).
      */
     @XmlElement(name = "VOTES")
-    public int Votes;
+    public int votes;
 }

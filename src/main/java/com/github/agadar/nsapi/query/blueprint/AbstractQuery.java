@@ -3,6 +3,7 @@ package com.github.agadar.nsapi.query.blueprint;
 import com.github.agadar.nsapi.NSAPI;
 import com.github.agadar.nsapi.NationStatesAPIException;
 import com.github.agadar.nsapi.XmlConverter;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
@@ -24,7 +25,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     /**
      * The logger for this object.
      */
-    protected static final Logger logger = Logger.getLogger(AbstractQuery.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(AbstractQuery.class.getName());
 
     /**
      * Base URL to NationStates.
@@ -118,13 +119,13 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
-                logger.log(Level.INFO, response);
+                LOGGER.log(Level.INFO, response);
                 stream = conn.getInputStream();
                 T result = translateResponse(stream, type);
                 closeInputStreamQuietly(stream);
                 return result;
             } else {
-                logger.log(Level.WARNING, response);
+                LOGGER.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
 
                 // If the resource simply wasn't found, just return null.
@@ -173,7 +174,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
         try {
             stream.close();
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -308,10 +308,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
         }
 
         if (dispatchCategory != null) {
-            url += "&dispatchcategory=" + dispatchCategory.name();
+            url += "&dispatchcategory=" + dispatchCategory.toString();
 
             if (dispatchSubcategory != null) {
-                url += ":" + dispatchSubcategory.name();
+                url += ":" + dispatchSubcategory.toString();
             }
         }
 
@@ -352,10 +352,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
         }
 
         if (happeningsFilter != null && happeningsFilter.length > 0) {
-            url += "&filter=" + happeningsFilter[0].name();
+            url += "&filter=" + happeningsFilter[0].toString();
 
             for (int i = 1; i < happeningsFilter.length; i++) {
-                url += "+" + happeningsFilter[i];
+                url += "+" + happeningsFilter[i].toString();
             }
         }
 

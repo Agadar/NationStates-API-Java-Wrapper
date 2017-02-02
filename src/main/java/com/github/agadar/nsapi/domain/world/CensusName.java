@@ -19,11 +19,11 @@ public class CensusName {
      * Id of the census to which this name belong.
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * Name of this census.
      */
     @XmlValue
-    public String Name;
+    public String name;
 }

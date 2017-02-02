@@ -1,7 +1,9 @@
 package com.github.agadar.nsapi.domain.shared;
 
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -22,24 +24,24 @@ public class PollOption {
      * The id of the poll option.
      */
     @XmlAttribute(name = "id")
-    public int Id;
+    public int id;
 
     /**
      * The option's text.
      */
     @XmlElement(name = "OPTIONTEXT")
-    public String Text;
+    public String text;
 
     /**
      * The number of votes this option's received.
      */
     @XmlElement(name = "VOTES")
-    public int NumberOfVotes;
+    public int numberOfVotes;
 
     /**
      * Names of the nations that voted for this option.
      */
     @XmlElement(name = "VOTERS")
     @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
-    public List<String> VoterNames;
+    public List<String> voterNames;
 }

@@ -1,8 +1,10 @@
 package com.github.agadar.nsapi.adapter;
 
 import com.github.agadar.nsapi.enums.Authority;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
@@ -20,7 +22,6 @@ public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<Strin
         for (String s : bt) {
             codes += Authority.getByAuthName(s);
         }
-
         return codes;
     }
 
@@ -32,7 +33,6 @@ public final class CharsToAuthNamesAdapter extends XmlAdapter<String, List<Strin
             final String name = Authority.valueOf(letter).toString();
             names.add(name);
         }
-
         return names;
     }
 }

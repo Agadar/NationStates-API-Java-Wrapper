@@ -18,17 +18,17 @@ public class NationCensusScore {
      * The nation's name
      */
     @XmlElement(name = "NAME")
-    public String NationName;
+    public String nationName;
 
     /**
      * The nation's regional or world-wide rank on the census scale
      */
     @XmlElement(name = "RANK")
-    public String Rank;
+    public String rank;
 
     /**
      * The nation's score on the scale
      */
     @XmlElement(name = "SCORE")
-    public String Score;
+    public String score;
 }

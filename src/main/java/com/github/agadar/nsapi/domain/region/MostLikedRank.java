@@ -18,11 +18,11 @@ public class MostLikedRank {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String Name;
+    public String name;
 
     /**
      * Number of likes given by this nation.
      */
     @XmlElement(name = "LIKED")
-    public int Liked;
+    public int liked;
 }

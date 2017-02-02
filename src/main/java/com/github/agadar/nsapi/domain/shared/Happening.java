@@ -19,17 +19,17 @@ public class Happening {
      * Id of this happening.
      */
     @XmlAttribute(name = "id")
-    public long Id;
+    public long id;
 
     /**
      * UNIX timestamp of when this happening took place
      */
     @XmlElement(name = "TIMESTAMP")
-    public long Timestamp;
+    public long timestamp;
 
     /**
      * Description of the happening
      */
     @XmlElement(name = "TEXT")
-    public String Description;
+    public String description;
 }

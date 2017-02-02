@@ -6,7 +6,6 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum Council {
-
     /**
      * The General Assembly
      */
@@ -20,15 +19,6 @@ public enum Council {
      * The underlying council number
      */
     private final int councilNumber;
-
-    /**
-     * Instantiate a new entry with the given underlying council number.
-     *
-     * @param councilNumber the underlying council number
-     */
-    private Council(int councilNumber) {
-        this.councilNumber = councilNumber;
-    }
 
     /**
      * Return the underlying council number.
@@ -47,5 +37,14 @@ public enum Council {
      */
     public static Council getByNumber(int councilNumber) {
         return values()[councilNumber - 1];
+    }
+    
+    /**
+     * Instantiate a new entry with the given underlying council number.
+     *
+     * @param councilNumber the underlying council number
+     */
+    private Council(int councilNumber) {
+        this.councilNumber = councilNumber;
     }
 }

@@ -9,7 +9,6 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum Authority {
-
     /**
      * Executive
      */
@@ -42,21 +41,21 @@ public enum Authority {
     /**
      * Reverse mapping.
      */
-    private final static Map<String, Authority> reverse = new HashMap<>();
+    private final static Map<String, Authority> STRINGS_TO_ENUMS = new HashMap<>();
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
         for (Authority auth : values()) {
-            reverse.put(auth.toString(), auth);
+            STRINGS_TO_ENUMS.put(auth.toString(), auth);
         }
     }
 
     /**
      * The underlying authority name
      */
-    private final String AuthName;
+    private final String authName;
 
     /**
      * Returns the Authority holding a specific authName.
@@ -65,16 +64,7 @@ public enum Authority {
      * @return the corresponding Authority
      */
     public static Authority getByAuthName(String authName) {
-        return reverse.get(authName);
-    }
-
-    /**
-     * Instantiate a new entry with the given authority name.
-     *
-     * @param authName the name of the underlying authority
-     */
-    private Authority(String authName) {
-        this.AuthName = authName;
+        return STRINGS_TO_ENUMS.get(authName);
     }
 
     /**
@@ -84,6 +74,15 @@ public enum Authority {
      */
     @Override
     public String toString() {
-        return AuthName;
+        return authName;
+    }
+    
+    /**
+     * Instantiate a new entry with the given authority name.
+     *
+     * @param authName the name of the underlying authority
+     */
+    private Authority(String authName) {
+        this.authName = authName;
     }
 }

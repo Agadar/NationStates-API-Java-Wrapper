@@ -11,77 +11,77 @@ public enum WorldShard implements Shard {
     /**
      * The world's census scores.
      */
-    Census("CENSUS"),
+    CENSUS("CENSUS"),
     /**
      * Id of the current census.
      */
-    CensusId("CENSUSID"),
+    CENSUS_ID("CENSUSID"),
     /**
      * Descriptions of the current or selected census.
      */
-    CensusDescriptions("CENSUSDESC"),
+    CENSUS_DESCRIPTIONS("CENSUSDESC"),
     /**
      * Name of the current or selected census.
      */
-    CensusName("CENSUSNAME"),
+    CENSUS_NAME("CENSUSNAME"),
     /**
      * The census scores of the world's nations.
      */
-    CensusRanks("CENSUSRANKS"),
+    CENSUS_RANKS("CENSUSRANKS"),
     /**
      * The scale of the current or selected census.
      */
-    CensusScale("CENSUSSCALE"),
+    CENSUS_SCALE("CENSUSSCALE"),
     /**
      * The title of the current or selected census.
      */
-    CensusTitle("CENSUSTITLE"),
+    CENSUS_TITLE("CENSUSTITLE"),
     /**
      * The selected dispatch. Includes the dispatch text. An id must be
      * supplied.
      */
-    SelectedDispatch("DISPATCH"),
+    SELECTED_DISPATCH("DISPATCH"),
     /**
      * The latest hottest or selected dispatches. Does not include dispatches'
      * texts.
      */
-    Dispatches("DISPATCHLIST"),
+    DISPATCHES("DISPATCHLIST"),
     /**
      * Name of today's featured region.
      */
-    FeaturedRegion("FEATUREDREGION"),
+    FEATURED_REGION("FEATUREDREGION"),
     /**
      * List of the most recent or selected happenings.
      */
-    Happenings("HAPPENINGS"),
+    HAPPENINGS("HAPPENINGS"),
     /**
      * List of all nations in the world.
      */
-    Nations("NATIONS"),
+    NATIONS("NATIONS"),
     /**
      * List of newest nations.
      */
-    NewestNations("NEWNATIONS"),
+    NEWEST_NATIONS("NEWNATIONS"),
     /**
      * The number of nations in the world.
      */
-    NumberOfNations("NUMNATIONS"),
+    NUMBER_OF_NATIONS("NUMNATIONS"),
     /**
      * The number of regions in the world.
      */
-    NumberOfRegions("NUMREGIONS"),
+    NUMBER_OF_REGIONS("NUMREGIONS"),
     /**
      * The selected poll.
      */
-    SelectedPoll("POLL"),
+    SELECTED_POLL("POLL"),
     /**
      * List of all regions in the world.
      */
-    Regions("REGIONS"),
+    REGIONS("REGIONS"),
     /**
      * List of regions selected by tag. Tags must be supplied.
      */
-    RegionsByTag("REGIONSBYTAG");
+    REGIONS_BY_TAG("REGIONSBYTAG");
 
     /**
      * The underlying shard name

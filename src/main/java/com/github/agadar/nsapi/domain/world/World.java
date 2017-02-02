@@ -6,7 +6,9 @@ import com.github.agadar.nsapi.domain.shared.Dispatch;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.Poll;
+
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,108 +31,108 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public List<CensusScore> Census;
+    public List<CensusScore> census;
 
     /**
      * Id of the current census.
      */
     @XmlElement(name = "CENSUSID")
-    public int CensusId;
+    public int censusId;
 
     /**
      * Descriptions of the current or selected census.
      */
     @XmlElement(name = "CENSUSDESC")
-    public CensusDescriptions CensusDescriptions;
+    public CensusDescriptions censusDescriptions;
 
     /**
      * Name of the current or selected census.
      */
     @XmlElement(name = "CENSUS")
-    public CensusName CensusName;
+    public CensusName censusName;
 
     /**
      * The census scores of the world's nations.
      */
     @XmlElement(name = "CENSUSRANKS")
-    public NationCensusScoreRanks CensusRanks;
+    public NationCensusScoreRanks censusRanks;
 
     /**
      * The scale of the current or selected census.
      */
     @XmlElement(name = "CENSUSSCALE")
-    public CensusScale CensusScale;
+    public CensusScale censusScale;
 
     /**
      * The title of the current or selected census.
      */
     @XmlElement(name = "CENSUSTITLE")
-    public CensusTitle CensusTitle;
+    public CensusTitle censusTitle;
 
     /**
      * The selected dispatch. Includes the dispatch text.
      */
     @XmlElement(name = "DISPATCH")
-    public Dispatch SelectedDispatch;
+    public Dispatch selectedDispatch;
 
     /**
      * The newest or selected dispatches. Does not include dispatches' texts.
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    public List<Dispatch> Dispatches;
+    public List<Dispatch> dispatches;
 
     /**
      * Name of today's featured region.
      */
     @XmlElement(name = "FEATUREDREGION")
-    public String FeaturedRegion;
+    public String featuredRegion;
 
     /**
      * List of the most recent or selected happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public List<Happening> Happenings;
+    public List<Happening> happenings;
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> Nations;
+    public List<String> nations;
 
     /**
      * List of newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> NewestNations;
+    public List<String> newestNations;
 
     /**
      * The number of nations in the world.
      */
     @XmlElement(name = "NUMNATIONS")
-    public int NumberOfNations;
+    public int numberOfNations;
 
     /**
      * The number of regions in the world.
      */
     @XmlElement(name = "NUMREGIONS")
-    public int NumberOfRegions;
+    public int numberOfRegions;
 
     /**
      * The selected poll.
      */
     @XmlElement(name = "POLL")
-    public Poll SelectedPoll;
+    public Poll selectedPoll;
 
     /**
      * List of all regions in the world (index 0), or the regions selected by
      * tag (index 0 or 1).
      */
     @XmlElement(name = "REGIONS")
-    private List<RegionList> Regions;
+    private List<RegionList> regions;
 
     /**
      * If the Regions shard was used alone or together with RegionsByTag, then
@@ -139,8 +141,8 @@ public class World {
      *
      * @return region names
      */
-    public List<String> Regions() {
-        return Regions == null || Regions.isEmpty() ? null : Regions.get(0).Regions;
+    public List<String> regions() {
+        return (regions == null || regions.isEmpty()) ? null : regions.get(0).regions;
     }
 
     /**
@@ -150,8 +152,8 @@ public class World {
      *
      * @return region names
      */
-    public List<String> RegionsByTag() {
-        List<String> regions = Regions();
-        return regions == null || Regions.size() < 2 ? regions : Regions.get(1).Regions;
+    public List<String> regionsByTag() {
+        List<String> tmp = regions();
+        return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
     }
 }

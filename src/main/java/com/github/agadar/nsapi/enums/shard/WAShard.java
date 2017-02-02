@@ -14,55 +14,55 @@ public enum WAShard implements Shard {
     /**
      * The number of member nations. Same for both councils.
      */
-    NumberOfMembers("NUMNATIONS"),
+    NUMBER_OF_MEMBERS("NUMNATIONS"),
     /**
      * The number of delegates. Same for both councils.
      */
-    NumberOfDelegates("NUMDELEGATES"),
+    NUMBER_OF_DELEGATES("NUMDELEGATES"),
     /**
      * The list of delegates. Same for both councils.
      */
-    Delegates("DELEGATES"),
+    DELEGATES("DELEGATES"),
     /**
      * The list of member nations. Same for both councils.
      */
-    Members("MEMBERS"),
+    MEMBERS("MEMBERS"),
     /**
      * Most recent happenings. Same for both councils.
      */
-    RecentHappenings("HAPPENINGS"),
+    RECENT_HAPPENINGS("HAPPENINGS"),
     /**
      * Most recent member log entries. Same for both councils.
      */
-    RecentMemberLog("MEMBERLOG"),
+    RECENT_MEMBER_LOG("MEMBERLOG"),
     /**
      * Current proposed resolutions.
      */
-    CurrentProposals("PROPOSALS"),
+    CURRENT_PROPOSALS("PROPOSALS"),
     /**
      * The current resolution at vote, or a specific one if an id is supplied.
      */
-    Resolution("RESOLUTION"),
+    RESOLUTION("RESOLUTION"),
     /**
      * A track record of the total votes of the resolution currently at vote.
      * Only works in conjunction with the Resolution shard.
      */
-    VoteTrack("VOTETRACK"),
+    VOTE_TRACK("VOTETRACK"),
     /**
      * A log containing when what delegates voted, and what for, during the
      * resolution currently at vote. Only works in conjunction with the
      * Resolution shard.
      */
-    DelegateLog("DELLOG"),
+    DELEGATE_LOG("DELLOG"),
     /**
      * Same as DelegateLog, but only contains the last action for each delegate.
      * Only works in conjunction with the Resolution shard.
      */
-    DelegateVotes("DELVOTES"),
+    DELEGATE_VOTES("DELVOTES"),
     /**
      * Brief description of the end result of the last proposed resolution.
      */
-    LastResolutionResult("LASTRESOLUTION");
+    LAST_RESOLUTION_RESULT("LASTRESOLUTION");
 
     /**
      * The underlying shard name
