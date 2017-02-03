@@ -90,7 +90,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted, and what for
      */
-    public List<DelLogEntry> delegateLog() {
+    public List<DelegateLogsEntry> delegateLog() {
         return (resolution == null) ? null : resolution.delegateLog;
     }
 
@@ -100,7 +100,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelLogEntry> delegateVotesFor() {
+    public List<DelegateLogsEntry> delegateVotesFor() {
         return (resolution == null) ? null : resolution.delegateVotesFor;
     }
 
@@ -110,7 +110,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelLogEntry> delegateVotesAgainst() {
+    public List<DelegateLogsEntry> delegateVotesAgainst() {
         return (resolution == null) ? null : resolution.delegateVotesAgainst;
     }
 

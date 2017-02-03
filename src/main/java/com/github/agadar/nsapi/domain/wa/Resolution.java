@@ -101,7 +101,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    public List<DelLogEntry> delegateLog;
+    public List<DelegateLogsEntry> delegateLog;
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate
@@ -109,7 +109,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    public List<DelLogEntry> delegateVotesFor;
+    public List<DelegateLogsEntry> delegateVotesFor;
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate
@@ -117,7 +117,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    public List<DelLogEntry> delegateVotesAgainst;
+    public List<DelegateLogsEntry> delegateVotesAgainst;
 
     /**
      * A track record of the total FOR votes of the resolution currently at

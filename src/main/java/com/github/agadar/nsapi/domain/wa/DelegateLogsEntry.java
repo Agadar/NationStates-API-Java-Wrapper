@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ENTRY")
-public class DelLogEntry {
+public class DelegateLogsEntry {
 
     /**
      * UNIX timestamp of when the vote was made.
