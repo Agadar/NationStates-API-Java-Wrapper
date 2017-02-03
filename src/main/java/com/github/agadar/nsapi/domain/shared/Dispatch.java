@@ -1,8 +1,11 @@
 package com.github.agadar.nsapi.domain.shared;
 
+import com.github.agadar.nsapi.enums.DispatchCategory;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of a dispatch. Also used for factbooks, as those are a type of
@@ -35,7 +38,8 @@ public class Dispatch {
      * The dispatch's category.
      */
     @XmlElement(name = "CATEGORY")
-    public String category;
+    @XmlJavaTypeAdapter(DispatchCategory.Adapter.class)
+    public DispatchCategory category;
 
     /**
      * The dispatch's subcategory.
