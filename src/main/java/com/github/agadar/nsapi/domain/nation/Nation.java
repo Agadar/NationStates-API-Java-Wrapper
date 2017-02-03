@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
 public class Nation {
-    
+
     /**
      * One of two adjectives for this nation, e.g. 'cultured', 'safe', etc.
      */
@@ -409,7 +409,7 @@ public class Nation {
      */
     @XmlElement(name = "ZOMBIE")
     public ZombieInfo zombieInfo;
-    
+
     /**
      * The pattern used for building URLS that point to images behind Rift
      * codes.
@@ -439,7 +439,7 @@ public class Nation {
         banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
         return urls;
     }
-    
+
     /**
      * Builds an URL that points to the image behind the given Rift code.
      *

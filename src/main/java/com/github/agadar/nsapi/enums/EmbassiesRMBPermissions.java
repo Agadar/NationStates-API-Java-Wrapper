@@ -4,25 +4,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Represents the different World Assembly statusses a nation can have.
+ * Represents the different kinds of permissions a region can have set regarding
+ * the nations of regions it has embassies with posting on the region's message
+ * board.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum WorldAssemblyStatus {
-    NON_MEMBER("Non-member"),
-    MEMBER("WA Member"),
-    DELEGATE("WA Delegate");
+public enum EmbassiesRMBPermissions {
+    NOBODY("0"),
+    DELEGATES_AND_FOUNDERS("con"),
+    OFFICERS("off"),
+    OFFICERS_WITH_COMMUNICATIONS_AUTHORITY("com"),
+    EVERYONE("all");
 
     /**
      * Reverse mapping.
      */
-    private final static Map<String, WorldAssemblyStatus> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, EmbassiesRMBPermissions> STRINGS_TO_ENUMS = new HashMap<>();
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
-        for (WorldAssemblyStatus status : values()) {
+        for (EmbassiesRMBPermissions status : values()) {
             STRINGS_TO_ENUMS.put(status.toString(), status);
         }
     }
@@ -33,12 +37,12 @@ public enum WorldAssemblyStatus {
     private final String underlying;
 
     /**
-     * Returns the WorldAssemblyStatus with the supplied underlying string.
+     * Returns the EmbassiesRMBPermissions with the supplied underlying string.
      *
-     * @param underlying string to find the WorldAssemblyStatus of
-     * @return the corresponding WorldAssemblyStatus
+     * @param underlying string to find the EmbassiesRMBPermissions of
+     * @return the corresponding EmbassiesRMBPermissions
      */
-    public static WorldAssemblyStatus fromString(String underlying) {
+    public static EmbassiesRMBPermissions fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
             throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
         }
@@ -60,7 +64,7 @@ public enum WorldAssemblyStatus {
      *
      * @param underlying The underlying string.
      */
-    private WorldAssemblyStatus(String underlying) {
+    private EmbassiesRMBPermissions(String underlying) {
         this.underlying = underlying;
     }
 }

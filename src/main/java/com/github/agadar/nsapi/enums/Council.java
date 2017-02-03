@@ -45,7 +45,7 @@ public enum Council {
                 throw new IllegalArgumentException("'councilNumber' should be either 1 or 2");
         }
     }
-    
+
     /**
      * Instantiate a new entry with the given underlying council number.
      *

@@ -2,12 +2,14 @@ package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.CharsToAuthoritiesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nsapi.adapter.StringToEmbassiesRMBPermissionsAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
 import com.github.agadar.nsapi.enums.Authority;
+import com.github.agadar.nsapi.enums.EmbassiesRMBPermissions;
 
 import java.util.List;
 
@@ -70,15 +72,11 @@ public class Region {
 
     /**
      * Regional Message Board permissions for regions with which this region
-     * exchanges embassies. Descriptions of the codes:
-     *
-     * '0': No embassy posting; 'con': Delegates and Founders of embassy
-     * regions; 'off': Officers of embassy regions; 'com': Officers of embassy
-     * regions with Communications authority; 'all': All residents of embassy
-     * regions.
+     * exchanges embassies.
      */
     @XmlElement(name = "EMBASSYRMB")
-    public String embassiesRMBPermissions;
+    @XmlJavaTypeAdapter(StringToEmbassiesRMBPermissionsAdapter.class)
+    public EmbassiesRMBPermissions embassiesRMBPermissions;
 
     /**
      * The complete mark-up of the regional factbook.

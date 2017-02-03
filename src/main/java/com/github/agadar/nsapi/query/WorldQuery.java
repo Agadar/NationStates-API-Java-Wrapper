@@ -1,9 +1,9 @@
 package com.github.agadar.nsapi.query;
 
 import com.github.agadar.nsapi.domain.world.World;
-import com.github.agadar.nsapi.enums.DispatchCat;
-import com.github.agadar.nsapi.enums.DispatchSubCat;
-import com.github.agadar.nsapi.enums.HapFilter;
+import com.github.agadar.nsapi.enums.DispatchCategory;
+import com.github.agadar.nsapi.enums.DispatchSubCategory;
+import com.github.agadar.nsapi.enums.HappeningsFilter;
 import com.github.agadar.nsapi.enums.shard.WorldShard;
 import com.github.agadar.nsapi.query.blueprint.CensusRankQuery;
 
@@ -22,12 +22,12 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /**
      * Category to list dispatches of.
      */
-    private DispatchCat dispatchCategory;
+    private DispatchCategory dispatchCategory;
 
     /**
      * Subcategory to list dispatches of.
      */
-    private DispatchSubCat dispatchSubcategory;
+    private DispatchSubCategory dispatchSubcategory;
 
     /**
      * Whether to get the best dispatches (as opposed to newest).
@@ -57,7 +57,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /**
      * The filters for happenings.
      */
-    private HapFilter[] happeningsFilter;
+    private HappeningsFilter[] happeningsFilter;
 
     /**
      * The maximum number of happenings to retrieve.
@@ -113,7 +113,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param category the category to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchCategory(DispatchCat category) {
+    public final WorldQuery dispatchCategory(DispatchCategory category) {
         this.dispatchCategory = category;
         return this;
     }
@@ -125,7 +125,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param subcategory the subcategory to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchSubcategory(DispatchSubCat subcategory) {
+    public final WorldQuery dispatchSubcategory(DispatchSubCategory subcategory) {
         this.dispatchSubcategory = subcategory;
         return this;
     }
@@ -220,7 +220,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param filters the filters for happenings
      * @return this
      */
-    public final WorldQuery happeningsFilter(HapFilter... filters) {
+    public final WorldQuery happeningsFilter(HappeningsFilter... filters) {
         this.happeningsFilter = filters;
         return this;
     }

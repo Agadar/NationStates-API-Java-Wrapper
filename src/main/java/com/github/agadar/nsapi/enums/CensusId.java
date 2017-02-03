@@ -131,7 +131,7 @@ public enum CensusId {
         }
         return INTS_TO_ENUMS.get(id);
     }
-    
+
     /**
      * Instantiate a new entry with the given id.
      *

@@ -43,11 +43,11 @@ public class RateLimiter {
         if (requests <= 0) {
             throw new IllegalArgumentException("'requests' must be > 0");
         }
-        
+
         if (milliseconds <= 0) {
             throw new IllegalArgumentException("'milliseconds' must be > 0");
-        } 
-        
+        }
+
         this.roundBuffer = new long[requests];
         this.milliseconds = milliseconds;
         this.lock = new ReentrantLock();
@@ -56,6 +56,7 @@ public class RateLimiter {
     /**
      * Call this BEFORE executing code that needs to be rate limited. Blocks the
      * thread as long as necessary so that the rate limit isn't violated.
+     *
      * @return True if the thread was not interrupted while waiting to continue.
      */
     public boolean Lock() {
@@ -63,7 +64,7 @@ public class RateLimiter {
         if (lock.isHeldByCurrentThread()) {
             throw new IllegalStateException("Lock is already held by current thread");
         }
-        
+
         // Block until we've obtained the lock.
         lock.lock();
 
@@ -100,7 +101,7 @@ public class RateLimiter {
         if (!lock.isHeldByCurrentThread()) {
             throw new IllegalStateException("Lock is not being held by current thread");
         }
-        
+
         // Update the oldest timestamp, then increment the index and unlock.
         roundBuffer[index] = System.currentTimeMillis();
         index = ++index % roundBuffer.length;

@@ -5,7 +5,7 @@ package com.github.agadar.nsapi.enums;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum HapFilter {
+public enum HappeningsFilter {
     LAW("law"),
     CHANGE("change"),
     DISPATCH("dispatch"),
@@ -19,9 +19,8 @@ public enum HapFilter {
     VOTE("vote"),
     RESOLUTION("resolution"),
     MEMBER("member"),
-    ENDORSEMENT("endo")
-    ;
-    
+    ENDORSEMENT("endo");
+
     /**
      * The subcategories as they're known by the server.
      */
@@ -36,13 +35,13 @@ public enum HapFilter {
     public String toString() {
         return underlying;
     }
-    
+
     /**
      * Instantiate a new entry with the given underlying string.
      *
      * @param underlying The underlying string.
      */
-    private HapFilter(String underlying) {
+    private HappeningsFilter(String underlying) {
         this.underlying = underlying;
     }
 }

@@ -5,13 +5,12 @@ package com.github.agadar.nsapi.enums;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum DispatchCat {
+public enum DispatchCategory {
     FACTBOOK("Factbook"),
     BULLETIN("Bulletin"),
     ACCOUNT("Account"),
-    META("Meta")
-    ;
-    
+    META("Meta");
+
     /**
      * The categories as they're known by the server.
      */
@@ -26,13 +25,13 @@ public enum DispatchCat {
     public String toString() {
         return underlying;
     }
-    
+
     /**
      * Instantiate a new entry with the given underlying string.
      *
      * @param underlying The underlying string.
      */
-    private DispatchCat(String underlying) {
+    private DispatchCategory(String underlying) {
         this.underlying = underlying;
     }
 }

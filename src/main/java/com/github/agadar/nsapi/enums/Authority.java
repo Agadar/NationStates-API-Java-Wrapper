@@ -57,7 +57,7 @@ public enum Authority {
     public char toChar() {
         return authCode;
     }
-    
+
     /**
      * Instantiate a new entry with the given authority code.
      *

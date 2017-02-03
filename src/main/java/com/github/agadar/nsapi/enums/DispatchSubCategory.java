@@ -5,7 +5,7 @@ package com.github.agadar.nsapi.enums;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum DispatchSubCat {
+public enum DispatchSubCategory {
     // Factbook
     OVERVIEW("Overview"),
     HISTORY("History"),
@@ -34,9 +34,8 @@ public enum DispatchSubCat {
     CAMPAIGN("Campaign"),
     // Meta
     GAMEPLAY("Gameplay"),
-    REFERENCE("Reference")
-    ;
-    
+    REFERENCE("Reference");
+
     /**
      * The subcategories as they're known by the server.
      */
@@ -51,13 +50,13 @@ public enum DispatchSubCat {
     public String toString() {
         return underlying;
     }
-    
+
     /**
      * Instantiate a new entry with the given underlying string.
      *
      * @param underlying The underlying string.
      */
-    private DispatchSubCat(String underlying) {
+    private DispatchSubCategory(String underlying) {
         this.underlying = underlying;
     }
 }

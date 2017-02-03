@@ -49,7 +49,7 @@ public enum CensusMode {
     public String toString() {
         return option;
     }
-    
+
     /**
      * Instantiate a new entry with the given option name.
      *

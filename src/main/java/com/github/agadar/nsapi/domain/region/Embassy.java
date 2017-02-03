@@ -21,7 +21,8 @@ public class Embassy {
 
     /**
      * The status of the embassy. The default value is 'ESTABLISHED' because the
-     * API does not return a value that can be parsed when an embassy is established.
+     * API does not return a value that can be parsed when an embassy is
+     * established.
      */
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(StringToEmbassyAdapter.class)

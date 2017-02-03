@@ -96,8 +96,9 @@ public enum NationShard implements Shard {
      * Number of factbooks written by this nation.
      */
     NUMBER_OF_FACTBOOKS("FACTBOOKS"),
-    /** 
-     * This nation's factbooks. Subset of Dispatches. Does not include dispatches' texts. 
+    /**
+     * This nation's factbooks. Subset of Dispatches. Does not include
+     * dispatches' texts.
      */
     FACTBOOKS("FACTBOOKLIST"),
     /**
