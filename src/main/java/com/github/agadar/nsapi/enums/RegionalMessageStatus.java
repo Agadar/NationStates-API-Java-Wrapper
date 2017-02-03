@@ -3,6 +3,8 @@ package com.github.agadar.nsapi.enums;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 /**
  * Enumerator for the different statuses a regional message can have.
  *
@@ -64,5 +66,21 @@ public enum RegionalMessageStatus {
      */
     private RegionalMessageStatus(int intValue) {
         this.intValue = intValue;
+    }
+
+    /**
+     * Converts an integer to a RegionalMessageStatus enum value and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<Integer, RegionalMessageStatus> {
+
+        @Override
+        public RegionalMessageStatus unmarshal(Integer v) throws Exception {
+            return RegionalMessageStatus.fromInt(v);
+        }
+
+        @Override
+        public Integer marshal(RegionalMessageStatus v) throws Exception {
+            return v.intValue;
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.github.agadar.nsapi.domain.region;
 
-import com.github.agadar.nsapi.adapter.StringToEmbassyAdapter;
 import com.github.agadar.nsapi.enums.EmbassyStatus;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +24,7 @@ public class Embassy {
      * established.
      */
     @XmlAttribute(name = "type")
-    @XmlJavaTypeAdapter(StringToEmbassyAdapter.class)
+    @XmlJavaTypeAdapter(EmbassyStatus.Adapter.class)
     public EmbassyStatus status = EmbassyStatus.ESTABLISHED;
 
     /**

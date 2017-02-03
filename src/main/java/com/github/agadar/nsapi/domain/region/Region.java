@@ -1,8 +1,6 @@
 package com.github.agadar.nsapi.domain.region;
 
-import com.github.agadar.nsapi.adapter.CharsToAuthoritiesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
-import com.github.agadar.nsapi.adapter.StringToEmbassiesRmbPermissionsAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
@@ -54,7 +52,7 @@ public class Region {
      * The authorities granted to the region's world assembly delegate.
      */
     @XmlElement(name = "DELEGATEAUTH")
-    @XmlJavaTypeAdapter(CharsToAuthoritiesAdapter.class)
+    @XmlJavaTypeAdapter(Authority.Adapter.class)
     public List<Authority> delegateAuthorities;
 
     /**
@@ -75,7 +73,7 @@ public class Region {
      * exchanges embassies.
      */
     @XmlElement(name = "EMBASSYRMB")
-    @XmlJavaTypeAdapter(StringToEmbassiesRmbPermissionsAdapter.class)
+    @XmlJavaTypeAdapter(EmbassiesRmbPermissions.Adapter.class)
     public EmbassiesRmbPermissions embassiesRmbPermissions;
 
     /**
@@ -112,7 +110,7 @@ public class Region {
      * The authorities granted to the region's founder.
      */
     @XmlElement(name = "FOUNDERAUTH")
-    @XmlJavaTypeAdapter(CharsToAuthoritiesAdapter.class)
+    @XmlJavaTypeAdapter(Authority.Adapter.class)
     public List<Authority> founderAuthorities;
 
     /**

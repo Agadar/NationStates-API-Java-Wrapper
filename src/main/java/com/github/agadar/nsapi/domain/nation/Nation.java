@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi.domain.nation;
 
 import com.github.agadar.nsapi.adapter.CommaSeparatedToListAdapter;
-import com.github.agadar.nsapi.adapter.StringToWorldAssemblyStatusAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Dispatch;
 import com.github.agadar.nsapi.domain.shared.Happening;
@@ -395,7 +394,7 @@ public class Nation {
      * Corresponds to the 'WA' shard, but its XML-tag is 'UNSTATUS'.
      */
     @XmlElement(name = "UNSTATUS")
-    @XmlJavaTypeAdapter(StringToWorldAssemblyStatusAdapter.class)
+    @XmlJavaTypeAdapter(WorldAssemblyStatus.Adapter.class)
     public WorldAssemblyStatus worldAssemblyStatus;
 
     /**

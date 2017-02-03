@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.enums;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Represents the different statusses an embassy can be in.
@@ -68,5 +69,21 @@ public enum EmbassyStatus {
      */
     private EmbassyStatus(String underlying) {
         this.underlying = underlying;
+    }
+
+    /**
+     * Converts a String to an EmbassyStatus, and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<String, EmbassyStatus> {
+
+        @Override
+        public EmbassyStatus unmarshal(String vt) {
+            return EmbassyStatus.fromString(vt);
+        }
+
+        @Override
+        public String marshal(EmbassyStatus bt) {
+            return bt.underlying;
+        }
     }
 }

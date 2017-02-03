@@ -3,8 +3,10 @@ package com.github.agadar.nsapi.enums;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 /**
- * Represents the different World Assembly statusses a nation can have.
+ * Represents the different World Assembly statuses a nation can have.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -63,5 +65,21 @@ public enum WorldAssemblyStatus {
      */
     private WorldAssemblyStatus(String underlying) {
         this.underlying = underlying;
+    }
+
+    /**
+     * Converts a string to a WorldAssemblyStatus, and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<String, WorldAssemblyStatus> {
+
+        @Override
+        public WorldAssemblyStatus unmarshal(String vt) throws Exception {
+            return WorldAssemblyStatus.fromString(vt);
+        }
+
+        @Override
+        public String marshal(WorldAssemblyStatus bt) throws Exception {
+            return bt.underlying;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.github.agadar.nsapi.enums;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 /**
  * The different councils within the World Assembly.
  *
@@ -54,5 +56,21 @@ public enum Council {
      */
     private Council(int councilNumber) {
         this.councilNumber = councilNumber;
+    }
+
+    /**
+     * Converts an integer to a Council enum value and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<Integer, Council> {
+
+        @Override
+        public Integer marshal(Council bt) {
+            return bt.councilNumber;
+        }
+
+        @Override
+        public Council unmarshal(Integer vt) {
+            return Council.fromInt(vt);
+        }
     }
 }

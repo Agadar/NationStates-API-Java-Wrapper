@@ -1,6 +1,5 @@
 package com.github.agadar.nsapi.domain.wa;
 
-import com.github.agadar.nsapi.adapter.IntToCouncilAdapter;
 import com.github.agadar.nsapi.enums.Council;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class Resolution {
      * Which council this resolution was send to.
      */
     @XmlElement(name = "COUNCIL")
-    @XmlJavaTypeAdapter(IntToCouncilAdapter.class)
+    @XmlJavaTypeAdapter(Council.Adapter.class)
     public Council council;
 
     /**

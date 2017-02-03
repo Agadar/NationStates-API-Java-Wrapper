@@ -1,7 +1,6 @@
 package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
-import com.github.agadar.nsapi.adapter.IntToRegionalMessageStatusAdapter;
 import com.github.agadar.nsapi.enums.RegionalMessageStatus;
 
 import java.util.List;
@@ -44,7 +43,7 @@ public class RegionalMessage {
      * The message's status. Can be any of the following:
      */
     @XmlElement(name = "STATUS")
-    @XmlJavaTypeAdapter(IntToRegionalMessageStatusAdapter.class)
+    @XmlJavaTypeAdapter(RegionalMessageStatus.Adapter.class)
     public RegionalMessageStatus status;
 
     /**

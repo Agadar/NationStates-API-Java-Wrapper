@@ -2,6 +2,7 @@ package com.github.agadar.nsapi.enums;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Represents the different kinds of permissions a region can have set regarding
@@ -67,5 +68,21 @@ public enum EmbassiesRmbPermissions {
      */
     private EmbassiesRmbPermissions(String underlying) {
         this.underlying = underlying;
+    }
+
+    /**
+     * Converts a String to an EmbassiesRMBPermissions, and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<String, EmbassiesRmbPermissions> {
+
+        @Override
+        public EmbassiesRmbPermissions unmarshal(String vt) throws Exception {
+            return EmbassiesRmbPermissions.fromString(vt);
+        }
+
+        @Override
+        public String marshal(EmbassiesRmbPermissions bt) throws Exception {
+            return bt.underlying;
+        }
     }
 }
