@@ -1,20 +1,21 @@
 package com.github.agadar.nationstates;
 
-import com.github.agadar.nsapi.domain.DailyDumpNations;
-import com.github.agadar.nsapi.domain.DailyDumpRegions;
-import com.github.agadar.nsapi.domain.wa.WorldAssembly;
-import com.github.agadar.nsapi.domain.world.World;
-import com.github.agadar.nsapi.enums.*;
-import com.github.agadar.nsapi.enums.shard.WorldShard;
-import com.github.agadar.nsapi.query.NationDumpQuery;
-import com.github.agadar.nsapi.query.NationQuery;
-import com.github.agadar.nsapi.query.RegionDumpQuery;
-import com.github.agadar.nsapi.query.RegionQuery;
-import com.github.agadar.nsapi.query.TelegramQuery;
-import com.github.agadar.nsapi.query.VerifyQuery;
-import com.github.agadar.nsapi.query.VersionQuery;
-import com.github.agadar.nsapi.query.WAQuery;
-import com.github.agadar.nsapi.query.WorldQuery;
+import com.github.agadar.nationstates.enumerator.Council;
+import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.domain.DailyDumpNations;
+import com.github.agadar.nationstates.domain.DailyDumpRegions;
+import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
+import com.github.agadar.nationstates.domain.world.World;
+import com.github.agadar.nationstates.shard.WorldShard;
+import com.github.agadar.nationstates.query.NationDumpQuery;
+import com.github.agadar.nationstates.query.NationQuery;
+import com.github.agadar.nationstates.query.RegionDumpQuery;
+import com.github.agadar.nationstates.query.RegionQuery;
+import com.github.agadar.nationstates.query.TelegramQuery;
+import com.github.agadar.nationstates.query.VerifyQuery;
+import com.github.agadar.nationstates.query.VersionQuery;
+import com.github.agadar.nationstates.query.WAQuery;
+import com.github.agadar.nationstates.query.WorldQuery;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
