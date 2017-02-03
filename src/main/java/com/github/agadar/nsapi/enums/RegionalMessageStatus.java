@@ -5,16 +5,16 @@ import java.util.Map;
 
 /**
  * Enumerator for the different statuses a regional message can have.
- * 
- * @author martin
+ *
+ * @author Agadar (https://github.com/Agadar/)
  */
 public enum RegionalMessageStatus {
+
     VISIBLE(0),
     SUPPRESSED_BUT_VIEWABLE(1),
     DELETED_BY_AUTHOR(2),
-    SUPPRESSED_BY_MODERATOR(9)
-    ;
-        
+    SUPPRESSED_BY_MODERATOR(9);
+
     /**
      * The integer representation of this RegionalMessageStatus.
      */
@@ -57,7 +57,8 @@ public enum RegionalMessageStatus {
     }
 
     /**
-     * Instantiates a new RegionalMessageStatus, represented by the supplied integer.
+     * Instantiates a new RegionalMessageStatus, represented by the supplied
+     * integer.
      *
      * @param intValue the supplied integer.
      */

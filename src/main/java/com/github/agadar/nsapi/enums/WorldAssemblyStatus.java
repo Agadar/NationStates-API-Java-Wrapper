@@ -9,6 +9,7 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum WorldAssemblyStatus {
+
     NON_MEMBER("Non-member"),
     MEMBER("WA Member"),
     DELEGATE("WA Delegate");

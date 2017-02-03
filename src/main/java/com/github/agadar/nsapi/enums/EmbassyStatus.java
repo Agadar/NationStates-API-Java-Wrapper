@@ -9,6 +9,7 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum EmbassyStatus {
+
     INVITED("invited"), // this region was invited by another region to build embassies
     REQUESTED("requested"), // this region invited another region to build embassies
     PENDING("pending"), // the invitation or request was accepted and the embassies are underway

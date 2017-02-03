@@ -6,6 +6,7 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum DailyDumpMode {
+
     /**
      * Reads the gzip file from the file system.
      */

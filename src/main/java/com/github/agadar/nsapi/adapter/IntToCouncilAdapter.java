@@ -4,7 +4,7 @@ import com.github.agadar.nsapi.enums.Council;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * Converts an integer to a Council.java enum value and vice versa.
+ * Converts an integer to a Council enum value and vice versa.
  *
  * @author Agadar (https://github.com/Agadar/)
  */

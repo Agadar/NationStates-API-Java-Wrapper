@@ -6,6 +6,7 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum Council {
+
     /**
      * The General Assembly
      */

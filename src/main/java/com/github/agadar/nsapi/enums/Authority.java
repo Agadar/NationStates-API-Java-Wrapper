@@ -9,6 +9,7 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum Authority {
+
     EXECUTIVE('X'),
     WORLD_ASSEMBLY('W'),
     APPEARANCE('A'),

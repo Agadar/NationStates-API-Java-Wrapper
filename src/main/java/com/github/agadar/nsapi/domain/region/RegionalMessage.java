@@ -1,6 +1,8 @@
 package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nsapi.adapter.IntToRegionalMessageStatusAdapter;
+import com.github.agadar.nsapi.enums.RegionalMessageStatus;
 
 import java.util.List;
 
@@ -40,14 +42,10 @@ public class RegionalMessage {
 
     /**
      * The message's status. Can be any of the following:
-     *
-     * 0: A regular post; 1: Post is suppressed but viewable. In this case,
-     * there will also be a SUPPRESSOR field with the name of the nation who
-     * suppressed the post; 2: Post was deleted by the author and is not
-     * viewable; 9: Post was suppressed by a moderator and is not viewable.
      */
     @XmlElement(name = "STATUS")
-    public int status;
+    @XmlJavaTypeAdapter(IntToRegionalMessageStatusAdapter.class)
+    public RegionalMessageStatus status;
 
     /**
      * Name of the nation that suppressed this post. Only set if the post is

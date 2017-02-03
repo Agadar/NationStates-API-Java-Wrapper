@@ -11,6 +11,7 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum EmbassiesRmbPermissions {
+
     NOBODY("0"),
     DELEGATES_AND_FOUNDERS("con"),
     OFFICERS("off"),

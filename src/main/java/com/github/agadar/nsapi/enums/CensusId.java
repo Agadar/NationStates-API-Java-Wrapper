@@ -9,6 +9,7 @@ import java.util.Map;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum CensusId {
+
     CIVIL_RIGHTS(0),
     ECONOMY(1),
     POLITICAL_FREEDOM(2),

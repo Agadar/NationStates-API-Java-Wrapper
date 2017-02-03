@@ -6,6 +6,7 @@ package com.github.agadar.nsapi.enums;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum CensusMode {
+
     /**
      * The nation's individual score, or the region's or world's average score.
      */
