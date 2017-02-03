@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi;
+package com.github.agadar.nationstates;
 
 /**
  * Custom unchecked exception for Agadar's NationStates API Java Wrapper.

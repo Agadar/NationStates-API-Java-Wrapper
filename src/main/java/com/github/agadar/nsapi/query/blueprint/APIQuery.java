@@ -1,6 +1,6 @@
 package com.github.agadar.nsapi.query.blueprint;
 
-import com.github.agadar.nsapi.NSAPI;
+import com.github.agadar.nationstates.NationStates;
 import com.github.agadar.nsapi.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nsapi.ratelimiter.RateLimiter;
 
@@ -103,7 +103,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     @Override
     protected String buildURL() {
         // Start out by concatenating base url and API version number
-        String url = super.buildURL() + "cgi-bin/api.cgi?v=" + NSAPI.API_VERSION;
+        String url = super.buildURL() + "cgi-bin/api.cgi?v=" + NationStates.API_VERSION;
         String resourceString = resourceString();
 
         // If we're not using the top resource, then append resource and resourceValue

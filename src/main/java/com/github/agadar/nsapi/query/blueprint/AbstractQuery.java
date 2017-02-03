@@ -1,8 +1,8 @@
 package com.github.agadar.nsapi.query.blueprint;
 
-import com.github.agadar.nsapi.NSAPI;
-import com.github.agadar.nsapi.NationStatesAPIException;
-import com.github.agadar.nsapi.XmlConverter;
+import com.github.agadar.nationstates.NationStates;
+import com.github.agadar.nationstates.NationStatesAPIException;
+import com.github.agadar.nationstates.XmlConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +53,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * validate.
      */
     protected void validateQueryParameters() {
-        String userAgent = NSAPI.getUserAgent();
+        String userAgent = NationStates.getUserAgent();
 
         if (userAgent == null || userAgent.isEmpty()) {
             throw new IllegalArgumentException("No User Agent set!");
@@ -110,7 +110,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", NSAPI.getUserAgent());
+            conn.setRequestProperty("User-Agent", NationStates.getUserAgent());
             int responseCode = conn.getResponseCode();
             String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);

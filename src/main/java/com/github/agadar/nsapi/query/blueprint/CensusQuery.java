@@ -104,10 +104,10 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
 
         // If census id's were supplied, append them to url
         if (censusIds != null && censusIds.length > 0) {
-            url += "&scale=" + censusIds[0].getId();
+            url += "&scale=" + censusIds[0].toInt();
 
             for (int i = 1; i < censusIds.length; i++) {
-                url += "+" + censusIds[i].getId();
+                url += "+" + censusIds[i].toInt();
             }
         }
 

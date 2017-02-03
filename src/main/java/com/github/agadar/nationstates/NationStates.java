@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi;
+package com.github.agadar.nationstates;
 
 import com.github.agadar.nsapi.domain.DailyDumpNations;
 import com.github.agadar.nsapi.domain.DailyDumpRegions;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class NSAPI {
+public final class NationStates {
 
     /**
      * The NationStates API version this wrapper uses.
@@ -72,7 +72,7 @@ public final class NSAPI {
             int liveVersion = version().execute();
 
             // Validate live version and log appropriate messages.
-            Logger logger = Logger.getLogger(NSAPI.class.getName());
+            Logger logger = Logger.getLogger(NationStates.class.getName());
             String start = String.format("Version check: wrapper wants to "
                     + "use version '%s', latest live version is"
                     + " '%s'.", API_VERSION, liveVersion);

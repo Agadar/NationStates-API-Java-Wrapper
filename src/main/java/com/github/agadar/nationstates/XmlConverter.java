@@ -1,4 +1,4 @@
-package com.github.agadar.nsapi;
+package com.github.agadar.nationstates;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

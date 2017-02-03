@@ -1,8 +1,8 @@
 package com.github.agadar.nsapi.query.blueprint;
 
 import static com.github.agadar.nsapi.query.blueprint.AbstractQuery.LOGGER;
-import com.github.agadar.nsapi.NSAPI;
-import com.github.agadar.nsapi.NationStatesAPIException;
+import com.github.agadar.nationstates.NationStates;
+import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nsapi.enums.DailyDumpMode;
 
 import java.io.File;
@@ -168,7 +168,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", NSAPI.getUserAgent());
+            conn.setRequestProperty("User-Agent", NationStates.getUserAgent());
             int responseCode = conn.getResponseCode();
             String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);

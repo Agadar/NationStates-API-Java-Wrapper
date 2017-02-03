@@ -115,7 +115,7 @@ public enum CensusId {
      *
      * @return the id
      */
-    public int getId() {
+    public int toInt() {
         return id;
     }
 
@@ -125,7 +125,7 @@ public enum CensusId {
      * @param id the id
      * @return the CensusId mapped to the given id
      */
-    public static CensusId getById(int id) {
+    public static CensusId fromInt(int id) {
         if (!INTS_TO_ENUMS.containsKey(id)) {
             throw new IllegalArgumentException("'" + id + "' cannot be parsed to this enum");
         }

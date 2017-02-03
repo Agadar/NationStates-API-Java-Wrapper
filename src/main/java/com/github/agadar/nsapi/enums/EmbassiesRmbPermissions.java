@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum EmbassiesRMBPermissions {
+public enum EmbassiesRmbPermissions {
     NOBODY("0"),
     DELEGATES_AND_FOUNDERS("con"),
     OFFICERS("off"),
@@ -20,13 +20,13 @@ public enum EmbassiesRMBPermissions {
     /**
      * Reverse mapping.
      */
-    private final static Map<String, EmbassiesRMBPermissions> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, EmbassiesRmbPermissions> STRINGS_TO_ENUMS = new HashMap<>();
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
-        for (EmbassiesRMBPermissions status : values()) {
+        for (EmbassiesRmbPermissions status : values()) {
             STRINGS_TO_ENUMS.put(status.toString(), status);
         }
     }
@@ -42,7 +42,7 @@ public enum EmbassiesRMBPermissions {
      * @param underlying string to find the EmbassiesRMBPermissions of
      * @return the corresponding EmbassiesRMBPermissions
      */
-    public static EmbassiesRMBPermissions fromString(String underlying) {
+    public static EmbassiesRmbPermissions fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
             throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
         }
@@ -64,7 +64,7 @@ public enum EmbassiesRMBPermissions {
      *
      * @param underlying The underlying string.
      */
-    private EmbassiesRMBPermissions(String underlying) {
+    private EmbassiesRmbPermissions(String underlying) {
         this.underlying = underlying;
     }
 }

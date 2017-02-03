@@ -35,12 +35,7 @@ public enum RegionShard implements Shard {
     EMBASSIES("EMBASSIES"),
     /**
      * Regional Message Board permissions for regions with which this region
-     * exchanges embassies. Descriptions of the codes:
-     *
-     * '0': No embassy posting; 'con': Delegates and Founders of embassy
-     * regions; 'off': Officers of embassy regions; 'com': Officers of embassy
-     * regions with Communications authority; 'all': All residents of embassy
-     * regions.
+     * exchanges embassies.
      */
     EMBASSIES_RMB_PERMISSIONS("EMBASSYRMB"),
     /**

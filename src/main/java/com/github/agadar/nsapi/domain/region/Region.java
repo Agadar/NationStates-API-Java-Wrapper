@@ -2,14 +2,14 @@ package com.github.agadar.nsapi.domain.region;
 
 import com.github.agadar.nsapi.adapter.CharsToAuthoritiesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
-import com.github.agadar.nsapi.adapter.StringToEmbassiesRMBPermissionsAdapter;
+import com.github.agadar.nsapi.adapter.StringToEmbassiesRmbPermissionsAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
 import com.github.agadar.nsapi.enums.Authority;
-import com.github.agadar.nsapi.enums.EmbassiesRMBPermissions;
+import com.github.agadar.nsapi.enums.EmbassiesRmbPermissions;
 
 import java.util.List;
 
@@ -75,8 +75,8 @@ public class Region {
      * exchanges embassies.
      */
     @XmlElement(name = "EMBASSYRMB")
-    @XmlJavaTypeAdapter(StringToEmbassiesRMBPermissionsAdapter.class)
-    public EmbassiesRMBPermissions embassiesRMBPermissions;
+    @XmlJavaTypeAdapter(StringToEmbassiesRmbPermissionsAdapter.class)
+    public EmbassiesRmbPermissions embassiesRmbPermissions;
 
     /**
      * The complete mark-up of the regional factbook.
