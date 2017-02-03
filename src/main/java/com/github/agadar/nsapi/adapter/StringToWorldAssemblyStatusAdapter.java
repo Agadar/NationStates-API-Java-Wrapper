@@ -12,7 +12,7 @@ public class StringToWorldAssemblyStatusAdapter extends XmlAdapter<String, World
 
     @Override
     public WorldAssemblyStatus unmarshal(String vt) throws Exception {
-        return WorldAssemblyStatus.getByString(vt);
+        return WorldAssemblyStatus.fromString(vt);
     }
 
     @Override

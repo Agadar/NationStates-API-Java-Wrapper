@@ -1,12 +1,13 @@
 package com.github.agadar.nsapi.domain.region;
 
-import com.github.agadar.nsapi.adapter.CharsToAuthNamesAdapter;
+import com.github.agadar.nsapi.adapter.CharsToAuthoritiesAdapter;
 import com.github.agadar.nsapi.adapter.ColonSeparatedToListAdapter;
 import com.github.agadar.nsapi.domain.shared.CensusScore;
 import com.github.agadar.nsapi.domain.shared.Happening;
 import com.github.agadar.nsapi.domain.shared.NationCensusScoreRanks;
 import com.github.agadar.nsapi.domain.shared.Poll;
 import com.github.agadar.nsapi.domain.shared.ZombieInfo;
+import com.github.agadar.nsapi.enums.Authority;
 
 import java.util.List;
 
@@ -51,8 +52,8 @@ public class Region {
      * The authorities granted to the region's world assembly delegate.
      */
     @XmlElement(name = "DELEGATEAUTH")
-    @XmlJavaTypeAdapter(CharsToAuthNamesAdapter.class)
-    public List<String> delegateAuthorities;
+    @XmlJavaTypeAdapter(CharsToAuthoritiesAdapter.class)
+    public List<Authority> delegateAuthorities;
 
     /**
      * The number of endorsements the region's world assembly delegate has.
@@ -113,8 +114,8 @@ public class Region {
      * The authorities granted to the region's founder.
      */
     @XmlElement(name = "FOUNDERAUTH")
-    @XmlJavaTypeAdapter(CharsToAuthNamesAdapter.class)
-    public List<String> founderAuthorities;
+    @XmlJavaTypeAdapter(CharsToAuthoritiesAdapter.class)
+    public List<Authority> founderAuthorities;
 
     /**
      * The region's votes for the current General Assembly resolution.

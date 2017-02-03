@@ -39,7 +39,7 @@ public enum WorldAssemblyStatus {
      * @param underlying string to find the WorldAssemblyStatus of
      * @return the corresponding WorldAssemblyStatus
      */
-    public static WorldAssemblyStatus getByString(String underlying) {
+    public static WorldAssemblyStatus fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
             throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
         }

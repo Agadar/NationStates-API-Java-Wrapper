@@ -23,7 +23,7 @@ public final class WAQuery extends ShardQuery<WAQuery, WorldAssembly, WAShard> {
      * @param council the council type to query
      */
     public WAQuery(Council council) {
-        super(String.valueOf(council.getCouncilNumber()));
+        super(String.valueOf(council.toInt()));
     }
 
     /**

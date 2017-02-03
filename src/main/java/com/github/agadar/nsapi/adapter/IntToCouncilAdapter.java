@@ -12,12 +12,12 @@ public final class IntToCouncilAdapter extends XmlAdapter<Integer, Council> {
 
     @Override
     public Integer marshal(Council bt) {
-        return bt.getCouncilNumber();
+        return bt.toInt();
     }
 
     @Override
     public Council unmarshal(Integer vt) {
-        return Council.getByNumber(vt);
+        return Council.fromInt(vt);
     }
 
 }

@@ -43,7 +43,7 @@ public enum EmbassyStatus {
      * @param underlying string to find the EmbassyStatus of
      * @return the corresponding EmbassyStatus
      */
-    public static EmbassyStatus getByString(String underlying) {
+    public static EmbassyStatus fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
             throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
         }

@@ -25,7 +25,7 @@ public enum Council {
      *
      * @return the underlying council number
      */
-    public int getCouncilNumber() {
+    public int toInt() {
         return councilNumber;
     }
 
@@ -35,7 +35,7 @@ public enum Council {
      * @param councilNumber the council number
      * @return the corresponding Council
      */
-    public static Council getByNumber(int councilNumber) {
+    public static Council fromInt(int councilNumber) {
         switch (councilNumber) {
             case 1:
                 return GENERAL_ASSEMBLY;

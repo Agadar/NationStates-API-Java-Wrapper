@@ -12,7 +12,7 @@ public class StringToEmbassyAdapter extends XmlAdapter<String, EmbassyStatus> {
 
     @Override
     public EmbassyStatus unmarshal(String vt) {
-        return EmbassyStatus.getByString(vt);
+        return EmbassyStatus.fromString(vt);
     }
 
     @Override
