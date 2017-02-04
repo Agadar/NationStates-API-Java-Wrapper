@@ -54,7 +54,7 @@ public class Resolution {
     public String text;
 
     /**
-     * UNIX timestamp of when this proposal was implemented, if at all.
+     * UNIX timestamp of when this proposal was implemented.
      */
     @XmlElement(name = "IMPLEMENTED")
     public long implementedOn;
@@ -73,10 +73,40 @@ public class Resolution {
     public String option;
 
     /**
+     * UNIX timestamp of when this resolution was promoted.
+     */
+    @XmlElement(name = "PROMOTED")
+    public long promotedOn;
+
+    /**
      * Name of the nation that created this resolution.
      */
     @XmlElement(name = "PROPOSED_BY")
     public String proposedBy;
+
+    /**
+     * The council-specific id of the resolution that repealed this resolution.
+     */
+    @XmlElement(name = "REPEALED_BY")
+    public int repealedByCouncilId;
+
+    /**
+     * The id of the resolution that repealed this resolution.
+     */
+    @XmlElement(name = "REPEALED")
+    public int repealedById;
+
+    /**
+     * The council-specific id of the resolution repealed by this resolution.
+     */
+    @XmlElement(name = "REPEALS_COUNCILID")
+    public int repealsCouncilId;
+
+    /**
+     * The id of the resolution repealed by this resolution.
+     */
+    @XmlElement(name = "REPEALS_RESID")
+    public int repealsId;
 
     /**
      * This resolution's id as it is known to the World Assembly as a whole. Has
@@ -86,13 +116,25 @@ public class Resolution {
     public int id;
 
     /**
-     * Number of nations that voted FOR.
+     * Total number of nations that voted FOR.
+     */
+    @XmlElement(name = "TOTAL_NATIONS_FOR")
+    public int nationsFor;
+
+    /**
+     * Total number of nations that voted AGAINST.
+     */
+    @XmlElement(name = "TOTAL_NATIONS_AGAINST")
+    public int nationsAgainst;
+
+    /**
+     * Total number of FOR votes.
      */
     @XmlElement(name = "TOTAL_VOTES_FOR")
     public int votesFor;
 
     /**
-     * Number of nations that voted AGAINST.
+     * Total number of AGAINST votes.
      */
     @XmlElement(name = "TOTAL_VOTES_AGAINST")
     public int votesAgainst;
