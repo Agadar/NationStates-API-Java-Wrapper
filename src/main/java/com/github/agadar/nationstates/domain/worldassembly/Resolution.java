@@ -27,14 +27,16 @@ public class Resolution {
     public String category;
 
     /**
-     * Which council this resolution was send to.
+     * Which council this resolution was send to. Has no value if this resolution
+     * is currently at vote.
      */
     @XmlElement(name = "COUNCIL")
     @XmlJavaTypeAdapter(Council.Adapter.class)
     public Council council;
 
     /**
-     * This resolution's id as it is known to the specific Council it's in.
+     * This resolution's id as it is known to the specific Council it's in. Has
+     * no value if this resolution is currently at vote.
      */
     @XmlElement(name = "COUNCILID")
     public int councilId;
@@ -77,7 +79,8 @@ public class Resolution {
     public String proposedBy;
 
     /**
-     * This resolution's id as it is known to the World Assembly as a whole.
+     * This resolution's id as it is known to the World Assembly as a whole. Has
+     * no value if this resolution is currently at vote.
      */
     @XmlElement(name = "RESID")
     public int id;
