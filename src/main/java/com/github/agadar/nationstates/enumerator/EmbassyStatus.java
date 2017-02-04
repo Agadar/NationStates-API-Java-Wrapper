@@ -23,12 +23,13 @@ public enum EmbassyStatus {
     /**
      * Reverse mapping.
      */
-    private final static Map<String, EmbassyStatus> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, EmbassyStatus> STRINGS_TO_ENUMS;
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (EmbassyStatus status : values()) {
             STRINGS_TO_ENUMS.put(status.toString(), status);
         }

@@ -27,8 +27,8 @@ public class Resolution {
     public String category;
 
     /**
-     * Which council this resolution was send to. Has no value if this resolution
-     * is currently at vote.
+     * Which council this resolution was send to. Has no value if this
+     * resolution is currently at vote.
      */
     @XmlElement(name = "COUNCIL")
     @XmlJavaTypeAdapter(Council.Adapter.class)

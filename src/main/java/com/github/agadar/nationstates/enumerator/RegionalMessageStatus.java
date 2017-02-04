@@ -25,12 +25,13 @@ public enum RegionalMessageStatus {
     /**
      * Map for reverse look-up.
      */
-    private final static Map<Integer, RegionalMessageStatus> INTS_TO_ENUMS = new HashMap<>();
+    private final static Map<Integer, RegionalMessageStatus> INTS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        INTS_TO_ENUMS = new HashMap<>();
         for (RegionalMessageStatus regionalMessageStatus : values()) {
             INTS_TO_ENUMS.put(regionalMessageStatus.intValue, regionalMessageStatus);
         }

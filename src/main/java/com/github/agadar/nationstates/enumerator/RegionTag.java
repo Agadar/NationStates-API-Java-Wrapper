@@ -112,12 +112,13 @@ public enum RegionTag {
     /**
      * Map for reverse look-up.
      */
-    private final static Map<String, RegionTag> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, RegionTag> STRINGS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (RegionTag regionTag : values()) {
             STRINGS_TO_ENUMS.put(regionTag.stringValue, regionTag);
         }
@@ -130,13 +131,14 @@ public enum RegionTag {
 
     /**
      * Returns the RegionTag represented by the supplied string.
-     * Case-insensitive, and whitespaces are interpreted as underscores.
+     * Case-insensitive, and whitespaces are interpreted as underscores. Colons
+     * (':') are ignored.
      *
      * @param stringValue the supplied string.
      * @return the RegionTag represented by the supplied string.
      */
     public static RegionTag fromString(String stringValue) {
-        stringValue = stringValue.toLowerCase().replace(' ', '_');
+        stringValue = stringValue.toLowerCase().replace(' ', '_').replace(":", "");
 
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
             throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");

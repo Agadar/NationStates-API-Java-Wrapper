@@ -22,12 +22,13 @@ public enum EmbassiesRmbPermissions {
     /**
      * Reverse mapping.
      */
-    private final static Map<String, EmbassiesRmbPermissions> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, EmbassiesRmbPermissions> STRINGS_TO_ENUMS;
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (EmbassiesRmbPermissions status : values()) {
             STRINGS_TO_ENUMS.put(status.toString(), status);
         }

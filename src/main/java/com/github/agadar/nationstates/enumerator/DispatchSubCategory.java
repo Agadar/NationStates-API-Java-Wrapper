@@ -50,12 +50,13 @@ public enum DispatchSubCategory {
     /**
      * Map for reverse look-up.
      */
-    private final static Map<String, DispatchSubCategory> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, DispatchSubCategory> STRINGS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (DispatchSubCategory dispatchSubCategory : values()) {
             STRINGS_TO_ENUMS.put(dispatchSubCategory.stringValue, dispatchSubCategory);
         }

@@ -31,16 +31,20 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      * telegram per 30 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 30.05 seconds.
      */
-    private static final DependantRateLimiter TELEGRAM_RATE_LIMITER
-            = new DependantRateLimiter(1, TIME_BETWEEN_TELEGRAMS, RATE_LIMITER);
+    private static final DependantRateLimiter TELEGRAM_RATE_LIMITER;
 
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce
      * this to 1 telegram per 180.05 seconds.
      */
-    private static final DependantRateLimiter RECRUITMENT_TELEGRAM_RATE_LIMITER
-            = new DependantRateLimiter(1, TIME_BETWEEN_RECRUITMENT_TELEGRAMS, TELEGRAM_RATE_LIMITER);
+    private static final DependantRateLimiter RECRUITMENT_TELEGRAM_RATE_LIMITER;
+
+    // Lazily initialize the rate limiters.
+    static {
+        TELEGRAM_RATE_LIMITER = new DependantRateLimiter(1, TIME_BETWEEN_TELEGRAMS, RATE_LIMITER);
+        RECRUITMENT_TELEGRAM_RATE_LIMITER = new DependantRateLimiter(1, TIME_BETWEEN_RECRUITMENT_TELEGRAMS, TELEGRAM_RATE_LIMITER);
+    }
 
     /**
      * List of listeners.

@@ -25,12 +25,18 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     /**
      * The logger for this object.
      */
-    protected static final Logger LOGGER = Logger.getLogger(AbstractQuery.class.getName());
+    protected static final Logger LOGGER;
 
     /**
      * Base URL to NationStates.
      */
-    private static final String BASE_URL = "https://www.nationstates.net/";
+    private static final String BASE_URL;
+
+    // Lazily initialize fields.
+    static {
+        LOGGER = Logger.getLogger(AbstractQuery.class.getName());
+        BASE_URL = "https://www.nationstates.net/";
+    }
 
     /**
      * The return type of this Query's execute()-method.

@@ -24,12 +24,13 @@ public enum DispatchCategory {
     /**
      * Map for reverse look-up.
      */
-    private final static Map<String, DispatchCategory> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, DispatchCategory> STRINGS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (DispatchCategory dispatchCategory : values()) {
             STRINGS_TO_ENUMS.put(dispatchCategory.stringValue, dispatchCategory);
         }

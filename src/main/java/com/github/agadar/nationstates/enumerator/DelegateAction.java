@@ -25,12 +25,13 @@ public enum DelegateAction {
     /**
      * Map for reverse look-up.
      */
-    private final static Map<String, DelegateAction> STRINGS_TO_ENUMS = new HashMap<>();
+    private final static Map<String, DelegateAction> STRINGS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        STRINGS_TO_ENUMS = new HashMap<>();
         for (DelegateAction delegateAction : values()) {
             STRINGS_TO_ENUMS.put(delegateAction.stringValue, delegateAction);
         }

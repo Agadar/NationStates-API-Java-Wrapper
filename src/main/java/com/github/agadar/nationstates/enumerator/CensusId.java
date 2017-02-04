@@ -100,12 +100,13 @@ public enum CensusId {
     /**
      * Map for reverse look-up via id.
      */
-    private final static Map<Integer, CensusId> INTS_TO_ENUMS = new HashMap<>();
+    private final static Map<Integer, CensusId> INTS_TO_ENUMS;
 
     /**
      * Static 'constructor' for filling the reverse map.
      */
     static {
+        INTS_TO_ENUMS = new HashMap<>();
         for (CensusId censusId : values()) {
             INTS_TO_ENUMS.put(censusId.id, censusId);
         }

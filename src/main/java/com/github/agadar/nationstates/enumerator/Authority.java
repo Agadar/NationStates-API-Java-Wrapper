@@ -25,12 +25,13 @@ public enum Authority {
     /**
      * Reverse mapping.
      */
-    private final static Map<Character, Authority> CHARS_TO_ENUMS = new HashMap<>();
+    private final static Map<Character, Authority> CHARS_TO_ENUMS;
 
     /**
      * Static init for filling the reverse mapping.
      */
     static {
+        CHARS_TO_ENUMS = new HashMap<>();
         for (Authority auth : values()) {
             CHARS_TO_ENUMS.put(auth.toChar(), auth);
         }

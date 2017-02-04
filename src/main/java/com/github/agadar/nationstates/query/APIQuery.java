@@ -21,14 +21,19 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * instead of a burst-like pattern, we make this into 10 requests per 6.01
      * seconds.
      */
-    protected static final RateLimiter RATE_LIMITER = new RateLimiter(10, 6010);
+    protected static final RateLimiter RATE_LIMITER;
 
     /**
      * Rate limiter for API calls when scraping. Reduces the rate limit further
      * to just 1 request per second, as suggested by the official documentation.
      */
-    private static final DependantRateLimiter SCRAPING_RATE_LIMITER
-            = new DependantRateLimiter(1, 1000, RATE_LIMITER);
+    private static final DependantRateLimiter SCRAPING_RATE_LIMITER;
+
+    // Lazily initialize the rate limiters.
+    static {
+        RATE_LIMITER = new RateLimiter(10, 6010);
+        SCRAPING_RATE_LIMITER = new DependantRateLimiter(1, 1000, RATE_LIMITER);
+    }
 
     /**
      * The resource value, e.g. the nation's or region's name. Set by the
