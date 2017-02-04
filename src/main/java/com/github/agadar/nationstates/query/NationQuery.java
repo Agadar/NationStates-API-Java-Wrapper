@@ -29,8 +29,8 @@ public final class NationQuery extends CensusQuery<NationQuery, Nation, NationSh
      * 'CanReceiveCampaignTelegrams' shards. Allows a sender region to be
      * specified.
      *
-     * @param region
-     * @return
+     * @param region the specified region.
+     * @return this
      */
     public final NationQuery canReceiveTelegramFromRegion(String region) {
         this.canReceiveTelegramFromRegion = region.trim();

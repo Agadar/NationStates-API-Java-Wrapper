@@ -14,7 +14,7 @@ import com.github.agadar.nationstates.query.RegionQuery;
 import com.github.agadar.nationstates.query.TelegramQuery;
 import com.github.agadar.nationstates.query.VerifyQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
-import com.github.agadar.nationstates.query.WAQuery;
+import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
 
 import java.util.logging.Level;
@@ -138,8 +138,8 @@ public final class NationStates {
      * @param council the council type to query
      * @return a new World Assembly query
      */
-    public static WAQuery wa(Council council) {
-        return new WAQuery(council);
+    public static WorldAssemblyQuery worldAssembly(Council council) {
+        return new WorldAssemblyQuery(council);
     }
 
     /**
@@ -199,4 +199,6 @@ public final class NationStates {
     public static NationDumpQuery nationdump(DailyDumpMode mode) {
         return new NationDumpQuery(mode);
     }
+    
+    private NationStates() { }
 }

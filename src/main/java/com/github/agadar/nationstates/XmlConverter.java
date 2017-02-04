@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamSource;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class XmlConverter {
+public final class XmlConverter {
 
     /**
      * The JAXBContext for this API.
@@ -88,4 +88,6 @@ public class XmlConverter {
             throw new NationStatesAPIException(ex);
         }
     }
+    
+    private XmlConverter() { }
 }

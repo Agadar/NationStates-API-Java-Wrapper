@@ -9,7 +9,7 @@ package com.github.agadar.nationstates.shard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public enum WAShard implements Shard {
+public enum WorldAssemblyShard implements Shard {
 
     /**
      * The number of member nations. Same for both councils.
@@ -74,7 +74,7 @@ public enum WAShard implements Shard {
      *
      * @param shardName the name of the underlying shard
      */
-    private WAShard(String shardName) {
+    private WorldAssemblyShard(String shardName) {
         this.shardName = shardName;
     }
 
