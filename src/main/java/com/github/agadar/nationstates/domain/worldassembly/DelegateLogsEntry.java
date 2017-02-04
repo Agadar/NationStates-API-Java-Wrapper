@@ -1,9 +1,12 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
+import com.github.agadar.nationstates.enumerator.DelegateAction;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Represents an entry in the World Assembly's delegate logs for the current
@@ -33,7 +36,8 @@ public class DelegateLogsEntry {
      * DelegateVotesFor and DelegateVotesAgainst.
      */
     @XmlElement(name = "ACTION")
-    public String action;
+    @XmlJavaTypeAdapter(DelegateAction.Adapter.class)
+    public DelegateAction action;
 
     /**
      * The voting power with which the delegate voted (always 0 if WITHDREW).
