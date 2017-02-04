@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.query;
 
-
 import java.io.InputStream;
 import java.util.Scanner;
 

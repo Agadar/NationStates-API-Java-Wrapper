@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
+import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,7 +46,8 @@ public class Dispatch {
      * The dispatch's subcategory.
      */
     @XmlElement(name = "SUBCATEGORY")
-    public String subCategory;
+    @XmlJavaTypeAdapter(DispatchSubCategory.Adapter.class)
+    public DispatchSubCategory subCategory;
 
     /**
      * UNIX timestamp when this dispatch was created.

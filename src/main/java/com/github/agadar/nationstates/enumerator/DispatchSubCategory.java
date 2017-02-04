@@ -1,5 +1,10 @@
 package com.github.agadar.nationstates.enumerator;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 /**
  * The possible subcategories for dispatches.
  *
@@ -38,26 +43,65 @@ public enum DispatchSubCategory {
     REFERENCE("Reference");
 
     /**
-     * The subcategories as they're known by the server.
+     * The string representation of this DispatchSubCategory.
      */
-    private final String underlying;
+    private final String stringValue;
 
     /**
-     * Return the underlying string.
-     *
-     * @return the underlying string.
+     * Map for reverse look-up.
      */
+    private final static Map<String, DispatchSubCategory> STRINGS_TO_ENUMS = new HashMap<>();
+
+    /**
+     * Static 'constructor' for filling the reverse map.
+     */
+    static {
+        for (DispatchSubCategory dispatchSubCategory : values()) {
+            STRINGS_TO_ENUMS.put(dispatchSubCategory.stringValue, dispatchSubCategory);
+        }
+    }
+
     @Override
     public String toString() {
-        return underlying;
+        return stringValue;
     }
 
     /**
-     * Instantiate a new entry with the given underlying string.
+     * Returns the DispatchSubCategory represented by the supplied string.
      *
-     * @param underlying The underlying string.
+     * @param stringValue the supplied string.
+     * @return the DispatchSubCategory represented by the supplied string.
      */
-    private DispatchSubCategory(String underlying) {
-        this.underlying = underlying;
+    public static DispatchSubCategory fromString(String stringValue) {
+        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
+            throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
+        }
+        return STRINGS_TO_ENUMS.get(stringValue);
+    }
+
+    /**
+     * Instantiates a new DispatchSubCategory, represented by the supplied
+     * string.
+     *
+     * @param stringValue the supplied string.
+     */
+    private DispatchSubCategory(String stringValue) {
+        this.stringValue = stringValue;
+    }
+
+    /**
+     * Converts a String to a DispatchSubCategory, and vice versa.
+     */
+    public static class Adapter extends XmlAdapter<String, DispatchSubCategory> {
+
+        @Override
+        public DispatchSubCategory unmarshal(String v) throws Exception {
+            return fromString(v);
+        }
+
+        @Override
+        public String marshal(DispatchSubCategory v) throws Exception {
+            return v.stringValue;
+        }
     }
 }
