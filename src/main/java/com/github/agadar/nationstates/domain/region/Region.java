@@ -8,6 +8,7 @@ import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
 import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
+import com.github.agadar.nationstates.enumerator.RegionTag;
 
 import java.util.List;
 
@@ -210,7 +211,8 @@ public class Region {
      */
     @XmlElementWrapper(name = "TAGS")
     @XmlElement(name = "TAG")
-    public List<String> tags;
+    @XmlJavaTypeAdapter(RegionTag.Adapter.class)
+    public List<RegionTag> tags;
 
     /**
      * This region's statistics of the current or last zombie event.

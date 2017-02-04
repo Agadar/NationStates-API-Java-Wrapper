@@ -4,6 +4,7 @@ import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 import com.github.agadar.nationstates.enumerator.HappeningsFilter;
+import com.github.agadar.nationstates.enumerator.RegionTag;
 import com.github.agadar.nationstates.shard.WorldShard;
 
 /**
@@ -41,12 +42,12 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /**
      * Regions WITH these tags are retrieved.
      */
-    private String[] regionsWithTags;
+    private RegionTag[] regionsWithTags;
 
     /**
      * Regions WITHOUT these tags are retrieved.
      */
-    private String[] regionsWithoutTags;
+    private RegionTag[] regionsWithoutTags;
 
     /**
      * The nation or region to view happenings of.
@@ -159,7 +160,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithTags(String... tags) {
+    public final WorldQuery regionsWithTags(RegionTag... tags) {
         regionsWithTags = tags;
         return this;
     }
@@ -171,7 +172,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithoutTags(String... tags) {
+    public final WorldQuery regionsWithoutTags(RegionTag... tags) {
         regionsWithoutTags = tags;
         return this;
     }
@@ -325,10 +326,10 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
         final boolean hasWithTags = regionsWithTags != null && regionsWithTags.length > 0;
 
         if (hasWithTags) {
-            url += "&tags=" + regionsWithTags[0];
+            url += "&tags=" + regionsWithTags[0].toString();
 
             for (int i = 1; i < regionsWithTags.length; i++) {
-                url += "," + regionsWithTags[i];
+                url += "," + regionsWithTags[i].toString();
             }
         }
 
@@ -336,11 +337,11 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
             int start = 0;
 
             if (!hasWithTags) {
-                url += "&tags=-" + regionsWithoutTags[start++];
+                url += "&tags=-" + regionsWithoutTags[start++].toString();
             }
 
             for (int i = start; i < regionsWithoutTags.length; i++) {
-                url += ",-" + regionsWithoutTags[i];
+                url += ",-" + regionsWithoutTags[i].toString();
             }
         }
 

@@ -199,6 +199,7 @@ public final class NationStates {
     public static NationDumpQuery nationdump(DailyDumpMode mode) {
         return new NationDumpQuery(mode);
     }
-    
-    private NationStates() { }
+
+    private NationStates() {
+    }
 }

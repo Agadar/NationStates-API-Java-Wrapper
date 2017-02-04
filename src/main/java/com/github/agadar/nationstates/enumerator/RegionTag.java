@@ -7,10 +7,11 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different tags a region can have.
- * 
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum RegionTag {
+
     ANARCHIST("anarchist"),
     ANIME("anime"),
     ANTI_CAPITALIST("anti-capitalist"),
@@ -70,7 +71,7 @@ public enum RegionTag {
     MULTI_SPECIES("multi-species"),
     NATIONAL_SOVEREIGNTIST("national_sovereigntist"),
     NEUTRAL("neutral"),
-    NEW("new"), 
+    NEW("new"),
     NON_ENGLISH("non-english"),
     OFFSITE_FORUMS("offsite_forums"),
     OUTER_SPACE("outer_space"),
@@ -101,9 +102,8 @@ public enum RegionTag {
     TOTALITARIAN("totalitarian"),
     VIDEO_GAME("video_game"),
     WARZONE("warzone"),
-    WORLD_ASSEMBLY("world_assembly") 
-    ;
-        
+    WORLD_ASSEMBLY("world_assembly");
+
     /**
      * The string representation of this RegionTag.
      */
@@ -129,15 +129,15 @@ public enum RegionTag {
     }
 
     /**
-     * Returns the RegionTag represented by the supplied string. Case-insensitive,
-     * and whitespaces are interpreted as underscores.
+     * Returns the RegionTag represented by the supplied string.
+     * Case-insensitive, and whitespaces are interpreted as underscores.
      *
      * @param stringValue the supplied string.
      * @return the RegionTag represented by the supplied string.
      */
     public static RegionTag fromString(String stringValue) {
         stringValue = stringValue.toLowerCase().replace(' ', '_');
-        
+
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
             throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
         }

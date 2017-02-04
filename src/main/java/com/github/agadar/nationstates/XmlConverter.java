@@ -88,6 +88,7 @@ public final class XmlConverter {
             throw new NationStatesAPIException(ex);
         }
     }
-    
-    private XmlConverter() { }
+
+    private XmlConverter() {
+    }
 }
