@@ -8,7 +8,7 @@
     <version>2.0.0</version>
     <packaging>jar</packaging>   
     <name>NationStates API Java Wrapper</name>
-    <description>Java Wrapper for the NationStates API.</description>
+    <description>A Java library for consuming the NationStates API.</description>
     <url>https://github.com/Agadar/Nationstates-API-Java-Wrapper</url>
     
     <!-- License -->
