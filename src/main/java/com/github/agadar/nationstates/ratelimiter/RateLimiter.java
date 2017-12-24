@@ -1,27 +1,19 @@
 package com.github.agadar.nationstates.ratelimiter;
 
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * Enforces thread-safe rate limiting for x requests per y milliseconds.
- *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class RateLimiter {
+public class RateLimiter implements IRateLimiter {
 
     /**
-     * The logger for this object.
-     */
-    private static final Logger LOGGER = Logger.getLogger(RateLimiter.class.getName());
-    /**
-     * The round buffer we're using, with length set to x in 'x requests per y
+     * The round buffer we're using, with length set to x in x requests per y
      * milliseconds.
      */
     private final long[] roundBuffer;
     /**
-     * The y in 'x requests per y milliseconds'.
+     * The y in x requests per y milliseconds.
      */
     private final long milliseconds;
     /**
@@ -34,10 +26,8 @@ public class RateLimiter {
     private int index = 0;
 
     /**
-     * Constructs a new RateLimiter.
-     *
-     * @param requests the x in 'x requests per y milliseconds'
-     * @param milliseconds the y in 'x requests per y milliseconds'
+     * @param requests the x in x requests per y milliseconds
+     * @param milliseconds the y in x requests per y milliseconds
      */
     public RateLimiter(int requests, int milliseconds) {
         if (requests <= 0) {
@@ -53,13 +43,8 @@ public class RateLimiter {
         this.lock = new ReentrantLock();
     }
 
-    /**
-     * Call this BEFORE executing code that needs to be rate limited. Blocks the
-     * thread as long as necessary so that the rate limit isn't violated.
-     *
-     * @return True if the thread was not interrupted while waiting to continue.
-     */
-    public boolean Lock() {
+    @Override
+    public boolean lock() {
         // Throw exception if this is called while we already hold the lock.
         if (lock.isHeldByCurrentThread()) {
             throw new IllegalStateException("Lock is already held by current thread");
@@ -75,8 +60,6 @@ public class RateLimiter {
         // then sleep for the duration of the difference.
         if (diff < milliseconds) {
             final long sleepFor = milliseconds - diff;
-            LOGGER.log(Level.INFO, "Rate limit reached. Thread put to sleep for "
-                    + "{0} milliseconds.", sleepFor);
 
             try {
                 Thread.sleep(sleepFor);
@@ -84,7 +67,6 @@ public class RateLimiter {
                 // We were interrupted, so unlock to prevent a deadlock, then return false.
                 Thread.currentThread().interrupt();
                 lock.unlock();
-                LOGGER.log(Level.INFO, "Rate limiter was interrupted.");
                 return false;
             }
         }
@@ -92,11 +74,8 @@ public class RateLimiter {
         return true;
     }
 
-    /**
-     * Call this AFTER executing code that needs to be rate limited. Failure to
-     * call this will result in other threads being blocked indefinitely.
-     */
-    public void Unlock() {
+    @Override
+    public void unlock() {
         // Throw exception if this is called while we don't hold the lock yet.
         if (!lock.isHeldByCurrentThread()) {
             throw new IllegalStateException("Lock is not being held by current thread");
@@ -106,5 +85,10 @@ public class RateLimiter {
         roundBuffer[index] = System.currentTimeMillis();
         index = ++index % roundBuffer.length;
         lock.unlock();
+    }
+
+    @Override
+    public int getMillisecondsBetweenLocks() {
+        return Math.round(milliseconds / roundBuffer.length);
     }
 }

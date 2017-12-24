@@ -18,17 +18,17 @@ import javax.xml.transform.stream.StreamSource;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class XmlConverter {
+public final class XmlConverter implements IXmlConverter {
 
     /**
      * The JAXBContext for this API.
      */
-    private static JAXBContext jaxbContext;
+    private JAXBContext jaxbContext;
 
     /**
      * The classes for the JAXBContext.
      */
-    private static final List<Class> JAXB_CONTEXT_CLASSES = new ArrayList<>();
+    private final List<Class> JAXB_CONTEXT_CLASSES = new ArrayList<>();
 
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to
@@ -38,7 +38,8 @@ public final class XmlConverter {
      *
      * @param types the classes to add to the JAXB context
      */
-    public final static synchronized void registerTypes(Class... types) {
+    @Override
+    public final synchronized void registerTypes(Class... types) {
         // Place new types in jaxbContextClasses.
         JAXB_CONTEXT_CLASSES.addAll(Arrays.asList(types));
         final int numberOfClasses = JAXB_CONTEXT_CLASSES.size();
@@ -60,7 +61,8 @@ public final class XmlConverter {
      * @param toType the type to parse to
      * @return instance of the specified type
      */
-    public final static <T> T xmlToObject(InputStream xml, Class<T> toType) {
+    @Override
+    public final <T> T xmlToObject(InputStream xml, Class<T> toType) {
         try {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             StreamSource xmlstream = new StreamSource(xml);
@@ -77,7 +79,8 @@ public final class XmlConverter {
      * @param obj object to parse to output stream
      * @return an output stream
      */
-    public final static ByteArrayOutputStream objectToXml(Object obj) {
+    @Override
+    public final ByteArrayOutputStream objectToXml(Object obj) {
         try {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
@@ -87,8 +90,5 @@ public final class XmlConverter {
         } catch (JAXBException ex) {
             throw new NationStatesAPIException(ex);
         }
-    }
-
-    private XmlConverter() {
     }
 }

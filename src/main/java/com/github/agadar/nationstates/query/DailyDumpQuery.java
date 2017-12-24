@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
 import static com.github.agadar.nationstates.query.AbstractQuery.LOGGER;
-import com.github.agadar.nationstates.NationStates;
 import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 
@@ -10,12 +10,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.security.CodeSource;
 import java.util.logging.Level;
 import java.util.zip.GZIPInputStream;
 
@@ -32,7 +30,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     /**
      * Path to the default download directory.
      */
-    private final static String DEFAULT_DIR;
+    private final String defaultDirectory;
 
     /**
      * What mode to use.
@@ -50,26 +48,18 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     private String readFromDir;
 
     /**
-     * Static 'constructor' to define the default download dir, which should be
-     * the dir of the running JAR, or where-ever this class is loaded from.
-     */
-    static {
-        try {
-            CodeSource codeSource = DailyDumpQuery.class.getProtectionDomain().getCodeSource();
-            File jarFile = new File(codeSource.getLocation().toURI().getPath());
-            DEFAULT_DIR = jarFile.getParentFile().getPath();
-        } catch (URISyntaxException ex) {
-            throw new NationStatesAPIException(ex);
-        }
-    }
-
-    /**
      * Constructor, accepting a mode.
      *
+     * @param xmlConverter
+     * @param baseUrl
+     * @param userAgent
+     * @param defaultDirectory
      * @param mode the daily dump mode to use
      */
-    public DailyDumpQuery(DailyDumpMode mode) {
+    public DailyDumpQuery(IXmlConverter xmlConverter, String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode) {
+        super(xmlConverter, baseUrl, userAgent);
         this.mode = mode;
+        this.defaultDirectory = defaultDirectory;
     }
 
     /**
@@ -127,14 +117,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
             // Download.
             String dir = downloadDir != null && !downloadDir.isEmpty()
-                    ? downloadDir : DEFAULT_DIR;
+                    ? downloadDir : defaultDirectory;
             download(dir);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             // Read locally.
             String dir = readFromDir != null && !readFromDir.isEmpty()
-                    ? readFromDir : DEFAULT_DIR;
+                    ? readFromDir : defaultDirectory;
             return readLocal(dir, type);
         } else if (mode == DailyDumpMode.READ_REMOTE) {
             // Read remotely.
@@ -168,7 +158,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", NationStates.getUserAgent());
+            conn.setRequestProperty("User-Agent", userAgent);
             int responseCode = conn.getResponseCode();
             String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);

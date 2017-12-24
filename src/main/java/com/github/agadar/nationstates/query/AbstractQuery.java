@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.NationStates;
+import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.XmlConverter;
 
@@ -25,30 +25,39 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     /**
      * The logger for this object.
      */
-    protected static final Logger LOGGER;
+    protected static final Logger LOGGER = Logger.getLogger(AbstractQuery.class.getName());
 
     /**
      * Base URL to NationStates.
      */
-    private static final String BASE_URL;
-
-    // Lazily initialize fields.
-    static {
-        LOGGER = Logger.getLogger(AbstractQuery.class.getName());
-        BASE_URL = "https://www.nationstates.net/";
-    }
+    private final String baseUrl;
 
     /**
      * The return type of this Query's execute()-method.
      */
     private final Class<R> returnType;
 
+    private final IXmlConverter xmlConverter;
+
+    /**
+     * User agent by which this library or its consumer is recognized.
+     */
+    protected final String userAgent;
+
     /**
      * Constructor, setting the returnType.
+     *
+     * @param xmlConverter
+     * @param baseUrl Base URL to NationStates.
+     * @param userAgent User agent by which this library or its consumer is
+     * recognized.
      */
-    protected AbstractQuery() {
+    protected AbstractQuery(IXmlConverter xmlConverter, String baseUrl, String userAgent) {
         returnType = ((Class) ((ParameterizedType) this.getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[1]);
+        this.baseUrl = baseUrl;
+        this.userAgent = userAgent;
+        this.xmlConverter = xmlConverter;
     }
 
     /**
@@ -59,8 +68,9 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * validate.
      */
     protected void validateQueryParameters() {
-        String userAgent = NationStates.getUserAgent();
-
+        if (baseUrl == null || baseUrl.isEmpty()) {
+            throw new IllegalArgumentException("No base URL set!");
+        }
         if (userAgent == null || userAgent.isEmpty()) {
             throw new IllegalArgumentException("No User Agent set!");
         }
@@ -74,7 +84,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @return the generated String URL
      */
     protected String buildURL() {
-        return BASE_URL;
+        return baseUrl;
     }
 
     /**
@@ -116,7 +126,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", NationStates.getUserAgent());
+            conn.setRequestProperty("User-Agent", userAgent);
             int responseCode = conn.getResponseCode();
             String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);
@@ -166,7 +176,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      */
     protected <T> T translateResponse(InputStream response, Class<T> type) {
         // Read and convert the response body.
-        return XmlConverter.xmlToObject(response, type);
+        return xmlConverter.xmlToObject(response, type);
     }
 
     /**

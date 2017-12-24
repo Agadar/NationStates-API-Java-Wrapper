@@ -1,7 +1,9 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.enumerator.CensusId;
 import com.github.agadar.nationstates.enumerator.CensusMode;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
 
 /**
@@ -38,10 +40,17 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
      *
+     * @param xmlConverter
      * @param resourceValue the resource value
+     * @param generalRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
+     * @param scrapingRateLimiter
      */
-    public CensusQuery(String resourceValue) {
-        super(resourceValue);
+    public CensusQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, String resourceValue) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
     }
 
     /**

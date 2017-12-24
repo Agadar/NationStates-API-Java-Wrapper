@@ -16,6 +16,12 @@ import com.github.agadar.nationstates.query.VerifyQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
+import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,75 +37,121 @@ public final class NationStates {
     /**
      * The NationStates API version this wrapper uses.
      */
-    public static final int API_VERSION = 9;
+    private final int apiVersion = 9;
+
+    /**
+     * Base URL for all NationStates calls.
+     */
+    private final String baseUrl = "https://www.nationstates.net/";
+
+    /**
+     * The general rate limiter for all API calls. The mandated rate limit is 50
+     * requests per 30 seconds. To make sure we're on the safe side, we reduce
+     * this to 50 requests per 30.05 seconds. To get a spread-like pattern
+     * instead of a burst-like pattern, we make this into 10 requests per 6.01
+     * seconds.
+     */
+    private final IRateLimiter generalRateLimiter = new RateLimiter(10, 6010);
+
+    /**
+     * Rate limiter for API calls when scraping. Reduces the rate limit further
+     * to just 1 request per second, as suggested by the official documentation.
+     */
+    private final IRateLimiter scrapingRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 1000);
+
+    /**
+     * The rate limiter for normal telegrams. The mandated rate limit is 1
+     * telegram per 30 seconds. To make sure we're on the safe side, we reduce
+     * this to 1 telegram per 30.05 seconds.
+     */
+    private final IRateLimiter telegramRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 30050);
+
+    /**
+     * The rate limiter for recruitment telegrams. The mandated rate limit is 1
+     * telegram per 180 seconds. To make sure we're on the safe side, we reduce
+     * this to 1 telegram per 180.05 seconds.
+     */
+    private final IRateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1, 180050);
+
+    /**
+     * For converting xml input from the API to domain classes.
+     */
+    public final IXmlConverter xmlConverter = new XmlConverter();
+
+    /**
+     * The default directory for dump files retrieved from the API.
+     */
+    private final String defaultDumpDirectory;
 
     /**
      * The user agent with which this library makes requests.
      */
-    private static String USER_AGENT;
+    private String userAgent;
 
     /**
-     * Static 'constructor' that sets up the initial JAXBContext.
+     * Instantiates a new service and sets the User Agent. NationStates
+     * moderators should be able to identify you and your script via your User
+     * Agent. As such, try providing at least your nation name, and preferably
+     * include your e-mail address, a link to a website you own, or something
+     * else that can help them contact you if needed.
+     *
+     * @param userAgent
      */
-    static {
-        XmlConverter.registerTypes(DailyDumpNations.class, DailyDumpRegions.class,
+    public NationStates(String userAgent) {
+        this.setUserAgent(userAgent);
+        this.xmlConverter.registerTypes(DailyDumpNations.class, DailyDumpRegions.class,
                 World.class, WorldAssembly.class);
+
+        try {
+            final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
+            final File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            defaultDumpDirectory = jarFile.getParentFile().getPath();
+        } catch (URISyntaxException ex) {
+            throw new NationStatesAPIException(ex);
+        }
     }
 
     /**
-     * Sets the User Agent. If this is the first time the User Agent is set,
-     * then a version check is automatically done as well.
-     *
-     * NationStates moderators should be able to identify you and your script
-     * via your User Agent. As such, try providing at least your nation name,
-     * and preferably include your e-mail address, a link to a website you own,
-     * or something else that can help them contact you if needed.
+     * Sets the User Agent. NationStates moderators should be able to identify
+     * you and your script via your User Agent. As such, try providing at least
+     * your nation name, and preferably include your e-mail address, a link to a
+     * website you own, or something else that can help them contact you if
+     * needed.
      *
      * @param userAgent the User Agent to use for API calls
      * @throws IllegalArgumentException if userAgent is null or empty.
      */
-    public static void setUserAgent(String userAgent) {
-        // Make sure the new value is not null or empty.
+    public void setUserAgent(String userAgent) {
         if (userAgent == null || userAgent.isEmpty()) {
             throw new IllegalArgumentException("User Agent may not be null or empty");
         }
-
-        // If all is well, set the user agent and do a version check.
-        final boolean isNotSetYet = USER_AGENT == null || USER_AGENT.isEmpty();
-        USER_AGENT = userAgent;
-
-        // Do version check if this is the first time the User Agent is set.
-        if (isNotSetYet) {
-            int liveVersion = version().execute();
-
-            // Validate live version and log appropriate messages.
-            Logger logger = Logger.getLogger(NationStates.class.getName());
-            String start = String.format("Version check: wrapper wants to "
-                    + "use version '%s', latest live version is"
-                    + " '%s'.", API_VERSION, liveVersion);
-
-            switch (liveVersion) {
-                case API_VERSION:
-                    logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
-                    break;
-                case API_VERSION + 1:
-                    logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
-                            + "dumps. Please update the wrapper.", start);
-                    break;
-                default:
-                    logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
-                            + " update the wrapper.", start);
-            }
-        }
+        this.userAgent = userAgent;
     }
 
     /**
-     * Getter for the User Agent.
-     *
-     * @return the User Agent
+     * Performs a simple version check, logging the results in the console.
      */
-    public static String getUserAgent() {
-        return USER_AGENT;
+    public void versionCheck() {
+        int liveVersion = version().execute();
+
+        // Validate live version and log appropriate messages.
+        Logger logger = Logger.getLogger(NationStates.class.getName());
+        String start = String.format("Version check: wrapper wants to "
+                + "use version '%s', latest live version is"
+                + " '%s'.", apiVersion, liveVersion);
+
+        switch (liveVersion) {
+            case apiVersion:
+                logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
+                break;
+            case apiVersion + 1:
+                logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
+                        + "dumps. Please update the wrapper.", start);
+                break;
+            default:
+                logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
+                        + " update the wrapper.", start);
+        }
     }
 
     /**
@@ -108,8 +160,8 @@ public final class NationStates {
      * @param nationName name of the nation to query
      * @return a new nation query
      */
-    public static NationQuery nation(String nationName) {
-        return new NationQuery(nationName);
+    public NationQuery nation(String nationName) {
+        return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
     }
 
     /**
@@ -118,8 +170,8 @@ public final class NationStates {
      * @param regionName name of the region to query
      * @return a new region query
      */
-    public static RegionQuery region(String regionName) {
-        return new RegionQuery(regionName);
+    public RegionQuery region(String regionName) {
+        return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
     }
 
     /**
@@ -128,8 +180,8 @@ public final class NationStates {
      * @param shards the selected shards
      * @return a new world query
      */
-    public static WorldQuery world(WorldShard... shards) {
-        return new WorldQuery(shards);
+    public WorldQuery world(WorldShard... shards) {
+        return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, shards);
     }
 
     /**
@@ -138,8 +190,8 @@ public final class NationStates {
      * @param council the council type to query
      * @return a new World Assembly query
      */
-    public static WorldAssemblyQuery worldAssembly(Council council) {
-        return new WorldAssemblyQuery(council);
+    public WorldAssemblyQuery worldAssembly(Council council) {
+        return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, council);
     }
 
     /**
@@ -148,8 +200,8 @@ public final class NationStates {
      *
      * @return a new version query
      */
-    public static VersionQuery version() {
-        return new VersionQuery();
+    public VersionQuery version() {
+        return new VersionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion);
     }
 
     /**
@@ -159,8 +211,8 @@ public final class NationStates {
      * @param checksum the verification checksum
      * @return a new verify query
      */
-    public static VerifyQuery verify(String nation, String checksum) {
-        return new VerifyQuery(nation, checksum);
+    public VerifyQuery verify(String nation, String checksum) {
+        return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nation, checksum);
     }
 
     /**
@@ -172,8 +224,9 @@ public final class NationStates {
      * @param nations the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public static TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String... nations) {
-        return new TelegramQuery(clientKey, telegramId, secretKey, nations);
+    public TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String... nations) {
+        return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter, recruitmentTelegramRateLimiter,
+                baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey, nations);
     }
 
     /**
@@ -182,8 +235,8 @@ public final class NationStates {
      * @param mode the daily dump mode to use
      * @return a new daily region dump query
      */
-    public static RegionDumpQuery regiondump(DailyDumpMode mode) {
-        return new RegionDumpQuery(mode);
+    public RegionDumpQuery regiondump(DailyDumpMode mode) {
+        return new RegionDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
     }
 
     /**
@@ -196,10 +249,7 @@ public final class NationStates {
      * @param mode the daily dump mode to use
      * @return a new daily nation dump query
      */
-    public static NationDumpQuery nationdump(DailyDumpMode mode) {
-        return new NationDumpQuery(mode);
-    }
-
-    private NationStates() {
+    public NationDumpQuery nationdump(DailyDumpMode mode) {
+        return new NationDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
     }
 }

@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -29,11 +31,18 @@ public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
     /**
      * Constructor.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param nation the nation to verify
      * @param code the verification code
      */
-    public VerifyQuery(String nation, String code) {
-        super("verify");
+    public VerifyQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, String nation, String code) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "verify");
         this.nation = nation;
         this.checksum = code;
     }

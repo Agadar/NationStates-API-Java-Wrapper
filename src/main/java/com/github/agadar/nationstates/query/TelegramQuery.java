@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
-import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,34 +17,14 @@ import java.util.List;
 public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
 
     /**
-     * The mandated time between normal and campaign telegrams.
+     * The rate limiter for normal telegrams.
      */
-    public static final int TIME_BETWEEN_TELEGRAMS = 30050;
+    private final IRateLimiter telegramRateLimiter;
 
     /**
-     * The mandated time between recruitment telegrams.
+     * The rate limiter for recruitment telegrams.
      */
-    public static final int TIME_BETWEEN_RECRUITMENT_TELEGRAMS = 180050;
-
-    /**
-     * The rate limiter for normal telegrams. The mandated rate limit is 1
-     * telegram per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 30.05 seconds.
-     */
-    private static final DependantRateLimiter TELEGRAM_RATE_LIMITER;
-
-    /**
-     * The rate limiter for recruitment telegrams. The mandated rate limit is 1
-     * telegram per 180 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 180.05 seconds.
-     */
-    private static final DependantRateLimiter RECRUITMENT_TELEGRAM_RATE_LIMITER;
-
-    // Lazily initialize the rate limiters.
-    static {
-        TELEGRAM_RATE_LIMITER = new DependantRateLimiter(1, TIME_BETWEEN_TELEGRAMS, RATE_LIMITER);
-        RECRUITMENT_TELEGRAM_RATE_LIMITER = new DependantRateLimiter(1, TIME_BETWEEN_RECRUITMENT_TELEGRAMS, TELEGRAM_RATE_LIMITER);
-    }
+    private final IRateLimiter recruitmentTelegramRateLimiter;
 
     /**
      * List of listeners.
@@ -84,13 +64,26 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     /**
      * Constructor.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param telegramRateLimiter
+     * @param recruitmentTelegramRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param clientKey the client key
      * @param telegramId the telegram id
      * @param secretKey the telegram's secret key
      * @param nations the nation(s) to send the telegram to
      */
-    public TelegramQuery(String clientKey, String telegramId, String secretKey, String... nations) {
-        super("sendTG");
+    public TelegramQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            IRateLimiter telegramRateLimiter, IRateLimiter recruitmentTelegramRateLimiter,
+            String baseUrl, String userAgent, int apiVersion,
+            String clientKey, String telegramId, String secretKey, String... nations) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "sendTG");
+        this.telegramRateLimiter = telegramRateLimiter;
+        this.recruitmentTelegramRateLimiter = recruitmentTelegramRateLimiter;
         this.clientKey = clientKey;
         this.telegramId = telegramId;
         this.secretKey = secretKey;
@@ -182,8 +175,10 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         }
 
         // Calculate and return estimated time
-        int individual = isRecruitment ? TIME_BETWEEN_RECRUITMENT_TELEGRAMS : TIME_BETWEEN_TELEGRAMS;
-        return nations.length * individual;
+        final int individual = isRecruitment
+                ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
+                : this.telegramRateLimiter.getMillisecondsBetweenLocks();
+        return (nations.length - 1) * individual;
     }
 
     @Override
@@ -193,7 +188,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         String baseUrl = buildURL();
 
         // For each addressee, call makeRequest(...) if it isn't a dry run.
-        for (int i = 0; i < nations.length && getRateLimiter().Lock(); i++) {
+        for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
             // Build final url and wait for the rate limiter to go.
             final String nation = nations[i];
             final String url = baseUrl + nation.replace(' ', '_');
@@ -211,7 +206,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 message = ex.getMessage();
             } finally {
                 // Always unlock the rate limiter to prevent deadlock.
-                getRateLimiter().Unlock();
+                getRateLimiter().unlock();
             }
 
             // Fire a new telegram sent event.
@@ -233,10 +228,10 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     @Override
-    protected RateLimiter getRateLimiter() {
+    protected IRateLimiter getRateLimiter() {
         if (isRecruitment) {
-            return RECRUITMENT_TELEGRAM_RATE_LIMITER;
+            return recruitmentTelegramRateLimiter;
         }
-        return TELEGRAM_RATE_LIMITER;
+        return telegramRateLimiter;
     }
 }

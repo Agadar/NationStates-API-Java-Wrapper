@@ -1,10 +1,12 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 import com.github.agadar.nationstates.enumerator.HappeningsFilter;
 import com.github.agadar.nationstates.enumerator.RegionTag;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
 
 /**
@@ -25,7 +27,7 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     private DispatchCategory dispatchCategory;
 
     /**
-     * Subcategory to list dispatches of.
+     * Sub-category to list dispatches of.
      */
     private DispatchSubCategory dispatchSubcategory;
 
@@ -87,10 +89,17 @@ public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldSh
     /**
      * Constructor. Accepts one or more shards.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param shards the shards to select
      */
-    public WorldQuery(WorldShard... shards) {
-        super("");
+    public WorldQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, WorldShard... shards) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "");
         this.shards = shards;
     }
 

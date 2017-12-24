@@ -1,6 +1,8 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.domain.region.Region;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.RegionShard;
 
 /**
@@ -41,10 +43,17 @@ public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, Regi
     /**
      * Constructor. Sets the name of the region to query.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param regionName name of the region to query
      */
-    public RegionQuery(String regionName) {
-        super(regionName);
+    public RegionQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, String regionName) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
     }
 
     /**

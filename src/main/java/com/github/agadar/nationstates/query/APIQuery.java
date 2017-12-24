@@ -1,8 +1,7 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.NationStates;
-import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 
 /**
  * Top parent class for all Queries to the NationStates API.
@@ -15,25 +14,19 @@ import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R> {
 
     /**
-     * The general rate limiter for all API calls. The mandated rate limit is 50
-     * requests per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 50 requests per 30.05 seconds. To get a spread-like pattern
-     * instead of a burst-like pattern, we make this into 10 requests per 6.01
-     * seconds.
+     * The general rate limiter for all API calls.
      */
-    protected static final RateLimiter RATE_LIMITER;
+    protected final IRateLimiter generalRateLimiter;
 
     /**
-     * Rate limiter for API calls when scraping. Reduces the rate limit further
-     * to just 1 request per second, as suggested by the official documentation.
+     * Rate limiter for API calls when scraping.
      */
-    private static final DependantRateLimiter SCRAPING_RATE_LIMITER;
-
-    // Lazily initialize the rate limiters.
-    static {
-        RATE_LIMITER = new RateLimiter(10, 6010);
-        SCRAPING_RATE_LIMITER = new DependantRateLimiter(1, 1000, RATE_LIMITER);
-    }
+    private final IRateLimiter scrapingRateLimiter;
+    
+    /**
+     * The version of the NationStates API to target.
+     */
+    private final int apiVersion;
 
     /**
      * The resource value, e.g. the nation's or region's name. Set by the
@@ -49,10 +42,21 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
      *
+     * @param xmlConverter
      * @param resourceValue the resource value
+     * @param generalRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
+     * @param scrapingRateLimiter
      */
-    protected APIQuery(String resourceValue) {
+    protected APIQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, String resourceValue) {
+        super(xmlConverter, baseUrl, userAgent);
         this.resourceValue = resourceValue;
+        this.generalRateLimiter = generalRateLimiter;
+        this.scrapingRateLimiter = scrapingRateLimiter;
+        this.apiVersion = apiVersion;
     }
 
     /**
@@ -74,19 +78,19 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @return the rate limiter to use in the makeRequest()-function
      */
-    protected RateLimiter getRateLimiter() {
-        return slowMode ? SCRAPING_RATE_LIMITER : RATE_LIMITER;
+    protected IRateLimiter getRateLimiter() {
+        return slowMode ? scrapingRateLimiter : generalRateLimiter;
     }
 
     @Override
     public <T> T execute(Class<T> type) {
-        if (getRateLimiter().Lock()) {
+        if (getRateLimiter().lock()) {
             try {
                 return super.execute(type);
             } catch (Exception ex) {
                 throw ex;
             } finally {
-                getRateLimiter().Unlock();
+                getRateLimiter().unlock();
             }
         }
         return null;
@@ -108,7 +112,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     @Override
     protected String buildURL() {
         // Start out by concatenating base url and API version number
-        String url = super.buildURL() + "cgi-bin/api.cgi?v=" + NationStates.API_VERSION;
+        String url = super.buildURL() + "cgi-bin/api.cgi?v=" + apiVersion;
         String resourceString = resourceString();
 
         // If we're not using the top resource, then append resource and resourceValue
