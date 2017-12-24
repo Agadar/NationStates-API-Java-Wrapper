@@ -2,7 +2,6 @@ package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.IXmlConverter;
 import com.github.agadar.nationstates.NationStatesAPIException;
-import com.github.agadar.nationstates.XmlConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
