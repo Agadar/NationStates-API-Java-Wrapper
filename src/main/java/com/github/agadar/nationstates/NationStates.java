@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class NationStates {
+public final class NationStates implements INationStates {
 
     /**
      * The NationStates API version this wrapper uses.
@@ -76,7 +76,7 @@ public final class NationStates {
     /**
      * For converting xml input from the API to domain classes.
      */
-    public final IXmlConverter xmlConverter = new XmlConverter();
+    private final IXmlConverter xmlConverter = new XmlConverter();
 
     /**
      * The default directory for dump files retrieved from the API.
@@ -111,16 +111,7 @@ public final class NationStates {
         }
     }
 
-    /**
-     * Sets the User Agent. NationStates moderators should be able to identify
-     * you and your script via your User Agent. As such, try providing at least
-     * your nation name, and preferably include your e-mail address, a link to a
-     * website you own, or something else that can help them contact you if
-     * needed.
-     *
-     * @param userAgent the User Agent to use for API calls
-     * @throws IllegalArgumentException if userAgent is null or empty.
-     */
+    @Override
     public void setUserAgent(String userAgent) {
         if (userAgent == null || userAgent.isEmpty()) {
             throw new IllegalArgumentException("User Agent may not be null or empty");
@@ -128,10 +119,8 @@ public final class NationStates {
         this.userAgent = userAgent;
     }
 
-    /**
-     * Performs a simple version check, logging the results in the console.
-     */
-    public void versionCheck() {
+    @Override
+    public void doVersionCheck() {
         int liveVersion = version().execute();
 
         // Validate live version and log appropriate messages.
@@ -154,102 +143,54 @@ public final class NationStates {
         }
     }
 
-    /**
-     * Starts building a nation query, using the given nation name.
-     *
-     * @param nationName name of the nation to query
-     * @return a new nation query
-     */
-    public NationQuery nation(String nationName) {
+    @Override
+    public final synchronized void registerTypes(Class... types) {
+        return this.xmlConverter.registerTypes(types);
+    }
+
+    @Override
+    public NationQuery getNation(String nationName) {
         return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
     }
 
-    /**
-     * Starts building a region query, using the given region name.
-     *
-     * @param regionName name of the region to query
-     * @return a new region query
-     */
-    public RegionQuery region(String regionName) {
+    @Override
+    public RegionQuery getRegion(String regionName) {
         return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
     }
 
-    /**
-     * Starts building a world query, using the selected shards.
-     *
-     * @param shards the selected shards
-     * @return a new world query
-     */
-    public WorldQuery world(WorldShard... shards) {
+    @Override
+    public WorldQuery getWorld(WorldShard... shards) {
         return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, shards);
     }
 
-    /**
-     * Starts building a World Assembly query, using the selected council type.
-     *
-     * @param council the council type to query
-     * @return a new World Assembly query
-     */
-    public WorldAssemblyQuery worldAssembly(Council council) {
+    @Override
+    public WorldAssemblyQuery getWorldAssembly(Council council) {
         return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, council);
     }
 
-    /**
-     * Starts building a query that retrieves the version number of the latest
-     * live NationStates API.
-     *
-     * @return a new version query
-     */
-    public VersionQuery version() {
+    @Override
+    public VersionQuery getVersion() {
         return new VersionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion);
     }
 
-    /**
-     * Starts building a query that verifies a nation.
-     *
-     * @param nation the nation to verify
-     * @param checksum the verification checksum
-     * @return a new verify query
-     */
-    public VerifyQuery verify(String nation, String checksum) {
+    @Override
+    public VerifyQuery verifyNation(String nation, String checksum) {
         return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nation, checksum);
     }
 
-    /**
-     * Starts building a query that sends (a) telegram(s).
-     *
-     * @param clientKey the client key
-     * @param telegramId the telegram id
-     * @param secretKey the telegram's secret key
-     * @param nations the nation(s) to send the telegram to
-     * @return a new telegram query
-     */
-    public TelegramQuery telegram(String clientKey, String telegramId, String secretKey, String... nations) {
+    @Override
+    public TelegramQuery sendTelegram(String clientKey, String telegramId, String secretKey, String... nations) {
         return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter, recruitmentTelegramRateLimiter,
                 baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey, nations);
     }
 
-    /**
-     * Starts building a query that retrieves the daily region dump.
-     *
-     * @param mode the daily dump mode to use
-     * @return a new daily region dump query
-     */
-    public RegionDumpQuery regiondump(DailyDumpMode mode) {
+    @Override
+    public RegionDumpQuery getRegionDump(DailyDumpMode mode) {
         return new RegionDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
     }
 
-    /**
-     * Starts building a query that retrieves the daily nation dump.
-     *
-     * Warning: reading the XML file and parsing it to objects may cause a
-     * java.lang.OutOfMemoryError on older machines due to the sheer number of
-     * Nation objects being created from parsing the retrieved XML file.
-     *
-     * @param mode the daily dump mode to use
-     * @return a new daily nation dump query
-     */
-    public NationDumpQuery nationdump(DailyDumpMode mode) {
+    @Override
+    public NationDumpQuery getNationDump(DailyDumpMode mode) {
         return new NationDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
     }
 }

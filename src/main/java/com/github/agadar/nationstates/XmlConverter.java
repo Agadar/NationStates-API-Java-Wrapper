@@ -39,7 +39,7 @@ public final class XmlConverter implements IXmlConverter {
      * @param types the classes to add to the JAXB context
      */
     @Override
-    public final synchronized void registerTypes(Class... types) {
+    public final void registerTypes(Class... types) {
         // Place new types in jaxbContextClasses.
         JAXB_CONTEXT_CLASSES.addAll(Arrays.asList(types));
         final int numberOfClasses = JAXB_CONTEXT_CLASSES.size();
