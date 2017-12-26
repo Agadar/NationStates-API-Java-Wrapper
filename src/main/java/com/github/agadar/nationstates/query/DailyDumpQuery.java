@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
-import static com.github.agadar.nationstates.query.AbstractQuery.LOGGER;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 
@@ -14,7 +13,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.logging.Level;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -112,18 +110,18 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     @Override
     public <T> T execute(Class<T> type) {
         validateQueryParameters();
-        boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
+        final boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
             // Download.
-            String dir = downloadDir != null && !downloadDir.isEmpty()
+            final String dir = downloadDir != null && !downloadDir.isEmpty()
                     ? downloadDir : defaultDirectory;
             download(dir);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             // Read locally.
-            String dir = readFromDir != null && !readFromDir.isEmpty()
+            final String dir = readFromDir != null && !readFromDir.isEmpty()
                     ? readFromDir : defaultDirectory;
             return readLocal(dir, type);
         } else if (mode == DailyDumpMode.READ_REMOTE) {
@@ -154,27 +152,25 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
-            String urlStr = buildURL();
-            URL url = new URL(urlStr);
+            final String urlStr = buildURL();
+            final URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", userAgent);
-            int responseCode = conn.getResponseCode();
-            String response = String.format("NationStates API returned: '%s' from URL: %s",
+            final int responseCode = conn.getResponseCode();
+            final String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);
 
             // Depending on whether or not an error was returned, either throw
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
-                LOGGER.log(Level.INFO, response);
-                Path path = new File(directory + "\\" + getFileName()).toPath();
+                final Path path = new File(directory + "\\" + getFileName()).toPath();
                 stream = conn.getInputStream();
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
                 closeInputStreamQuietly(stream);
             } else {
                 // Else, throw an exception.
-                LOGGER.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
                 throw new NationStatesAPIException(response);
             }
@@ -197,8 +193,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      */
     private <T> T readLocal(String directory, Class<T> type) {
         try {
-            InputStream stream = new FileInputStream(directory + "\\" + getFileName());
-            T obj = translateResponse(stream, type);
+            final InputStream stream = new FileInputStream(directory + "\\" + getFileName());
+            final T obj = translateResponse(stream, type);
             closeInputStreamQuietly(stream);
             return obj;
         } catch (IOException ex) {

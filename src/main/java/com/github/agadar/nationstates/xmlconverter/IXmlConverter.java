@@ -1,4 +1,4 @@
-package com.github.agadar.nationstates;
+package com.github.agadar.nationstates.xmlconverter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

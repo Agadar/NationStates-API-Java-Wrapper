@@ -2,10 +2,6 @@ package com.github.agadar.nationstates;
 
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.domain.DailyDumpNations;
-import com.github.agadar.nationstates.domain.DailyDumpRegions;
-import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
-import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.shard.WorldShard;
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
@@ -50,7 +46,7 @@ public interface INationStates {
      *
      * @param types the classes to add to the JAXB context
      */
-    public final void registerTypes(Class... types);
+    public void registerTypes(Class... types);
 
     /**
      * Starts building a nation query, using the given nation name.
@@ -110,7 +106,7 @@ public interface INationStates {
      * @param nations the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public TelegramQuery sendTelegram(String clientKey, String telegramId, String secretKey, String... nations);
+    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
 
     /**
      * Starts building a query that retrieves the daily region dump.

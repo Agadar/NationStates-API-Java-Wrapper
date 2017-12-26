@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.domain.DailyDumpNations;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 

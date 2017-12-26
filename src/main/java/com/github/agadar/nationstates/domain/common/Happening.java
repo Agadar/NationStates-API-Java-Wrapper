@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Happening {
 
     /**
-     * Id of this happening.
+     * Id of this happening. Not always available.
      */
     @XmlAttribute(name = "id")
     public long id;

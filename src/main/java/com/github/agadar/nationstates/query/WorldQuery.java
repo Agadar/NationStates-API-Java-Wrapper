@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;

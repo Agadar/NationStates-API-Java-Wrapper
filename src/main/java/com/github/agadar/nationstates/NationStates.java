@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates;
 
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.domain.DailyDumpNations;
@@ -19,10 +21,10 @@ import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,7 +123,7 @@ public final class NationStates implements INationStates {
 
     @Override
     public void doVersionCheck() {
-        int liveVersion = version().execute();
+        int liveVersion = getVersion().execute();
 
         // Validate live version and log appropriate messages.
         Logger logger = Logger.getLogger(NationStates.class.getName());
@@ -144,8 +146,8 @@ public final class NationStates implements INationStates {
     }
 
     @Override
-    public final synchronized void registerTypes(Class... types) {
-        return this.xmlConverter.registerTypes(types);
+    public final void registerTypes(Class... types) {
+        xmlConverter.registerTypes(types);
     }
 
     @Override
@@ -179,7 +181,7 @@ public final class NationStates implements INationStates {
     }
 
     @Override
-    public TelegramQuery sendTelegram(String clientKey, String telegramId, String secretKey, String... nations) {
+    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations) {
         return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter, recruitmentTelegramRateLimiter,
                 baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey, nations);
     }

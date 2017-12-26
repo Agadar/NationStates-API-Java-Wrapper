@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 
 /**
@@ -99,7 +99,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     @Override
     protected void validateQueryParameters() {
         super.validateQueryParameters();
-        String resourceString = resourceString();
+        final String resourceString = resourceString();
 
         // Ensure resourceValue is not null or empty if the resource string isn't either.
         if (resourceString != null && !resourceString.isEmpty()
@@ -113,7 +113,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     protected String buildURL() {
         // Start out by concatenating base url and API version number
         String url = super.buildURL() + "cgi-bin/api.cgi?v=" + apiVersion;
-        String resourceString = resourceString();
+        final String resourceString = resourceString();
 
         // If we're not using the top resource, then append resource and resourceValue
         if (resourceString != null && !resourceString.isEmpty()) {

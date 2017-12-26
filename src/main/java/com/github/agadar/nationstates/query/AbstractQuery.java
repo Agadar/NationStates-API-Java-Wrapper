@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.NationStatesAPIException;
 
 import java.io.IOException;
@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Top parent class for all Queries to NationStates in general.
@@ -20,11 +18,6 @@ import java.util.logging.Logger;
  * @param <R> the type the child class' execute()-function returns
  */
 public abstract class AbstractQuery<Q extends AbstractQuery, R> {
-
-    /**
-     * The logger for this object.
-     */
-    protected static final Logger LOGGER = Logger.getLogger(AbstractQuery.class.getName());
 
     /**
      * Base URL to NationStates.
@@ -122,25 +115,23 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
-            URL url = new URL(urlStr);
+            final URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", userAgent);
-            int responseCode = conn.getResponseCode();
-            String response = String.format("NationStates API returned: '%s' from URL: %s",
+            final int responseCode = conn.getResponseCode();
+            final String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);
 
             // Depending on whether or not an error was returned, either throw
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
-                LOGGER.log(Level.INFO, response);
                 stream = conn.getInputStream();
-                T result = translateResponse(stream, type);
+                final T result = translateResponse(stream, type);
                 closeInputStreamQuietly(stream);
                 return result;
             } else {
-                LOGGER.log(Level.WARNING, response);
                 closeInputStreamQuietly(stream);
 
                 // If the resource simply wasn't found, just return null.
@@ -180,8 +171,8 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
 
     /**
      * Closes the given InputStream. If an exception occurs, the exception is
-     * logged, not thrown or returned. Use this if you don't particularly care
-     * about catching exceptions thrown by closing InputStreams.
+     * not thrown or returned. Use this if you don't particularly care about
+     * catching exceptions thrown by closing InputStreams.
      *
      * @param stream the InputStream to close
      */
@@ -189,7 +180,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
         try {
             stream.close();
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            // Ignore.
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
