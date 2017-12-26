@@ -97,7 +97,7 @@ public final class NationStates implements INationStates {
      * include your e-mail address, a link to a website you own, or something
      * else that can help them contact you if needed.
      *
-     * @param userAgent
+     * @param userAgent the User Agent to use for API calls
      */
     public NationStates(String userAgent) {
         this.setUserAgent(userAgent);

@@ -22,7 +22,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * Rate limiter for API calls when scraping.
      */
     private final IRateLimiter scrapingRateLimiter;
-    
+
     /**
      * The version of the NationStates API to target.
      */
@@ -42,13 +42,14 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
      *
-     * @param xmlConverter
-     * @param resourceValue the resource value
-     * @param generalRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param scrapingRateLimiter
+     * @param xmlConverter The converter for translating XML from the API to
+     * objects.
+     * @param resourceValue The resource value (e.g. 'nation', 'region'...)
+     * @param generalRateLimiter The default rate limiter
+     * @param baseUrl The URL to the API to consume
+     * @param userAgent The User Agent to communicate with
+     * @param apiVersion The version of the API to expect to consume
+     * @param scrapingRateLimiter Rate limiter used when 'scraping'
      */
     protected APIQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {

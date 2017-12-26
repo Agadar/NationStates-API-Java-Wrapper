@@ -39,7 +39,8 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     /**
      * Constructor, setting the returnType.
      *
-     * @param xmlConverter
+     * @param xmlConverter The converter for translating XML from the API to
+     * objects.
      * @param baseUrl Base URL to NationStates.
      * @param userAgent User agent by which this library or its consumer is
      * recognized.
