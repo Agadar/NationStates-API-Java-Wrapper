@@ -1,7 +1,9 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 
 /**
@@ -19,10 +21,17 @@ public final class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, Wor
     /**
      * Constructor. Sets the council type to query.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param council the council type to query
      */
-    public WorldAssemblyQuery(Council council) {
-        super(String.valueOf(council.toInt()));
+    public WorldAssemblyQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, Council council) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, String.valueOf(council.toInt()));
     }
 
     /**

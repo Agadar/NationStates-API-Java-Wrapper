@@ -1,8 +1,7 @@
 package com.github.agadar.nationstates.ratelimiter;
 
 /**
- * Enforces thread-safe rate limiting for x requests per y milliseconds. This
- * rate limiter is dependant on another rate limiter.
+ * A rate limiter that is also dependant on another rate limiter.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -11,16 +10,16 @@ public final class DependantRateLimiter extends RateLimiter {
     /**
      * The rate limiter this one is dependant on.
      */
-    private final RateLimiter dependant;
+    private final IRateLimiter dependant;
 
     /**
      * Constructs a new RateLimiter.
      *
-     * @param requests the x in 'x requests per y milliseconds'
-     * @param milliseconds the y in 'x requests per y milliseconds'
+     * @param requests the x in 'x requests per y milliseconds
+     * @param milliseconds the y in 'x requests per y milliseconds
      * @param dependant the rate limiter this one is dependant on
      */
-    public DependantRateLimiter(int requests, int milliseconds, RateLimiter dependant) {
+    public DependantRateLimiter(IRateLimiter dependant, int requests, int milliseconds) {
         super(requests, milliseconds);
 
         if (dependant == null) {
@@ -30,13 +29,20 @@ public final class DependantRateLimiter extends RateLimiter {
     }
 
     @Override
-    public boolean Lock() {
-        return super.Lock() ? dependant.Lock() : false;
+    public boolean lock() {
+        return super.lock() ? dependant.lock() : false;
     }
 
     @Override
-    public void Unlock() {
-        dependant.Unlock();
-        super.Unlock();
+    public void unlock() {
+        dependant.unlock();
+        super.unlock();
+    }
+
+    @Override
+    public int getMillisecondsBetweenLocks() {
+        final int myTime = super.getMillisecondsBetweenLocks();
+        final int dependantTime = dependant.getMillisecondsBetweenLocks();
+        return Math.max(myTime, dependantTime);
     }
 }

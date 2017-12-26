@@ -1,6 +1,8 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.domain.nation.Nation;
+import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.NationShard;
 
 /**
@@ -18,10 +20,17 @@ public final class NationQuery extends CensusQuery<NationQuery, Nation, NationSh
     /**
      * Constructor. Sets the name of the nation to query.
      *
+     * @param xmlConverter
+     * @param generalRateLimiter
+     * @param scrapingRateLimiter
+     * @param baseUrl
+     * @param userAgent
+     * @param apiVersion
      * @param nationName name of the nation to query
      */
-    public NationQuery(String nationName) {
-        super(nationName);
+    public NationQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+            String baseUrl, String userAgent, int apiVersion, String nationName) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
     }
 
     /**
