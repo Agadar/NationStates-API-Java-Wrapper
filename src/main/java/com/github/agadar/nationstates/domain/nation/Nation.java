@@ -9,7 +9,6 @@ import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -32,7 +31,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Nation {
 
     /**
-     * The nation's id, which is always supplied.
+     * The nation's id. Not available in dump file.
      */
     @XmlAttribute(name = "id")
     public String id;
@@ -457,28 +456,6 @@ public class Nation {
      */
     private static String riftCodeToURL(String riftCode) {
         return riftCode == null || riftCode.isEmpty() ? null : String.format(BANNER_URL, riftCode);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Nation other = (Nation) obj;
-        return Objects.equals(this.id, other.id);
     }
 
 }

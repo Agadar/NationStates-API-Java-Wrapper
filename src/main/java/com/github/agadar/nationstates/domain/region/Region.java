@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Region {
 
     /**
-     * The region's id, which is always supplied.
+     * The region's id. Not available in dump file.
      */
     @XmlAttribute(name = "id")
     public String id;
@@ -228,27 +228,5 @@ public class Region {
      */
     @XmlElement(name = "ZOMBIE")
     public ZombieInfo zombieInfo;
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Region other = (Region) obj;
-        return Objects.equals(this.id, other.id);
-    }
 
 }
