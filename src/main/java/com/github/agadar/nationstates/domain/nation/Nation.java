@@ -1,31 +1,41 @@
 package com.github.agadar.nationstates.domain.nation;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.Happening;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.SortedSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * Representation of a nation. This class's fields have a 1:1 correspondence
- * with the shards in NationShard.java.
+ * Representation of a nation. This class' fields have a 1:1 correspondence with
+ * the shards in NationShard.java.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
 public class Nation {
+
+    /**
+     * The nation's id, which is always supplied.
+     */
+    @XmlAttribute(name = "id")
+    public String id;
 
     /**
      * One of two adjectives for this nation, e.g. 'cultured', 'safe', etc.
@@ -57,7 +67,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "BANNERS")
     @XmlElement(name = "BANNER")
-    public List<String> banners;
+    public Set<String> banners;
 
     /**
      * This nation's capital. Has default value if none is set.
@@ -76,7 +86,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public List<CensusScore> census;
+    public Set<CensusScore> census;
 
     /**
      * Description of crime in this nation.
@@ -113,7 +123,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DEATHS")
     @XmlElement(name = "CAUSE")
-    public List<DeathCause> deaths;
+    public Set<DeathCause> deaths;
 
     /**
      * Primary demonym.
@@ -145,14 +155,14 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    public List<Dispatch> dispatches;
+    public Set<Dispatch> dispatches;
 
     /**
      * List of nation names that endorsed this nation.
      */
     @XmlElement(name = "ENDORSEMENTS")
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> endorsedBy;
+    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
+    public Set<String> endorsedBy;
 
     /**
      * Number of factbooks written by this nation.
@@ -163,7 +173,7 @@ public class Nation {
     /* This nation's factbooks. Subset of Dispatches. Does not include dispatches' texts. */
     @XmlElementWrapper(name = "FACTBOOKLIST")
     @XmlElement(name = "FACTBOOK")
-    public List<Dispatch> factbooks;
+    public Set<Dispatch> factbooks;
 
     /**
      * UNIX timestamp of when the nation first logged in.
@@ -236,7 +246,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public List<Happening> recentHappenings;
+    public SortedSet<Happening> recentHappenings;
 
     /**
      * The average income of the population.
@@ -294,7 +304,7 @@ public class Nation {
     public String motto;
 
     /**
-     * This nation's name.
+     * This nation's name. Should be similar to id, but capitalized.
      */
     @XmlElement(name = "NAME")
     public String name;
@@ -429,12 +439,12 @@ public class Nation {
      *
      * @return the URLs that point to the images behind Banners.
      */
-    public List<String> bannersAsURLs() {
-        if (banners == null) {
-            return null;
-        }
+    public Set<String> bannersAsURLs() {
+        final Set<String> urls = new HashSet<>();
 
-        List<String> urls = new ArrayList<>();
+        if (banners == null) {
+            return urls;
+        }
         banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
         return urls;
     }
@@ -448,4 +458,27 @@ public class Nation {
     private static String riftCodeToURL(String riftCode) {
         return riftCode == null || riftCode.isEmpty() ? null : String.format(BANNER_URL, riftCode);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Nation other = (Nation) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }

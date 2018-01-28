@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "EVENT")
-public class Happening {
+public class Happening implements Comparable<Happening> {
 
     /**
      * Id of this happening. Not always available.
@@ -32,4 +32,14 @@ public class Happening {
      */
     @XmlElement(name = "TEXT")
     public String description;
+
+    @Override
+    public int compareTo(Happening o) {
+        if (this.timestamp > o.timestamp) {
+            return -1;
+        } else if (this.timestamp < o.timestamp) {
+            return 1;
+        }
+        return 0;
+    }
 }

@@ -2,6 +2,7 @@ package com.github.agadar.nationstates.enumerator;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
@@ -14,7 +15,8 @@ public enum DispatchCategory {
     FACTBOOK("Factbook"),
     BULLETIN("Bulletin"),
     ACCOUNT("Account"),
-    META("Meta");
+    META("Meta"),
+    NULL("NULL");
 
     /**
      * The string representation of this DispatchCategory.
@@ -49,7 +51,7 @@ public enum DispatchCategory {
      */
     public static DispatchCategory fromString(String stringValue) {
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
+            return DispatchCategory.NULL;
         }
         return STRINGS_TO_ENUMS.get(stringValue);
     }

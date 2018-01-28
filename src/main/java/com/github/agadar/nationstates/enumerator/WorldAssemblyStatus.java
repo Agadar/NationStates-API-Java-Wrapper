@@ -14,7 +14,8 @@ public enum WorldAssemblyStatus {
 
     NON_MEMBER("Non-member"),
     MEMBER("WA Member"),
-    DELEGATE("WA Delegate");
+    DELEGATE("WA Delegate"),
+    NULL("NULL");
 
     /**
      * Reverse mapping.
@@ -44,7 +45,7 @@ public enum WorldAssemblyStatus {
      */
     public static WorldAssemblyStatus fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
+            return WorldAssemblyStatus.NULL;
         }
         return STRINGS_TO_ENUMS.get(underlying);
     }

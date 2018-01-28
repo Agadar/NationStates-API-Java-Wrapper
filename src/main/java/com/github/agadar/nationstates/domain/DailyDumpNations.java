@@ -2,7 +2,7 @@ package com.github.agadar.nationstates.domain;
 
 import com.github.agadar.nationstates.domain.nation.Nation;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,5 +19,5 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DailyDumpNations {
 
     @XmlElement(name = "NATION")
-    public List<Nation> nations;
+    public Set<Nation> nations;
 }

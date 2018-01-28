@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
-public class NationCensusScore {
+public class NationCensusScore implements Comparable<NationCensusScore> {
 
     /**
      * The nation's name
@@ -30,5 +32,48 @@ public class NationCensusScore {
      * The nation's score on the scale
      */
     @XmlElement(name = "SCORE")
-    public String score;
+    public double score;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.nationName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NationCensusScore other = (NationCensusScore) obj;
+        return Objects.equals(this.nationName, other.nationName);
+    }
+
+    @Override
+    public int compareTo(NationCensusScore o) {
+
+        if (this.rank != 0 && o.rank != 0) {
+            if (this.rank > o.rank) {
+                return 1;
+            } else if (this.rank < o.rank) {
+                return -1;
+            }
+            return 0;
+        }
+
+        if (this.score > o.score) {
+            return -1;
+        } else if (this.score < o.score) {
+            return 1;
+        }
+        return 0;
+    }
+
 }

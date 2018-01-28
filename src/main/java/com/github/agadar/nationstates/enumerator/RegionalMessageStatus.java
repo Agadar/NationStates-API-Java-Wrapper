@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public enum RegionalMessageStatus {
 
+    NULL(-1),
     VISIBLE(0),
     SUPPRESSED_BUT_VIEWABLE(1),
     DELETED_BY_AUTHOR(2),
@@ -54,7 +55,7 @@ public enum RegionalMessageStatus {
      */
     public static RegionalMessageStatus fromInt(int intValue) {
         if (!INTS_TO_ENUMS.containsKey(intValue)) {
-            throw new IllegalArgumentException("'" + intValue + "' cannot be parsed to this enum");
+            return RegionalMessageStatus.NULL;
         }
         return INTS_TO_ENUMS.get(intValue);
     }

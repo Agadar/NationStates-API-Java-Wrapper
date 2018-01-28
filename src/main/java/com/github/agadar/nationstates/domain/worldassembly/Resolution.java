@@ -3,6 +3,7 @@ package com.github.agadar.nationstates.domain.worldassembly;
 import com.github.agadar.nationstates.enumerator.Council;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -145,7 +146,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    public List<DelegateLogsEntry> delegateLog;
+    public SortedSet<DelegateLogsEntry> delegateLog;
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate
@@ -153,7 +154,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    public List<DelegateLogsEntry> delegateVotesFor;
+    public SortedSet<DelegateLogsEntry> delegateVotesFor;
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate
@@ -161,7 +162,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    public List<DelegateLogsEntry> delegateVotesAgainst;
+    public SortedSet<DelegateLogsEntry> delegateVotesAgainst;
 
     /**
      * A track record of the total FOR votes of the resolution currently at

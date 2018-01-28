@@ -2,10 +2,11 @@ package com.github.agadar.nationstates.enumerator;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * Represents the different statusses an embassy can be in.
+ * Represents the different statuses an embassy can be in.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -17,8 +18,8 @@ public enum EmbassyStatus {
     REJECTED("rejected"), // this region rejected an invitation by another region to build embassies
     DENIED("denied"), // the other region rejected the request from this region to build embassies
     CLOSING("closing"), // the embassies are being closed
-    ESTABLISHED(null) // the embassies are established
-    ;
+    ESTABLISHED(null), // the embassies are established
+    NULL("NULL");
 
     /**
      * Reverse mapping.
@@ -48,7 +49,7 @@ public enum EmbassyStatus {
      */
     public static EmbassyStatus fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
+            return EmbassyStatus.NULL;
         }
         return STRINGS_TO_ENUMS.get(underlying);
     }

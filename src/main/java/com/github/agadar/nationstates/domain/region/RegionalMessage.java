@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.domain.region;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "POST")
-public class RegionalMessage {
+public class RegionalMessage implements Comparable<RegionalMessage> {
 
     /**
      * The message's id
@@ -63,12 +63,45 @@ public class RegionalMessage {
      * List of nations that liked this message
      */
     @XmlElement(name = "LIKERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
-    public List<String> likedBy;
+    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
+    public Set<String> likedBy;
 
     /**
      * The text of the message
      */
     @XmlElement(name = "MESSAGE")
     public String text;
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RegionalMessage other = (RegionalMessage) obj;
+        return this.id == other.id;
+    }
+
+    @Override
+    public int compareTo(RegionalMessage o) {
+        if (this.timestamp > o.timestamp) {
+            return -1;
+        } else if (this.timestamp < o.timestamp) {
+            return 1;
+        }
+        return 0;
+    }
+
 }

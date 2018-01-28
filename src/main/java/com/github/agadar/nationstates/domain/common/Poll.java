@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -65,5 +66,28 @@ public class Poll {
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    public List<PollOption> options;
+    public Set<PollOption> options;
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Poll other = (Poll) obj;
+        return this.id == other.id;
+    }
+
 }

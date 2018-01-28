@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.domain.common;
 
-import java.util.List;
+import java.util.SortedSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -64,5 +64,28 @@ public class CensusScore {
      * save for Id will not be retrieved.
      */
     @XmlElement(name = "POINT")
-    public List<CensusScoreHistory> history;
+    public SortedSet<CensusScoreHistory> history;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CensusScore other = (CensusScore) obj;
+        return this.id == other.id;
+    }
+
 }
