@@ -6,30 +6,29 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Represents a nation's freedom scores, expressed in words. See also
- * FreedomScores.
+ * Represents a nation's freedom scores, expressed in numbers. See also Freedom.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "FREEDOM")
-public class Freedom {
+@XmlRootElement(name = "FREEDOMSCORES")
+public class FreedomScores {
 
     /**
      * The nation's civil rights score
      */
     @XmlElement(name = "CIVILRIGHTS")
-    public String civilRights;
+    public int civilRights;
 
     /**
      * The nation's economy score
      */
     @XmlElement(name = "ECONOMY")
-    public String economy;
+    public int economy;
 
     /**
      * The nation's political freedoms score
      */
     @XmlElement(name = "POLITICALFREEDOM")
-    public String politicalFreedom;
+    public int politicalFreedom;
 }

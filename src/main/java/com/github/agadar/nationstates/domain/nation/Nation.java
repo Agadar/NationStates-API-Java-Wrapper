@@ -4,7 +4,9 @@ import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.Happening;
+import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
+import com.github.agadar.nationstates.enumerator.InfluenceRank;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
 import java.util.HashSet;
@@ -149,7 +151,7 @@ public class Nation {
     public int numberOfDispatches;
 
     /**
-     * This nations's dispatches. Includes factbooks. Does not include
+     * This nation's dispatches. Includes factbooks. Does not include
      * dispatches' texts.
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
@@ -199,10 +201,17 @@ public class Nation {
     public Long founded;
 
     /**
-     * The nation's civil rights, economy, and political freedoms scores.
+     * The nation's civil rights, economy, and political freedom scores in text.
      */
     @XmlElement(name = "FREEDOM")
     public Freedom freedom;
+
+    /**
+     * The nation's civil rights, economy, and political freedom scores in
+     * numbers.
+     */
+    @XmlElement(name = "FREEDOMSCORES")
+    public FreedomScores freedomScores;
 
     /**
      * The nation's full name.
@@ -246,6 +255,13 @@ public class Nation {
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
     public SortedSet<Happening> recentHappenings;
+
+    /**
+     * The nation's regional influence rank.
+     */
+    @XmlElement(name = "INFLUENCE")
+    @XmlJavaTypeAdapter(InfluenceRank.Adapter.class)
+    public InfluenceRank influence;
 
     /**
      * The average income of the population.
@@ -397,6 +413,13 @@ public class Nation {
      */
     @XmlElement(name = "TYPE")
     public String governmentType;
+
+    /**
+     * The World Assembly badges granted to this nation by the Security Council.
+     */
+    @XmlElementWrapper(name = "WABADGES")
+    @XmlElement(name = "WABADGE")
+    public Set<WorldAssemblyBadge> worldAssemblyBadges;
 
     /**
      * String indicating whether the nation is a member of the World Assembly.

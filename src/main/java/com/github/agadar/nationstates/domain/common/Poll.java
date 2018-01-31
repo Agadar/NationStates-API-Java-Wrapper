@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.domain.common;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;

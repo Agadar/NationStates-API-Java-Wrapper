@@ -5,12 +5,12 @@ import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Happening;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
+import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
 import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
 import com.github.agadar.nationstates.enumerator.RegionTag;
 
-import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -222,6 +222,13 @@ public class Region {
     @XmlElement(name = "TAG")
     @XmlJavaTypeAdapter(RegionTag.Adapter.class)
     public Set<RegionTag> tags;
+
+    /**
+     * The World Assembly badges granted to this region by the Security Council.
+     */
+    @XmlElementWrapper(name = "WABADGES")
+    @XmlElement(name = "WABADGE")
+    public Set<WorldAssemblyBadge> worldAssemblyBadges;
 
     /**
      * This region's statistics of the current or last zombie event.
