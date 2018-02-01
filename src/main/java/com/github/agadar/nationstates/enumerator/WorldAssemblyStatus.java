@@ -75,12 +75,12 @@ public enum WorldAssemblyStatus {
     public static class Adapter extends XmlAdapter<String, WorldAssemblyStatus> {
 
         @Override
-        public WorldAssemblyStatus unmarshal(String vt) throws Exception {
+        public WorldAssemblyStatus unmarshal(String vt) {
             return WorldAssemblyStatus.fromString(vt);
         }
 
         @Override
-        public String marshal(WorldAssemblyStatus bt) throws Exception {
+        public String marshal(WorldAssemblyStatus bt) {
             return bt.underlying;
         }
     }

@@ -76,12 +76,12 @@ public enum RegionalMessageStatus {
     public static class Adapter extends XmlAdapter<Integer, RegionalMessageStatus> {
 
         @Override
-        public RegionalMessageStatus unmarshal(Integer v) throws Exception {
+        public RegionalMessageStatus unmarshal(Integer v) {
             return RegionalMessageStatus.fromInt(v);
         }
 
         @Override
-        public Integer marshal(RegionalMessageStatus v) throws Exception {
+        public Integer marshal(RegionalMessageStatus v) {
             return v.intValue;
         }
     }

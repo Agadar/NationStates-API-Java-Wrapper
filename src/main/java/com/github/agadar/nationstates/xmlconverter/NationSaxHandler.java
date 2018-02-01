@@ -49,8 +49,8 @@ public class NationSaxHandler extends DefaultHandler {
     private Nation currentNation = null;
     private String currentAttributeValue = "";
 
-    public NationSaxHandler(Predicate<Nation> predicate) {
-        this.nationFilter = predicate;
+    public NationSaxHandler(Predicate<Nation> nationFilter) {
+        this.nationFilter = nationFilter;
     }
 
     @Override
@@ -82,8 +82,6 @@ public class NationSaxHandler extends DefaultHandler {
                 break;
 
             case deathTag:
-                this.currentAttributeValue = atts.getValue("type");
-                break;
             case waBadgeTag:
                 this.currentAttributeValue = atts.getValue("type");
                 break;

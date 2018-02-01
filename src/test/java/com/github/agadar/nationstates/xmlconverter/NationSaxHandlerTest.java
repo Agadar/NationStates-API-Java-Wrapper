@@ -199,7 +199,7 @@ public class NationSaxHandlerTest {
         saxParser.parse(xmlInput, nationSaxHandler);
 
         // Assert
-        assertEquals(nationSaxHandler.filteredNations.size(), 1);
+        assertEquals(1, nationSaxHandler.filteredNations.size());
         final Nation nation = nationSaxHandler.filteredNations.iterator().next();
         assertEquals("Join Colorado", nation.name);
         assertEquals("Queen's State", nation.governmentType);

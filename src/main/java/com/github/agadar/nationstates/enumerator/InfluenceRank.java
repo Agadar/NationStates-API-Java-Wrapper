@@ -99,12 +99,12 @@ public enum InfluenceRank {
     public static class Adapter extends XmlAdapter<String, InfluenceRank> {
 
         @Override
-        public InfluenceRank unmarshal(String v) throws Exception {
+        public InfluenceRank unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(InfluenceRank v) throws Exception {
+        public String marshal(InfluenceRank v) {
             return v.stringValue;
         }
     }

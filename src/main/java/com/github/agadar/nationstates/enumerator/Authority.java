@@ -81,7 +81,7 @@ public enum Authority {
     public static class Adapter extends XmlAdapter<String, Set<Authority>> {
 
         @Override
-        public Set<Authority> unmarshal(String vt) throws Exception {
+        public Set<Authority> unmarshal(String vt) {
             final Set<Authority> authorities = new HashSet<>();
 
             for (char code : vt.toCharArray()) {
@@ -95,7 +95,7 @@ public enum Authority {
         }
 
         @Override
-        public String marshal(Set<Authority> bt) throws Exception {
+        public String marshal(Set<Authority> bt) {
             final StringBuilder builder = new StringBuilder();
             bt.stream()
                     .filter((auth) -> auth != Authority.NULL)

@@ -71,12 +71,12 @@ public enum WorldAssemblyBadgeType {
     public static class Adapter extends XmlAdapter<String, WorldAssemblyBadgeType> {
 
         @Override
-        public WorldAssemblyBadgeType unmarshal(String v) throws Exception {
+        public WorldAssemblyBadgeType unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(WorldAssemblyBadgeType v) throws Exception {
+        public String marshal(WorldAssemblyBadgeType v) {
             return v.stringValue;
         }
     }

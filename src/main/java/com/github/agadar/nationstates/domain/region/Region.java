@@ -144,6 +144,12 @@ public class Region {
     public SortedSet<Happening> history;
 
     /**
+     * UNIX timestamp of when this region was last updated.
+     */
+    @XmlElement(name = "LASTUPDATE")
+    public long lastUpdate;
+
+    /**
      * List of 10 most recent regional messages.
      */
     @XmlElementWrapper(name = "MESSAGES")

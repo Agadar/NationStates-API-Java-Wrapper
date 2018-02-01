@@ -71,12 +71,12 @@ public enum DelegateAction {
     public static class Adapter extends XmlAdapter<String, DelegateAction> {
 
         @Override
-        public DelegateAction unmarshal(String v) throws Exception {
+        public DelegateAction unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(DelegateAction v) throws Exception {
+        public String marshal(DelegateAction v) {
             return v.stringValue;
         }
     }

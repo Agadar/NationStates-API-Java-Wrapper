@@ -98,12 +98,12 @@ public enum DispatchSubCategory {
     public static class Adapter extends XmlAdapter<String, DispatchSubCategory> {
 
         @Override
-        public DispatchSubCategory unmarshal(String v) throws Exception {
+        public DispatchSubCategory unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(DispatchSubCategory v) throws Exception {
+        public String marshal(DispatchSubCategory v) {
             return v.stringValue;
         }
     }

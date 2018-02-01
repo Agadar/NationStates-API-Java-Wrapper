@@ -162,12 +162,12 @@ public enum RegionTag {
     public static class Adapter extends XmlAdapter<String, RegionTag> {
 
         @Override
-        public RegionTag unmarshal(String v) throws Exception {
+        public RegionTag unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(RegionTag v) throws Exception {
+        public String marshal(RegionTag v) {
             return v.stringValue;
         }
     }

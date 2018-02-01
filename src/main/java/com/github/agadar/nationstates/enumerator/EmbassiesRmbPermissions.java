@@ -78,12 +78,12 @@ public enum EmbassiesRmbPermissions {
     public static class Adapter extends XmlAdapter<String, EmbassiesRmbPermissions> {
 
         @Override
-        public EmbassiesRmbPermissions unmarshal(String vt) throws Exception {
+        public EmbassiesRmbPermissions unmarshal(String vt) {
             return EmbassiesRmbPermissions.fromString(vt);
         }
 
         @Override
-        public String marshal(EmbassiesRmbPermissions bt) throws Exception {
+        public String marshal(EmbassiesRmbPermissions bt) {
             return bt.underlying;
         }
     }
