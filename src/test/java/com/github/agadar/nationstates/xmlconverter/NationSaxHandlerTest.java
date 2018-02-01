@@ -175,8 +175,8 @@ public class NationSaxHandlerTest {
         cause1.description = "Old Age";
         cause1.percentage = 63.6;
         final DeathCause cause2 = new DeathCause();
-        cause1.description = "Exposure";
-        cause1.percentage = 16.0;
+        cause2.description = "Exposure";
+        cause2.percentage = 16.0;
         expectedDeathCauses.add(cause1);
         expectedDeathCauses.add(cause2);
 
@@ -187,6 +187,8 @@ public class NationSaxHandlerTest {
         final WorldAssemblyBadge badge2 = new WorldAssemblyBadge();
         badge2.securityCouncilResolutionId = 69;
         badge2.worldAssemblyBadgeType = WorldAssemblyBadgeType.CONDEMN;
+        expectedWaBadges.add(badge1);
+        expectedWaBadges.add(badge2);
 
         final Predicate<Nation> nationFilter = nation -> nation.name.equals("Join Colorado");
         final SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
@@ -230,7 +232,7 @@ public class NationSaxHandlerTest {
         assertEquals(7.0, nation.governmentExpenditure.lawAndOrder, .01);
         assertEquals(8.0, nation.governmentExpenditure.publicTransport, .01);
         assertEquals(9.0, nation.governmentExpenditure.socialEquality, .01);
-        assertEquals(0.0, nation.governmentExpenditure.spirituality, .01);
+        assertEquals(10.0, nation.governmentExpenditure.spirituality, .01);
         assertEquals(11.0, nation.governmentExpenditure.welfare, .01);
         assertEquals("4 years 44 days ago", nation.foundedDescription);
         assertEquals(1387103882, nation.firstLogin);

@@ -71,6 +71,7 @@ public class NationSaxHandler extends DefaultHandler {
             case govtTag:
                 this.currentNation.governmentExpenditure = new GovernmentExpenditure();
                 this.elementHandler = this::handleGovtElement;
+                break;
             case deathsTag:
                 this.currentNation.deaths = new HashSet<>();
                 this.elementHandler = this::handleDeathsElement;
@@ -78,6 +79,7 @@ public class NationSaxHandler extends DefaultHandler {
             case waBadgesTag:
                 this.currentNation.worldAssemblyBadges = new HashSet<>();
                 this.elementHandler = this::handleWaBadgesElement;
+                break;
 
             case deathTag:
                 this.currentAttributeValue = atts.getValue("type");
@@ -211,6 +213,9 @@ public class NationSaxHandler extends DefaultHandler {
                 break;
             case "CAPITAL":
                 currentNation.capital = value;
+                break;
+            case "RELIGION":
+                currentNation.religion = value;
                 break;
             default:
                 break;
