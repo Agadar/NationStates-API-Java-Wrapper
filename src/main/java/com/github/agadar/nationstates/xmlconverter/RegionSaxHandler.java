@@ -188,6 +188,9 @@ public class RegionSaxHandler extends DefaultHandler {
 
     private void handleOfficerElement(String currentElement, String value) {
         switch (currentElement) {
+            case "NATION":
+                currentOfficer.nationName = value;
+                break;
             case "OFFICE":
                 currentOfficer.officeName = value;
                 break;
