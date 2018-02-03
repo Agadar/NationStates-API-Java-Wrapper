@@ -57,11 +57,6 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     private boolean isRecruitment = false;
 
     /**
-     * Whether this query's execution is a dry run (no telegrams will be sent).
-     */
-    private boolean dryRun = false;
-
-    /**
      * Constructor.
      *
      * @param xmlConverter
@@ -88,17 +83,6 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         this.telegramId = telegramId;
         this.secretKey = secretKey;
         this.nations = nations;
-    }
-
-    /**
-     * Sets this telegram query as a dry run, meaning no actual telegrams will
-     * be sent.
-     *
-     * @return this
-     */
-    public TelegramQuery isDryRun() {
-        dryRun = true;
-        return this;
     }
 
     /**
@@ -196,10 +180,7 @@ public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
             String message = "";
 
             try {
-                // If not a dry run, make the API call.
-                if (!dryRun) {
-                    makeRequest(url, type);
-                }
+                makeRequest(url, type);
             } catch (Exception ex) {
                 // If anything went wrong, make sure we log it in the event.
                 queued = false;
