@@ -1,13 +1,8 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
-import com.github.agadar.nationstates.NationStatesAPIException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Top parent class for all Queries to NationStates in general.
@@ -20,37 +15,32 @@ import java.net.URL;
 public abstract class AbstractQuery<Q extends AbstractQuery, R> {
 
     /**
-     * Base URL to NationStates.
-     */
-    private final String baseUrl;
-
-    /**
-     * The return type of this Query's execute()-method.
-     */
-    private final Class<R> returnType;
-
-    private final IXmlConverter xmlConverter;
-
-    /**
      * User agent by which this library or its consumer is recognized.
      */
     protected final String userAgent;
 
     /**
+     * The return type of this Query's execute()-method.
+     */
+    protected final Class<R> returnType;
+
+    /**
+     * Base URL to NationStates.
+     */
+    private final String baseUrl;
+
+    /**
      * Constructor, setting the returnType.
      *
-     * @param xmlConverter The converter for translating XML from the API to
-     * objects.
      * @param baseUrl Base URL to NationStates.
      * @param userAgent User agent by which this library or its consumer is
      * recognized.
      */
-    protected AbstractQuery(IXmlConverter xmlConverter, String baseUrl, String userAgent) {
+    protected AbstractQuery(String baseUrl, String userAgent) {
         returnType = ((Class) ((ParameterizedType) this.getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[1]);
         this.baseUrl = baseUrl;
         this.userAgent = userAgent;
-        this.xmlConverter = xmlConverter;
     }
 
     /**
@@ -78,96 +68,6 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      */
     protected String buildURL() {
         return baseUrl;
-    }
-
-    /**
-     * Executes this query, returning any result.
-     *
-     * @return the result
-     */
-    public final R execute() {
-        return execute(returnType);
-    }
-
-    /**
-     * Executes this query, returning any result. Child classes may want to
-     * override this if they want to use rate limiters and such.
-     *
-     * @param <T> the type to return
-     * @param type the type to return
-     * @return the result, of the given type
-     */
-    public <T> T execute(Class<T> type) {
-        validateQueryParameters();
-        return makeRequest(buildURL().replace(' ', '_'), type);
-    }
-
-    /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the
-     * call failed. If the requested nation/region/etc. simply wasn't found, it
-     * returns null.
-     *
-     * @param <T> type to parse to
-     * @param urlStr the url to make the request to
-     * @param type type to parse to
-     * @return the retrieved data, or null if the resource wasn't found
-     */
-    protected final <T> T makeRequest(String urlStr, Class<T> type) {
-        // Prepare request, then make it
-        HttpURLConnection conn = null;
-        try {
-            final URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", userAgent);
-            final int responseCode = conn.getResponseCode();
-            final String response = String.format("NationStates API returned: '%s' from URL: %s",
-                    responseCode + " " + conn.getResponseMessage(), urlStr);
-
-            // Depending on whether or not an error was returned, either throw
-            // it or continue as planned.
-            InputStream stream = conn.getErrorStream();
-            if (stream == null) {
-                stream = conn.getInputStream();
-                final T result = translateResponse(stream, type);
-                closeInputStreamQuietly(stream);
-                return result;
-            } else {
-                closeInputStreamQuietly(stream);
-
-                // If the resource simply wasn't found, just return null.
-                if (responseCode == 404) {
-                    return null;
-                }
-
-                // Else, something worse is going on. Throw an exception.
-                throw new NationStatesAPIException(response);
-            }
-        } catch (IOException ex) {
-            throw new NationStatesAPIException(ex);
-        } finally {
-            // Always close the HttpURLConnection
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-    }
-
-    /**
-     * Translates the stream response to the object this Query wishes to return
-     * via its execute() function. The standard way to translate is via JAXB,
-     * which assumes the stream is in a valid XML-format. Child classes might
-     * want to override this function if they wish to return primitives or
-     * something else.
-     *
-     * @param <T> type to parse to
-     * @param response the response to translate
-     * @param type type to parse to
-     * @return the translated response
-     */
-    protected <T> T translateResponse(InputStream response, Class<T> type) {
-        // Read and convert the response body.
-        return xmlConverter.xmlToObject(response, type);
     }
 
     /**

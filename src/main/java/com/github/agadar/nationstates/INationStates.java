@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates;
 
+import com.github.agadar.nationstates.domain.nation.Nation;
+import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.shard.WorldShard;
@@ -12,6 +14,8 @@ import com.github.agadar.nationstates.query.VerifyQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
+
+import java.util.function.Predicate;
 
 /**
  * The starting point for consumers of this Java wrapper for the NationStates
@@ -112,9 +116,10 @@ public interface INationStates {
      * Starts building a query that retrieves the daily region dump.
      *
      * @param mode the daily dump mode to use
+     * @param filter filter used for selecting regions
      * @return a new daily region dump query
      */
-    public RegionDumpQuery getRegionDump(DailyDumpMode mode);
+    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
 
     /**
      * Starts building a query that retrieves the daily nation dump.
@@ -124,7 +129,8 @@ public interface INationStates {
      * Nation objects being created from parsing the retrieved XML file.
      *
      * @param mode the daily dump mode to use
+     * @param filter filter used for selecting nations
      * @return a new daily nation dump query
      */
-    public NationDumpQuery getNationDump(DailyDumpMode mode);
+    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
 }
