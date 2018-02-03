@@ -4,8 +4,6 @@ import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.domain.DailyDumpNations;
-import com.github.agadar.nationstates.domain.DailyDumpRegions;
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
@@ -105,8 +103,11 @@ public final class NationStates implements INationStates {
      */
     public NationStates(String userAgent) {
         this.setUserAgent(userAgent);
-        this.xmlConverter.registerTypes(DailyDumpNations.class, DailyDumpRegions.class,
-                World.class, WorldAssembly.class);
+        this.xmlConverter.registerTypes(
+                Nation.class,
+                Region.class,
+                World.class,
+                WorldAssembly.class);
 
         try {
             final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();

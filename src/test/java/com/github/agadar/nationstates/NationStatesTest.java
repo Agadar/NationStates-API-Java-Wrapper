@@ -5,13 +5,18 @@ import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
+import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
+import com.github.agadar.nationstates.query.RegionDumpQuery;
 import com.github.agadar.nationstates.query.RegionQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 import com.github.agadar.nationstates.shard.WorldShard;
+import java.util.Set;
+import java.util.function.Predicate;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -114,6 +119,94 @@ public class NationStatesTest {
 
         // Assert
         assertNotNull(version);
-        assertTrue(version > 0);
+        assertTrue(version == 9);
+    }
+
+    /**
+     * Test of getRegionDump method, of class NationStates.
+     * <p>
+     * Tests the "download then read locally" method.
+     */
+    @Test
+    public void testGetRegionDump_downloadAndRead() {
+        System.out.println("getRegionDump (DOWNLOAD_THEN_READ_LOCAL)");
+
+        // Arrange
+        final Predicate<Region> filter = region -> region.name.equals("The Western Isles");
+        final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
+
+        // Act
+        final Set<Region> regions = query.execute();
+
+        // Assert
+        assertNotNull(regions);
+        assertEquals(1, regions.size());
+        assertEquals("The Western Isles", regions.iterator().next().name);
+    }
+
+    /**
+     * Test of getRegionDump method, of class NationStates.
+     * <p>
+     * Tests the "read remote" method.
+     */
+    @Test
+    public void testGetRegionDump_readRemote() {
+        System.out.println("getRegionDump (READ_REMOTE)");
+
+        // Arrange
+        final Predicate<Region> filter = region -> region.name.equals("The Western Isles");
+        final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.READ_REMOTE, filter);
+
+        // Act
+        final Set<Region> regions = query.execute();
+
+        // Assert
+        assertNotNull(regions);
+        assertEquals(1, regions.size());
+        assertEquals("The Western Isles", regions.iterator().next().name);
+    }
+
+    /**
+     * Test of getNationDump method, of class NationStates.
+     * <p>
+     * Tests the "download then read locally" method.
+     */
+    @Test
+    public void testGetNationDump_downloadAndRead() {
+        System.out.println("getNationDump (DOWNLOAD_THEN_READ_LOCAL)");
+
+        // Arrange
+        final Predicate<Nation> filter = nation -> nation.name.equals("Agadar");
+        final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
+
+        // Act
+        final Set<Nation> nations = query.execute();
+
+        // Assert
+        assertNotNull(nations);
+        assertEquals(1, nations.size());
+        assertEquals("Agadar", nations.iterator().next().name);
+    }
+
+    /**
+     * Test of getNationDump method, of class NationStates.
+     * <p>
+     * Tests the "read remote" method.
+     */
+    @Test
+    public void testGetNationDump_readRemote() {
+        System.out.println("getNationDump (READ_REMOTE)");
+
+        // Arrange
+        final Predicate<Nation> filter = nation -> nation.name.equals("Agadar");
+        final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.READ_REMOTE, filter);
+
+        // Act
+        final Set<Nation> nations = query.execute();
+
+        // Assert
+        assertNotNull(nations);
+        assertEquals(1, nations.size());
+        assertEquals("Agadar", nations.iterator().next().name);
     }
 }
