@@ -1,4 +1,4 @@
-package com.github.agadar.nationstates.domain.common;
+package com.github.agadar.nationstates.domain.common.happening;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Represents a happening.
+ * Represents a generic happening.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -22,24 +22,34 @@ public class Happening implements Comparable<Happening> {
     public long id;
 
     /**
-     * UNIX timestamp of when this happening took place
+     * UNIX timestamp of when this happening took place.
      */
     @XmlElement(name = "TIMESTAMP")
     public long timestamp;
 
     /**
-     * Description of the happening
+     * Raw text description of the happening.
      */
     @XmlElement(name = "TEXT")
     public String description;
 
+    public Happening() {
+    }
+
+    public Happening(long id, long timestamp, String description) {
+	super();
+	this.id = id;
+	this.timestamp = timestamp;
+	this.description = description;
+    }
+
     @Override
     public int compareTo(Happening o) {
-        if (this.timestamp > o.timestamp) {
-            return -1;
-        } else if (this.timestamp < o.timestamp) {
-            return 1;
-        }
-        return 0;
+	if (this.timestamp > o.timestamp) {
+	    return -1;
+	} else if (this.timestamp < o.timestamp) {
+	    return 1;
+	}
+	return 0;
     }
 }

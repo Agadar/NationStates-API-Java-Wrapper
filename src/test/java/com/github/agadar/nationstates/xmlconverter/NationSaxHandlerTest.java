@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
@@ -162,7 +161,7 @@ public class NationSaxHandlerTest {
             + "</NATIONS>";
 
     @Test
-    public void testParseAndFilterByName() throws ParserConfigurationException, SAXException, FileNotFoundException, IOException, URISyntaxException {
+    public void testParseAndFilterByName() throws ParserConfigurationException, SAXException, FileNotFoundException, IOException {
         System.out.println("testParseAndFilterByName");
 
         // Arrange

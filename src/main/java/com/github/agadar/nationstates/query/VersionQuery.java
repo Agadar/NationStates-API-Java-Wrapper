@@ -35,7 +35,8 @@ public final class VersionQuery extends APIQuery<VersionQuery, Integer> {
 
     @Override
     protected <T> T translateResponse(InputStream response, Class<T> type) {
-        Scanner s = new Scanner(response).useDelimiter("\\A");
+        @SuppressWarnings("resource")
+	Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
         return (T) Integer.valueOf(body);
     }

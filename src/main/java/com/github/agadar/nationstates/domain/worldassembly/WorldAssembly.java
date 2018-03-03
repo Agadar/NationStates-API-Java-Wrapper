@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
-import com.github.agadar.nationstates.domain.common.Happening;
+import com.github.agadar.nationstates.domain.common.happening.Happening;
 
 import java.util.List;
 import java.util.Set;

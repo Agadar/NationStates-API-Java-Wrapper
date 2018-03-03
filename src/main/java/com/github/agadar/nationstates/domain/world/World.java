@@ -3,9 +3,9 @@ package com.github.agadar.nationstates.domain.world;
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
-import com.github.agadar.nationstates.domain.common.Happening;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
+import com.github.agadar.nationstates.domain.common.happening.Happening;
 
 import java.util.List;
 import java.util.Set;

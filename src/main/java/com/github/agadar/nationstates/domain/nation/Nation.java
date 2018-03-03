@@ -3,9 +3,9 @@ package com.github.agadar.nationstates.domain.nation;
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
-import com.github.agadar.nationstates.domain.common.Happening;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
+import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.InfluenceRank;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 

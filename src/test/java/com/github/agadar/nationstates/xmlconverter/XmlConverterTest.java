@@ -1,7 +1,5 @@
 package com.github.agadar.nationstates.xmlconverter;
 
-import com.github.agadar.nationstates.domain.common.Happening;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -11,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.github.agadar.nationstates.domain.common.happening.Happening;
+
 import static org.junit.Assert.*;
 
 /**

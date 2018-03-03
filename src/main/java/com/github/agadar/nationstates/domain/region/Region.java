@@ -2,11 +2,11 @@ package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 import com.github.agadar.nationstates.domain.common.CensusScore;
-import com.github.agadar.nationstates.domain.common.Happening;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.common.ZombieInfo;
+import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
 import com.github.agadar.nationstates.enumerator.RegionTag;
@@ -130,7 +130,7 @@ public class Region {
     public WorldAssemblyVote generalAssemblyVote;
 
     /**
-     * List of the most recent of this nation's happenings.
+     * List of the most recent of this region's happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
