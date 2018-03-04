@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class NationStates implements INationStates {
+public class NationStates implements INationStates {
 
     /**
      * The NationStates API version this wrapper uses.

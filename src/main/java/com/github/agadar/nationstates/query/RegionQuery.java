@@ -10,7 +10,7 @@ import com.github.agadar.nationstates.shard.RegionShard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShard> {
+public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShard> {
 
     /**
      * Offset for the 10 most recent regional messages.

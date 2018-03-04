@@ -14,7 +14,7 @@ import com.github.agadar.nationstates.shard.WorldShard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
+public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
 
     /**
      * Nation to list dispatches of.

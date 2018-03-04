@@ -5,7 +5,7 @@ package com.github.agadar.nationstates.ratelimiter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class DependantRateLimiter extends RateLimiter {
+public class DependantRateLimiter extends RateLimiter {
 
     /**
      * The rate limiter this one is dependant on.

@@ -7,7 +7,7 @@ package com.github.agadar.nationstates;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class NationStatesAPIException extends RuntimeException {
+public class NationStatesAPIException extends RuntimeException {
 
     public NationStatesAPIException() {
         super();

@@ -20,7 +20,7 @@ import javax.xml.transform.stream.StreamSource;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class XmlConverter implements IXmlConverter {
+public class XmlConverter implements IXmlConverter {
 
     /**
      * The JAXBContext for this API.

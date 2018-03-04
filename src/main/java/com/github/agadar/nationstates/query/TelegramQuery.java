@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class TelegramQuery extends APIQuery<TelegramQuery, Void> {
+public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
 
     /**
      * The rate limiter for normal telegrams.

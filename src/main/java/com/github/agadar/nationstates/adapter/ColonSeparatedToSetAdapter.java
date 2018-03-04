@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class ColonSeparatedToSetAdapter extends XmlAdapter<String, Set<String>> {
+public class ColonSeparatedToSetAdapter extends XmlAdapter<String, Set<String>> {
 
     @Override
     public String marshal(Set<String> bt) {

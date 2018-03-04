@@ -11,7 +11,7 @@ import com.github.agadar.nationstates.shard.WorldAssemblyShard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, WorldAssembly, WorldAssemblyShard> {
+public class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, WorldAssembly, WorldAssemblyShard> {
 
     /**
      * The id of the resolution to retrieve.

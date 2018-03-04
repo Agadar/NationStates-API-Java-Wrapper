@@ -10,7 +10,7 @@ import com.github.agadar.nationstates.shard.NationShard;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
+public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
 
     /**
      * See canReceiveTelegramFromRegion(...).

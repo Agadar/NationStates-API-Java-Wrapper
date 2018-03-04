@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
+public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
 
     /**
      * The nation to verify.

@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public final class VersionQuery extends APIQuery<VersionQuery, Integer> {
+public class VersionQuery extends APIQuery<VersionQuery, Integer> {
 
     /**
      * Constructor.
