@@ -152,7 +152,7 @@ public class EmbassyHappeningSpecializerTest {
 	// Assert
 	Assert.assertTrue(isOfSpecializedType);
     }
-    
+
     @Test
     public void isOfSpecializedType_true_10() {
 	System.out.println("isOfSpecializedType_true_10");
@@ -161,6 +161,36 @@ public class EmbassyHappeningSpecializerTest {
 	final EmbassyHappeningSpecializer specializer = new EmbassyHappeningSpecializer();
 	final Happening happening = new Happening(193257689L, 1520092742L,
 		"Construction of embassies aborted between %%world_trade_centre%% and %%the_embassy%%.");
+
+	// Act
+	final boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
+
+	// Assert
+	Assert.assertTrue(isOfSpecializedType);
+    }
+
+    @Test
+    public void isOfSpecializedType_true_11() {
+	System.out.println("isOfSpecializedType_true_11");
+
+	// Arrange
+	final EmbassyHappeningSpecializer specializer = new EmbassyHappeningSpecializer();
+	final Happening happening = new Happening(193257689L, 1520092742L, "EO:warzone_sandbox.");
+
+	// Act
+	final boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
+
+	// Assert
+	Assert.assertTrue(isOfSpecializedType);
+    }
+
+    @Test
+    public void isOfSpecializedType_true_12() {
+	System.out.println("isOfSpecializedType_true_12");
+
+	// Arrange
+	final EmbassyHappeningSpecializer specializer = new EmbassyHappeningSpecializer();
+	final Happening happening = new Happening(193257689L, 1520092742L, "EC:peoples_federation_of_qandaristan.");
 
 	// Act
 	final boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
@@ -204,9 +234,9 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.nation);
 	Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.region1);
 	Assert.assertEquals("plum_island", embassyHappening.region2);
-	Assert.assertEquals(EmbassyHappeningType.NATION_ABORTED_CONSTRUCTION, embassyHappening.embassyHappeningType);
+	Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_2() {
 	System.out.println("toSpecializedType_2");
@@ -228,7 +258,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("bus_stop", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.AGREED_TO_CONSTRUCT, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_3() {
 	System.out.println("toSpecializedType_3");
@@ -250,7 +280,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("the_east_pacific", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_4() {
 	System.out.println("toSpecializedType_4");
@@ -272,7 +302,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("the_bar_on_the_corner_of_every_region", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.ORDERED_CLOSURE, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_5() {
 	System.out.println("toSpecializedType_5");
@@ -294,7 +324,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("the_western_isles", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.PROPOSED_CONSTRUCTION, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_6() {
 	System.out.println("toSpecializedType_6");
@@ -316,7 +346,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("the_hole_to_hide_in", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.REJECTED_REQUEST, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_7() {
 	System.out.println("toSpecializedType_7");
@@ -338,7 +368,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("versailles_isle", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.WITHDREW_REQUEST, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_8() {
 	System.out.println("toSpecializedType_8");
@@ -360,7 +390,7 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("sikhi_empire", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.CANCELLED_CLOSURE, embassyHappening.embassyHappeningType);
     }
-    
+
     @Test
     public void toSpecializedType_9() {
 	System.out.println("toSpecializedType_9");
@@ -403,5 +433,47 @@ public class EmbassyHappeningSpecializerTest {
 	Assert.assertEquals("world_trade_centre", embassyHappening.region1);
 	Assert.assertEquals("the_embassy", embassyHappening.region2);
 	Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.embassyHappeningType);
+    }
+
+    @Test
+    public void toSpecializedType_11() {
+	System.out.println("toSpecializedType_11");
+
+	// Arrange
+	final EmbassyHappeningSpecializer specializer = new EmbassyHappeningSpecializer();
+	final Happening happening = new Happening(193257689L, 1520092742L, "EO:warzone_sandbox.");
+
+	// Act
+	final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
+
+	// Assert
+	Assert.assertEquals(happening.id, embassyHappening.id);
+	Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
+	Assert.assertEquals(happening.description, embassyHappening.description);
+	Assert.assertEquals(null, embassyHappening.nation);
+	Assert.assertEquals("warzone_sandbox", embassyHappening.region1);
+	Assert.assertEquals(null, embassyHappening.region2);
+	Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.embassyHappeningType);
+    }
+
+    @Test
+    public void toSpecializedType_12() {
+	System.out.println("toSpecializedType_12");
+
+	// Arrange
+	final EmbassyHappeningSpecializer specializer = new EmbassyHappeningSpecializer();
+	final Happening happening = new Happening(193257689L, 1520092742L, "EC:peoples_federation_of_qandaristan.");
+
+	// Act
+	final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
+
+	// Assert
+	Assert.assertEquals(happening.id, embassyHappening.id);
+	Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
+	Assert.assertEquals(happening.description, embassyHappening.description);
+	Assert.assertEquals(null, embassyHappening.nation);
+	Assert.assertEquals("peoples_federation_of_qandaristan", embassyHappening.region1);
+	Assert.assertEquals(null, embassyHappening.region2);
+	Assert.assertEquals(EmbassyHappeningType.EMBASSY_CANCELLED, embassyHappening.embassyHappeningType);
     }
 }
