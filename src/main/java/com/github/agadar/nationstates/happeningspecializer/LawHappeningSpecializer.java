@@ -9,7 +9,7 @@ import com.github.agadar.nationstates.domain.common.happening.LawHappening;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
-public class LawHappeningSpecializer implements HappeningSpecializer<LawHappening> {
+public class LawHappeningSpecializer implements IHappeningSpecializer<LawHappening> {
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {

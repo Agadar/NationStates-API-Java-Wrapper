@@ -1,12 +1,14 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -134,5 +136,17 @@ public class WorldAssembly {
      */
     public List<Integer> voteTrackAgainst() {
         return (resolution == null) ? null : resolution.voteTrackAgainst;
+    }
+    
+    /**
+     * Executed after JAXB finishes unmmarshalling.
+     * 
+     * @param unmarshaller
+     * @param parent
+     */
+    @SuppressWarnings("unused")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+	this.recentMemberLog = HappeningSpecializationHelper.specializeHappenings(this.recentMemberLog);
     }
 }

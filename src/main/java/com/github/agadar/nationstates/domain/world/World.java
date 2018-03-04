@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.world;
 
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -130,32 +132,43 @@ public class World {
     public Poll selectedPoll;
 
     /**
-     * List of all regions in the world (index 0), or the regions selected by
-     * tag (index 0 or 1).
+     * List of all regions in the world (index 0), or the regions selected by tag
+     * (index 0 or 1).
      */
     @XmlElement(name = "REGIONS")
     private List<RegionList> regions;
 
     /**
-     * If the Regions shard was used alone or together with RegionsByTag, then
-     * this returns the retrieved Regions. If ONLY the RegionsByTag shard was
-     * used, this returns the retrieved RegionsByTag. Else, returns null.
+     * If the Regions shard was used alone or together with RegionsByTag, then this
+     * returns the retrieved Regions. If ONLY the RegionsByTag shard was used, this
+     * returns the retrieved RegionsByTag. Else, returns null.
      *
      * @return region names
      */
     public Set<String> regions() {
-        return (regions == null || regions.isEmpty()) ? null : regions.get(0).regions;
+	return (regions == null || regions.isEmpty()) ? null : regions.get(0).regions;
     }
 
     /**
-     * If the RegionsByTag shard was used alone or together with Regions, then
-     * this returns the retrieved RegionsByTag. If ONLY the Regions shard was
-     * used, this returns the retrieved Regions. Else, returns null.
+     * If the RegionsByTag shard was used alone or together with Regions, then this
+     * returns the retrieved RegionsByTag. If ONLY the Regions shard was used, this
+     * returns the retrieved Regions. Else, returns null.
      *
      * @return region names
      */
     public Set<String> regionsByTag() {
-        Set<String> tmp = regions();
-        return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
+	Set<String> tmp = regions();
+	return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
+    }
+
+    /**
+     * Executed after JAXB finishes unmmarshalling.
+     * 
+     * @param unmarshaller
+     * @param parent
+     */
+    @SuppressWarnings("unused")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+	this.happenings = HappeningSpecializationHelper.specializeHappenings(this.happenings);
     }
 }

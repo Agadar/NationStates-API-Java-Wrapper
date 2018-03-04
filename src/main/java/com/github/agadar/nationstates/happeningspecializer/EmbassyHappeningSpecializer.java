@@ -14,7 +14,7 @@ import com.github.agadar.nationstates.enumerator.EmbassyHappeningType;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
-public class EmbassyHappeningSpecializer implements HappeningSpecializer<EmbassyHappening> {
+public class EmbassyHappeningSpecializer implements IHappeningSpecializer<EmbassyHappening> {
 
     private final Map<EmbassyHappeningType, String> texts = new HashMap<>();
     private final Map<EmbassyHappeningType, BiFunction<Happening, EmbassyHappeningType, EmbassyHappening>> functions = new HashMap<>();

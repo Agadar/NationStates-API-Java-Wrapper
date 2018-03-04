@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.nation;
 
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -57,8 +59,8 @@ public class Nation {
     public String animalTrait;
 
     /**
-     * The Rift banner code of this nation's primary banner, or of a randomly
-     * chosen eligible banner if no primary banner is set.
+     * The Rift banner code of this nation's primary banner, or of a randomly chosen
+     * eligible banner if no primary banner is set.
      */
     @XmlElement(name = "BANNER")
     public String banner;
@@ -151,8 +153,8 @@ public class Nation {
     public int numberOfDispatches;
 
     /**
-     * This nation's dispatches. Includes factbooks. Does not include
-     * dispatches' texts.
+     * This nation's dispatches. Includes factbooks. Does not include dispatches'
+     * texts.
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
@@ -171,7 +173,10 @@ public class Nation {
     @XmlElement(name = "FACTBOOKS")
     public int numberOfFactbooks;
 
-    /* This nation's factbooks. Subset of Dispatches. Does not include dispatches' texts. */
+    /**
+     * This nation's factbooks. Subset of Dispatches. Does not include dispatches'
+     * texts.
+     */
     @XmlElementWrapper(name = "FACTBOOKLIST")
     @XmlElement(name = "FACTBOOK")
     public Set<Dispatch> factbooks;
@@ -207,8 +212,7 @@ public class Nation {
     public Freedom freedom;
 
     /**
-     * The nation's civil rights, economy, and political freedom scores in
-     * numbers.
+     * The nation's civil rights, economy, and political freedom scores in numbers.
      */
     @XmlElement(name = "FREEDOMSCORES")
     public FreedomScores freedomScores;
@@ -442,8 +446,7 @@ public class Nation {
     public ZombieInfo zombieInfo;
 
     /**
-     * The pattern used for building URLS that point to images behind Rift
-     * codes.
+     * The pattern used for building URLS that point to images behind Rift codes.
      */
     private final static String BANNER_URL = "https://www.nationstates.net/images/banners/%s.jpg";
 
@@ -453,7 +456,7 @@ public class Nation {
      * @return the URL that points to the image behind Banner
      */
     public String bannerAsURL() {
-        return riftCodeToURL(banner);
+	return riftCodeToURL(banner);
     }
 
     /**
@@ -462,23 +465,35 @@ public class Nation {
      * @return the URLs that point to the images behind Banners.
      */
     public Set<String> bannersAsURLs() {
-        final Set<String> urls = new HashSet<>();
+	final Set<String> urls = new HashSet<>();
 
-        if (banners == null) {
-            return urls;
-        }
-        banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
-        return urls;
+	if (banners == null) {
+	    return urls;
+	}
+	banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
+	return urls;
+    }
+
+    /**
+     * Executed after JAXB finishes unmmarshalling.
+     * 
+     * @param unmarshaller
+     * @param parent
+     */
+    @SuppressWarnings("unused")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
     }
 
     /**
      * Builds an URL that points to the image behind the given Rift code.
      *
-     * @param riftCode the Rift code to build an URL of
+     * @param riftCode
+     *            the Rift code to build an URL of
      * @return an URL that points to the image behind the given Rift code
      */
     private static String riftCodeToURL(String riftCode) {
-        return riftCode == null || riftCode.isEmpty() ? null : String.format(BANNER_URL, riftCode);
+	return riftCode == null || riftCode.isEmpty() ? null : String.format(BANNER_URL, riftCode);
     }
 
 }

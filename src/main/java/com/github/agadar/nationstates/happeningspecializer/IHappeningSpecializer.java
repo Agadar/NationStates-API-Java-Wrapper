@@ -10,7 +10,7 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
  * @param <T>
  *            The specialized Happening type this specializer can handle.
  */
-public interface HappeningSpecializer<T extends Happening> {
+public interface IHappeningSpecializer<T extends Happening> {
 
     /**
      * Checks whether the supplied happening is of the type this specializer can

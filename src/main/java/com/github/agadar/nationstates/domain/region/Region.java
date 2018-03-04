@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
@@ -14,6 +15,7 @@ import com.github.agadar.nationstates.enumerator.RegionTag;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -241,5 +243,17 @@ public class Region {
      */
     @XmlElement(name = "ZOMBIE")
     public ZombieInfo zombieInfo;
+    
+    /**
+     * Executed after JAXB finishes unmmarshalling.
+     * 
+     * @param unmarshaller
+     * @param parent
+     */
+    @SuppressWarnings("unused")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+	this.history = HappeningSpecializationHelper.specializeHappenings(this.history);
+    }
 
 }
