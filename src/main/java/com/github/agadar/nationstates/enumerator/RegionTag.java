@@ -102,7 +102,8 @@ public enum RegionTag {
     TOTALITARIAN("totalitarian"),
     VIDEO_GAME("video_game"),
     WARZONE("warzone"),
-    WORLD_ASSEMBLY("world_assembly");
+    WORLD_ASSEMBLY("world_assembly"),
+    NULL("NULL");
 
     /**
      * The string representation of this RegionTag.
@@ -141,7 +142,7 @@ public enum RegionTag {
         stringValue = stringValue.toLowerCase().replace(' ', '_').replace(":", "");
 
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
+            return RegionTag.NULL;
         }
         return STRINGS_TO_ENUMS.get(stringValue);
     }
@@ -161,12 +162,12 @@ public enum RegionTag {
     public static class Adapter extends XmlAdapter<String, RegionTag> {
 
         @Override
-        public RegionTag unmarshal(String v) throws Exception {
+        public RegionTag unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(RegionTag v) throws Exception {
+        public String marshal(RegionTag v) {
             return v.stringValue;
         }
     }

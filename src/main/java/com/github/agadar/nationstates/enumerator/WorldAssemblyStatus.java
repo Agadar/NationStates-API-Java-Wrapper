@@ -14,7 +14,8 @@ public enum WorldAssemblyStatus {
 
     NON_MEMBER("Non-member"),
     MEMBER("WA Member"),
-    DELEGATE("WA Delegate");
+    DELEGATE("WA Delegate"),
+    NULL("NULL");
 
     /**
      * Reverse mapping.
@@ -44,7 +45,7 @@ public enum WorldAssemblyStatus {
      */
     public static WorldAssemblyStatus fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
+            return WorldAssemblyStatus.NULL;
         }
         return STRINGS_TO_ENUMS.get(underlying);
     }
@@ -74,12 +75,12 @@ public enum WorldAssemblyStatus {
     public static class Adapter extends XmlAdapter<String, WorldAssemblyStatus> {
 
         @Override
-        public WorldAssemblyStatus unmarshal(String vt) throws Exception {
+        public WorldAssemblyStatus unmarshal(String vt) {
             return WorldAssemblyStatus.fromString(vt);
         }
 
         @Override
-        public String marshal(WorldAssemblyStatus bt) throws Exception {
+        public String marshal(WorldAssemblyStatus bt) {
             return bt.underlying;
         }
     }

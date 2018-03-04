@@ -1,8 +1,9 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
+import java.util.Objects;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -73,6 +74,29 @@ public class Proposal {
      * The list of delegates that approved this proposal.
      */
     @XmlElement(name = "APPROVALS")
-    @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
-    public List<String> approvedBy;
+    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
+    public Set<String> approvedBy;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Proposal other = (Proposal) obj;
+        return Objects.equals(this.id, other.id);
+    }
+
 }

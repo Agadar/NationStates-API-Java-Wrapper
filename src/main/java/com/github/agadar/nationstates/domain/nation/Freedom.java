@@ -6,7 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Represents a nation's freedom scores.
+ * Represents a nation's freedom scores, expressed in words. See also
+ * FreedomScores.
  *
  * @author Agadar (https://github.com/Agadar/)
  */

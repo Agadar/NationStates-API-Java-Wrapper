@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
@@ -20,7 +20,8 @@ public enum Authority {
     BORDER_CONTROL('B'),
     COMMUNICATIONS('C'),
     EMBASSIES('E'),
-    POLLS('P');
+    POLLS('P'),
+    NULL('?');
 
     /**
      * Reverse mapping.
@@ -43,14 +44,14 @@ public enum Authority {
     private final char authCode;
 
     /**
-     * Returns the Authority correspondong to the specified authority code.
+     * Returns the Authority corresponding to the specified authority code.
      *
      * @param authCode the specified authority code.
      * @return the corresponding Authority.
      */
     public static Authority fromChar(char authCode) {
         if (!CHARS_TO_ENUMS.containsKey(authCode)) {
-            throw new IllegalArgumentException("'" + authCode + "' cannot be parsed to this enum");
+            return Authority.NULL;
         }
         return CHARS_TO_ENUMS.get(authCode);
     }
@@ -77,26 +78,29 @@ public enum Authority {
      * Converts a String containing authority codes to a List of Authority
      * values, and vice versa.
      */
-    public static class Adapter extends XmlAdapter<String, List<Authority>> {
+    public static class Adapter extends XmlAdapter<String, Set<Authority>> {
 
         @Override
-        public List<Authority> unmarshal(String vt) throws Exception {
-            final List<Authority> authorities = new ArrayList<>();
+        public Set<Authority> unmarshal(String vt) {
+            final Set<Authority> authorities = new HashSet<>();
 
             for (char code : vt.toCharArray()) {
-                authorities.add(Authority.fromChar(code));
+                final Authority auth = Authority.fromChar(code);
+
+                if (auth != Authority.NULL) {
+                    authorities.add(auth);
+                }
             }
             return authorities;
         }
 
         @Override
-        public String marshal(List<Authority> bt) throws Exception {
-            String codes = "";
-
-            for (Authority authority : bt) {
-                codes += authority.authCode;
-            }
-            return codes;
+        public String marshal(Set<Authority> bt) {
+            final StringBuilder builder = new StringBuilder();
+            bt.stream()
+                    .filter((auth) -> auth != Authority.NULL)
+                    .forEach((auth) -> builder.append(auth.authCode));
+            return builder.toString();
         }
     }
 }

@@ -15,7 +15,8 @@ public enum DelegateAction {
 
     FOR("FOR"),
     AGAINST("AGAINST"),
-    WITHDREW("WITHDREW");
+    WITHDREW("WITHDREW"),
+    NULL("NULL");
 
     /**
      * The string representation of this DispatchCategory.
@@ -50,7 +51,7 @@ public enum DelegateAction {
      */
     public static DelegateAction fromString(String stringValue) {
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
+            return DelegateAction.NULL;
         }
         return STRINGS_TO_ENUMS.get(stringValue);
     }
@@ -70,12 +71,12 @@ public enum DelegateAction {
     public static class Adapter extends XmlAdapter<String, DelegateAction> {
 
         @Override
-        public DelegateAction unmarshal(String v) throws Exception {
+        public DelegateAction unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(DelegateAction v) throws Exception {
+        public String marshal(DelegateAction v) {
             return v.stringValue;
         }
     }

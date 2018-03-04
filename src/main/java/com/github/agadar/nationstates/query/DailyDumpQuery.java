@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 
@@ -8,11 +7,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -46,18 +51,24 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     private String readFromDir;
 
     /**
-     * Constructor, accepting a mode.
+     * Filter used for selecting a subset of the parsed daily dump file.
+     */
+    protected final Predicate<R> filter;
+
+    /**
+     * Constructor.
      *
-     * @param xmlConverter
      * @param baseUrl
      * @param userAgent
      * @param defaultDirectory
      * @param mode the daily dump mode to use
+     * @param filter used for selecting a subset of the parsed daily dump file.
      */
-    public DailyDumpQuery(IXmlConverter xmlConverter, String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode) {
-        super(xmlConverter, baseUrl, userAgent);
+    public DailyDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode, Predicate<R> filter) {
+        super(baseUrl, userAgent);
         this.mode = mode;
         this.defaultDirectory = defaultDirectory;
+        this.filter = filter;
     }
 
     /**
@@ -85,30 +96,11 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     /**
-     * Gives the file name to use. Daily regions dump is 'regions.xml.gz', daily
-     * nations dump is 'nations.xml.gz'.
+     * Executes this query, returning the result.
      *
-     * @return the file name to use
+     * @return the result
      */
-    protected abstract String getFileName();
-
-    @Override
-    protected String buildURL() {
-        return super.buildURL() + "pages/" + getFileName();
-    }
-
-    @Override
-    protected <T> T translateResponse(InputStream response, Class<T> type) {
-        try {
-            response = new GZIPInputStream(response);
-            return super.translateResponse(response, type);
-        } catch (IOException ex) {
-            throw new NationStatesAPIException(ex);
-        }
-    }
-
-    @Override
-    public <T> T execute(Class<T> type) {
+    public Set<R> execute() {
         validateQueryParameters();
         final boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
@@ -123,12 +115,34 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             // Read locally.
             final String dir = readFromDir != null && !readFromDir.isEmpty()
                     ? readFromDir : defaultDirectory;
-            return readLocal(dir, type);
+            return readLocal(dir);
         } else if (mode == DailyDumpMode.READ_REMOTE) {
             // Read remotely.
-            return makeRequest(buildURL(), type);
+            return makeRequest(buildURL());
         }
-        return null;
+        return new HashSet<>();
+    }
+
+    /**
+     * Gives the file name to use. Daily regions dump is 'regions.xml.gz', daily
+     * nations dump is 'nations.xml.gz'.
+     *
+     * @return the file name to use
+     */
+    protected abstract String getFileName();
+
+    /**
+     * Translates the stream response to the set this Query wishes to return via
+     * its execute() function.
+     *
+     * @param stream the GZIP input stream, as all dump files are in GZIP format
+     * @return the translated response
+     */
+    protected abstract Set<R> translateResponse(GZIPInputStream stream);
+
+    @Override
+    protected String buildURL() {
+        return super.buildURL() + "pages/" + getFileName();
     }
 
     @Override
@@ -137,6 +151,56 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
 
         if (mode == null) {
             throw new IllegalArgumentException("'mode' may not be null!");
+        }
+    }
+
+    /**
+     * Makes a GET request to the NationStates API. Throws exceptions if the
+     * call failed. If the requested nation/region/etc. simply wasn't found, it
+     * returns null.
+     *
+     * @param urlStr the url to make the request to
+     * @return the retrieved data, or empty if the resource wasn't found
+     */
+    private Set<R> makeRequest(String urlStr) {
+        // Prepare request, then make it
+        HttpURLConnection conn = null;
+        try {
+            final URL url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", userAgent);
+            final int responseCode = conn.getResponseCode();
+            final String response = String.format("NationStates API returned: '%s' from URL: %s",
+                    responseCode + " " + conn.getResponseMessage(), urlStr);
+
+            // Depending on whether or not an error was returned, either throw
+            // it or continue as planned.
+            InputStream stream = conn.getErrorStream();
+            if (stream == null) {
+                stream = conn.getInputStream();
+                final GZIPInputStream gzipStream = new GZIPInputStream(stream);
+                final Set<R> result = translateResponse(gzipStream);
+                closeInputStreamQuietly(gzipStream);
+                return result;
+            } else {
+                closeInputStreamQuietly(stream);
+
+                // If the resource simply wasn't found, just return null.
+                if (responseCode == 404) {
+                    return null;
+                }
+
+                // Else, something worse is going on. Throw an exception.
+                throw new NationStatesAPIException(response);
+            }
+        } catch (IOException ex) {
+            throw new NationStatesAPIException(ex);
+        } finally {
+            // Always close the HttpURLConnection
+            if (conn != null) {
+                conn.disconnect();
+            }
         }
     }
 
@@ -191,10 +255,10 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private <T> T readLocal(String directory, Class<T> type) {
+    private Set<R> readLocal(String directory) {
         try {
-            final InputStream stream = new FileInputStream(directory + "\\" + getFileName());
-            final T obj = translateResponse(stream, type);
+            final GZIPInputStream stream = new GZIPInputStream(new FileInputStream(directory + "\\" + getFileName()));
+            final Set<R> obj = translateResponse(stream);
             closeInputStreamQuietly(stream);
             return obj;
         } catch (IOException ex) {

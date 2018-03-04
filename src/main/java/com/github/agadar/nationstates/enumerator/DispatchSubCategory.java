@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * The possible subcategories for dispatches.
+ * The possible sub-categories for dispatches.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -40,7 +40,9 @@ public enum DispatchSubCategory {
     CAMPAIGN("Campaign"),
     // Meta
     GAMEPLAY("Gameplay"),
-    REFERENCE("Reference");
+    REFERENCE("Reference"),
+    // Null
+    NULL("NULL");
 
     /**
      * The string representation of this DispatchSubCategory.
@@ -75,7 +77,7 @@ public enum DispatchSubCategory {
      */
     public static DispatchSubCategory fromString(String stringValue) {
         if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            throw new IllegalArgumentException("'" + stringValue + "' cannot be parsed to this enum");
+            return DispatchSubCategory.NULL;
         }
         return STRINGS_TO_ENUMS.get(stringValue);
     }
@@ -96,12 +98,12 @@ public enum DispatchSubCategory {
     public static class Adapter extends XmlAdapter<String, DispatchSubCategory> {
 
         @Override
-        public DispatchSubCategory unmarshal(String v) throws Exception {
+        public DispatchSubCategory unmarshal(String v) {
             return fromString(v);
         }
 
         @Override
-        public String marshal(DispatchSubCategory v) throws Exception {
+        public String marshal(DispatchSubCategory v) {
             return v.stringValue;
         }
     }

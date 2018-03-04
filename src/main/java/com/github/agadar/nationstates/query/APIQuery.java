@@ -1,7 +1,13 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+
+import java.io.InputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Top parent class for all Queries to the NationStates API.
@@ -19,16 +25,6 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     protected final IRateLimiter generalRateLimiter;
 
     /**
-     * Rate limiter for API calls when scraping.
-     */
-    private final IRateLimiter scrapingRateLimiter;
-
-    /**
-     * The version of the NationStates API to target.
-     */
-    private final int apiVersion;
-
-    /**
      * The resource value, e.g. the nation's or region's name. Set by the
      * constructor.
      */
@@ -38,6 +34,21 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * Whether to use the reduced rate limiter.
      */
     private boolean slowMode = false;
+
+    /**
+     * Used for XML conversions.
+     */
+    private final IXmlConverter xmlConverter;
+
+    /**
+     * Rate limiter for API calls when scraping.
+     */
+    private final IRateLimiter scrapingRateLimiter;
+
+    /**
+     * The version of the NationStates API to target.
+     */
+    private final int apiVersion;
 
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
@@ -53,11 +64,12 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      */
     protected APIQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {
-        super(xmlConverter, baseUrl, userAgent);
+        super(baseUrl, userAgent);
         this.resourceValue = resourceValue;
         this.generalRateLimiter = generalRateLimiter;
         this.scrapingRateLimiter = scrapingRateLimiter;
         this.apiVersion = apiVersion;
+        this.xmlConverter = xmlConverter;
     }
 
     /**
@@ -74,20 +86,26 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Returns the rate limiter to use in the makeRequest()-function. Child
-     * classes can override this to supply their own rate limiter if needed.
+     * Executes this query, returning any result.
      *
-     * @return the rate limiter to use in the makeRequest()-function
+     * @return the result
      */
-    protected IRateLimiter getRateLimiter() {
-        return slowMode ? scrapingRateLimiter : generalRateLimiter;
+    public R execute() {
+        return execute(returnType);
     }
 
-    @Override
+    /**
+     * Executes this query, returning any result.
+     *
+     * @param <T> the type to return
+     * @param type the type to return
+     * @return the result
+     */
     public <T> T execute(Class<T> type) {
         if (getRateLimiter().lock()) {
             try {
-                return super.execute(type);
+                validateQueryParameters();
+                return makeRequest(buildURL().replace(' ', '_'), type);
             } catch (Exception ex) {
                 throw ex;
             } finally {
@@ -95,6 +113,16 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the rate limiter to use in the makeRequest()-function. Child
+     * classes can override this to supply their own rate limiter if needed.
+     *
+     * @return the rate limiter to use in the makeRequest()-function
+     */
+    protected IRateLimiter getRateLimiter() {
+        return slowMode ? scrapingRateLimiter : generalRateLimiter;
     }
 
     @Override
@@ -131,4 +159,71 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @return the resource string of this Query
      */
     protected abstract String resourceString();
+
+    /**
+     * Translates the stream response to the object this Query wishes to return
+     * via its execute() function. The standard way to translate is via JAXB,
+     * which assumes the stream is in a valid XML-format. Child classes might
+     * want to override this function if they wish to return primitives or
+     * something else.
+     *
+     * @param <T> type to parse to
+     * @param response the response to translate
+     * @param type type to parse to
+     * @return the translated response
+     */
+    protected <T> T translateResponse(InputStream response, Class<T> type) {
+        return xmlConverter.xmlToObject(response, type);
+    }
+
+    /**
+     * Makes a GET request to the NationStates API. Throws exceptions if the
+     * call failed. If the requested nation/region/etc. simply wasn't found, it
+     * returns null.
+     *
+     * @param <T> type to parse to
+     * @param urlStr the url to make the request to
+     * @param type type to parse to
+     * @return the retrieved data, or null if the resource wasn't found
+     */
+    protected final <T> T makeRequest(String urlStr, Class<T> type) {
+        // Prepare request, then make it
+        HttpURLConnection conn = null;
+        try {
+            final URL url = new URL(urlStr);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", userAgent);
+            final int responseCode = conn.getResponseCode();
+            final String response = String.format("NationStates API returned: '%s' from URL: %s",
+                    responseCode + " " + conn.getResponseMessage(), urlStr);
+
+            // Depending on whether or not an error was returned, either throw
+            // it or continue as planned.
+            InputStream stream = conn.getErrorStream();
+            if (stream == null) {
+                stream = conn.getInputStream();
+                final T result = translateResponse(stream, type);
+                closeInputStreamQuietly(stream);
+                return result;
+            } else {
+                closeInputStreamQuietly(stream);
+
+                // If the resource simply wasn't found, just return null.
+                if (responseCode == 404) {
+                    return null;
+                }
+
+                // Else, something worse is going on. Throw an exception.
+                throw new NationStatesAPIException(response);
+            }
+        } catch (IOException ex) {
+            throw new NationStatesAPIException(ex);
+        } finally {
+            // Always close the HttpURLConnection
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+    }
 }

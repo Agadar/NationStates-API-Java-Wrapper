@@ -4,8 +4,8 @@ import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.domain.DailyDumpNations;
-import com.github.agadar.nationstates.domain.DailyDumpRegions;
+import com.github.agadar.nationstates.domain.nation.Nation;
+import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.shard.WorldShard;
@@ -25,6 +25,8 @@ import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
+
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -101,8 +103,11 @@ public final class NationStates implements INationStates {
      */
     public NationStates(String userAgent) {
         this.setUserAgent(userAgent);
-        this.xmlConverter.registerTypes(DailyDumpNations.class, DailyDumpRegions.class,
-                World.class, WorldAssembly.class);
+        this.xmlConverter.registerTypes(
+                Nation.class,
+                Region.class,
+                World.class,
+                WorldAssembly.class);
 
         try {
             final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
@@ -187,12 +192,12 @@ public final class NationStates implements INationStates {
     }
 
     @Override
-    public RegionDumpQuery getRegionDump(DailyDumpMode mode) {
-        return new RegionDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
+    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter) {
+        return new RegionDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
     }
 
     @Override
-    public NationDumpQuery getNationDump(DailyDumpMode mode) {
-        return new NationDumpQuery(xmlConverter, baseUrl, userAgent, defaultDumpDirectory, mode);
+    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter) {
+        return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
     }
 }

@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.domain.world;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,6 +26,6 @@ public class RegionList {
      * This wrapper's list of regions.
      */
     @XmlValue
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> regions;
+    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
+    public Set<String> regions;
 }

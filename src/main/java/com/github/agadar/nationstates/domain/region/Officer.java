@@ -2,7 +2,8 @@ package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.enumerator.Authority;
 
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +37,7 @@ public class Officer {
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    public List<Authority> authorities;
+    public Set<Authority> authorities;
 
     /**
      * UNIX timestamp of when this officer position was assigned.
@@ -55,4 +56,27 @@ public class Officer {
      */
     @XmlElement(name = "ORDER")
     public int order;
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.nationName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Officer other = (Officer) obj;
+        return Objects.equals(this.nationName, other.nationName);
+    }
+
 }

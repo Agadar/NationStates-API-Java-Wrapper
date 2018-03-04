@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.domain.common;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -42,6 +42,29 @@ public class PollOption {
      * Names of the nations that voted for this option.
      */
     @XmlElement(name = "VOTERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToListAdapter.class)
-    public List<String> voterNames;
+    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
+    public Set<String> voterNames;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PollOption other = (PollOption) obj;
+        return this.id == other.id;
+    }
+
 }

@@ -23,7 +23,7 @@ public enum HappeningsFilter {
     ENDORSEMENT("endo");
 
     /**
-     * The subcategories as they're known by the server.
+     * The sub-categories as they're known by the server.
      */
     private final String underlying;
 

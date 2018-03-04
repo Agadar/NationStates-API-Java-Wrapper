@@ -1,10 +1,14 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
-import com.github.agadar.nationstates.domain.common.Happening;
+import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
+import com.github.agadar.nationstates.domain.common.happening.Happening;
 
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -13,7 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * Representation of the World Assembly. This class's fields have a 1:1
+ * Representation of the World Assembly. This class' fields have a 1:1
  * correspondence with the shards in WorldAssemblyShard.java, except for
  * VoteTrackFor, VoteTrackAgainst, DelegateVotesFor, and DelegateVotesAgainst:
  * the former two are both filled by the VoteTrack shard, and the latter two are
@@ -41,36 +45,36 @@ public class WorldAssembly {
      * The list of delegates. Same for both councils.
      */
     @XmlElement(name = "DELEGATES")
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> delegates;
+    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
+    public Set<String> delegates;
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> members;
+    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
+    public Set<String> members;
 
     /**
      * Most recent happenings. Same for both councils.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public List<Happening> recentHappenings;
+    public SortedSet<Happening> recentHappenings;
 
     /**
      * Most recent member log entries. Same for both councils.
      */
     @XmlElementWrapper(name = "MEMBERLOG")
     @XmlElement(name = "EVENT")
-    public List<Happening> recentMemberLog;
+    public SortedSet<Happening> recentMemberLog;
 
     /**
      * Current proposed resolutions.
      */
     @XmlElementWrapper(name = "PROPOSALS")
     @XmlElement(name = "PROPOSAL")
-    public List<Proposal> currentProposals;
+    public Set<Proposal> currentProposals;
 
     /**
      * The current resolution at vote, or a specific one if an id is supplied.
@@ -90,7 +94,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted, and what for
      */
-    public List<DelegateLogsEntry> delegateLog() {
+    public SortedSet<DelegateLogsEntry> delegateLog() {
         return (resolution == null) ? null : resolution.delegateLog;
     }
 
@@ -100,7 +104,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelegateLogsEntry> delegateVotesFor() {
+    public SortedSet<DelegateLogsEntry> delegateVotesFor() {
         return (resolution == null) ? null : resolution.delegateVotesFor;
     }
 
@@ -110,7 +114,7 @@ public class WorldAssembly {
      *
      * @return log containing when what delegates voted
      */
-    public List<DelegateLogsEntry> delegateVotesAgainst() {
+    public SortedSet<DelegateLogsEntry> delegateVotesAgainst() {
         return (resolution == null) ? null : resolution.delegateVotesAgainst;
     }
 
@@ -132,5 +136,17 @@ public class WorldAssembly {
      */
     public List<Integer> voteTrackAgainst() {
         return (resolution == null) ? null : resolution.voteTrackAgainst;
+    }
+    
+    /**
+     * Executed after JAXB finishes unmmarshalling.
+     * 
+     * @param unmarshaller
+     * @param parent
+     */
+    @SuppressWarnings("unused")
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+	this.recentMemberLog = HappeningSpecializationHelper.specializeHappenings(this.recentMemberLog);
     }
 }

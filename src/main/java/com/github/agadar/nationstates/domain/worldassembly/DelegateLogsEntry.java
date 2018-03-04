@@ -2,6 +2,8 @@ package com.github.agadar.nationstates.domain.worldassembly;
 
 import com.github.agadar.nationstates.enumerator.DelegateAction;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -17,7 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ENTRY")
-public class DelegateLogsEntry {
+public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
 
     /**
      * UNIX timestamp of when the vote was made.
@@ -44,4 +46,41 @@ public class DelegateLogsEntry {
      */
     @XmlElement(name = "VOTES")
     public int votes;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + (int) (this.timestamp ^ (this.timestamp >>> 32));
+        hash = 41 * hash + Objects.hashCode(this.delegateName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DelegateLogsEntry other = (DelegateLogsEntry) obj;
+        if (this.timestamp != other.timestamp) {
+            return false;
+        }
+        return Objects.equals(this.delegateName, other.delegateName);
+    }
+
+    @Override
+    public int compareTo(DelegateLogsEntry o) {
+        if (this.timestamp > o.timestamp) {
+            return -1;
+        } else if (this.timestamp < o.timestamp) {
+            return 1;
+        }
+        return 0;
+    }
+
 }

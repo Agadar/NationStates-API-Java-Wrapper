@@ -17,7 +17,8 @@ public enum EmbassiesRmbPermissions {
     DELEGATES_AND_FOUNDERS("con"),
     OFFICERS("off"),
     OFFICERS_WITH_COMMUNICATIONS_AUTHORITY("com"),
-    EVERYONE("all");
+    EVERYONE("all"),
+    NULL("NULL");
 
     /**
      * Reverse mapping.
@@ -47,7 +48,7 @@ public enum EmbassiesRmbPermissions {
      */
     public static EmbassiesRmbPermissions fromString(String underlying) {
         if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            throw new IllegalArgumentException("'" + underlying + "' cannot be parsed to this enum");
+            return EmbassiesRmbPermissions.NULL;
         }
         return STRINGS_TO_ENUMS.get(underlying);
     }
@@ -77,12 +78,12 @@ public enum EmbassiesRmbPermissions {
     public static class Adapter extends XmlAdapter<String, EmbassiesRmbPermissions> {
 
         @Override
-        public EmbassiesRmbPermissions unmarshal(String vt) throws Exception {
+        public EmbassiesRmbPermissions unmarshal(String vt) {
             return EmbassiesRmbPermissions.fromString(vt);
         }
 
         @Override
-        public String marshal(EmbassiesRmbPermissions bt) throws Exception {
+        public String marshal(EmbassiesRmbPermissions bt) {
             return bt.underlying;
         }
     }

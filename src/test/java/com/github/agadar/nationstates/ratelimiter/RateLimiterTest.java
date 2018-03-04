@@ -39,6 +39,7 @@ public class RateLimiterTest {
         fooThread.start();
         barThread.start();
 
+        Thread.sleep(10);
         assertTrue(foo.called);
         assertFalse(bar.called);
 
