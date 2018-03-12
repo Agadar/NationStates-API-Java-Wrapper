@@ -5,7 +5,7 @@
     <!-- General properties -->
     <groupId>com.github.agadar</groupId>
     <artifactId>nationstates-api-java-wrapper</artifactId>
-    <version>4.0.2</version>
+    <version>4.0.3</version>
     <packaging>jar</packaging>   
     <name>NationStates API Java Wrapper</name>
     <description>A Java library for consuming the NationStates API.</description>

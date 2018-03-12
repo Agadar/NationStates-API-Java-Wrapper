@@ -16,7 +16,9 @@ public class EjectedHappeningSpecializer implements IHappeningSpecializer<Ejecte
 	if (happening.description == null) {
 	    return false;
 	}
-	return happening.description.contains("was ejected from") || happening.description.contains("banned");
+	return (happening.description.contains("was ejected from")
+	        && !happening.description.contains("was ejected from the WA for rule violations"))
+	        || happening.description.contains("banned");
     }
 
     @Override
@@ -42,7 +44,7 @@ public class EjectedHappeningSpecializer implements IHappeningSpecializer<Ejecte
 	final String fromRegion = splitOnPercent[1];
 
 	return new EjectedHappening(happening.id, happening.timestamp, happening.description, ejectingNation,
-		ejectedNation, banned, fromRegion);
+	        ejectedNation, banned, fromRegion);
     }
 
 }
