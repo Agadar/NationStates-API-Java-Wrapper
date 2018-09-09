@@ -13,6 +13,7 @@ import com.github.agadar.nationstates.shard.Shard;
  * @param <R> the type the child class' execute()-function returns
  * @param <S> the shard type the child class accepts
  */
+@SuppressWarnings("rawtypes")
 public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> extends APIQuery<Q, R> {
 
     /**
@@ -42,6 +43,7 @@ public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> exten
      * @param shards the shards to set
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q shards(S... shards) {
         this.shards = shards;
         return (Q) this;

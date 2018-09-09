@@ -9,6 +9,8 @@ package com.github.agadar.nationstates;
  */
 public class NationStatesAPIException extends RuntimeException {
 
+    private static final long serialVersionUID = -2143879237003747615L;
+
     public NationStatesAPIException() {
         super();
     }

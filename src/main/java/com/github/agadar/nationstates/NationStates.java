@@ -151,7 +151,7 @@ public class NationStates implements INationStates {
     }
 
     @Override
-    public final void registerTypes(Class... types) {
+    public final void registerTypes(Class<?>... types) {
         xmlConverter.registerTypes(types);
     }
 

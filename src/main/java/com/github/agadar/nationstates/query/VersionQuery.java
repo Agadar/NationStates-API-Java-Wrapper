@@ -33,6 +33,7 @@ public class VersionQuery extends APIQuery<VersionQuery, Integer> {
         return "a";
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected <T> T translateResponse(InputStream response, Class<T> type) {
         @SuppressWarnings("resource")

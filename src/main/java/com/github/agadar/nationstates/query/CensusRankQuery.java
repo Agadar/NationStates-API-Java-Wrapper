@@ -13,6 +13,7 @@ import com.github.agadar.nationstates.shard.Shard;
  * @param <R> the type the child class' execute()-function returns
  * @param <S> the shard type the child class accepts
  */
+@SuppressWarnings("rawtypes")
 public abstract class CensusRankQuery<Q extends CensusRankQuery, R, S extends Shard> extends CensusQuery<Q, R, S> {
 
     /**
@@ -43,6 +44,7 @@ public abstract class CensusRankQuery<Q extends CensusRankQuery, R, S extends Sh
      * @param rank the rank to start the retrieved census rank scores list from
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q censusRanksStart(int rank) {
         this.censusRanksStart = rank;
         return (Q) this;

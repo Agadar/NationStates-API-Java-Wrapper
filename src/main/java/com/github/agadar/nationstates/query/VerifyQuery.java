@@ -79,6 +79,7 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected <T> T translateResponse(InputStream response, Class<T> type) {
         @SuppressWarnings("resource")

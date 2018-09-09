@@ -15,6 +15,7 @@ import com.github.agadar.nationstates.shard.Shard;
  * @param <R> the type the child class' execute()-function returns
  * @param <S> the shard type the child class accepts
  */
+@SuppressWarnings("rawtypes")
 public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> extends ShardQuery<Q, R, S> {
 
     /**
@@ -63,6 +64,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @param censusIds the census id's to set
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q censusIds(CensusId... censusIds) {
         this.censusIds = censusIds;
         return (Q) this;
@@ -76,6 +78,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @param censusModes the census modes to select
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q censusModes(CensusMode... censusModes) {
         this.censusModes = censusModes;
         return (Q) this;
@@ -89,6 +92,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * mode
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q censusHistoryFrom(long timestamp) {
         this.censusHistoryFrom = timestamp;
         return (Q) this;
@@ -102,6 +106,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * mode
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q censusHistoryTo(long timestamp) {
         this.censusHistoryTo = timestamp;
         return (Q) this;

@@ -17,6 +17,7 @@ import java.net.URL;
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
  */
+@SuppressWarnings("rawtypes")
 public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R> {
 
     /**
@@ -80,6 +81,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public Q slowMode() {
         slowMode = true;
         return (Q) this;

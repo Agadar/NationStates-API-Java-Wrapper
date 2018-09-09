@@ -50,7 +50,7 @@ public interface INationStates {
      *
      * @param types the classes to add to the JAXB context
      */
-    public void registerTypes(Class... types);
+    public void registerTypes(Class<?>... types);
 
     /**
      * Starts building a nation query, using the given nation name.

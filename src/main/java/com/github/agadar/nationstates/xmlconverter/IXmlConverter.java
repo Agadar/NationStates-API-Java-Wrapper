@@ -18,7 +18,7 @@ public interface IXmlConverter {
      *
      * @param types the classes to add to the JAXB context
      */
-    public void registerTypes(Class... types);
+    public void registerTypes(Class<?>... types);
 
     /**
      * Uses JAXB to parse the supplied XML stream to an instance of the

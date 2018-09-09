@@ -30,7 +30,7 @@ public class XmlConverter implements IXmlConverter {
     /**
      * The classes for the JAXBContext.
      */
-    private final List<Class> JAXB_CONTEXT_CLASSES = new ArrayList<>();
+    private final List<Class<?>> JAXB_CONTEXT_CLASSES = new ArrayList<>();
 
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to
@@ -41,7 +41,7 @@ public class XmlConverter implements IXmlConverter {
      * @param types the classes to add to the JAXB context
      */
     @Override
-    public final void registerTypes(Class... types) {
+    public final void registerTypes(Class<?>... types) {
         // Place new types in jaxbContextClasses.
         JAXB_CONTEXT_CLASSES.addAll(Arrays.asList(types));
         final int numberOfClasses = JAXB_CONTEXT_CLASSES.size();

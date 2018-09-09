@@ -12,6 +12,7 @@ import java.lang.reflect.ParameterizedType;
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
  */
+@SuppressWarnings("rawtypes")
 public abstract class AbstractQuery<Q extends AbstractQuery, R> {
 
     /**
@@ -36,6 +37,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param userAgent User agent by which this library or its consumer is
      * recognized.
      */
+    @SuppressWarnings("unchecked")
     protected AbstractQuery(String baseUrl, String userAgent) {
         returnType = ((Class) ((ParameterizedType) this.getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[1]);

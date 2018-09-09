@@ -30,6 +30,8 @@ public class TelegramSentEvent extends EventObject {
      * increments by 1 for each telegram sent.
      */
     public final int positionInQuery;
+    
+    private static final long serialVersionUID = -4487722764290395846L;
 
     /**
      * Constructs a new TelegramSentEvent.

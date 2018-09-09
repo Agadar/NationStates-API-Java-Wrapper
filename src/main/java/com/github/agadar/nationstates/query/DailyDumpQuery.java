@@ -28,6 +28,7 @@ import java.util.zip.GZIPInputStream;
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
  */
+@SuppressWarnings("rawtypes")
 public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R> {
 
     /**
@@ -78,6 +79,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param dir a specific directory to download the gzip in
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q downloadDir(String dir) {
         this.downloadDir = dir;
         return (Q) this;
@@ -90,6 +92,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param dir a specific directory to download the gzip in
      * @return this
      */
+    @SuppressWarnings("unchecked")
     public final Q readFromDir(String dir) {
         this.readFromDir = dir;
         return (Q) this;
