@@ -1,5 +1,6 @@
 package com.github.agadar.nationstates.domain.world;
 
+import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
@@ -110,8 +111,8 @@ public class World {
      * List of newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> newestNations;
+    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
+    public List<String> newestNations;
 
     /**
      * The number of nations in the world.
@@ -146,7 +147,7 @@ public class World {
      * @return region names
      */
     public Set<String> regions() {
-	return (regions == null || regions.isEmpty()) ? null : regions.get(0).regions;
+        return (regions == null || regions.isEmpty()) ? null : regions.get(0).regions;
     }
 
     /**
@@ -157,8 +158,8 @@ public class World {
      * @return region names
      */
     public Set<String> regionsByTag() {
-	Set<String> tmp = regions();
-	return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
+        Set<String> tmp = regions();
+        return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
     }
 
     /**
@@ -169,6 +170,6 @@ public class World {
      */
     @SuppressWarnings("unused")
     private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-	this.happenings = HappeningSpecializationHelper.specializeHappenings(this.happenings);
+        this.happenings = HappeningSpecializationHelper.specializeHappenings(this.happenings);
     }
 }
