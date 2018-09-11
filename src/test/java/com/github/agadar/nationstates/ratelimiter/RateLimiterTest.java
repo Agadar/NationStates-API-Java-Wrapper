@@ -1,14 +1,12 @@
 package com.github.agadar.nationstates.ratelimiter;
 
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
-@Ignore("Update this test so it isn't prone to false negatives")
 public class RateLimiterTest {
 
     private RateLimiter rateLimiter;
@@ -39,13 +37,14 @@ public class RateLimiterTest {
         assertFalse(bar.called);
 
         fooThread.start();
-        barThread.start();
-
-        Thread.sleep(10);
+        Thread.sleep(100);
+        
         assertTrue(foo.called);
-        assertFalse(bar.called);
+        barThread.start();
+        Thread.sleep(100);
 
-        Thread.sleep(1020);
+        assertFalse(bar.called);
+        Thread.sleep(1900);
 
         assertTrue(bar.called);
     }
@@ -81,6 +80,12 @@ public class RateLimiterTest {
         public void run() {
             rateLimiter.lock();
             called = true;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
             rateLimiter.unlock();
         }
     }
