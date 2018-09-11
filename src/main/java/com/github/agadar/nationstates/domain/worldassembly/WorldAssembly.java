@@ -4,9 +4,11 @@ import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -95,37 +97,36 @@ public class WorldAssembly {
      * @return log containing when what delegates voted, and what for
      */
     public SortedSet<DelegateLogsEntry> delegateLog() {
-        return (resolution == null) ? null : resolution.delegateLog;
+        return (resolution == null) ? new TreeSet<>() : resolution.delegateLog;
     }
 
     /**
-     * Same as DelegateLog, but only contains the LAST action for each delegate
-     * that voted FOR.
+     * Same as DelegateLog, but only contains the LAST action for each delegate that
+     * voted FOR.
      *
      * @return log containing when what delegates voted
      */
     public SortedSet<DelegateLogsEntry> delegateVotesFor() {
-        return (resolution == null) ? null : resolution.delegateVotesFor;
+        return (resolution == null) ? new TreeSet<>() : resolution.delegateVotesFor;
     }
 
     /**
-     * Same as DelegateLog, but only contains the LAST action for each delegate
-     * that voted AGAINST.
+     * Same as DelegateLog, but only contains the LAST action for each delegate that
+     * voted AGAINST.
      *
      * @return log containing when what delegates voted
      */
     public SortedSet<DelegateLogsEntry> delegateVotesAgainst() {
-        return (resolution == null) ? null : resolution.delegateVotesAgainst;
+        return (resolution == null) ? new TreeSet<>() : resolution.delegateVotesAgainst;
     }
 
     /**
-     * A track record of the total FOR votes of the resolution currently at
-     * vote.
+     * A track record of the total FOR votes of the resolution currently at vote.
      *
      * @return track record of the total FOR votes
      */
     public List<Integer> voteTrackFor() {
-        return (resolution == null) ? null : resolution.voteTrackFor;
+        return (resolution == null) ? new ArrayList<>() : resolution.voteTrackFor;
     }
 
     /**
@@ -135,9 +136,9 @@ public class WorldAssembly {
      * @return track record of the total AGAINST votes
      */
     public List<Integer> voteTrackAgainst() {
-        return (resolution == null) ? null : resolution.voteTrackAgainst;
+        return (resolution == null) ? new ArrayList<>() : resolution.voteTrackAgainst;
     }
-    
+
     /**
      * Executed after JAXB finishes unmmarshalling.
      * 
@@ -146,7 +147,7 @@ public class WorldAssembly {
      */
     @SuppressWarnings("unused")
     private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
-	this.recentMemberLog = HappeningSpecializationHelper.specializeHappenings(this.recentMemberLog);
+        this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+        this.recentMemberLog = HappeningSpecializationHelper.specializeHappenings(this.recentMemberLog);
     }
 }

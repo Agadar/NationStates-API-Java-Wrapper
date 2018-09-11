@@ -54,8 +54,8 @@ public class Region {
     public NationCensusScoreRanks censusRanks;
 
     /**
-     * The name of the nation that is the region's world assembly delegate.
-     * Returns '0' if no delegate exists.
+     * The name of the nation that is the region's world assembly delegate. Returns
+     * '0' if no delegate exists.
      */
     @XmlElement(name = "DELEGATE")
     public String delegate;
@@ -243,7 +243,7 @@ public class Region {
      */
     @XmlElement(name = "ZOMBIE")
     public ZombieInfo zombieInfo;
-    
+
     /**
      * Executed after JAXB finishes unmmarshalling.
      * 
@@ -252,8 +252,8 @@ public class Region {
      */
     @SuppressWarnings("unused")
     private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
-	this.history = HappeningSpecializationHelper.specializeHappenings(this.history);
+        this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+        this.history = HappeningSpecializationHelper.specializeHappenings(this.history);
     }
 
 }

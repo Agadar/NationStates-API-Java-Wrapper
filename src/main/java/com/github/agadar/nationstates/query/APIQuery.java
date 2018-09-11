@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 /**
  * Top parent class for all Queries to the NationStates API.
@@ -92,7 +93,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @return the result
      */
-    public R execute() {
+    public Optional<R> execute() {
         return execute(returnType);
     }
 
@@ -103,7 +104,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @param type the type to return
      * @return the result
      */
-    public <T> T execute(Class<T> type) {
+    public <T> Optional<T> execute(Class<T> type) {
         if (getRateLimiter().lock()) {
             try {
                 validateQueryParameters();
@@ -181,14 +182,14 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * Makes a GET request to the NationStates API. Throws exceptions if the
      * call failed. If the requested nation/region/etc. simply wasn't found, it
-     * returns null.
+     * returns an empty optional.
      *
      * @param <T> type to parse to
      * @param urlStr the url to make the request to
      * @param type type to parse to
      * @return the retrieved data, or null if the resource wasn't found
      */
-    protected final <T> T makeRequest(String urlStr, Class<T> type) {
+    protected final <T> Optional<T> makeRequest(String urlStr, Class<T> type) {
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
@@ -207,13 +208,13 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
                 stream = conn.getInputStream();
                 final T result = translateResponse(stream, type);
                 closeInputStreamQuietly(stream);
-                return result;
+                return Optional.of(result);
             } else {
                 closeInputStreamQuietly(stream);
 
                 // If the resource simply wasn't found, just return null.
                 if (responseCode == 404) {
-                    return null;
+                    return Optional.empty();
                 }
 
                 // Else, something worse is going on. Throw an exception.

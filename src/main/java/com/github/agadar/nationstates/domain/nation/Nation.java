@@ -456,7 +456,7 @@ public class Nation {
      * @return the URL that points to the image behind Banner
      */
     public String bannerAsURL() {
-	return riftCodeToURL(banner);
+        return riftCodeToURL(banner);
     }
 
     /**
@@ -465,13 +465,13 @@ public class Nation {
      * @return the URLs that point to the images behind Banners.
      */
     public Set<String> bannersAsURLs() {
-	final Set<String> urls = new HashSet<>();
+        final Set<String> urls = new HashSet<>();
 
-	if (banners == null) {
-	    return urls;
-	}
-	banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
-	return urls;
+        if (banners == null) {
+            return urls;
+        }
+        banners.forEach(riftCode -> urls.add(riftCodeToURL(riftCode)));
+        return urls;
     }
 
     /**
@@ -482,18 +482,17 @@ public class Nation {
      */
     @SuppressWarnings("unused")
     private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-	this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
+        this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
     }
 
     /**
      * Builds an URL that points to the image behind the given Rift code.
      *
-     * @param riftCode
-     *            the Rift code to build an URL of
+     * @param riftCode the Rift code to build an URL of
      * @return an URL that points to the image behind the given Rift code
      */
     private static String riftCodeToURL(String riftCode) {
-	return riftCode == null || riftCode.isEmpty() ? null : String.format(BANNER_URL, riftCode);
+        return riftCode == null || riftCode.isEmpty() ? "" : String.format(BANNER_URL, riftCode);
     }
 
 }

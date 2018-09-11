@@ -159,8 +159,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
 
     /**
      * Makes a GET request to the NationStates API. Throws exceptions if the
-     * call failed. If the requested nation/region/etc. simply wasn't found, it
-     * returns null.
+     * call failed. If the requested nations/regions/etc. simply weren't found, it
+     * returns an empty set.
      *
      * @param urlStr the url to make the request to
      * @return the retrieved data, or empty if the resource wasn't found
@@ -191,7 +191,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
 
                 // If the resource simply wasn't found, just return null.
                 if (responseCode == 404) {
-                    return null;
+                    return new HashSet<R>();
                 }
 
                 // Else, something worse is going on. Throw an exception.

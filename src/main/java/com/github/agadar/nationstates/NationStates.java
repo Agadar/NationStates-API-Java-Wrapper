@@ -38,6 +38,8 @@ import java.util.logging.Logger;
  */
 public class NationStates implements INationStates {
 
+    private final static Logger LOGGER = Logger.getLogger(NationStates.class.getName());
+
     /**
      * The NationStates API version this wrapper uses.
      */
@@ -50,32 +52,32 @@ public class NationStates implements INationStates {
 
     /**
      * The general rate limiter for all API calls. The mandated rate limit is 50
-     * requests per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 50 requests per 30.05 seconds. To get a spread-like pattern
-     * instead of a burst-like pattern, we make this into 10 requests per 6.01
-     * seconds.
+     * requests per 30 seconds. To make sure we're on the safe side, we reduce this
+     * to 50 requests per 30.05 seconds. To get a spread-like pattern instead of a
+     * burst-like pattern, we make this into 10 requests per 6.01 seconds.
      */
     private final IRateLimiter generalRateLimiter = new RateLimiter(10, 6010);
 
     /**
-     * Rate limiter for API calls when scraping. Reduces the rate limit further
-     * to just 1 request per second, as suggested by the official documentation.
+     * Rate limiter for API calls when scraping. Reduces the rate limit further to
+     * just 1 request per second, as suggested by the official documentation.
      */
     private final IRateLimiter scrapingRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 1000);
 
     /**
-     * The rate limiter for normal telegrams. The mandated rate limit is 1
-     * telegram per 30 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 30.05 seconds.
+     * The rate limiter for normal telegrams. The mandated rate limit is 1 telegram
+     * per 30 seconds. To make sure we're on the safe side, we reduce this to 1
+     * telegram per 30.05 seconds.
      */
     private final IRateLimiter telegramRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 30050);
 
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
-     * telegram per 180 seconds. To make sure we're on the safe side, we reduce
-     * this to 1 telegram per 180.05 seconds.
+     * telegram per 180 seconds. To make sure we're on the safe side, we reduce this
+     * to 1 telegram per 180.05 seconds.
      */
-    private final IRateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1, 180050);
+    private final IRateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1,
+            180050);
 
     /**
      * For converting xml input from the API to domain classes.
@@ -93,21 +95,17 @@ public class NationStates implements INationStates {
     private String userAgent;
 
     /**
-     * Instantiates a new service and sets the User Agent. NationStates
-     * moderators should be able to identify you and your script via your User
-     * Agent. As such, try providing at least your nation name, and preferably
-     * include your e-mail address, a link to a website you own, or something
-     * else that can help them contact you if needed.
+     * Instantiates a new service and sets the User Agent. NationStates moderators
+     * should be able to identify you and your script via your User Agent. As such,
+     * try providing at least your nation name, and preferably include your e-mail
+     * address, a link to a website you own, or something else that can help them
+     * contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
      */
     public NationStates(String userAgent) {
         this.setUserAgent(userAgent);
-        this.xmlConverter.registerTypes(
-                Nation.class,
-                Region.class,
-                World.class,
-                WorldAssembly.class);
+        this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
 
         try {
             final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
@@ -128,26 +126,7 @@ public class NationStates implements INationStates {
 
     @Override
     public void doVersionCheck() {
-        int liveVersion = getVersion().execute();
-
-        // Validate live version and log appropriate messages.
-        Logger logger = Logger.getLogger(NationStates.class.getName());
-        String start = String.format("Version check: wrapper wants to "
-                + "use version '%s', latest live version is"
-                + " '%s'.", apiVersion, liveVersion);
-
-        switch (liveVersion) {
-            case apiVersion:
-                logger.log(Level.INFO, "{0} Wrapper should work correctly.", start);
-                break;
-            case apiVersion + 1:
-                logger.log(Level.WARNING, "{0} Wrapper may fail to load daily "
-                        + "dumps. Please update the wrapper.", start);
-                break;
-            default:
-                logger.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please"
-                        + " update the wrapper.", start);
-        }
+        getVersion().execute().ifPresent(this::logNationStatesApiVersion);
     }
 
     @Override
@@ -157,22 +136,26 @@ public class NationStates implements INationStates {
 
     @Override
     public NationQuery getNation(String nationName) {
-        return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
+        return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
+                nationName);
     }
 
     @Override
     public RegionQuery getRegion(String regionName) {
-        return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
+        return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
+                regionName);
     }
 
     @Override
     public WorldQuery getWorld(WorldShard... shards) {
-        return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, shards);
+        return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
+                shards);
     }
 
     @Override
     public WorldAssemblyQuery getWorldAssembly(Council council) {
-        return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, council);
+        return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent,
+                apiVersion, council);
     }
 
     @Override
@@ -182,13 +165,15 @@ public class NationStates implements INationStates {
 
     @Override
     public VerifyQuery verifyNation(String nation, String checksum) {
-        return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nation, checksum);
+        return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
+                nation, checksum);
     }
 
     @Override
     public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations) {
-        return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter, recruitmentTelegramRateLimiter,
-                baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey, nations);
+        return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter,
+                recruitmentTelegramRateLimiter, baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey,
+                nations);
     }
 
     @Override
@@ -199,5 +184,22 @@ public class NationStates implements INationStates {
     @Override
     public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter) {
         return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
+    }
+
+    private void logNationStatesApiVersion(int version) {
+        var logText = String.format("Version check: wrapper wants to use version '%s', latest live version is '%s'.",
+                apiVersion, version);
+
+        switch (version) {
+        case apiVersion:
+            LOGGER.log(Level.INFO, "{0} Wrapper should work correctly.", logText);
+            break;
+        case apiVersion + 1:
+            LOGGER.log(Level.WARNING, "{0} Wrapper may fail to load daily " + "dumps. Please update the wrapper.",
+                    logText);
+            break;
+        default:
+            LOGGER.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please" + " update the wrapper.", logText);
+        }
     }
 }

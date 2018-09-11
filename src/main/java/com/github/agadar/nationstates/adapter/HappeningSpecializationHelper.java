@@ -3,6 +3,7 @@ package com.github.agadar.nationstates.adapter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -22,10 +23,9 @@ import com.github.agadar.nationstates.happeningspecializer.LawHappeningSpecializ
  * @author Agadar (https://github.com/Agadar/)
  *
  */
-public class HappeningSpecializationHelper implements IHappeningSpecializer<Happening> {
+public final class HappeningSpecializationHelper {
 
     private static List<IHappeningSpecializer<? extends Happening>> happeningSpecializers;
-    private static HappeningSpecializationHelper instance;
 
     static {
         happeningSpecializers = new ArrayList<>();
@@ -34,7 +34,6 @@ public class HappeningSpecializationHelper implements IHappeningSpecializer<Happ
         happeningSpecializers.add(new EjectedHappeningSpecializer());
         happeningSpecializers.add(new EmbassyHappeningSpecializer());
         happeningSpecializers.add(new LawHappeningSpecializer());
-        instance = new HappeningSpecializationHelper();
     }
 
     /**
@@ -46,23 +45,21 @@ public class HappeningSpecializationHelper implements IHappeningSpecializer<Happ
      */
     public static SortedSet<Happening> specializeHappenings(Collection<Happening> happenings) {
         if (happenings == null) {
-            return null;
+            return new TreeSet<Happening>();
         }
-        return new TreeSet<Happening>(happenings.stream()
-                .map(happening -> happeningSpecializers.stream()
-                        .filter(specializer -> specializer.isOfSpecializedType(happening)).findAny().orElse(instance)
-                        .toSpecializedType(happening))
+        return new TreeSet<>(happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
                 .collect(Collectors.toSet()));
+
     }
 
-    @Override
-    public boolean isOfSpecializedType(Happening happening) {
-        throw new UnsupportedOperationException("This method should not have been called");
+    private static Happening specializeHappeningIfPossible(Happening happening) {
+        return getCorrectSpecializer(happening)
+                .map((specializer) -> (Happening) specializer.toSpecializedType(happening)).orElse(happening);
     }
 
-    @Override
-    public Happening toSpecializedType(Happening happening) {
-        return happening;
+    private static Optional<IHappeningSpecializer<? extends Happening>> getCorrectSpecializer(Happening happening) {
+        return happeningSpecializers.stream().filter((specializer) -> specializer.isOfSpecializedType(happening))
+                .findAny();
     }
 
 }

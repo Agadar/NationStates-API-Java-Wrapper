@@ -7,8 +7,7 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
  * 
  * @author Agadar (https://github.com/Agadar/)
  *
- * @param <T>
- *            The specialized Happening type this specializer can handle.
+ * @param <T> The specialized Happening type this specializer can handle.
  */
 public interface IHappeningSpecializer<T extends Happening> {
 
@@ -26,7 +25,8 @@ public interface IHappeningSpecializer<T extends Happening> {
      * responsible for.
      * 
      * @param happening
-     * @return
+     * @return An optional containing the specialized type, or an empty optional if
+     *         conversion wasn't possible.
      */
     public T toSpecializedType(Happening happening);
 }

@@ -8,6 +8,7 @@ import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -166,7 +167,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     @Override
-    public <T> T execute(Class<T> type) {
+    public <T> Optional<T> execute(Class<T> type) {
         // Validate parameters and build base url.
         validateQueryParameters();
         String baseUrl = buildURL();
@@ -198,7 +199,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 });
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
