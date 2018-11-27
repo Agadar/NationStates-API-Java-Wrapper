@@ -5,12 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Represents a nation's economy sectors. All values are percentages. All values
  * together should naturally equal 100.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SECTORS")
 public class EconomySectors {
@@ -19,23 +24,23 @@ public class EconomySectors {
      * Percentage of the economy that is black market
      */
     @XmlElement(name = "BLACKMARKET")
-    public double blackMarket;
+    private double blackMarket;
 
     /**
      * Percentage of the economy that is government
      */
     @XmlElement(name = "GOVERNMENT")
-    public double government;
+    private double government;
 
     /**
      * Percentage of the economy that is privately owned
      */
     @XmlElement(name = "INDUSTRY")
-    public double privateIndustry;
+    private double privateIndustry;
 
     /**
      * Percentage of the economy that is state-owned
      */
     @XmlElement(name = "PUBLIC")
-    public double stateOwnedIndustry;
+    private double stateOwnedIndustry;
 }

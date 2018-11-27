@@ -7,11 +7,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A nation's total RMB posts over a previously specified period of time.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
 public class MostPostsRank implements Comparable<MostPostsRank> {
@@ -20,13 +25,13 @@ public class MostPostsRank implements Comparable<MostPostsRank> {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String name = "";
+    private String name = "";
 
     /**
      * Number of posts made by this nation.
      */
     @XmlElement(name = "POSTS")
-    public int posts;
+    private int posts;
 
     @Override
     public int hashCode() {

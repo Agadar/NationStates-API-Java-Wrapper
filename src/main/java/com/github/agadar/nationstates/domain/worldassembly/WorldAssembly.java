@@ -17,6 +17,9 @@ import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Representation of the World Assembly. This class' fields have a 1:1
  * correspondence with the shards in WorldAssemblyShard.java, except for
@@ -26,6 +29,8 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "WA")
 public class WorldAssembly {
@@ -34,60 +39,60 @@ public class WorldAssembly {
      * The number of member nations. Same for both councils.
      */
     @XmlElement(name = "NUMNATIONS")
-    public int numberOfMembers;
+    private int numberOfMembers;
 
     /**
      * The number of delegates. Same for both councils.
      */
     @XmlElement(name = "NUMDELEGATES")
-    public int numberOfDelegates;
+    private int numberOfDelegates;
 
     /**
      * The list of delegates. Same for both councils.
      */
     @XmlElement(name = "DELEGATES")
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> delegates = new HashSet<String>();
+    private Set<String> delegates = new HashSet<String>();
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> members = new HashSet<String>();
+    private Set<String> members = new HashSet<String>();
 
     /**
      * Most recent happenings. Same for both councils.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
+    private SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
 
     /**
      * Most recent member log entries. Same for both councils.
      */
     @XmlElementWrapper(name = "MEMBERLOG")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> recentMemberLog = new TreeSet<Happening>();
+    private SortedSet<Happening> recentMemberLog = new TreeSet<Happening>();
 
     /**
      * Current proposed resolutions.
      */
     @XmlElementWrapper(name = "PROPOSALS")
     @XmlElement(name = "PROPOSAL")
-    public Set<Proposal> currentProposals = new HashSet<Proposal>();
+    private Set<Proposal> currentProposals = new HashSet<Proposal>();
 
     /**
      * The current resolution at vote, or a specific one if an id is supplied.
      */
     @XmlElement(name = "RESOLUTION")
-    public Resolution resolution = new Resolution();
+    private Resolution resolution = new Resolution();
 
     /**
      * Brief description of the end result of the last proposed resolution.
      */
     @XmlElement(name = "LASTRESOLUTION")
-    public String lastResolutionResult = "";
+    private String lastResolutionResult = "";
 
     /**
      * Executed after JAXB finishes unmmarshalling.

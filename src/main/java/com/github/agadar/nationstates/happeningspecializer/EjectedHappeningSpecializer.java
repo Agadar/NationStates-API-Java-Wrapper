@@ -13,17 +13,15 @@ public class EjectedHappeningSpecializer implements IHappeningSpecializer<Ejecte
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {
-        if (happening.description == null) {
-            return false;
-        }
-        return (happening.description.contains("was ejected from")
-                && !happening.description.contains("was ejected from the WA for rule violations"))
-                || happening.description.contains("banned");
+        String description = happening.getDescription();
+        return (description.contains("was ejected from")
+                && !description.contains("was ejected from the WA for rule violations"))
+                || description.contains("banned");
     }
 
     @Override
     public EjectedHappening toSpecializedType(Happening happening) {
-        final String[] splitOnAt = happening.description.split("@@");
+        final String[] splitOnAt = happening.getDescription().split("@@");
         int ejectedNationPos = 1;
         int ejectingNationPos = 3;
         int fromRegionPos = 2;
@@ -43,8 +41,8 @@ public class EjectedHappeningSpecializer implements IHappeningSpecializer<Ejecte
         final String[] splitOnPercent = splitOnAt[fromRegionPos].split("%%");
         final String fromRegion = splitOnPercent[1];
 
-        return new EjectedHappening(happening.id, happening.timestamp, happening.description, ejectingNation,
-                ejectedNation, banned, fromRegion);
+        return new EjectedHappening(happening.getId(), happening.getTimestamp(), happening.getDescription(),
+                ejectingNation, ejectedNation, banned, fromRegion);
     }
 
 }

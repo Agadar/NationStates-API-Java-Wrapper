@@ -9,6 +9,10 @@ import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +34,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "WORLD")
 public class World {
@@ -39,106 +45,108 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public Set<CensusScore> census = new HashSet<CensusScore>();
+    private Set<CensusScore> census = new HashSet<CensusScore>();
 
     /**
      * Id of the current census.
      */
     @XmlElement(name = "CENSUSID")
-    public int censusId;
+    private int censusId;
 
     /**
      * Descriptions of the current or selected census.
      */
     @XmlElement(name = "CENSUSDESC")
-    public CensusDescriptions censusDescriptions = new CensusDescriptions();
+    private CensusDescriptions censusDescriptions = new CensusDescriptions();
 
     /**
      * Name of the current or selected census.
      */
     @XmlElement(name = "CENSUS")
-    public CensusName censusName = new CensusName();
+    private CensusName censusName = new CensusName();
 
     /**
      * The census scores of the world's nations.
      */
     @XmlElement(name = "CENSUSRANKS")
-    public NationCensusScoreRanks censusRanks = new NationCensusScoreRanks();
+    private NationCensusScoreRanks censusRanks = new NationCensusScoreRanks();
 
     /**
      * The scale of the current or selected census.
      */
     @XmlElement(name = "CENSUSSCALE")
-    public CensusScale censusScale = new CensusScale();
+    private CensusScale censusScale = new CensusScale();
 
     /**
      * The title of the current or selected census.
      */
     @XmlElement(name = "CENSUSTITLE")
-    public CensusTitle censusTitle = new CensusTitle();
+    private CensusTitle censusTitle = new CensusTitle();
 
     /**
      * The selected dispatch. Includes the dispatch text.
      */
     @XmlElement(name = "DISPATCH")
-    public Dispatch selectedDispatch = new Dispatch();
+    private Dispatch selectedDispatch = new Dispatch();
 
     /**
      * The newest or selected dispatches. Does not include dispatches' texts.
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    public Set<Dispatch> dispatches = new HashSet<Dispatch>();
+    private Set<Dispatch> dispatches = new HashSet<Dispatch>();
 
     /**
      * Name of today's featured region.
      */
     @XmlElement(name = "FEATUREDREGION")
-    public String featuredRegion = "";
+    private String featuredRegion = "";
 
     /**
      * List of the most recent or selected happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> happenings = new TreeSet<Happening>();
+    private SortedSet<Happening> happenings = new TreeSet<Happening>();
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> nations = new HashSet<String>();
+    private Set<String> nations = new HashSet<String>();
 
     /**
      * List of newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> newestNations = new ArrayList<String>();
+    private List<String> newestNations = new ArrayList<String>();
 
     /**
      * The number of nations in the world.
      */
     @XmlElement(name = "NUMNATIONS")
-    public int numberOfNations;
+    private int numberOfNations;
 
     /**
      * The number of regions in the world.
      */
     @XmlElement(name = "NUMREGIONS")
-    public int numberOfRegions;
+    private int numberOfRegions;
 
     /**
      * The selected poll.
      */
     @XmlElement(name = "POLL")
-    public Poll selectedPoll = new Poll();
+    private Poll selectedPoll = new Poll();
 
     /**
      * List of all regions in the world (index 0), or the regions selected by tag
      * (index 0 or 1).
      */
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @XmlElement(name = "REGIONS")
     private List<RegionList> regions = new ArrayList<RegionList>();
 
@@ -150,7 +158,7 @@ public class World {
      * @return region names
      */
     public Set<String> getRegions() {
-        return regions.isEmpty() ? new HashSet<String>() : regions.get(0).regions;
+        return regions.isEmpty() ? new HashSet<String>() : regions.get(0).getRegions();
     }
 
     /**
@@ -161,7 +169,7 @@ public class World {
      * @return region names
      */
     public Set<String> getRegionsByTag() {
-        return regions.size() < 2 ? getRegions() : regions.get(1).regions;
+        return regions.size() < 2 ? getRegions() : regions.get(1).getRegions();
     }
 
     /**

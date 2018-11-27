@@ -2,6 +2,9 @@ package com.github.agadar.nationstates.domain.worldassembly;
 
 import com.github.agadar.nationstates.enumerator.Council;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
@@ -19,6 +22,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "RESOLUTION")
 public class Resolution {
@@ -27,7 +32,7 @@ public class Resolution {
      * This resolution's category.
      */
     @XmlElement(name = "CATEGORY")
-    public String category = "";
+    private String category = "";
 
     /**
      * Which council this resolution was send to. Has no value if this resolution is
@@ -35,111 +40,111 @@ public class Resolution {
      */
     @XmlElement(name = "COUNCIL")
     @XmlJavaTypeAdapter(Council.Adapter.class)
-    public Council council = Council.GENERAL_ASSEMBLY;
+    private Council council = Council.GENERAL_ASSEMBLY;
 
     /**
      * This resolution's id as it is known to the specific Council it's in. Has no
      * value if this resolution is currently at vote.
      */
     @XmlElement(name = "COUNCILID")
-    public int councilId;
+    private int councilId;
 
     /**
      * UNIX timestamp of when this proposal was created.
      */
     @XmlElement(name = "CREATED")
-    public long createdOn;
+    private long createdOn;
 
     /**
      * This resolution's textual content.
      */
     @XmlElement(name = "DESC")
-    public String text = "";
+    private String text = "";
 
     /**
      * UNIX timestamp of when this proposal was implemented.
      */
     @XmlElement(name = "IMPLEMENTED")
-    public long implementedOn;
+    private long implementedOn;
 
     /**
      * This resolution's name.
      */
     @XmlElement(name = "NAME")
-    public String name = "";
+    private String name = "";
 
     /**
      * The option given for this resolution. Possible values depends on Category.
      */
     @XmlElement(name = "OPTION")
-    public String option = "";
+    private String option = "";
 
     /**
      * UNIX timestamp of when this resolution was promoted.
      */
     @XmlElement(name = "PROMOTED")
-    public long promotedOn;
+    private long promotedOn;
 
     /**
      * Name of the nation that created this resolution.
      */
     @XmlElement(name = "PROPOSED_BY")
-    public String proposedBy = "";
+    private String proposedBy = "";
 
     /**
      * The council-specific id of the resolution that repealed this resolution.
      */
     @XmlElement(name = "REPEALED_BY")
-    public int repealedByCouncilId;
+    private int repealedByCouncilId;
 
     /**
      * The id of the resolution that repealed this resolution.
      */
     @XmlElement(name = "REPEALED")
-    public int repealedById;
+    private int repealedById;
 
     /**
      * The council-specific id of the resolution repealed by this resolution.
      */
     @XmlElement(name = "REPEALS_COUNCILID")
-    public int repealsCouncilId;
+    private int repealsCouncilId;
 
     /**
      * The id of the resolution repealed by this resolution.
      */
     @XmlElement(name = "REPEALS_RESID")
-    public int repealsId;
+    private int repealsId;
 
     /**
      * This resolution's id as it is known to the World Assembly as a whole. Has no
      * value if this resolution is currently at vote.
      */
     @XmlElement(name = "RESID")
-    public int id;
+    private int id;
 
     /**
      * Total number of nations that voted FOR.
      */
     @XmlElement(name = "TOTAL_NATIONS_FOR")
-    public int nationsFor;
+    private int nationsFor;
 
     /**
      * Total number of nations that voted AGAINST.
      */
     @XmlElement(name = "TOTAL_NATIONS_AGAINST")
-    public int nationsAgainst;
+    private int nationsAgainst;
 
     /**
      * Total number of FOR votes.
      */
     @XmlElement(name = "TOTAL_VOTES_FOR")
-    public int votesFor;
+    private int votesFor;
 
     /**
      * Total number of AGAINST votes.
      */
     @XmlElement(name = "TOTAL_VOTES_AGAINST")
-    public int votesAgainst;
+    private int votesAgainst;
 
     /**
      * A log containing when what delegates voted, and what for, during the
@@ -147,7 +152,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    public SortedSet<DelegateLogsEntry> delegateLog = new TreeSet<DelegateLogsEntry>();
+    private SortedSet<DelegateLogsEntry> delegateLog = new TreeSet<DelegateLogsEntry>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -155,7 +160,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    public SortedSet<DelegateLogsEntry> delegateVotesFor = new TreeSet<DelegateLogsEntry>();
+    private SortedSet<DelegateLogsEntry> delegateVotesFor = new TreeSet<DelegateLogsEntry>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -163,14 +168,14 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    public SortedSet<DelegateLogsEntry> delegateVotesAgainst = new TreeSet<DelegateLogsEntry>();
+    private SortedSet<DelegateLogsEntry> delegateVotesAgainst = new TreeSet<DelegateLogsEntry>();
 
     /**
      * A track record of the total FOR votes of the resolution currently at vote.
      */
     @XmlElementWrapper(name = "VOTE_TRACK_FOR")
     @XmlElement(name = "N")
-    public List<Integer> voteTrackFor = new ArrayList<Integer>();
+    private List<Integer> voteTrackFor = new ArrayList<Integer>();
 
     /**
      * A track record of the total AGAINST votes of the resolution currently at
@@ -178,5 +183,5 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "VOTE_TRACK_AGAINST")
     @XmlElement(name = "N")
-    public List<Integer> voteTrackAgainst = new ArrayList<Integer>();
+    private List<Integer> voteTrackAgainst = new ArrayList<Integer>();
 }

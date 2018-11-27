@@ -49,158 +49,155 @@ public class RegionSaxHandler extends DefaultHandler {
     private String currentAttributeValue = "";
 
     public RegionSaxHandler(Predicate<Region> regionFilter) {
-	this.regionFilter = regionFilter;
+        this.regionFilter = regionFilter;
     }
 
     @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-	switch (qName) {
-	case regionTag:
-	    this.currentRegion = new Region();
-	    this.elementHandler = this::handleRegionElement;
-	    break;
-	case waBadgesTag:
-	    this.currentRegion.worldAssemblyBadges = new HashSet<>();
-	    this.elementHandler = this::handleWaBadgesElement;
-	    break;
-	case embassiesTag:
-	    this.currentRegion.embassies = new HashSet<>();
-	    this.elementHandler = this::handleEmbassiesElement;
-	    break;
-	case officersTag:
-	    this.currentRegion.officers = new HashSet<>();
-	    this.elementHandler = this::handleOfficersElement;
-	    break;
+        switch (qName) {
+        case regionTag:
+            this.currentRegion = new Region();
+            this.elementHandler = this::handleRegionElement;
+            break;
+        case waBadgesTag:
+            this.elementHandler = this::handleWaBadgesElement;
+            break;
+        case embassiesTag:
+            this.elementHandler = this::handleEmbassiesElement;
+            break;
+        case officersTag:
+            this.elementHandler = this::handleOfficersElement;
+            break;
 
-	case officerTag:
-	    this.currentOfficer = new Officer();
-	    this.elementHandler = this::handleOfficerElement;
-	    break;
+        case officerTag:
+            this.currentOfficer = new Officer();
+            this.elementHandler = this::handleOfficerElement;
+            break;
 
-	case embassyTag:
-	case waBadgeTag:
-	    this.currentAttributeValue = atts.getValue("type");
-	    break;
-	default:
-	    break;
-	}
-	this.stringBuilder.setLength(0);
+        case embassyTag:
+        case waBadgeTag:
+            this.currentAttributeValue = atts.getValue("type");
+            break;
+        default:
+            break;
+        }
+        this.stringBuilder.setLength(0);
     }
 
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-	for (int i = start; i < start + length; i++) {
-	    this.stringBuilder.append(ch[i]);
-	}
+        for (int i = start; i < start + length; i++) {
+            this.stringBuilder.append(ch[i]);
+        }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-	switch (qName) {
-	case regionTag:
-	    if (this.regionFilter.test(currentRegion)) {
-		this.filteredRegions.add(currentRegion);
-	    }
-	    break;
-	case waBadgesTag:
-	case embassiesTag:
-	case officersTag:
-	    this.elementHandler = this::handleRegionElement;
-	    break;
-	case officerTag:
-	    this.elementHandler = this::handleOfficersElement;
-	    this.currentRegion.officers.add(currentOfficer);
-	    break;
-	default:
-	    this.elementHandler.accept(qName, this.stringBuilder.toString());
-	    break;
-	}
+        switch (qName) {
+        case regionTag:
+            if (this.regionFilter.test(currentRegion)) {
+                this.filteredRegions.add(currentRegion);
+            }
+            break;
+        case waBadgesTag:
+        case embassiesTag:
+        case officersTag:
+            this.elementHandler = this::handleRegionElement;
+            break;
+        case officerTag:
+            this.elementHandler = this::handleOfficersElement;
+            this.currentRegion.getOfficers().add(currentOfficer);
+            break;
+        default:
+            this.elementHandler.accept(qName, this.stringBuilder.toString());
+            break;
+        }
     }
 
     private void handleRegionElement(String currentElement, String value) {
-	switch (currentElement) {
-	case "NAME":
-	    currentRegion.name = value;
-	    break;
-	case "FLAG":
-	    currentRegion.flagUrl = value;
-	    break;
-	case "FACTBOOK":
-	    currentRegion.factbook = value;
-	    break;
-	case "LASTUPDATE":
-	    currentRegion.lastUpdate = Long.parseLong(value);
-	    break;
-	case "DELEGATEAUTH":
-	    currentRegion.delegateAuthorities = authorityAdapter.unmarshal(value);
-	    break;
-	case "FOUNDER":
-	    currentRegion.founder = value;
-	    break;
-	case "NUMNATIONS":
-	    currentRegion.numberOfNations = Integer.parseInt(value);
-	    break;
-	case "DELEGATEVOTES":
-	    currentRegion.delegateEndorsements = Integer.parseInt(value);
-	    break;
-	case "DELEGATE":
-	    currentRegion.delegate = value;
-	    break;
-	case "FOUNDERAUTH":
-	    currentRegion.founderAuthorities = authorityAdapter.unmarshal(value);
-	    break;
-	case "POWER":
-	    currentRegion.power = value;
-	    break;
-	case "NATIONS":
-	    currentRegion.nationNames = colonAdapter.unmarshal(value);
-	    break;
-	default:
-	    break;
-	}
+        switch (currentElement) {
+        case "NAME":
+            currentRegion.setName(value);
+            break;
+        case "FLAG":
+            currentRegion.setFlagUrl(value);
+            break;
+        case "FACTBOOK":
+            currentRegion.setFactbook(value);
+            break;
+        case "LASTUPDATE":
+            currentRegion.setLastUpdate(Long.parseLong(value));
+            break;
+        case "DELEGATEAUTH":
+            currentRegion.setDelegateAuthorities(authorityAdapter.unmarshal(value));
+            break;
+        case "FOUNDER":
+            currentRegion.setFounder(value);
+            break;
+        case "NUMNATIONS":
+            currentRegion.setNumberOfNations(Integer.parseInt(value));
+            break;
+        case "DELEGATEVOTES":
+            currentRegion.setDelegateEndorsements(Integer.parseInt(value));
+            break;
+        case "DELEGATE":
+            currentRegion.setDelegate(value);
+            break;
+        case "FOUNDERAUTH":
+            currentRegion.setFounderAuthorities(authorityAdapter.unmarshal(value));
+            break;
+        case "POWER":
+            currentRegion.setPower(value);
+            break;
+        case "NATIONS":
+            currentRegion.setNationNames(colonAdapter.unmarshal(value));
+            break;
+        default:
+            break;
+        }
     }
 
     private void handleWaBadgesElement(String currentElement, String value) {
-	final WorldAssemblyBadge badge = new WorldAssemblyBadge();
-	badge.securityCouncilResolutionId = Integer.parseInt(value);
-	badge.worldAssemblyBadgeType = WorldAssemblyBadgeType.fromString(this.currentAttributeValue);
-	this.currentRegion.worldAssemblyBadges.add(badge);
+        var badge = new WorldAssemblyBadge();
+        badge.setSecurityCouncilResolutionId(Integer.parseInt(value));
+        badge.setWorldAssemblyBadgeType(WorldAssemblyBadgeType.fromString(this.currentAttributeValue));
+        this.currentRegion.getWorldAssemblyBadges().add(badge);
     }
 
     private void handleEmbassiesElement(String currentElement, String value) {
-	final Embassy embassy = new Embassy();
-	embassy.regionName = value;
-	embassy.status = embassyAdapter.unmarshal(this.currentAttributeValue);
-	this.currentRegion.embassies.add(embassy);
+        var embassy = new Embassy();
+        embassy.setRegionName(value);
+        embassy.setStatus(embassyAdapter.unmarshal(this.currentAttributeValue));
+        this.currentRegion.getEmbassies().add(embassy);
     }
 
     private void handleOfficersElement(String currentElement, String value) {
-	// Empty, seeing as individual Officer entries are handled in
-	// handleOfficerElement.
+        // Empty, seeing as individual Officer entries are handled in
+        // handleOfficerElement.
     }
 
     private void handleOfficerElement(String currentElement, String value) {
-	switch (currentElement) {
-	case "NATION":
-	    currentOfficer.nationName = value;
-	    break;
-	case "OFFICE":
-	    currentOfficer.officeName = value;
-	    break;
-	case "ORDER":
-	    currentOfficer.order = Integer.parseInt(value);
-	    break;
-	case "BY":
-	    currentOfficer.assignedBy = value;
-	    break;
-	case "AUTHORITY":
-	    currentOfficer.authorities = authorityAdapter.unmarshal(value);
-	    break;
-	case "TIME":
-	    currentOfficer.assignedOn = Long.parseLong(value);
-	    break;
-	default:
-	    break;
-	}
+        switch (currentElement) {
+        case "NATION":
+            currentOfficer.setNationName(value);
+            break;
+        case "OFFICE":
+            currentOfficer.setOfficeName(value);
+            break;
+        case "ORDER":
+            currentOfficer.setOrder(Integer.parseInt(value));
+            break;
+        case "BY":
+            currentOfficer.setAssignedBy(value);
+            break;
+        case "AUTHORITY":
+            currentOfficer.setAuthorities(authorityAdapter.unmarshal(value));
+            break;
+        case "TIME":
+            currentOfficer.setAssignedOn(Long.parseLong(value));
+            break;
+        default:
+            break;
+        }
     }
 }

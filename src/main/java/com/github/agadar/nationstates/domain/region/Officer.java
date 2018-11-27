@@ -2,6 +2,9 @@ package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.enumerator.Authority;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,6 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "OFFICER")
 public class Officer {
@@ -25,38 +30,38 @@ public class Officer {
      * Name of the nation that is fulfilling this officer position.
      */
     @XmlElement(name = "NATION")
-    public String nationName = "";
+    private String nationName = "";
 
     /**
      * Name of the officer position.
      */
     @XmlElement(name = "OFFICE")
-    public String officeName = "";
+    private String officeName = "";
 
     /**
      * The authorities granted to this officer.
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    public Set<Authority> authorities = new HashSet<Authority>();
+    private Set<Authority> authorities = new HashSet<Authority>();
 
     /**
      * UNIX timestamp of when this officer position was assigned.
      */
     @XmlElement(name = "TIME")
-    public long assignedOn;
+    private long assignedOn;
 
     /**
      * Name of the nation by which this officer position was assigned.
      */
     @XmlElement(name = "BY")
-    public String assignedBy = "";
+    private String assignedBy = "";
 
     /**
      * Order of this officer position in the regional factbook.
      */
     @XmlElement(name = "ORDER")
-    public int order;
+    private int order;
 
     @Override
     public int hashCode() {

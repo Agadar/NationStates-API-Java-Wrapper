@@ -5,12 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Represents a nation's freedom scores, expressed in words. See also
  * FreedomScores.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "FREEDOM")
 public class Freedom {
@@ -19,17 +24,17 @@ public class Freedom {
      * The nation's civil rights score
      */
     @XmlElement(name = "CIVILRIGHTS")
-    public String civilRights = "";
+    private String civilRights = "";
 
     /**
      * The nation's economy score
      */
     @XmlElement(name = "ECONOMY")
-    public String economy = "";
+    private String economy = "";
 
     /**
      * The nation's political freedoms score
      */
     @XmlElement(name = "POLITICALFREEDOM")
-    public String politicalFreedom = "";
+    private String politicalFreedom = "";
 }

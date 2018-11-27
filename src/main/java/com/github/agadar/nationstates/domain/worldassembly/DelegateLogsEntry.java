@@ -2,6 +2,9 @@ package com.github.agadar.nationstates.domain.worldassembly;
 
 import com.github.agadar.nationstates.enumerator.DelegateAction;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,6 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ENTRY")
 public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
@@ -25,13 +30,13 @@ public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
      * UNIX timestamp of when the vote was made.
      */
     @XmlElement(name = "TIMESTAMP")
-    public long timestamp;
+    private long timestamp;
 
     /**
      * Name of the delegate that made the vote.
      */
     @XmlElement(name = "NATION")
-    public String delegateName = "";
+    private String delegateName = "";
 
     /**
      * How the delegate voted (FOR, AGAINST, or WITHDREW). Always blank in
@@ -39,13 +44,13 @@ public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
      */
     @XmlElement(name = "ACTION")
     @XmlJavaTypeAdapter(DelegateAction.Adapter.class)
-    public DelegateAction action = DelegateAction.NULL;
+    private DelegateAction action = DelegateAction.NULL;
 
     /**
      * The voting power with which the delegate voted (always 0 if WITHDREW).
      */
     @XmlElement(name = "VOTES")
-    public int votes;
+    private int votes;
 
     @Override
     public int hashCode() {

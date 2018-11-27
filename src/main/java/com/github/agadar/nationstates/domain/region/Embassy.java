@@ -1,6 +1,10 @@
 package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.enumerator.EmbassyStatus;
+
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,6 +19,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "EMBASSY")
 public class Embassy {
@@ -25,13 +31,13 @@ public class Embassy {
      */
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(EmbassyStatus.Adapter.class)
-    public EmbassyStatus status = EmbassyStatus.ESTABLISHED;
+    private EmbassyStatus status = EmbassyStatus.ESTABLISHED;
 
     /**
      * The name of the region this embassy is with.
      */
     @XmlValue
-    public String regionName = "";
+    private String regionName = "";
 
     @Override
     public int hashCode() {

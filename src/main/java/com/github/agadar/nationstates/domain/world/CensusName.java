@@ -6,11 +6,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Name of the current or selected census.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUS")
 public class CensusName {
@@ -19,13 +24,13 @@ public class CensusName {
      * Id of the census to which this name belong.
      */
     @XmlAttribute(name = "id")
-    public int id;
+    private int id;
 
     /**
      * Name of this census.
      */
     @XmlValue
-    public String name = "";
+    private String name = "";
 
     @Override
     public int hashCode() {

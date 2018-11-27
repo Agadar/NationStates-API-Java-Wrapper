@@ -2,6 +2,9 @@ package com.github.agadar.nationstates.domain.common;
 
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "OPTION")
 public class PollOption {
@@ -25,26 +30,26 @@ public class PollOption {
      * The id of the poll option.
      */
     @XmlAttribute(name = "id")
-    public int id;
+    private int id;
 
     /**
      * The option's text.
      */
     @XmlElement(name = "OPTIONTEXT")
-    public String text = "";
+    private String text = "";
 
     /**
      * The number of votes this option's received.
      */
     @XmlElement(name = "VOTES")
-    public int numberOfVotes;
+    private int numberOfVotes;
 
     /**
      * Names of the nations that voted for this option.
      */
     @XmlElement(name = "VOTERS")
     @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    public Set<String> voterNames = new HashSet<String>();
+    private Set<String> voterNames = new HashSet<String>();
 
     @Override
     public int hashCode() {

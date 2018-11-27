@@ -2,6 +2,9 @@ package com.github.agadar.nationstates.domain.common;
 
 import com.github.agadar.nationstates.enumerator.WorldAssemblyBadgeType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -14,6 +17,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "WABADGE")
 public class WorldAssemblyBadge {
@@ -22,14 +27,14 @@ public class WorldAssemblyBadge {
      * The number of the Security Council resolution that granted this badge.
      */
     @XmlValue
-    public int securityCouncilResolutionId;
+    private int securityCouncilResolutionId;
 
     /**
      * The type of this badge.
      */
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(WorldAssemblyBadgeType.Adapter.class)
-    public WorldAssemblyBadgeType worldAssemblyBadgeType = WorldAssemblyBadgeType.NULL;
+    private WorldAssemblyBadgeType worldAssemblyBadgeType = WorldAssemblyBadgeType.NULL;
 
     @Override
     public int hashCode() {

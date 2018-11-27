@@ -3,6 +3,9 @@ package com.github.agadar.nationstates.domain.common;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,6 +17,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlRootElement(name = "DISPATCH")
 public class Dispatch {
 
@@ -21,64 +26,64 @@ public class Dispatch {
      * This dispatch's id.
      */
     @XmlAttribute(name = "id")
-    public long id;
+    private long id;
 
     /**
      * The dispatch's title.
      */
     @XmlElement(name = "TITLE")
-    public String title = "";
+    private String title = "";
 
     /**
      * The author nation.
      */
     @XmlElement(name = "AUTHOR")
-    public String author = "";
+    private String author = "";
 
     /**
      * The dispatch's category.
      */
     @XmlElement(name = "CATEGORY")
     @XmlJavaTypeAdapter(DispatchCategory.Adapter.class)
-    public DispatchCategory category = DispatchCategory.NULL;
+    private DispatchCategory category = DispatchCategory.NULL;
 
     /**
      * The dispatch's sub-category.
      */
     @XmlElement(name = "SUBCATEGORY")
     @XmlJavaTypeAdapter(DispatchSubCategory.Adapter.class)
-    public DispatchSubCategory subCategory = DispatchSubCategory.NULL;
+    private DispatchSubCategory subCategory = DispatchSubCategory.NULL;
 
     /**
      * UNIX timestamp when this dispatch was created.
      */
     @XmlElement(name = "CREATED")
-    public long createdOn;
+    private long createdOn;
 
     /**
      * UNIX timestamp when this dispatch was last edited.
      */
     @XmlElement(name = "EDITED")
-    public long lastEditedOn;
+    private long lastEditedOn;
 
     /**
      * Number of views of this dispatch.
      */
     @XmlElement(name = "VIEWS")
-    public int views;
+    private int views;
 
     /**
      * This dispatch's score.
      */
     @XmlElement(name = "SCORE")
-    public int score;
+    private int score;
 
     /**
      * This dispatch's text. Not provided by the 'nation' resource: Only by the
      * 'world' resource with the SelectedDispatch shard.
      */
     @XmlElement(name = "TEXT")
-    public String text = "";
+    private String text = "";
 
     @Override
     public int hashCode() {

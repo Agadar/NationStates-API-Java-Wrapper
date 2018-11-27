@@ -7,11 +7,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A nation's statistics in the census ranks.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
 public class NationCensusScore implements Comparable<NationCensusScore> {
@@ -20,19 +25,19 @@ public class NationCensusScore implements Comparable<NationCensusScore> {
      * The nation's name
      */
     @XmlElement(name = "NAME")
-    public String nationName = "";
+    private String nationName = "";
 
     /**
      * The nation's regional or world-wide rank on the census scale
      */
     @XmlElement(name = "RANK")
-    public int rank;
+    private int rank;
 
     /**
      * The nation's score on the scale
      */
     @XmlElement(name = "SCORE")
-    public double score;
+    private double score;
 
     @Override
     public int hashCode() {

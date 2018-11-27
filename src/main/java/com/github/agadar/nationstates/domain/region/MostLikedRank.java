@@ -7,11 +7,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A nation's total RMB likes given over a previously specified period of time.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "NATION")
 public class MostLikedRank implements Comparable<MostLikedRank> {
@@ -20,13 +25,13 @@ public class MostLikedRank implements Comparable<MostLikedRank> {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String name = "";
+    private String name = "";
 
     /**
      * Number of likes given by this nation.
      */
     @XmlElement(name = "LIKED")
-    public int liked;
+    private int liked;
 
     @Override
     public int hashCode() {

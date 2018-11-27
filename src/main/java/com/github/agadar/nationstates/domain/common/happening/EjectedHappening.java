@@ -1,5 +1,8 @@
 package com.github.agadar.nationstates.domain.common.happening;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A happening regarding an ejection, e.g. '@@ohieniupeoyp@@ was ejected and
  * banned from %%alpha_and_omega%% by @@benevolent_zero@@.'.
@@ -7,27 +10,29 @@ package com.github.agadar.nationstates.domain.common.happening;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
+@Getter
+@Setter
 public class EjectedHappening extends Happening {
 
     /**
      * The nation that did the ejecting.
      */
-    public String ejectingNation;
+    private String ejectingNation;
 
     /**
      * The nation that was ejected.
      */
-    public String ejectedNation;
+    private String ejectedNation;
 
     /**
      * Whether the ejected nation was also banned.
      */
-    public boolean banned;
+    private boolean banned;
 
     /**
      * The region the nation was ejected from.
      */
-    public String fromRegion;
+    private String fromRegion;
 
     public EjectedHappening(long id, long timestamp, String description, String ejectingNation, String ejectedNation,
             boolean banned, String fromRegion) {

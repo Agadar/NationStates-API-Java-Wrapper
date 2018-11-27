@@ -10,11 +10,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A regional poll.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "POLL")
 public class Poll {
@@ -23,50 +28,50 @@ public class Poll {
      * The poll's id.
      */
     @XmlAttribute(name = "id")
-    public int id;
+    private int id;
 
     /**
      * The poll's title.
      */
     @XmlElement(name = "TITLE")
-    public String title = "";
+    private String title = "";
 
     /**
      * The poll's description.
      */
     @XmlElement(name = "TEXT")
-    public String description = "";
+    private String description = "";
 
     /**
      * The name of the region the poll is in.
      */
     @XmlElement(name = "REGION")
-    public String region = "";
+    private String region = "";
 
     /**
      * UNIX timestamp on which the poll opened.
      */
     @XmlElement(name = "START")
-    public long openedOn;
+    private long openedOn;
 
     /**
      * UNIX timestamp on which the poll will close.
      */
     @XmlElement(name = "STOP")
-    public long closingOn;
+    private long closingOn;
 
     /**
      * Name of the nation that opened the poll.
      */
     @XmlElement(name = "AUTHOR")
-    public String authorName = "";
+    private String authorName = "";
 
     /**
      * The possible options for this poll.
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    public Set<PollOption> options = new HashSet<PollOption>();
+    private Set<PollOption> options = new HashSet<PollOption>();
 
     @Override
     public int hashCode() {

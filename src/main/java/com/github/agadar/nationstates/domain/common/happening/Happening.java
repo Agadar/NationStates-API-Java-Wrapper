@@ -6,11 +6,20 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Represents a generic happening.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "EVENT")
 public class Happening implements Comparable<Happening> {
@@ -19,29 +28,19 @@ public class Happening implements Comparable<Happening> {
      * Id of this happening. Not always available.
      */
     @XmlAttribute(name = "id")
-    public long id;
+    private long id;
 
     /**
      * UNIX timestamp of when this happening took place.
      */
     @XmlElement(name = "TIMESTAMP")
-    public long timestamp;
+    private long timestamp;
 
     /**
      * Raw text description of the happening.
      */
     @XmlElement(name = "TEXT")
-    public String description;
-
-    public Happening() {
-    }
-
-    public Happening(long id, long timestamp, String description) {
-        super();
-        this.id = id;
-        this.timestamp = timestamp;
-        this.description = description;
-    }
+    private String description;
 
     @Override
     public int compareTo(Happening o) {

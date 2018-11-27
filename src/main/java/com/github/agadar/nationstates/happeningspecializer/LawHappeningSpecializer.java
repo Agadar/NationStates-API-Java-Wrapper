@@ -13,19 +13,17 @@ public class LawHappeningSpecializer implements IHappeningSpecializer<LawHappeni
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {
-        if (happening.description == null) {
-            return false;
-        }
-        return happening.description.contains("Following new legislation in");
+        return happening.getDescription().contains("Following new legislation in");
     }
 
     @Override
     public LawHappening toSpecializedType(Happening happening) {
-        var splitOnAt = happening.description.split("@@");
+        var splitOnAt = happening.getDescription().split("@@");
         var nation = splitOnAt[1];
         var result = splitOnAt[2];
         result = result.substring(2, result.length() - 1);
-        return new LawHappening(happening.id, happening.timestamp, happening.description, nation, result);
+        return new LawHappening(happening.getId(), happening.getTimestamp(), happening.getDescription(), nation,
+                result);
     }
 
 }

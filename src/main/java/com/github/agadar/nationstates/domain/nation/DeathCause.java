@@ -8,11 +8,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Representation of a cause of death.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CAUSE")
 public class DeathCause {
@@ -21,13 +26,13 @@ public class DeathCause {
      * Description of the death cause
      */
     @XmlAttribute(name = "type")
-    public String description = "";
+    private String description = "";
 
     /**
      * The percentage of the population that dies of this death cause
      */
     @XmlValue
-    public double percentage;
+    private double percentage;
 
     @Override
     public int hashCode() {

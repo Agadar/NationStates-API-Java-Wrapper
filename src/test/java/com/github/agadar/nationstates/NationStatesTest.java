@@ -45,7 +45,7 @@ public class NationStatesTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("Testlandia", result.name);
+        assertEquals("Testlandia", result.getName());
     }
 
     /**
@@ -63,7 +63,7 @@ public class NationStatesTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals("the Rejected Realms", result.name);
+        assertEquals("the Rejected Realms", result.getName());
     }
 
     /**
@@ -81,7 +81,7 @@ public class NationStatesTest {
 
         // Assert
         assertNotNull(result);
-        assertTrue(result.numberOfNations > 0);
+        assertTrue(result.getNumberOfNations() > 0);
     }
 
     /**
@@ -92,8 +92,7 @@ public class NationStatesTest {
         System.out.println("getWorldAssembly");
 
         // Arrange
-        final WorldAssemblyQuery query = nationStates
-                .getWorldAssembly(Council.GENERAL_ASSEMBLY)
+        final WorldAssemblyQuery query = nationStates.getWorldAssembly(Council.GENERAL_ASSEMBLY)
                 .shards(WorldAssemblyShard.NUMBER_OF_MEMBERS);
 
         // Act
@@ -101,7 +100,7 @@ public class NationStatesTest {
 
         // Assert
         assertNotNull(result);
-        assertTrue(result.numberOfMembers > 0);
+        assertTrue(result.getNumberOfMembers() > 0);
     }
 
     /**
@@ -132,7 +131,7 @@ public class NationStatesTest {
         System.out.println("getRegionDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
-        final Predicate<Region> filter = region -> region.name.equals("The Western Isles");
+        final Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
         final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
 
         // Act
@@ -141,7 +140,7 @@ public class NationStatesTest {
         // Assert
         assertNotNull(regions);
         assertEquals(1, regions.size());
-        assertEquals("The Western Isles", regions.iterator().next().name);
+        assertEquals("The Western Isles", regions.iterator().next().getName());
     }
 
     /**
@@ -154,7 +153,7 @@ public class NationStatesTest {
         System.out.println("getRegionDump (READ_REMOTE)");
 
         // Arrange
-        final Predicate<Region> filter = region -> region.name.equals("The Western Isles");
+        final Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
         final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.READ_REMOTE, filter);
 
         // Act
@@ -163,7 +162,7 @@ public class NationStatesTest {
         // Assert
         assertNotNull(regions);
         assertEquals(1, regions.size());
-        assertEquals("The Western Isles", regions.iterator().next().name);
+        assertEquals("The Western Isles", regions.iterator().next().getName());
     }
 
     /**
@@ -176,7 +175,7 @@ public class NationStatesTest {
         System.out.println("getNationDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
-        final Predicate<Nation> filter = nation -> nation.name.equals("Agadar");
+        final Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
         final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
 
         // Act
@@ -185,7 +184,7 @@ public class NationStatesTest {
         // Assert
         assertNotNull(nations);
         assertEquals(1, nations.size());
-        assertEquals("Agadar", nations.iterator().next().name);
+        assertEquals("Agadar", nations.iterator().next().getName());
     }
 
     /**
@@ -198,7 +197,7 @@ public class NationStatesTest {
         System.out.println("getNationDump (READ_REMOTE)");
 
         // Arrange
-        final Predicate<Nation> filter = nation -> nation.name.equals("Agadar");
+        final Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
         final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.READ_REMOTE, filter);
 
         // Act
@@ -207,6 +206,6 @@ public class NationStatesTest {
         // Assert
         assertNotNull(nations);
         assertEquals(1, nations.size());
-        assertEquals("Agadar", nations.iterator().next().name);
+        assertEquals("Agadar", nations.iterator().next().getName());
     }
 }

@@ -3,6 +3,9 @@ package com.github.agadar.nationstates.domain.region;
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +21,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "POST")
 public class RegionalMessage implements Comparable<RegionalMessage> {
@@ -26,52 +31,52 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      * The message's id
      */
     @XmlAttribute(name = "id")
-    public long id;
+    private long id;
 
     /**
      * UNIX timestamp of when this message was posted
      */
     @XmlElement(name = "TIMESTAMP")
-    public long timestamp;
+    private long timestamp;
 
     /**
      * Name of the nation that posted the message
      */
     @XmlElement(name = "NATION")
-    public String author = "";
+    private String author = "";
 
     /**
      * The message's status. Can be any of the following:
      */
     @XmlElement(name = "STATUS")
     @XmlJavaTypeAdapter(RegionalMessageStatus.Adapter.class)
-    public RegionalMessageStatus status = RegionalMessageStatus.NULL;
+    private RegionalMessageStatus status = RegionalMessageStatus.NULL;
 
     /**
      * Name of the nation that suppressed this post. Only set if the post is
      * suppressed and done so by a non-moderator (status 1).
      */
     @XmlElement(name = "SUPPRESSOR")
-    public String suppressor = "";
+    private String suppressor = "";
 
     /**
      * The number of likes this message received
      */
     @XmlElement(name = "LIKES")
-    public int numberOfLikes;
+    private int numberOfLikes;
 
     /**
      * List of nations that liked this message
      */
     @XmlElement(name = "LIKERS")
     @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    public Set<String> likedBy = new HashSet<String>();
+    private Set<String> likedBy = new HashSet<String>();
 
     /**
      * The text of the message
      */
     @XmlElement(name = "MESSAGE")
-    public String text = "";
+    private String text = "";
 
     @Override
     public int hashCode() {

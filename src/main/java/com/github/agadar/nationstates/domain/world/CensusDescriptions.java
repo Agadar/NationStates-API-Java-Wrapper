@@ -6,11 +6,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * A world's descriptions of the current or selected census.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUSDESC")
 public class CensusDescriptions {
@@ -19,19 +24,19 @@ public class CensusDescriptions {
      * Id of the census to which these descriptions belong.
      */
     @XmlAttribute(name = "id")
-    public int id;
+    private int id;
 
     /**
      * Description for nations, e.g. 'The following nations have...'
      */
     @XmlElement(name = "NDESC")
-    public String descriptionForNations = "";
+    private String descriptionForNations = "";
 
     /**
      * Description for regions, e.g. 'The following regions have...'
      */
     @XmlElement(name = "RDESC")
-    public String descriptionForRegions = "";
+    private String descriptionForRegions = "";
 
     @Override
     public int hashCode() {

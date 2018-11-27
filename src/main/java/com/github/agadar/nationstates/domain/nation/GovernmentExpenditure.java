@@ -5,12 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Represents a government's expenditure. All values are percentages. All
  * percentages together should naturally equal 100.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "GOVT")
 public class GovernmentExpenditure {
@@ -19,71 +24,71 @@ public class GovernmentExpenditure {
      * Percentage spent on the administration
      */
     @XmlElement(name = "ADMINISTRATION")
-    public double administration;
+    private double administration;
 
     /**
      * Percentage spent on defence
      */
     @XmlElement(name = "DEFENCE")
-    public double defence;
+    private double defence;
 
     /**
      * Percentage spent on education
      */
     @XmlElement(name = "EDUCATION")
-    public double education;
+    private double education;
 
     /**
      * Percentage spent on the environment
      */
     @XmlElement(name = "ENVIRONMENT")
-    public double environment;
+    private double environment;
 
     /**
      * Percentage spent on healthcare
      */
     @XmlElement(name = "HEALTHCARE")
-    public double healthcare;
+    private double healthcare;
 
     /**
      * Percentage spent on commerce
      */
     @XmlElement(name = "COMMERCE")
-    public double commerce;
+    private double commerce;
 
     /**
      * Percentage spent on international aid
      */
     @XmlElement(name = "INTERNATIONALAID")
-    public double internationalAid;
+    private double internationalAid;
 
     /**
      * Percentage spent on law and order
      */
     @XmlElement(name = "LAWANDORDER")
-    public double lawAndOrder;
+    private double lawAndOrder;
 
     /**
      * Percentage spent on public transport
      */
     @XmlElement(name = "PUBLICTRANSPORT")
-    public double publicTransport;
+    private double publicTransport;
 
     /**
      * Percentage spent on social equality
      */
     @XmlElement(name = "SOCIALEQUALITY")
-    public double socialEquality;
+    private double socialEquality;
 
     /**
      * Percentage spent on spirituality
      */
     @XmlElement(name = "SPIRITUALITY")
-    public double spirituality;
+    private double spirituality;
 
     /**
      * Percentage spent on welfare
      */
     @XmlElement(name = "WELFARE")
-    public double welfare;
+    private double welfare;
 }

@@ -54,9 +54,9 @@ public class XmlConverterTest {
 
         // Assert
         assertNotNull(object);
-        assertEquals(object.id, expectedId);
-        assertEquals(object.description, expectedText);
-        assertEquals(object.timestamp, expectedTimestamp);
+        assertEquals(object.getId(), expectedId);
+        assertEquals(object.getDescription(), expectedText);
+        assertEquals(object.getTimestamp(), expectedTimestamp);
     }
 
     /**
@@ -70,9 +70,9 @@ public class XmlConverterTest {
 
         // Arrange
         final Happening happening = new Happening();
-        happening.id = expectedId;
-        happening.description = expectedText;
-        happening.timestamp = expectedTimestamp;
+        happening.setId(expectedId);
+        happening.setDescription(expectedText);
+        happening.setTimestamp(expectedTimestamp);
 
         // Act
         final ByteArrayOutputStream stream = xmlConverter.objectToXml(happening);

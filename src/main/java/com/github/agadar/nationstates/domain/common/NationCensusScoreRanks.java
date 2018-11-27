@@ -10,12 +10,17 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Lists the census scores of a region's top 20 scoring nations, or the census
  * scores of the world's top 20 scoring nations.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "CENSUSRANKS")
 public class NationCensusScoreRanks {
@@ -24,14 +29,14 @@ public class NationCensusScoreRanks {
      * The id of the scale
      */
     @XmlAttribute(name = "id")
-    public int id;
+    private int id;
 
     /**
      * The nation scores
      */
     @XmlElementWrapper(name = "NATIONS")
     @XmlElement(name = "NATION")
-    public SortedSet<NationCensusScore> nations = new TreeSet<NationCensusScore>();
+    private SortedSet<NationCensusScore> nations = new TreeSet<NationCensusScore>();
 
     @Override
     public int hashCode() {

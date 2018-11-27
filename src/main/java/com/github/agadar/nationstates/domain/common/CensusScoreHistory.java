@@ -5,11 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Entry in a CensusScore's history list.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "POINT")
 public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
@@ -18,13 +23,13 @@ public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
      * The UNIX timestamp of this record.
      */
     @XmlElement(name = "TIMESTAMP")
-    public long timestamp;
+    private long timestamp;
 
     /**
      * What was scored that timestamp.
      */
     @XmlElement(name = "SCORE")
-    public String score = "";
+    private String score = "";
 
     @Override
     public int hashCode() {

@@ -48,17 +48,15 @@ public class EmbassyHappeningSpecializer implements IHappeningSpecializer<Embass
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {
-        if (happening.description == null) {
-            return false;
-        }
         return texts.values().stream()
-                .anyMatch((texts) -> Stream.of(texts).anyMatch(text -> happening.description.contains(text)));
+                .anyMatch((texts) -> Stream.of(texts).anyMatch(text -> happening.getDescription().contains(text)));
     }
 
     @Override
     public EmbassyHappening toSpecializedType(Happening happening) {
         return texts.entrySet().stream()
-                .filter((entry) -> Stream.of(entry.getValue()).anyMatch(text -> happening.description.contains(text)))
+                .filter((entry) -> Stream.of(entry.getValue())
+                        .anyMatch(text -> happening.getDescription().contains(text)))
                 .map(entry -> functions.get(entry.getKey()).apply(happening, entry.getKey())).findAny().get();
     }
 
@@ -74,14 +72,15 @@ public class EmbassyHappeningSpecializer implements IHappeningSpecializer<Embass
      */
     private EmbassyHappening happeningFromRegionalHistory(Happening happening,
             EmbassyHappeningType embassyHappeningType) {
-        final String[] texts = this.texts.get(embassyHappeningType);
+        var texts = this.texts.get(embassyHappeningType);
+        String description = happening.getDescription();
 
-        if (happening.description.contains(texts[0])) {
+        if (description.contains(texts[0])) {
             return this.happeningWithoutNation(happening, embassyHappeningType);
-        } else if (happening.description.contains(texts[1])) {
-            final String[] splitOnColon = happening.description.split(":");
-            final String region1 = splitOnColon[1].substring(0, splitOnColon[1].length() - 1);
-            return new EmbassyHappening(happening.id, happening.timestamp, happening.description, null, region1, null,
+        } else if (description.contains(texts[1])) {
+            var splitOnColon = description.split(":");
+            String region1 = splitOnColon[1].substring(0, splitOnColon[1].length() - 1);
+            return new EmbassyHappening(happening.getId(), happening.getTimestamp(), description, null, region1, null,
                     embassyHappeningType);
         }
         throw new NationStatesAPIException("Unsupported happening description for the embassy happening type");
@@ -97,10 +96,10 @@ public class EmbassyHappeningSpecializer implements IHappeningSpecializer<Embass
      * @return
      */
     private EmbassyHappening constructionAborted(Happening happening, EmbassyHappeningType embassyHappeningType) {
-        final String[] texts = this.texts.get(embassyHappeningType);
-        if (happening.description.contains(texts[0])) {
+        var texts = this.texts.get(embassyHappeningType);
+        if (happening.getDescription().contains(texts[0])) {
             return this.happeningWithNation(happening, embassyHappeningType);
-        } else if (happening.description.contains(texts[1])) {
+        } else if (happening.getDescription().contains(texts[1])) {
             return this.happeningWithoutNation(happening, embassyHappeningType);
         }
         throw new NationStatesAPIException("Unsupported happening description for the embassy happening type");
@@ -115,13 +114,13 @@ public class EmbassyHappeningSpecializer implements IHappeningSpecializer<Embass
      * @return
      */
     private EmbassyHappening happeningWithNation(Happening happening, EmbassyHappeningType embassyHappeningType) {
-        final String[] splitOnAt = happening.description.split("@@");
-        final String nation = splitOnAt[1];
-        final String[] splitOnPercent = splitOnAt[2].split("%%");
-        final String region1 = splitOnPercent[1];
-        final String region2 = splitOnPercent[3];
-        return new EmbassyHappening(happening.id, happening.timestamp, happening.description, nation, region1, region2,
-                embassyHappeningType);
+        var splitOnAt = happening.getDescription().split("@@");
+        String nation = splitOnAt[1];
+        var splitOnPercent = splitOnAt[2].split("%%");
+        String region1 = splitOnPercent[1];
+        String region2 = splitOnPercent[3];
+        return new EmbassyHappening(happening.getId(), happening.getTimestamp(), happening.getDescription(), nation,
+                region1, region2, embassyHappeningType);
     }
 
     /**
@@ -133,11 +132,11 @@ public class EmbassyHappeningSpecializer implements IHappeningSpecializer<Embass
      * @return
      */
     private EmbassyHappening happeningWithoutNation(Happening happening, EmbassyHappeningType embassyHappeningType) {
-        final String[] splitOnPercent = happening.description.split("%%");
-        final String region1 = splitOnPercent[1];
-        final String region2 = splitOnPercent[3];
-        return new EmbassyHappening(happening.id, happening.timestamp, happening.description, null, region1, region2,
-                embassyHappeningType);
+        var splitOnPercent = happening.getDescription().split("%%");
+        String region1 = splitOnPercent[1];
+        String region2 = splitOnPercent[3];
+        return new EmbassyHappening(happening.getId(), happening.getTimestamp(), happening.getDescription(), null,
+                region1, region2, embassyHappeningType);
     }
 
 }
