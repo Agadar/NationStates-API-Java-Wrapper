@@ -2,6 +2,7 @@ package com.github.agadar.nationstates.domain.region;
 
 import com.github.agadar.nationstates.enumerator.Authority;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -24,20 +25,20 @@ public class Officer {
      * Name of the nation that is fulfilling this officer position.
      */
     @XmlElement(name = "NATION")
-    public String nationName;
+    public String nationName = "";
 
     /**
      * Name of the officer position.
      */
     @XmlElement(name = "OFFICE")
-    public String officeName;
+    public String officeName = "";
 
     /**
      * The authorities granted to this officer.
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    public Set<Authority> authorities;
+    public Set<Authority> authorities = new HashSet<Authority>();
 
     /**
      * UNIX timestamp of when this officer position was assigned.
@@ -49,7 +50,7 @@ public class Officer {
      * Name of the nation by which this officer position was assigned.
      */
     @XmlElement(name = "BY")
-    public String assignedBy;
+    public String assignedBy = "";
 
     /**
      * Order of this officer position in the regional factbook.

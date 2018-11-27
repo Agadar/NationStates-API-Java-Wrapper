@@ -9,10 +9,12 @@ import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,7 +39,7 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public Set<CensusScore> census;
+    public Set<CensusScore> census = new HashSet<CensusScore>();
 
     /**
      * Id of the current census.
@@ -49,71 +51,71 @@ public class World {
      * Descriptions of the current or selected census.
      */
     @XmlElement(name = "CENSUSDESC")
-    public CensusDescriptions censusDescriptions;
+    public CensusDescriptions censusDescriptions = new CensusDescriptions();
 
     /**
      * Name of the current or selected census.
      */
     @XmlElement(name = "CENSUS")
-    public CensusName censusName;
+    public CensusName censusName = new CensusName();
 
     /**
      * The census scores of the world's nations.
      */
     @XmlElement(name = "CENSUSRANKS")
-    public NationCensusScoreRanks censusRanks;
+    public NationCensusScoreRanks censusRanks = new NationCensusScoreRanks();
 
     /**
      * The scale of the current or selected census.
      */
     @XmlElement(name = "CENSUSSCALE")
-    public CensusScale censusScale;
+    public CensusScale censusScale = new CensusScale();
 
     /**
      * The title of the current or selected census.
      */
     @XmlElement(name = "CENSUSTITLE")
-    public CensusTitle censusTitle;
+    public CensusTitle censusTitle = new CensusTitle();
 
     /**
      * The selected dispatch. Includes the dispatch text.
      */
     @XmlElement(name = "DISPATCH")
-    public Dispatch selectedDispatch;
+    public Dispatch selectedDispatch = new Dispatch();
 
     /**
      * The newest or selected dispatches. Does not include dispatches' texts.
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    public Set<Dispatch> dispatches;
+    public Set<Dispatch> dispatches = new HashSet<Dispatch>();
 
     /**
      * Name of today's featured region.
      */
     @XmlElement(name = "FEATUREDREGION")
-    public String featuredRegion;
+    public String featuredRegion = "";
 
     /**
      * List of the most recent or selected happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> happenings;
+    public SortedSet<Happening> happenings = new TreeSet<Happening>();
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> nations;
+    public Set<String> nations = new HashSet<String>();
 
     /**
      * List of newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
-    public List<String> newestNations;
+    public List<String> newestNations = new ArrayList<String>();
 
     /**
      * The number of nations in the world.
@@ -131,14 +133,14 @@ public class World {
      * The selected poll.
      */
     @XmlElement(name = "POLL")
-    public Poll selectedPoll;
+    public Poll selectedPoll = new Poll();
 
     /**
      * List of all regions in the world (index 0), or the regions selected by tag
      * (index 0 or 1).
      */
     @XmlElement(name = "REGIONS")
-    private List<RegionList> regions;
+    private List<RegionList> regions = new ArrayList<RegionList>();
 
     /**
      * If the Regions shard was used alone or together with RegionsByTag, then this
@@ -147,8 +149,8 @@ public class World {
      *
      * @return region names
      */
-    public Set<String> regions() {
-        return (regions == null || regions.isEmpty()) ? new HashSet<String>() : regions.get(0).regions;
+    public Set<String> getRegions() {
+        return regions.isEmpty() ? new HashSet<String>() : regions.get(0).regions;
     }
 
     /**
@@ -158,9 +160,8 @@ public class World {
      *
      * @return region names
      */
-    public Set<String> regionsByTag() {
-        Set<String> tmp = regions();
-        return (tmp == null || regions.size() < 2) ? tmp : regions.get(1).regions;
+    public Set<String> getRegionsByTag() {
+        return regions.size() < 2 ? getRegions() : regions.get(1).regions;
     }
 
     /**

@@ -12,8 +12,12 @@ import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
 import com.github.agadar.nationstates.enumerator.RegionTag;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,34 +42,34 @@ public class Region {
      * The region's id. Not available in dump file.
      */
     @XmlAttribute(name = "id")
-    public String id;
+    public String id = "";
 
     /**
      * This region's census scale scores.
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public Set<CensusScore> census;
+    public Set<CensusScore> census = new HashSet<CensusScore>();
 
     /**
      * The census scale scores of this region's nations.
      */
     @XmlElement(name = "CENSUSRANKS")
-    public NationCensusScoreRanks censusRanks;
+    public NationCensusScoreRanks censusRanks = new NationCensusScoreRanks();
 
     /**
      * The name of the nation that is the region's world assembly delegate. Returns
      * '0' if no delegate exists.
      */
     @XmlElement(name = "DELEGATE")
-    public String delegate;
+    public String delegate = "";
 
     /**
      * The authorities granted to the region's world assembly delegate.
      */
     @XmlElement(name = "DELEGATEAUTH")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    public Set<Authority> delegateAuthorities;
+    public Set<Authority> delegateAuthorities = new HashSet<Authority>();
 
     /**
      * The number of endorsements the region's world assembly delegate has.
@@ -78,7 +82,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "EMBASSIES")
     @XmlElement(name = "EMBASSY")
-    public Set<Embassy> embassies;
+    public Set<Embassy> embassies = new HashSet<Embassy>();
 
     /**
      * Regional Message Board permissions for regions with which this region
@@ -86,64 +90,64 @@ public class Region {
      */
     @XmlElement(name = "EMBASSYRMB")
     @XmlJavaTypeAdapter(EmbassiesRmbPermissions.Adapter.class)
-    public EmbassiesRmbPermissions embassiesRmbPermissions;
+    public EmbassiesRmbPermissions embassiesRmbPermissions = EmbassiesRmbPermissions.NULL;
 
     /**
      * The complete mark-up of the regional factbook.
      */
     @XmlElement(name = "FACTBOOK")
-    public String factbook;
+    public String factbook = "";
 
     /**
      * URL to the region's flag image.
      */
     @XmlElement(name = "FLAG")
-    public String flagUrl;
+    public String flagUrl = "";
 
     /**
      * Description of when this region was founded.
      */
     @XmlElement(name = "FOUNDED")
-    public String foundedDescription;
+    public String foundedDescription = "";
 
     /**
      * UNIX timestamp of when this region was founded.
      */
     @XmlElement(name = "FOUNDEDTIME")
-    public Long founded;
+    public long founded;
 
     /**
      * The name of the region's founding nation. Returns '0' if none exists.
      */
     @XmlElement(name = "FOUNDER")
-    public String founder;
+    public String founder = "";
 
     /**
      * The authorities granted to the region's founder.
      */
     @XmlElement(name = "FOUNDERAUTH")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    public Set<Authority> founderAuthorities;
+    public Set<Authority> founderAuthorities = new HashSet<Authority>();
 
     /**
      * The region's votes for the current General Assembly resolution.
      */
     @XmlElement(name = "GAVOTE")
-    public WorldAssemblyVote generalAssemblyVote;
+    public WorldAssemblyVote generalAssemblyVote = new WorldAssemblyVote();
 
     /**
      * List of the most recent of this region's happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> recentHappenings;
+    public SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
 
     /**
      * List of the most recent history.
      */
     @XmlElementWrapper(name = "HISTORY")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> history;
+    public SortedSet<Happening> history = new TreeSet<Happening>();
 
     /**
      * UNIX timestamp of when this region was last updated.
@@ -156,41 +160,41 @@ public class Region {
      */
     @XmlElementWrapper(name = "MESSAGES")
     @XmlElement(name = "POST")
-    public SortedSet<RegionalMessage> regionalMessages;
+    public SortedSet<RegionalMessage> regionalMessages = new TreeSet<RegionalMessage>();
 
     /**
      * Rankings of nations with most RMB posts made.
      */
     @XmlElementWrapper(name = "MOSTPOSTS")
     @XmlElement(name = "NATION")
-    public SortedSet<MostPostsRank> mostPostsRanks;
+    public List<MostPostsRank> mostPostsRanks = new ArrayList<MostPostsRank>();
 
     /**
      * Rankings of nations with most RMB likes given.
      */
     @XmlElementWrapper(name = "MOSTLIKED")
     @XmlElement(name = "NATION")
-    public SortedSet<MostLikedRank> mostLikedRanks;
+    public List<MostLikedRank> mostLikedRanks = new ArrayList<MostLikedRank>();
 
     /**
      * Rankings of nations with most RMB likes received.
      */
     @XmlElementWrapper(name = "MOSTLIKES")
     @XmlElement(name = "NATION")
-    public SortedSet<MostLikesRank> mostLikesRanks;
+    public List<MostLikesRank> mostLikesRanks = new ArrayList<MostLikesRank>();
 
     /**
      * The region's name. Should be similar to id, but capitalized.
      */
     @XmlElement(name = "NAME")
-    public String name;
+    public String name = "";
 
     /**
      * List of nations that inhabit this region.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    public Set<String> nationNames;
+    public Set<String> nationNames = new HashSet<String>();
 
     /**
      * The number of nations that inhabit this region.
@@ -203,25 +207,25 @@ public class Region {
      */
     @XmlElementWrapper(name = "OFFICERS")
     @XmlElement(name = "OFFICER")
-    public Set<Officer> officers;
+    public Set<Officer> officers = new HashSet<Officer>();
 
     /**
      * The regional poll that is currently being conducted.
      */
     @XmlElement(name = "POLL")
-    public Poll currentPoll;
+    public Poll currentPoll = new Poll();
 
     /**
      * The region's power.
      */
     @XmlElement(name = "POWER")
-    public String power;
+    public String power = "";
 
     /**
      * The region's votes for the current Security Council resolution.
      */
     @XmlElement(name = "SCVOTE")
-    public WorldAssemblyVote securityCouncilVote;
+    public WorldAssemblyVote securityCouncilVote = new WorldAssemblyVote();
 
     /**
      * The region's tags.
@@ -229,20 +233,20 @@ public class Region {
     @XmlElementWrapper(name = "TAGS")
     @XmlElement(name = "TAG")
     @XmlJavaTypeAdapter(RegionTag.Adapter.class)
-    public Set<RegionTag> tags;
+    public Set<RegionTag> tags = new HashSet<RegionTag>();
 
     /**
      * The World Assembly badges granted to this region by the Security Council.
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    public Set<WorldAssemblyBadge> worldAssemblyBadges;
+    public Set<WorldAssemblyBadge> worldAssemblyBadges = new HashSet<WorldAssemblyBadge>();
 
     /**
      * This region's statistics of the current or last zombie event.
      */
     @XmlElement(name = "ZOMBIE")
-    public ZombieInfo zombieInfo;
+    public ZombieInfo zombieInfo = new ZombieInfo();
 
     /**
      * Executed after JAXB finishes unmmarshalling.

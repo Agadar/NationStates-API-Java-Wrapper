@@ -39,13 +39,13 @@ public class DispatchHappening extends Happening {
     public DispatchSubCategory dispatchSubCategory;
 
     public DispatchHappening(long id, long timestamp, String description, String nation, long dispatchId,
-	    String dispatchName, DispatchCategory dispatchCategory, DispatchSubCategory dispatchSubCategory) {
-	super(id, timestamp, description);
-	this.nation = nation;
-	this.dispatchId = dispatchId;
-	this.dispatchName = dispatchName;
-	this.dispatchCategory = dispatchCategory;
-	this.dispatchSubCategory = dispatchSubCategory;
+            String dispatchName, DispatchCategory dispatchCategory, DispatchSubCategory dispatchSubCategory) {
+        super(id, timestamp, description);
+        this.nation = nation;
+        this.dispatchId = dispatchId;
+        this.dispatchName = dispatchName;
+        this.dispatchCategory = dispatchCategory;
+        this.dispatchSubCategory = dispatchSubCategory;
     }
 
 }

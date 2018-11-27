@@ -21,9 +21,9 @@ public class LawHappening extends Happening {
     public String result;
 
     public LawHappening(long id, long timestamp, String description, String nation, String result) {
-	super(id, timestamp, description);
-	this.nation = nation;
-	this.result = result;
+        super(id, timestamp, description);
+        this.nation = nation;
+        this.result = result;
     }
 
 }

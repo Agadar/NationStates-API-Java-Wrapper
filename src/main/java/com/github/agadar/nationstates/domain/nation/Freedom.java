@@ -19,17 +19,17 @@ public class Freedom {
      * The nation's civil rights score
      */
     @XmlElement(name = "CIVILRIGHTS")
-    public String civilRights;
+    public String civilRights = "";
 
     /**
      * The nation's economy score
      */
     @XmlElement(name = "ECONOMY")
-    public String economy;
+    public String economy = "";
 
     /**
      * The nation's political freedoms score
      */
     @XmlElement(name = "POLITICALFREEDOM")
-    public String politicalFreedom;
+    public String politicalFreedom = "";
 }

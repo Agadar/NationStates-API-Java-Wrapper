@@ -32,12 +32,12 @@ public class EmbassyHappening extends Happening {
     public EmbassyHappeningType embassyHappeningType;
 
     public EmbassyHappening(long id, long timestamp, String description, String nation, String region1, String region2,
-	    EmbassyHappeningType embassyHappeningType) {
-	super(id, timestamp, description);
-	this.nation = nation;
-	this.region1 = region1;
-	this.region2 = region2;
-	this.embassyHappeningType = embassyHappeningType;
+            EmbassyHappeningType embassyHappeningType) {
+        super(id, timestamp, description);
+        this.nation = nation;
+        this.region1 = region1;
+        this.region2 = region2;
+        this.embassyHappeningType = embassyHappeningType;
     }
 
 }

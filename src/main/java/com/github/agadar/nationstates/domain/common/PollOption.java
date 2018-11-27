@@ -2,6 +2,7 @@ package com.github.agadar.nationstates.domain.common;
 
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,7 +31,7 @@ public class PollOption {
      * The option's text.
      */
     @XmlElement(name = "OPTIONTEXT")
-    public String text;
+    public String text = "";
 
     /**
      * The number of votes this option's received.
@@ -43,7 +44,7 @@ public class PollOption {
      */
     @XmlElement(name = "VOTERS")
     @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    public Set<String> voterNames;
+    public Set<String> voterNames = new HashSet<String>();
 
     @Override
     public int hashCode() {

@@ -13,38 +13,38 @@ public class EjectedHappeningSpecializer implements IHappeningSpecializer<Ejecte
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {
-	if (happening.description == null) {
-	    return false;
-	}
-	return (happening.description.contains("was ejected from")
-	        && !happening.description.contains("was ejected from the WA for rule violations"))
-	        || happening.description.contains("banned");
+        if (happening.description == null) {
+            return false;
+        }
+        return (happening.description.contains("was ejected from")
+                && !happening.description.contains("was ejected from the WA for rule violations"))
+                || happening.description.contains("banned");
     }
 
     @Override
     public EjectedHappening toSpecializedType(Happening happening) {
-	final String[] splitOnAt = happening.description.split("@@");
-	int ejectedNationPos = 1;
-	int ejectingNationPos = 3;
-	int fromRegionPos = 2;
-	boolean banned = false;
+        final String[] splitOnAt = happening.description.split("@@");
+        int ejectedNationPos = 1;
+        int ejectingNationPos = 3;
+        int fromRegionPos = 2;
+        boolean banned = false;
 
-	if (splitOnAt[2].contains("was ejected and banned from")) {
-	    banned = true;
-	} else if (splitOnAt[2].contains("banned")) {
-	    ejectedNationPos = 3;
-	    ejectingNationPos = 1;
-	    fromRegionPos = 4;
-	    banned = true;
-	}
+        if (splitOnAt[2].contains("was ejected and banned from")) {
+            banned = true;
+        } else if (splitOnAt[2].contains("banned")) {
+            ejectedNationPos = 3;
+            ejectingNationPos = 1;
+            fromRegionPos = 4;
+            banned = true;
+        }
 
-	final String ejectedNation = splitOnAt[ejectedNationPos];
-	final String ejectingNation = splitOnAt[ejectingNationPos];
-	final String[] splitOnPercent = splitOnAt[fromRegionPos].split("%%");
-	final String fromRegion = splitOnPercent[1];
+        final String ejectedNation = splitOnAt[ejectedNationPos];
+        final String ejectingNation = splitOnAt[ejectingNationPos];
+        final String[] splitOnPercent = splitOnAt[fromRegionPos].split("%%");
+        final String fromRegion = splitOnPercent[1];
 
-	return new EjectedHappening(happening.id, happening.timestamp, happening.description, ejectingNation,
-	        ejectedNation, banned, fromRegion);
+        return new EjectedHappening(happening.id, happening.timestamp, happening.description, ejectingNation,
+                ejectedNation, banned, fromRegion);
     }
 
 }

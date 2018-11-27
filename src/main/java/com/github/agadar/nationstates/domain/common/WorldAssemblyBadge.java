@@ -29,7 +29,7 @@ public class WorldAssemblyBadge {
      */
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(WorldAssemblyBadgeType.Adapter.class)
-    public WorldAssemblyBadgeType worldAssemblyBadgeType;
+    public WorldAssemblyBadgeType worldAssemblyBadgeType = WorldAssemblyBadgeType.NULL;
 
     @Override
     public int hashCode() {

@@ -30,12 +30,12 @@ public class EjectedHappening extends Happening {
     public String fromRegion;
 
     public EjectedHappening(long id, long timestamp, String description, String ejectingNation, String ejectedNation,
-	    boolean banned, String fromRegion) {
-	super(id, timestamp, description);
-	this.ejectingNation = ejectingNation;
-	this.ejectedNation = ejectedNation;
-	this.banned = banned;
-	this.fromRegion = fromRegion;
+            boolean banned, String fromRegion) {
+        super(id, timestamp, description);
+        this.ejectingNation = ejectingNation;
+        this.ejectedNation = ejectedNation;
+        this.banned = banned;
+        this.fromRegion = fromRegion;
     }
 
 }

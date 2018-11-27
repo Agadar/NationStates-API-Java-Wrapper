@@ -2,6 +2,7 @@ package com.github.agadar.nationstates.domain.world;
 
 import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,5 +28,5 @@ public class RegionList {
      */
     @XmlValue
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> regions;
+    public Set<String> regions = new HashSet<String>();
 }

@@ -37,19 +37,19 @@ public class Happening implements Comparable<Happening> {
     }
 
     public Happening(long id, long timestamp, String description) {
-	super();
-	this.id = id;
-	this.timestamp = timestamp;
-	this.description = description;
+        super();
+        this.id = id;
+        this.timestamp = timestamp;
+        this.description = description;
     }
 
     @Override
     public int compareTo(Happening o) {
-	if (this.timestamp > o.timestamp) {
-	    return -1;
-	} else if (this.timestamp < o.timestamp) {
-	    return 1;
-	}
-	return 0;
+        if (this.timestamp > o.timestamp) {
+            return -1;
+        } else if (this.timestamp < o.timestamp) {
+            return 1;
+        }
+        return 0;
     }
 }

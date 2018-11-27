@@ -27,27 +27,27 @@ public class Dispatch {
      * The dispatch's title.
      */
     @XmlElement(name = "TITLE")
-    public String title;
+    public String title = "";
 
     /**
      * The author nation.
      */
     @XmlElement(name = "AUTHOR")
-    public String author;
+    public String author = "";
 
     /**
      * The dispatch's category.
      */
     @XmlElement(name = "CATEGORY")
     @XmlJavaTypeAdapter(DispatchCategory.Adapter.class)
-    public DispatchCategory category;
+    public DispatchCategory category = DispatchCategory.NULL;
 
     /**
      * The dispatch's sub-category.
      */
     @XmlElement(name = "SUBCATEGORY")
     @XmlJavaTypeAdapter(DispatchSubCategory.Adapter.class)
-    public DispatchSubCategory subCategory;
+    public DispatchSubCategory subCategory = DispatchSubCategory.NULL;
 
     /**
      * UNIX timestamp when this dispatch was created.
@@ -78,7 +78,7 @@ public class Dispatch {
      * 'world' resource with the SelectedDispatch shard.
      */
     @XmlElement(name = "TEXT")
-    public String text;
+    public String text = "";
 
     @Override
     public int hashCode() {

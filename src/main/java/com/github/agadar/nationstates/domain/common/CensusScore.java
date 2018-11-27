@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,7 +29,7 @@ public class CensusScore {
      * Supplied by default.
      */
     @XmlElement(name = "SCORE")
-    public String score;
+    public String score = "";
 
     /**
      * The nation's or region's world-wide rank on the scale. e.g. '334' means
@@ -45,9 +46,8 @@ public class CensusScore {
     public int regionalRank;
 
     /**
-     * The nation's or region's world-wide rank on the scale, as a percentage.
-     * e.g. '15' means 'Top 15%'. Inapplicable for world. Not supplied by
-     * default.
+     * The nation's or region's world-wide rank on the scale, as a percentage. e.g.
+     * '15' means 'Top 15%'. Inapplicable for world. Not supplied by default.
      */
     @XmlElement(name = "PRANK")
     public int worldRankPercentage;
@@ -60,11 +60,11 @@ public class CensusScore {
     public int regionalRankPercentage;
 
     /**
-     * The history of this census score. If this is requested, all other fields
-     * save for Id will not be retrieved.
+     * The history of this census score. If this is requested, all other fields save
+     * for Id will not be retrieved.
      */
     @XmlElement(name = "POINT")
-    public SortedSet<CensusScoreHistory> history;
+    public SortedSet<CensusScoreHistory> history = new TreeSet<CensusScoreHistory>();
 
     @Override
     public int hashCode() {

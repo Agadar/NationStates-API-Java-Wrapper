@@ -10,10 +10,12 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.InfluenceRank;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,113 +40,113 @@ public class Nation {
      * The nation's id. Not available in dump file.
      */
     @XmlAttribute(name = "id")
-    public String id;
+    public String id = "";
 
     /**
      * One of two adjectives for this nation, e.g. 'cultured', 'safe', etc.
      */
     @XmlElement(name = "ADMIRABLE")
-    public String admirable;
+    public String admirable = "";
 
     /**
      * This nation's national animal.
      */
     @XmlElement(name = "ANIMAL")
-    public String animal;
+    public String animal = "";
 
     /**
      * Information about this nation's national animal.
      */
     @XmlElement(name = "ANIMALTRAIT")
-    public String animalTrait;
+    public String animalTrait = "";
 
     /**
      * The Rift banner code of this nation's primary banner, or of a randomly chosen
      * eligible banner if no primary banner is set.
      */
     @XmlElement(name = "BANNER")
-    public String banner;
+    public String banner = "";
 
     /**
      * The eligible Rift banner codes of this nation.
      */
     @XmlElementWrapper(name = "BANNERS")
     @XmlElement(name = "BANNER")
-    public Set<String> banners;
+    public Set<String> banners = new HashSet<String>();
 
     /**
      * This nation's capital. Has default value if none is set.
      */
     @XmlElement(name = "CAPITAL")
-    public String capital;
+    public String capital = "";
 
     /**
      * This nation's government's category e.g. 'Civil Rights Lovefest'.
      */
     @XmlElement(name = "CATEGORY")
-    public String category;
+    public String category = "";
 
     /**
      * This nation's census scale scores.
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    public Set<CensusScore> census;
+    public Set<CensusScore> census = new HashSet<CensusScore>();
 
     /**
      * Description of crime in this nation.
      */
     @XmlElement(name = "CRIME")
-    public String crimeDescription;
+    public String crimeDescription = "";
 
     /**
      * This nation's currency name.
      */
     @XmlElement(name = "CURRENCY")
-    public String currency;
+    public String currency = "";
 
     /**
      * This nation's leader. Blank if none is set.
      */
     @XmlElement(name = "CUSTOMLEADER")
-    public String customLeader;
+    public String customLeader = "";
 
     /**
      * This nation's capital. Blank if none is set.
      */
     @XmlElement(name = "CUSTOMCAPITAL")
-    public String customCapital;
+    public String customCapital = "";
 
     /**
      * This nation's religion. Blank if none is set.
      */
     @XmlElement(name = "CUSTOMRELIGION")
-    public String customReligion;
+    public String customReligion = "";
 
     /**
      * List of death causes data in this nation.
      */
     @XmlElementWrapper(name = "DEATHS")
     @XmlElement(name = "CAUSE")
-    public Set<DeathCause> deaths;
+    public Set<DeathCause> deaths = new HashSet<DeathCause>();
 
     /**
      * Primary demonym.
      */
     @XmlElement(name = "DEMONYM")
-    public String demonym;
+    public String demonym = "";
 
     /**
      * Secondary demonym.
      */
     @XmlElement(name = "DEMONYM2")
-    public String demonym2;
+    public String demonym2 = "";
 
     /**
      * Plural of secondary demonym.
      */
     @XmlElement(name = "DEMONYM2PLURAL")
-    public String demonym2Plural;
+    public String demonym2Plural = "";
 
     /**
      * Number of dispatches written by this nation.
@@ -158,14 +160,14 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    public Set<Dispatch> dispatches;
+    public Set<Dispatch> dispatches = new HashSet<Dispatch>();
 
     /**
      * List of nation names that endorsed this nation.
      */
     @XmlElement(name = "ENDORSEMENTS")
     @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    public Set<String> endorsedBy;
+    public Set<String> endorsedBy = new HashSet<String>();
 
     /**
      * Number of factbooks written by this nation.
@@ -179,7 +181,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "FACTBOOKLIST")
     @XmlElement(name = "FACTBOOK")
-    public Set<Dispatch> factbooks;
+    public Set<Dispatch> factbooks = new HashSet<Dispatch>();
 
     /**
      * UNIX timestamp of when the nation first logged in.
@@ -191,43 +193,43 @@ public class Nation {
      * URL to the nation's flag image.
      */
     @XmlElement(name = "FLAG")
-    public String flagUrl;
+    public String flagUrl = "";
 
     /**
      * Description of when this nation was founded.
      */
     @XmlElement(name = "FOUNDED")
-    public String foundedDescription;
+    public String foundedDescription = "";
 
     /**
      * UNIX timestamp of when this nation was founded.
      */
     @XmlElement(name = "FOUNDEDTIME")
-    public Long founded;
+    public long founded;
 
     /**
      * The nation's civil rights, economy, and political freedom scores in text.
      */
     @XmlElement(name = "FREEDOM")
-    public Freedom freedom;
+    public Freedom freedom = new Freedom();
 
     /**
      * The nation's civil rights, economy, and political freedom scores in numbers.
      */
     @XmlElement(name = "FREEDOMSCORES")
-    public FreedomScores freedomScores;
+    public FreedomScores freedomScores = new FreedomScores();
 
     /**
      * The nation's full name.
      */
     @XmlElement(name = "FULLNAME")
-    public String fullName;
+    public String fullName = "";
 
     /**
      * The nation's vote for the current General Assembly resolution.
      */
     @XmlElement(name = "GAVOTE")
-    public String generalAssemblyVote;
+    public String generalAssemblyVote = "";
 
     /**
      * The nation's gross domestic product.
@@ -239,33 +241,33 @@ public class Nation {
      * Overview in percentages of the government's expenditures.
      */
     @XmlElement(name = "GOVT")
-    public GovernmentExpenditure governmentExpenditure;
+    public GovernmentExpenditure governmentExpenditure = new GovernmentExpenditure();
 
     /**
      * Elaborate description of the government.
      */
     @XmlElement(name = "GOVTDESC")
-    public String governmentDescription;
+    public String governmentDescription = "";
 
     /**
      * The expenditure the government spends most on.
      */
     @XmlElement(name = "GOVTPRIORITY")
-    public String governmentPriority;
+    public String governmentPriority = "";
 
     /**
      * List of the most recent of this nation's happenings.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    public SortedSet<Happening> recentHappenings;
+    public SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
 
     /**
      * The nation's regional influence rank.
      */
     @XmlElement(name = "INFLUENCE")
     @XmlJavaTypeAdapter(InfluenceRank.Adapter.class)
-    public InfluenceRank influence;
+    public InfluenceRank influence = InfluenceRank.NULL;
 
     /**
      * The average income of the population.
@@ -277,19 +279,19 @@ public class Nation {
      * Elaborate description of this nation's economy.
      */
     @XmlElement(name = "INDUSTRYDESC")
-    public String economyDescription;
+    public String economyDescription = "";
 
     /**
      * The regional influence of this nation, e.g. 'Apprentice'.
      */
     @XmlElement(name = "INFLUENCE")
-    public String regionalInfluence;
+    public String regionalInfluence = "";
 
     /**
      * Description of when this nation was last active.
      */
     @XmlElement(name = "LASTACTIVITY")
-    public String lastActivity;
+    public String lastActivity = "";
 
     /**
      * UNIX timestamp of when this nation was last logged in.
@@ -301,38 +303,38 @@ public class Nation {
      * This nation's leader. Has default value if none is set.
      */
     @XmlElement(name = "LEADER")
-    public String leader;
+    public String leader = "";
 
     /**
      * List of this nation's most recent legislations.
      */
     @XmlElementWrapper(name = "LEGISLATION")
     @XmlElement(name = "LAW")
-    public List<String> recentLegislation;
+    public List<String> recentLegislation = new ArrayList<String>();
 
     /**
      * This nation's biggest industry.
      */
     @XmlElement(name = "MAJORINDUSTRY")
-    public String majorIndustry;
+    public String majorIndustry = "";
 
     /**
      * This nation's national motto.
      */
     @XmlElement(name = "MOTTO")
-    public String motto;
+    public String motto = "";
 
     /**
      * This nation's name. Should be similar to id, but capitalized.
      */
     @XmlElement(name = "NAME")
-    public String name;
+    public String name = "";
 
     /**
      * Description of what this nation is most notable for.
      */
     @XmlElement(name = "NOTABLE")
-    public String notableFor;
+    public String notableFor = "";
 
     /**
      * Income of the poorest population.
@@ -362,13 +364,13 @@ public class Nation {
      * Name of the region this nation is in.
      */
     @XmlElement(name = "REGION")
-    public String regionName;
+    public String regionName = "";
 
     /**
      * This nation's religion. Has default value if none is set.
      */
     @XmlElement(name = "RELIGION")
-    public String religion;
+    public String religion = "";
 
     /**
      * Income of the richest population.
@@ -380,19 +382,19 @@ public class Nation {
      * The nation's vote for the current Security Council resolution.
      */
     @XmlElement(name = "SCVOTE")
-    public String securityCouncilVote;
+    public String securityCouncilVote = "";
 
     /**
      * Overview in percentages of the government's economy sectors.
      */
     @XmlElement(name = "SECTORS")
-    public EconomySectors economySectors;
+    public EconomySectors economySectors = new EconomySectors();
 
     /**
      * Description of this nation's population.
      */
     @XmlElement(name = "SENSIBILITIES")
-    public String populationDescription;
+    public String populationDescription = "";
 
     /**
      * The income tax rate, expressed as a percentage.
@@ -416,14 +418,14 @@ public class Nation {
      * The nation's custom government type, e.g. 'Crowned Confederacy'.
      */
     @XmlElement(name = "TYPE")
-    public String governmentType;
+    public String governmentType = "";
 
     /**
      * The World Assembly badges granted to this nation by the Security Council.
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    public Set<WorldAssemblyBadge> worldAssemblyBadges;
+    public Set<WorldAssemblyBadge> worldAssemblyBadges = new HashSet<WorldAssemblyBadge>();
 
     /**
      * String indicating whether the nation is a member of the World Assembly.
@@ -431,7 +433,7 @@ public class Nation {
      */
     @XmlElement(name = "UNSTATUS")
     @XmlJavaTypeAdapter(WorldAssemblyStatus.Adapter.class)
-    public WorldAssemblyStatus worldAssemblyStatus;
+    public WorldAssemblyStatus worldAssemblyStatus = WorldAssemblyStatus.NULL;
 
     /**
      * The nation's world-wide census rank.
@@ -443,7 +445,7 @@ public class Nation {
      * This nation's statistics of the current or last zombie event.
      */
     @XmlElement(name = "ZOMBIE")
-    public ZombieInfo zombieInfo;
+    public ZombieInfo zombieInfo = new ZombieInfo();
 
     /**
      * The pattern used for building URLS that point to images behind Rift codes.

@@ -20,7 +20,7 @@ public class NationCensusScore implements Comparable<NationCensusScore> {
      * The nation's name
      */
     @XmlElement(name = "NAME")
-    public String nationName;
+    public String nationName = "";
 
     /**
      * The nation's regional or world-wide rank on the census scale

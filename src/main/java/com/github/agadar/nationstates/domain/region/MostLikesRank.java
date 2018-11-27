@@ -21,7 +21,7 @@ public class MostLikesRank implements Comparable<MostLikesRank> {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String name;
+    public String name = "";
 
     /**
      * Number of likes received by this nation.

@@ -25,7 +25,7 @@ public class CensusScale {
      * Scale name of this census.
      */
     @XmlValue
-    public String scale;
+    public String scale = "";
 
     @Override
     public int hashCode() {

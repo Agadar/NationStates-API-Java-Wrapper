@@ -20,9 +20,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Embassy {
 
     /**
-     * The status of the embassy. The default value is 'ESTABLISHED' because the
-     * API does not return a value that can be parsed when an embassy is
-     * established.
+     * The status of the embassy. The default value is 'ESTABLISHED' because the API
+     * does not return a value that can be parsed when an embassy is established.
      */
     @XmlAttribute(name = "type")
     @XmlJavaTypeAdapter(EmbassyStatus.Adapter.class)
@@ -32,7 +31,7 @@ public class Embassy {
      * The name of the region this embassy is with.
      */
     @XmlValue
-    public String regionName;
+    public String regionName = "";
 
     @Override
     public int hashCode() {

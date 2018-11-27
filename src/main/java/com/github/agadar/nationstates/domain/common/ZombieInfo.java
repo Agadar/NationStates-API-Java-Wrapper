@@ -19,7 +19,7 @@ public class ZombieInfo {
      * The action the nation undertook. Not used for regions.
      */
     @XmlElement(name = "ZACTION")
-    public String action;
+    public String action = "";
 
     /**
      * The number of survivors

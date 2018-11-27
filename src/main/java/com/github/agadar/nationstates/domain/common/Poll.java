@@ -1,5 +1,6 @@
 package com.github.agadar.nationstates.domain.common;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,19 +29,19 @@ public class Poll {
      * The poll's title.
      */
     @XmlElement(name = "TITLE")
-    public String title;
+    public String title = "";
 
     /**
      * The poll's description.
      */
     @XmlElement(name = "TEXT")
-    public String description;
+    public String description = "";
 
     /**
      * The name of the region the poll is in.
      */
     @XmlElement(name = "REGION")
-    public String region;
+    public String region = "";
 
     /**
      * UNIX timestamp on which the poll opened.
@@ -58,14 +59,14 @@ public class Poll {
      * Name of the nation that opened the poll.
      */
     @XmlElement(name = "AUTHOR")
-    public String authorName;
+    public String authorName = "";
 
     /**
      * The possible options for this poll.
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    public Set<PollOption> options;
+    public Set<PollOption> options = new HashSet<PollOption>();
 
     @Override
     public int hashCode() {

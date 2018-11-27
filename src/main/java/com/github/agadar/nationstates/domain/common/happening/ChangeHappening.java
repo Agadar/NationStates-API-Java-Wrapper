@@ -20,9 +20,9 @@ public class ChangeHappening extends Happening {
     public String change;
 
     public ChangeHappening(long id, long timestamp, String description, String nation, String change) {
-	super(id, timestamp, description);
-	this.nation = nation;
-	this.change = change;
+        super(id, timestamp, description);
+        this.nation = nation;
+        this.change = change;
     }
 
 }

@@ -25,7 +25,7 @@ public class CensusTitle {
      * Title of this census.
      */
     @XmlValue
-    public String title;
+    public String title = "";
 
     @Override
     public int hashCode() {

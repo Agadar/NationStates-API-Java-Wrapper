@@ -3,6 +3,7 @@ package com.github.agadar.nationstates.domain.region;
 import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,21 +38,21 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      * Name of the nation that posted the message
      */
     @XmlElement(name = "NATION")
-    public String author;
+    public String author = "";
 
     /**
      * The message's status. Can be any of the following:
      */
     @XmlElement(name = "STATUS")
     @XmlJavaTypeAdapter(RegionalMessageStatus.Adapter.class)
-    public RegionalMessageStatus status;
+    public RegionalMessageStatus status = RegionalMessageStatus.NULL;
 
     /**
      * Name of the nation that suppressed this post. Only set if the post is
      * suppressed and done so by a non-moderator (status 1).
      */
     @XmlElement(name = "SUPPRESSOR")
-    public String suppressor;
+    public String suppressor = "";
 
     /**
      * The number of likes this message received
@@ -64,13 +65,13 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      */
     @XmlElement(name = "LIKERS")
     @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    public Set<String> likedBy;
+    public Set<String> likedBy = new HashSet<String>();
 
     /**
      * The text of the message
      */
     @XmlElement(name = "MESSAGE")
-    public String text;
+    public String text = "";
 
     @Override
     public int hashCode() {

@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -30,7 +31,7 @@ public class NationCensusScoreRanks {
      */
     @XmlElementWrapper(name = "NATIONS")
     @XmlElement(name = "NATION")
-    public SortedSet<NationCensusScore> nations;
+    public SortedSet<NationCensusScore> nations = new TreeSet<NationCensusScore>();
 
     @Override
     public int hashCode() {

@@ -20,7 +20,7 @@ public class MostPostsRank implements Comparable<MostPostsRank> {
      * Name of the nation.
      */
     @XmlElement(name = "NAME")
-    public String name;
+    public String name = "";
 
     /**
      * Number of posts made by this nation.

@@ -25,7 +25,7 @@ public class CensusName {
      * Name of this census.
      */
     @XmlValue
-    public String name;
+    public String name = "";
 
     @Override
     public int hashCode() {

@@ -24,7 +24,7 @@ public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
      * What was scored that timestamp.
      */
     @XmlElement(name = "SCORE")
-    public String score;
+    public String score = "";
 
     @Override
     public int hashCode() {

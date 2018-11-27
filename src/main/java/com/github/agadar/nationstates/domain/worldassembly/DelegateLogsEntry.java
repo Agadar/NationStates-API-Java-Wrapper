@@ -31,7 +31,7 @@ public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
      * Name of the delegate that made the vote.
      */
     @XmlElement(name = "NATION")
-    public String delegateName;
+    public String delegateName = "";
 
     /**
      * How the delegate voted (FOR, AGAINST, or WITHDREW). Always blank in
@@ -39,7 +39,7 @@ public class DelegateLogsEntry implements Comparable<DelegateLogsEntry> {
      */
     @XmlElement(name = "ACTION")
     @XmlJavaTypeAdapter(DelegateAction.Adapter.class)
-    public DelegateAction action;
+    public DelegateAction action = DelegateAction.NULL;
 
     /**
      * The voting power with which the delegate voted (always 0 if WITHDREW).

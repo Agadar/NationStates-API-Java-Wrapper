@@ -25,13 +25,13 @@ public class CensusDescriptions {
      * Description for nations, e.g. 'The following nations have...'
      */
     @XmlElement(name = "NDESC")
-    public String descriptionForNations;
+    public String descriptionForNations = "";
 
     /**
      * Description for regions, e.g. 'The following regions have...'
      */
     @XmlElement(name = "RDESC")
-    public String descriptionForRegions;
+    public String descriptionForRegions = "";
 
     @Override
     public int hashCode() {
