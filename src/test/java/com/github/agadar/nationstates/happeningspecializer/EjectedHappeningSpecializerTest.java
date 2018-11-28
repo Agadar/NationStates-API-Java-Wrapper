@@ -85,13 +85,13 @@ public class EjectedHappeningSpecializerTest {
         final EjectedHappening ejectedHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, ejectedHappening.id);
-        Assert.assertEquals(happening.timestamp, ejectedHappening.timestamp);
-        Assert.assertEquals(happening.description, ejectedHappening.description);
-        Assert.assertEquals("demorlan_goricky", ejectedHappening.ejectedNation);
-        Assert.assertEquals("new_legland", ejectedHappening.ejectingNation);
-        Assert.assertEquals("canterbury", ejectedHappening.fromRegion);
-        Assert.assertFalse(ejectedHappening.banned);
+        Assert.assertEquals(happening.getId(), ejectedHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), ejectedHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), ejectedHappening.getDescription());
+        Assert.assertEquals("demorlan_goricky", ejectedHappening.getEjectedNation());
+        Assert.assertEquals("new_legland", ejectedHappening.getEjectingNation());
+        Assert.assertEquals("canterbury", ejectedHappening.getFromRegion());
+        Assert.assertFalse(ejectedHappening.isBanned());
     }
 
     @Test
@@ -107,13 +107,13 @@ public class EjectedHappeningSpecializerTest {
         final EjectedHappening ejectedHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, ejectedHappening.id);
-        Assert.assertEquals(happening.timestamp, ejectedHappening.timestamp);
-        Assert.assertEquals(happening.description, ejectedHappening.description);
-        Assert.assertEquals("national_socalist_workers_party", ejectedHappening.ejectedNation);
-        Assert.assertEquals("vancouvia", ejectedHappening.ejectingNation);
-        Assert.assertEquals("the_western_isles", ejectedHappening.fromRegion);
-        Assert.assertTrue(ejectedHappening.banned);
+        Assert.assertEquals(happening.getId(), ejectedHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), ejectedHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), ejectedHappening.getDescription());
+        Assert.assertEquals("national_socalist_workers_party", ejectedHappening.getEjectedNation());
+        Assert.assertEquals("vancouvia", ejectedHappening.getEjectingNation());
+        Assert.assertEquals("the_western_isles", ejectedHappening.getFromRegion());
+        Assert.assertTrue(ejectedHappening.isBanned());
     }
 
     @Test
@@ -129,13 +129,13 @@ public class EjectedHappeningSpecializerTest {
         final EjectedHappening ejectedHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, ejectedHappening.id);
-        Assert.assertEquals(happening.timestamp, ejectedHappening.timestamp);
-        Assert.assertEquals(happening.description, ejectedHappening.description);
-        Assert.assertEquals("les_arbes", ejectedHappening.ejectedNation);
-        Assert.assertEquals("bran_astor", ejectedHappening.ejectingNation);
-        Assert.assertEquals("the_west_pacific", ejectedHappening.fromRegion);
-        Assert.assertTrue(ejectedHappening.banned);
+        Assert.assertEquals(happening.getId(), ejectedHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), ejectedHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), ejectedHappening.getDescription());
+        Assert.assertEquals("les_arbes", ejectedHappening.getEjectedNation());
+        Assert.assertEquals("bran_astor", ejectedHappening.getEjectingNation());
+        Assert.assertEquals("the_west_pacific", ejectedHappening.getFromRegion());
+        Assert.assertTrue(ejectedHappening.isBanned());
     }
 
 }

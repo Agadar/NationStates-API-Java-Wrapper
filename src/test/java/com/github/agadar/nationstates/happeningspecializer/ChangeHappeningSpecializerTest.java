@@ -100,11 +100,11 @@ public class ChangeHappeningSpecializerTest {
         final ChangeHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("d-community", lawHappening.nation);
-        Assert.assertEquals("changed its national motto to \"Abrir todas las jaulas\"", lawHappening.change);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("d-community", lawHappening.getNation());
+        Assert.assertEquals("changed its national motto to \"Abrir todas las jaulas\"", lawHappening.getChange());
     }
 
     @Test
@@ -120,11 +120,11 @@ public class ChangeHappeningSpecializerTest {
         final ChangeHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("panzergrenadierbataillon_18", lawHappening.nation);
-        Assert.assertEquals("altered its national flag", lawHappening.change);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("panzergrenadierbataillon_18", lawHappening.getNation());
+        Assert.assertEquals("altered its national flag", lawHappening.getChange());
     }
 
     @Test
@@ -140,12 +140,12 @@ public class ChangeHappeningSpecializerTest {
         final ChangeHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("crouton_eaters", lawHappening.nation);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("crouton_eaters", lawHappening.getNation());
         Assert.assertEquals("was reclassified from \"Capitalist Paradise\" to \"Corporate Bordello\"",
-                lawHappening.change);
+                lawHappening.getChange());
     }
 
     @Test
@@ -160,11 +160,11 @@ public class ChangeHappeningSpecializerTest {
         final ChangeHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("lebend", lawHappening.nation);
-        Assert.assertEquals("created a custom banner", lawHappening.change);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("lebend", lawHappening.getNation());
+        Assert.assertEquals("created a custom banner", lawHappening.getChange());
     }
 
 }

@@ -228,13 +228,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.nation);
-        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.region1);
-        Assert.assertEquals("plum_island", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.getNation());
+        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.getRegion1());
+        Assert.assertEquals("plum_island", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -250,13 +250,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("vespertania", embassyHappening.nation);
-        Assert.assertEquals("centrum_essentia", embassyHappening.region1);
-        Assert.assertEquals("bus_stop", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.AGREED_TO_CONSTRUCT, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("vespertania", embassyHappening.getNation());
+        Assert.assertEquals("centrum_essentia", embassyHappening.getRegion1());
+        Assert.assertEquals("bus_stop", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.AGREED_TO_CONSTRUCT, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -272,13 +272,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals(null, embassyHappening.nation);
-        Assert.assertEquals("warzone_asia", embassyHappening.region1);
-        Assert.assertEquals("the_east_pacific", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals(null, embassyHappening.getNation());
+        Assert.assertEquals("warzone_asia", embassyHappening.getRegion1());
+        Assert.assertEquals("the_east_pacific", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -294,13 +294,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("eastern_mystaulem", embassyHappening.nation);
-        Assert.assertEquals("the_fuel_of_the_ages", embassyHappening.region1);
-        Assert.assertEquals("the_bar_on_the_corner_of_every_region", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.ORDERED_CLOSURE, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("eastern_mystaulem", embassyHappening.getNation());
+        Assert.assertEquals("the_fuel_of_the_ages", embassyHappening.getRegion1());
+        Assert.assertEquals("the_bar_on_the_corner_of_every_region", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.ORDERED_CLOSURE, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -316,13 +316,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("vespertania", embassyHappening.nation);
-        Assert.assertEquals("centrum_essentia", embassyHappening.region1);
-        Assert.assertEquals("the_western_isles", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.PROPOSED_CONSTRUCTION, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("vespertania", embassyHappening.getNation());
+        Assert.assertEquals("centrum_essentia", embassyHappening.getRegion1());
+        Assert.assertEquals("the_western_isles", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.PROPOSED_CONSTRUCTION, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -338,13 +338,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("terra_voltera", embassyHappening.nation);
-        Assert.assertEquals("the_worlds_order", embassyHappening.region1);
-        Assert.assertEquals("the_hole_to_hide_in", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.REJECTED_REQUEST, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("terra_voltera", embassyHappening.getNation());
+        Assert.assertEquals("the_worlds_order", embassyHappening.getRegion1());
+        Assert.assertEquals("the_hole_to_hide_in", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.REJECTED_REQUEST, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -360,13 +360,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.nation);
-        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.region1);
-        Assert.assertEquals("versailles_isle", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.WITHDREW_REQUEST, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.getNation());
+        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.getRegion1());
+        Assert.assertEquals("versailles_isle", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.WITHDREW_REQUEST, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -382,13 +382,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.nation);
-        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.region1);
-        Assert.assertEquals("sikhi_empire", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.CANCELLED_CLOSURE, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals("the_indo-malaysian_consulate", embassyHappening.getNation());
+        Assert.assertEquals("great_socialist_states_of_odinovich", embassyHappening.getRegion1());
+        Assert.assertEquals("sikhi_empire", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.CANCELLED_CLOSURE, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -404,13 +404,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals(null, embassyHappening.nation);
-        Assert.assertEquals("union_of_russia_and_italy_and_ireland", embassyHappening.region1);
-        Assert.assertEquals("the_western_isles", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.EMBASSY_CANCELLED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals(null, embassyHappening.getNation());
+        Assert.assertEquals("union_of_russia_and_italy_and_ireland", embassyHappening.getRegion1());
+        Assert.assertEquals("the_western_isles", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.EMBASSY_CANCELLED, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -426,13 +426,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals(null, embassyHappening.nation);
-        Assert.assertEquals("world_trade_centre", embassyHappening.region1);
-        Assert.assertEquals("the_embassy", embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals(null, embassyHappening.getNation());
+        Assert.assertEquals("world_trade_centre", embassyHappening.getRegion1());
+        Assert.assertEquals("the_embassy", embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.CONSTRUCTION_ABORTED, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -447,13 +447,13 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals(null, embassyHappening.nation);
-        Assert.assertEquals("warzone_sandbox", embassyHappening.region1);
-        Assert.assertEquals(null, embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals(null, embassyHappening.getNation());
+        Assert.assertEquals("warzone_sandbox", embassyHappening.getRegion1());
+        Assert.assertEquals(null, embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.EMBASSY_ESTABLISHED, embassyHappening.getEmbassyHappeningType());
     }
 
     @Test
@@ -468,12 +468,12 @@ public class EmbassyHappeningSpecializerTest {
         final EmbassyHappening embassyHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, embassyHappening.id);
-        Assert.assertEquals(happening.timestamp, embassyHappening.timestamp);
-        Assert.assertEquals(happening.description, embassyHappening.description);
-        Assert.assertEquals(null, embassyHappening.nation);
-        Assert.assertEquals("peoples_federation_of_qandaristan", embassyHappening.region1);
-        Assert.assertEquals(null, embassyHappening.region2);
-        Assert.assertEquals(EmbassyHappeningType.EMBASSY_CANCELLED, embassyHappening.embassyHappeningType);
+        Assert.assertEquals(happening.getId(), embassyHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), embassyHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), embassyHappening.getDescription());
+        Assert.assertEquals(null, embassyHappening.getNation());
+        Assert.assertEquals("peoples_federation_of_qandaristan", embassyHappening.getRegion1());
+        Assert.assertEquals(null, embassyHappening.getRegion2());
+        Assert.assertEquals(EmbassyHappeningType.EMBASSY_CANCELLED, embassyHappening.getEmbassyHappeningType());
     }
 }

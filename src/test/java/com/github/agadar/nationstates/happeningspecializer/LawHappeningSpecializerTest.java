@@ -53,11 +53,11 @@ public class LawHappeningSpecializerTest {
         final LawHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("terkaulia", lawHappening.nation);
-        Assert.assertEquals("naturists are jailed regularly for indecent exposure", lawHappening.result);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("terkaulia", lawHappening.getNation());
+        Assert.assertEquals("naturists are jailed regularly for indecent exposure", lawHappening.getResult());
     }
 
 }

@@ -55,14 +55,14 @@ public class DispatchHappeningSpecializerTest {
         final DispatchHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.id, lawHappening.id);
-        Assert.assertEquals(happening.timestamp, lawHappening.timestamp);
-        Assert.assertEquals(happening.description, lawHappening.description);
-        Assert.assertEquals("talao", lawHappening.nation);
-        Assert.assertEquals(982940L, lawHappening.dispatchId);
-        Assert.assertEquals("Talist Manifesto", lawHappening.dispatchName);
-        Assert.assertEquals(DispatchCategory.BULLETIN, lawHappening.dispatchCategory);
-        Assert.assertEquals(DispatchSubCategory.CAMPAIGN, lawHappening.dispatchSubCategory);
+        Assert.assertEquals(happening.getId(), lawHappening.getId());
+        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
+        Assert.assertEquals("talao", lawHappening.getNation());
+        Assert.assertEquals(982940L, lawHappening.getDispatchId());
+        Assert.assertEquals("Talist Manifesto", lawHappening.getDispatchName());
+        Assert.assertEquals(DispatchCategory.BULLETIN, lawHappening.getDispatchCategory());
+        Assert.assertEquals(DispatchSubCategory.CAMPAIGN, lawHappening.getDispatchSubCategory());
     }
 
 }
