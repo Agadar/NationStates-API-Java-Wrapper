@@ -1,6 +1,9 @@
 package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
@@ -8,7 +11,6 @@ import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -57,26 +59,10 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      */
     private boolean isRecruitment = false;
 
-    /**
-     * Constructor.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param telegramRateLimiter
-     * @param recruitmentTelegramRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param clientKey the client key
-     * @param telegramId the telegram id
-     * @param secretKey the telegram's secret key
-     * @param nations the nation(s) to send the telegram to
-     */
     public TelegramQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
-            IRateLimiter telegramRateLimiter, IRateLimiter recruitmentTelegramRateLimiter,
-            String baseUrl, String userAgent, int apiVersion,
-            String clientKey, String telegramId, String secretKey, String... nations) {
+            IRateLimiter telegramRateLimiter, IRateLimiter recruitmentTelegramRateLimiter, String baseUrl,
+            String userAgent, int apiVersion, String clientKey, String telegramId, String secretKey,
+            String... nations) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "sendTG");
         this.telegramRateLimiter = telegramRateLimiter;
         this.recruitmentTelegramRateLimiter = recruitmentTelegramRateLimiter;
@@ -104,7 +90,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      * @param newListeners the listeners to register
      * @return this
      */
-    public TelegramQuery addListeners(TelegramSentListener... newListeners) {
+    public TelegramQuery addListeners(@NonNull TelegramSentListener... newListeners) {
         synchronized (listeners) {
             for (TelegramSentListener listener : newListeners) {
                 if (!listeners.contains(listener)) {
@@ -113,6 +99,61 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
             }
         }
         return this;
+    }
+
+    /**
+     * The estimated time it will take to send all of this query's telegrams, in
+     * milliseconds. Assumes no interference from other TelegramQueries being
+     * executed simultaneously.
+     *
+     * @return the estimated time in milliseconds
+     */
+    public long estimatedDuration() {
+        // Null-check on nations
+        if (nations == null || nations.length < 1) {
+            return 0;
+        }
+
+        // Calculate and return estimated time
+        final int individual = isRecruitment ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
+                : this.telegramRateLimiter.getMillisecondsBetweenLocks();
+        return (nations.length - 1) * individual;
+    }
+
+    @Override
+    public <T> T execute(Class<T> type) {
+        // Validate parameters and build base url.
+        validateQueryParameters();
+        String baseUrl = buildURL();
+
+        // For each addressee, call makeRequest(...) if it isn't a dry run.
+        for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
+            // Build final url and wait for the rate limiter to go.
+            final String nation = nations[i];
+            final String url = baseUrl + nation.replace(' ', '_');
+            boolean queued = true;
+            String message = "";
+
+            try {
+                makeRequest(url, type);
+            } catch (Exception ex) {
+                // If anything went wrong, make sure we log it in the event.
+                queued = false;
+                message = ex.getMessage();
+            } finally {
+                // Always unlock the rate limiter to prevent deadlock.
+                getRateLimiter().unlock();
+            }
+
+            // Fire a new telegram sent event.
+            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, message, i);
+            synchronized (listeners) {
+                listeners.stream().forEach((tsl) -> {
+                    tsl.handleTelegramSent(event);
+                });
+            }
+        }
+        return null;
     }
 
     @Override
@@ -146,66 +187,11 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         return null;
     }
 
-    /**
-     * The estimated time it will take to send all of this query's telegrams, in
-     * milliseconds. Assumes no interference from other TelegramQueries being
-     * executed simultaneously.
-     *
-     * @return the estimated time in milliseconds
-     */
-    public long estimatedDuration() {
-        // Null-check on nations
-        if (nations == null || nations.length < 1) {
-            return 0;
-        }
-
-        // Calculate and return estimated time
-        final int individual = isRecruitment
-                ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
-                : this.telegramRateLimiter.getMillisecondsBetweenLocks();
-        return (nations.length - 1) * individual;
-    }
-
-    @Override
-    public <T> Optional<T> execute(Class<T> type) {
-        // Validate parameters and build base url.
-        validateQueryParameters();
-        String baseUrl = buildURL();
-
-        // For each addressee, call makeRequest(...) if it isn't a dry run.
-        for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
-            // Build final url and wait for the rate limiter to go.
-            final String nation = nations[i];
-            final String url = baseUrl + nation.replace(' ', '_');
-            boolean queued = true;
-            String message = "";
-
-            try {
-                makeRequest(url, type);
-            } catch (Exception ex) {
-                // If anything went wrong, make sure we log it in the event.
-                queued = false;
-                message = ex.getMessage();
-            } finally {
-                // Always unlock the rate limiter to prevent deadlock.
-                getRateLimiter().unlock();
-            }
-
-            // Fire a new telegram sent event.
-            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, message, i);
-            synchronized (listeners) {
-                listeners.stream().forEach((tsl) -> {
-                    tsl.handleTelegramSent(event);
-                });
-            }
-        }
-        return Optional.empty();
-    }
-
     @Override
     protected String buildURL() {
         String url = super.buildURL();
-        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey, telegramId, secretKey); // Append telegram fields.
+        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey, telegramId, secretKey); // Append telegram
+                                                                                                 // fields.
         return url;
     }
 

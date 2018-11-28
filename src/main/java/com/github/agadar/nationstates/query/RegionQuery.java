@@ -23,8 +23,8 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
     private long fromId;
 
     /**
-     * The maximum number of posts to retrieve, or the maximum number of results
-     * to return for 'mostposts', 'mostliked', and 'mostlikes' to retrieve.
+     * The maximum number of posts to retrieve, or the maximum number of results to
+     * return for 'mostposts', 'mostliked', and 'mostlikes' to retrieve.
      */
     private long limit;
 
@@ -40,25 +40,14 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      */
     private long postsTo;
 
-    /**
-     * Constructor. Sets the name of the region to query.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param regionName name of the region to query
-     */
     public RegionQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String regionName) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
     }
 
     /**
-     * Sets the offset for the 10 most recent regional messages. Does nothing if
-     * the RegionalMessages shard is not selected.
+     * Sets the offset for the 10 most recent regional messages. Does nothing if the
+     * RegionalMessages shard is not selected.
      *
      * @param offset the offset for the 10 most recent regional messages
      * @return this
@@ -69,8 +58,8 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
     }
 
     /**
-     * Sets the id of the post to start from. Does nothing if the
-     * RegionalMessages shard is not selected.
+     * Sets the id of the post to start from. Does nothing if the RegionalMessages
+     * shard is not selected.
      *
      * @param id the id of the post to start from
      * @return this
@@ -82,9 +71,9 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
 
     /**
      * Sets the maximum number of posts to retrieve, or the maximum number of
-     * results to return for MostLiked, MostLikes, or MostPosts to retrieve.
-     * Does nothing if the RegionalMessages, MostLiked, MostLikes, or MostPosts
-     * shard is not selected.
+     * results to return for MostLiked, MostLikes, or MostPosts to retrieve. Does
+     * nothing if the RegionalMessages, MostLiked, MostLikes, or MostPosts shard is
+     * not selected.
      *
      * @param limit maximum number of posts or results to retrieve
      * @return this
@@ -95,8 +84,8 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
     }
 
     /**
-     * Sets the earliest epoch date of messages to take into account for
-     * MostPosts, MostLiked, and MostLikes shards.
+     * Sets the earliest epoch date of messages to take into account for MostPosts,
+     * MostLiked, and MostLikes shards.
      *
      * @param postsFrom earliest epoch date of messages to take into account
      * @return this
@@ -107,8 +96,8 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
     }
 
     /**
-     * Sets the latest epoch date of messages to take into account for
-     * MostPosts, MostLiked, and MostLikes shards.
+     * Sets the latest epoch date of messages to take into account for MostPosts,
+     * MostLiked, and MostLikes shards.
      *
      * @param postsTo latest epoch date of messages to take into account
      * @return this

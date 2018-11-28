@@ -1,9 +1,13 @@
 package com.github.agadar.nationstates;
 
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
@@ -103,7 +107,7 @@ public class NationStates implements INationStates {
      *
      * @param userAgent the User Agent to use for API calls
      */
-    public NationStates(String userAgent) {
+    public NationStates(@NonNull String userAgent) {
         this.setUserAgent(userAgent);
         this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
 
@@ -117,7 +121,7 @@ public class NationStates implements INationStates {
     }
 
     @Override
-    public void setUserAgent(String userAgent) {
+    public void setUserAgent(@NonNull String userAgent) {
         if (userAgent == null || userAgent.isEmpty()) {
             throw new IllegalArgumentException("User Agent may not be null or empty");
         }
@@ -126,34 +130,35 @@ public class NationStates implements INationStates {
 
     @Override
     public void doVersionCheck() {
-        getVersion().execute().ifPresent(this::logNationStatesApiVersion);
+        int version = getVersion().execute();
+        logNationStatesApiVersion(version);
     }
 
     @Override
-    public final void registerTypes(Class<?>... types) {
+    public final void registerTypes(@NonNull Class<?>... types) {
         xmlConverter.registerTypes(types);
     }
 
     @Override
-    public NationQuery getNation(String nationName) {
+    public NationQuery getNation(@NonNull String nationName) {
         return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
                 nationName);
     }
 
     @Override
-    public RegionQuery getRegion(String regionName) {
+    public RegionQuery getRegion(@NonNull String regionName) {
         return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
                 regionName);
     }
 
     @Override
-    public WorldQuery getWorld(WorldShard... shards) {
+    public WorldQuery getWorld(@NonNull WorldShard... shards) {
         return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
                 shards);
     }
 
     @Override
-    public WorldAssemblyQuery getWorldAssembly(Council council) {
+    public WorldAssemblyQuery getWorldAssembly(@NonNull Council council) {
         return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent,
                 apiVersion, council);
     }
@@ -164,25 +169,26 @@ public class NationStates implements INationStates {
     }
 
     @Override
-    public VerifyQuery verifyNation(String nation, String checksum) {
+    public VerifyQuery verifyNation(@NonNull String nation, @NonNull String checksum) {
         return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
                 nation, checksum);
     }
 
     @Override
-    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations) {
+    public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
+            @NonNull String... nations) {
         return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter,
                 recruitmentTelegramRateLimiter, baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey,
                 nations);
     }
 
     @Override
-    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter) {
+    public RegionDumpQuery getRegionDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Region> filter) {
         return new RegionDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
     }
 
     @Override
-    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter) {
+    public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter) {
         return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
     }
 

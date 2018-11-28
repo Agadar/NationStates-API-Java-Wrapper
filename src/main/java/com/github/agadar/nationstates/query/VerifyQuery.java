@@ -1,6 +1,9 @@
 package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -28,18 +31,6 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
      */
     private String token;
 
-    /**
-     * Constructor.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param nation the nation to verify
-     * @param code the verification code
-     */
     public VerifyQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String nation, String code) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "verify");
@@ -48,15 +39,14 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
     }
 
     /**
-     * Use an application-specific token. If a token is set, then users can
-     * retrieve their code at
-     * https://www.nationstates.net/page=verify_login?token=(Your token)
-     * instead.
+     * Use an application-specific token. If a token is set, then users can retrieve
+     * their code at https://www.nationstates.net/page=verify_login?token=(Your
+     * token) instead.
      *
      * @param token application-specific token
      * @return this
      */
-    public final VerifyQuery token(String token) {
+    public final VerifyQuery token(@NonNull String token) {
         this.token = token;
         return this;
     }
@@ -83,7 +73,7 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
     @Override
     protected <T> T translateResponse(InputStream response, Class<T> type) {
         @SuppressWarnings("resource")
-	Scanner s = new Scanner(response).useDelimiter("\\A");
+        Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
         return (T) Boolean.valueOf(body.equals("1"));
     }

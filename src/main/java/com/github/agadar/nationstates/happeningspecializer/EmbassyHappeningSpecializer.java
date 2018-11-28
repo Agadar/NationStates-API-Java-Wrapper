@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.domain.common.happening.EmbassyHappening;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.EmbassyHappeningType;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 /**
  * Specializes generic Happenings to EmbassyHappenings.

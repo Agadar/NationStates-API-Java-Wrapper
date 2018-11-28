@@ -41,7 +41,7 @@ public class NationStatesTest {
         final NationQuery query = nationStates.getNation("testlandia");
 
         // Act
-        final Nation result = query.execute().get();
+        final Nation result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -59,7 +59,7 @@ public class NationStatesTest {
         final RegionQuery query = nationStates.getRegion("the rejected realms");
 
         // Act
-        final Region result = query.execute().get();
+        final Region result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -77,7 +77,7 @@ public class NationStatesTest {
         final WorldQuery query = nationStates.getWorld(WorldShard.NUMBER_OF_NATIONS);
 
         // Act
-        final World result = query.execute().get();
+        final World result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -96,7 +96,7 @@ public class NationStatesTest {
                 .shards(WorldAssemblyShard.NUMBER_OF_MEMBERS);
 
         // Act
-        final WorldAssembly result = query.execute().get();
+        final WorldAssembly result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -114,7 +114,7 @@ public class NationStatesTest {
         final VersionQuery query = nationStates.getVersion();
 
         // Act
-        final int version = query.execute().get();
+        final int version = query.execute();
 
         // Assert
         assertNotNull(version);

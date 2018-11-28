@@ -13,16 +13,6 @@ import java.util.Scanner;
  */
 public class VersionQuery extends APIQuery<VersionQuery, Integer> {
 
-    /**
-     * Constructor.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     */
     public VersionQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "version");
@@ -37,7 +27,7 @@ public class VersionQuery extends APIQuery<VersionQuery, Integer> {
     @Override
     protected <T> T translateResponse(InputStream response, Class<T> type) {
         @SuppressWarnings("resource")
-	Scanner s = new Scanner(response).useDelimiter("\\A");
+        Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";
         return (T) Integer.valueOf(body);
     }

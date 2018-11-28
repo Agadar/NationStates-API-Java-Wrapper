@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.RegionSaxHandler;
 
 import java.io.IOException;

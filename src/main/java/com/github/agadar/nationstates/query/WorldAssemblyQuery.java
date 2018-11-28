@@ -18,20 +18,10 @@ public class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, WorldAsse
      */
     private int resolutionId;
 
-    /**
-     * Constructor. Sets the council type to query.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param council the council type to query
-     */
-    public WorldAssemblyQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, Council council) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, String.valueOf(council.toInt()));
+    public WorldAssemblyQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter,
+            IRateLimiter scrapingRateLimiter, String baseUrl, String userAgent, int apiVersion, Council council) {
+        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
+                String.valueOf(council.toInt()));
     }
 
     /**

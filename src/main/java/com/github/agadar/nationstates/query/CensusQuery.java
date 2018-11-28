@@ -1,13 +1,16 @@
 package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.enumerator.CensusId;
 import com.github.agadar.nationstates.enumerator.CensusMode;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
 
 /**
- * Intermediate parent class that adds options for censusses.
+ * Intermediate parent class that adds options for censuses.
  *
  * @author Agadar (https://github.com/Agadar/)
  *
@@ -38,25 +41,14 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      */
     private long censusHistoryTo;
 
-    /**
-     * Constructor. Sets the resource value, e.g. the nation's or region's name.
-     *
-     * @param xmlConverter
-     * @param resourceValue the resource value
-     * @param generalRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param scrapingRateLimiter
-     */
     public CensusQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
     }
 
     /**
-     * Sets the census id's. Does nothing if none of the following shards are
-     * set: Census, CensusRanks, CensusName, CensusDescriptions, CensusScale, or
+     * Sets the census id's. Does nothing if none of the following shards are set:
+     * Census, CensusRanks, CensusName, CensusDescriptions, CensusScale, or
      * CensusTitle.
      *
      * Note: setting multiple id's is only supported for the Census shard.
@@ -65,21 +57,20 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusIds(CensusId... censusIds) {
+    public final Q censusIds(@NonNull CensusId... censusIds) {
         this.censusIds = censusIds;
         return (Q) this;
     }
 
     /**
-     * Sets the census modes. Does nothing if the Census shard is not selected.
-     * Note that the History census mode cannot be combined with any other
-     * modes.
+     * Sets the census modes. Does nothing if the Census shard is not selected. Note
+     * that the History census mode cannot be combined with any other modes.
      *
      * @param censusModes the census modes to select
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusModes(CensusMode... censusModes) {
+    public final Q censusModes(@NonNull CensusMode... censusModes) {
         this.censusModes = censusModes;
         return (Q) this;
     }
@@ -89,7 +80,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * Implicitly sets the History census mode.
      *
      * @param timestamp the lower bound in UNIX timestamp for the History census
-     * mode
+     *                  mode
      * @return this
      */
     @SuppressWarnings("unchecked")
@@ -103,7 +94,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * Implicitly sets the History census mode.
      *
      * @param timestamp the upper bound in UNIX timestamp for the History census
-     * mode
+     *                  mode
      * @return this
      */
     @SuppressWarnings("unchecked")

@@ -1,6 +1,9 @@
 package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
@@ -86,17 +89,6 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      */
     private long happeningsBeforeTime;
 
-    /**
-     * Constructor. Accepts one or more shards.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param shards the shards to select
-     */
     public WorldQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, WorldShard... shards) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "");
@@ -104,37 +96,37 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * Sets the author to list dispatches of. Does nothing if Dispatches shard
-     * is not selected.
+     * Sets the author to list dispatches of. Does nothing if Dispatches shard is
+     * not selected.
      *
      * @param nation the author to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchAuthor(String nation) {
+    public final WorldQuery dispatchAuthor(@NonNull String nation) {
         this.dispatchAuthor = nation;
         return this;
     }
 
     /**
-     * Sets the category to list dispatches of. Does nothing if Dispatches shard
-     * is not selected.
+     * Sets the category to list dispatches of. Does nothing if Dispatches shard is
+     * not selected.
      *
      * @param category the category to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchCategory(DispatchCategory category) {
+    public final WorldQuery dispatchCategory(@NonNull DispatchCategory category) {
         this.dispatchCategory = category;
         return this;
     }
 
     /**
-     * Sets the subcategory to list dispatches of. Does nothing if Dispatches
-     * shard is not selected or category is not set.
+     * Sets the subcategory to list dispatches of. Does nothing if Dispatches shard
+     * is not selected or category is not set.
      *
      * @param subcategory the subcategory to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchSubcategory(DispatchSubCategory subcategory) {
+    public final WorldQuery dispatchSubcategory(@NonNull DispatchSubCategory subcategory) {
         this.dispatchSubcategory = subcategory;
         return this;
     }
@@ -151,8 +143,8 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * Sets the id of the dispatch to select. Does nothing if SelectedDispatch
-     * shard is not selected.
+     * Sets the id of the dispatch to select. Does nothing if SelectedDispatch shard
+     * is not selected.
      *
      * @param dispatchId id of the dispatch to select.
      * @return this
@@ -163,25 +155,25 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * Sets the tags, used for retrieving regions that have those tags. Does
-     * nothing if the RegionsByTag shard is not selected.
+     * Sets the tags, used for retrieving regions that have those tags. Does nothing
+     * if the RegionsByTag shard is not selected.
      *
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithTags(RegionTag... tags) {
+    public final WorldQuery regionsWithTags(@NonNull RegionTag... tags) {
         regionsWithTags = tags;
         return this;
     }
 
     /**
-     * Sets the tags, used for retrieving regions that do NOT have those tags.
-     * Does nothing if the RegionsByTag shard is not selected.
+     * Sets the tags, used for retrieving regions that do NOT have those tags. Does
+     * nothing if the RegionsByTag shard is not selected.
      *
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithoutTags(RegionTag... tags) {
+    public final WorldQuery regionsWithoutTags(@NonNull RegionTag... tags) {
         regionsWithoutTags = tags;
         return this;
     }
@@ -193,7 +185,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param nation the nation(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfNation(String... nation) {
+    public final WorldQuery happeningsOfNation(@NonNull String... nation) {
         this.happeningsView = nation.length == 1 ? "nation." : "nations.";
         this.happeningsView += nation[0];
 
@@ -211,7 +203,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param region the region(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfRegion(String... region) {
+    public final WorldQuery happeningsOfRegion(@NonNull String... region) {
         this.happeningsView = region.length == 1 ? "region." : "regions.";
         this.happeningsView += region[0];
 
@@ -223,13 +215,13 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * Sets the filters for happenings. Does nothing if the Happenings shard is
-     * not selected.
+     * Sets the filters for happenings. Does nothing if the Happenings shard is not
+     * selected.
      *
      * @param filters the filters for happenings
      * @return this
      */
-    public final WorldQuery happeningsFilter(HappeningsFilter... filters) {
+    public final WorldQuery happeningsFilter(@NonNull HappeningsFilter... filters) {
         this.happeningsFilter = filters;
         return this;
     }
@@ -247,8 +239,8 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * If this is set, only happenings with a higher id than the one supplied
-     * will be retrieved.
+     * If this is set, only happenings with a higher id than the one supplied will
+     * be retrieved.
      *
      * @param id the id
      * @return this
@@ -259,8 +251,8 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * If this is set, only happenings with a lower id than the one supplied
-     * will be retrieved.
+     * If this is set, only happenings with a lower id than the one supplied will be
+     * retrieved.
      *
      * @param id the id
      * @return this
@@ -271,8 +263,8 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     }
 
     /**
-     * If this is set, only happenings with a later timestamp than the one
-     * supplied will be retrieved.
+     * If this is set, only happenings with a later timestamp than the one supplied
+     * will be retrieved.
      *
      * @param time the timestamp
      * @return this
@@ -354,9 +346,9 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
             }
         }
 
-        if (happeningsView != null && !happeningsView.isEmpty()
-                && !happeningsView.equals("nation.") && !happeningsView.equals("region.")
-                && !happeningsView.equals("nations.") && !happeningsView.equals("regions.")) {
+        if (happeningsView != null && !happeningsView.isEmpty() && !happeningsView.equals("nation.")
+                && !happeningsView.equals("region.") && !happeningsView.equals("nations.")
+                && !happeningsView.equals("regions.")) {
             url += "&view=" + happeningsView;
         }
 

@@ -1,14 +1,17 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 
 import java.io.InputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Optional;
 
 /**
  * Top parent class for all Queries to the NationStates API.
@@ -55,13 +58,13 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * Constructor. Sets the resource value, e.g. the nation's or region's name.
      *
-     * @param xmlConverter The converter for translating XML from the API to
-     * objects.
-     * @param resourceValue The resource value (e.g. 'nation', 'region'...)
-     * @param generalRateLimiter The default rate limiter
-     * @param baseUrl The URL to the API to consume
-     * @param userAgent The User Agent to communicate with
-     * @param apiVersion The version of the API to expect to consume
+     * @param xmlConverter        The converter for translating XML from the API to
+     *                            objects.
+     * @param resourceValue       The resource value (e.g. 'nation', 'region'...)
+     * @param generalRateLimiter  The default rate limiter
+     * @param baseUrl             The URL to the API to consume
+     * @param userAgent           The User Agent to communicate with
+     * @param apiVersion          The version of the API to expect to consume
      * @param scrapingRateLimiter Rate limiter used when 'scraping'
      */
     protected APIQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
@@ -75,10 +78,10 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Makes the Query execute in slow mode, reducing the rate limit from 6
-     * requests per 4 seconds to only 1 request per second. This is suggested by
-     * the official documentations when scraping i.e. when requesting a LOT of
-     * data that cannot be retrieved from the daily dumps.
+     * Makes the Query execute in slow mode, reducing the rate limit from 6 requests
+     * per 4 seconds to only 1 request per second. This is suggested by the official
+     * documentations when scraping i.e. when requesting a LOT of data that cannot
+     * be retrieved from the daily dumps.
      *
      * @return this
      */
@@ -93,18 +96,17 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @return the result
      */
-    public Optional<R> execute() {
+    public R execute() {
         return execute(returnType);
     }
 
     /**
      * Executes this query, returning any result.
      *
-     * @param <T> the type to return
      * @param type the type to return
      * @return the result
      */
-    public <T> Optional<T> execute(Class<T> type) {
+    public <T> T execute(@NonNull Class<T> type) {
         if (getRateLimiter().lock()) {
             try {
                 validateQueryParameters();
@@ -119,8 +121,8 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Returns the rate limiter to use in the makeRequest()-function. Child
-     * classes can override this to supply their own rate limiter if needed.
+     * Returns the rate limiter to use in the makeRequest()-function. Child classes
+     * can override this to supply their own rate limiter if needed.
      *
      * @return the rate limiter to use in the makeRequest()-function
      */
@@ -133,11 +135,11 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
         super.validateQueryParameters();
         final String resourceString = resourceString();
 
-        // Ensure resourceValue is not null or empty if the resource string isn't either.
-        if (resourceString != null && !resourceString.isEmpty()
-                && (resourceValue == null || resourceValue.isEmpty())) {
-            throw new IllegalArgumentException("'resourceValue' may not be "
-                    + "null or empty if 'resourceString' isn't null or empty!");
+        // Ensure resourceValue is not null or empty if the resource string isn't
+        // either.
+        if (resourceString != null && !resourceString.isEmpty() && (resourceValue == null || resourceValue.isEmpty())) {
+            throw new IllegalArgumentException(
+                    "'resourceValue' may not be " + "null or empty if 'resourceString' isn't null or empty!");
         }
     }
 
@@ -164,15 +166,14 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     protected abstract String resourceString();
 
     /**
-     * Translates the stream response to the object this Query wishes to return
-     * via its execute() function. The standard way to translate is via JAXB,
-     * which assumes the stream is in a valid XML-format. Child classes might
-     * want to override this function if they wish to return primitives or
-     * something else.
+     * Translates the stream response to the object this Query wishes to return via
+     * its execute() function. The standard way to translate is via JAXB, which
+     * assumes the stream is in a valid XML-format. Child classes might want to
+     * override this function if they wish to return primitives or something else.
      *
-     * @param <T> type to parse to
+     * @param          <T> type to parse to
      * @param response the response to translate
-     * @param type type to parse to
+     * @param type     type to parse to
      * @return the translated response
      */
     protected <T> T translateResponse(InputStream response, Class<T> type) {
@@ -180,16 +181,15 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the
-     * call failed. If the requested nation/region/etc. simply wasn't found, it
-     * returns an empty optional.
+     * Makes a GET request to the NationStates API. Throws exceptions if the call
+     * failed. If the requested nation/region/etc. simply wasn't found, it returns
+     * an empty optional.
      *
-     * @param <T> type to parse to
      * @param urlStr the url to make the request to
-     * @param type type to parse to
-     * @return the retrieved data, or null if the resource wasn't found
+     * @param type   type to parse to
+     * @return the retrieved data
      */
-    protected final <T> Optional<T> makeRequest(String urlStr, Class<T> type) {
+    protected final <T> T makeRequest(String urlStr, Class<T> type) {
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
@@ -208,13 +208,13 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
                 stream = conn.getInputStream();
                 final T result = translateResponse(stream, type);
                 closeInputStreamQuietly(stream);
-                return Optional.of(result);
+                return result;
             } else {
                 closeInputStreamQuietly(stream);
 
-                // If the resource simply wasn't found, just return null.
+                // If the resource wasn't found...
                 if (responseCode == 404) {
-                    return Optional.empty();
+                    throw new NationStatesResourceNotFoundException();
                 }
 
                 // Else, something worse is going on. Throw an exception.

@@ -1,4 +1,4 @@
-package com.github.agadar.nationstates;
+package com.github.agadar.nationstates.exception;
 
 /**
  * Custom unchecked exception for Agadar's NationStates API Java Wrapper.
@@ -9,7 +9,7 @@ package com.github.agadar.nationstates;
  */
 public class NationStatesAPIException extends RuntimeException {
 
-    private static final long serialVersionUID = -2143879237003747615L;
+    private static final long serialVersionUID = 1L;
 
     public NationStatesAPIException() {
         super();

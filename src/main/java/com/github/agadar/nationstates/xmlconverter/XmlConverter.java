@@ -1,7 +1,5 @@
 package com.github.agadar.nationstates.xmlconverter;
 
-import com.github.agadar.nationstates.NationStatesAPIException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -14,6 +12,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
+
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 /**
  * Converts XML streams to properly annotated objects, and vice versa.

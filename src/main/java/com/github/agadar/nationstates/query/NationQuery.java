@@ -1,6 +1,9 @@
 package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
 import com.github.agadar.nationstates.shard.NationShard;
@@ -17,17 +20,6 @@ public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
      */
     private String canReceiveTelegramFromRegion;
 
-    /**
-     * Constructor. Sets the name of the nation to query.
-     *
-     * @param xmlConverter
-     * @param generalRateLimiter
-     * @param scrapingRateLimiter
-     * @param baseUrl
-     * @param userAgent
-     * @param apiVersion
-     * @param nationName name of the nation to query
-     */
     public NationQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String nationName) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
@@ -35,13 +27,12 @@ public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
 
     /**
      * For use with the 'CanReceiveRecruitmentTelegrams' and
-     * 'CanReceiveCampaignTelegrams' shards. Allows a sender region to be
-     * specified.
+     * 'CanReceiveCampaignTelegrams' shards. Allows a sender region to be specified.
      *
      * @param region the specified region.
      * @return this
      */
-    public final NationQuery canReceiveTelegramFromRegion(String region) {
+    public final NationQuery canReceiveTelegramFromRegion(@NonNull String region) {
         this.canReceiveTelegramFromRegion = region.trim();
         return this;
     }

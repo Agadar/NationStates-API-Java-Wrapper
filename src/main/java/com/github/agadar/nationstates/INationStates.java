@@ -5,6 +5,9 @@ import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.shard.WorldShard;
+
+import lombok.NonNull;
+
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
 import com.github.agadar.nationstates.query.RegionDumpQuery;
@@ -26,16 +29,15 @@ import java.util.function.Predicate;
 public interface INationStates {
 
     /**
-     * Sets the User Agent. NationStates moderators should be able to identify
-     * you and your script via your User Agent. As such, try providing at least
-     * your nation name, and preferably include your e-mail address, a link to a
-     * website you own, or something else that can help them contact you if
-     * needed.
+     * Sets the User Agent. NationStates moderators should be able to identify you
+     * and your script via your User Agent. As such, try providing at least your
+     * nation name, and preferably include your e-mail address, a link to a website
+     * you own, or something else that can help them contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
      * @throws IllegalArgumentException if userAgent is null or empty.
      */
-    public void setUserAgent(String userAgent);
+    public void setUserAgent(@NonNull String userAgent);
 
     /**
      * Performs a simple version check, logging the results in the console.
@@ -43,14 +45,14 @@ public interface INationStates {
     public void doVersionCheck();
 
     /**
-     * Adds the given classes to the JAXB context so that they can be parsed to
-     * from retrieved XML responses and files. Classes that inherit any of the
-     * classes in the domain-package don't need any xml-annotations. Classes
-     * that do no inherit those classes, do need xml-annotations.
+     * Adds the given classes to the JAXB context so that they can be parsed to from
+     * retrieved XML responses and files. Classes that inherit any of the classes in
+     * the domain-package don't need any xml-annotations. Classes that do no inherit
+     * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
      */
-    public void registerTypes(Class<?>... types);
+    public void registerTypes(@NonNull Class<?>... types);
 
     /**
      * Starts building a nation query, using the given nation name.
@@ -58,7 +60,7 @@ public interface INationStates {
      * @param nationName name of the nation to query
      * @return a new nation query
      */
-    public NationQuery getNation(String nationName);
+    public NationQuery getNation(@NonNull String nationName);
 
     /**
      * Starts building a region query, using the given region name.
@@ -66,7 +68,7 @@ public interface INationStates {
      * @param regionName name of the region to query
      * @return a new region query
      */
-    public RegionQuery getRegion(String regionName);
+    public RegionQuery getRegion(@NonNull String regionName);
 
     /**
      * Starts building a world query, using the selected shards.
@@ -74,7 +76,7 @@ public interface INationStates {
      * @param shards the selected shards
      * @return a new world query
      */
-    public WorldQuery getWorld(WorldShard... shards);
+    public WorldQuery getWorld(@NonNull WorldShard... shards);
 
     /**
      * Starts building a World Assembly query, using the selected council type.
@@ -82,11 +84,11 @@ public interface INationStates {
      * @param council the council type to query
      * @return a new World Assembly query
      */
-    public WorldAssemblyQuery getWorldAssembly(Council council);
+    public WorldAssemblyQuery getWorldAssembly(@NonNull Council council);
 
     /**
-     * Starts building a query that retrieves the version number of the latest
-     * live NationStates API.
+     * Starts building a query that retrieves the version number of the latest live
+     * NationStates API.
      *
      * @return a new version query
      */
@@ -95,31 +97,32 @@ public interface INationStates {
     /**
      * Starts building a query that verifies a nation.
      *
-     * @param nation the nation to verify
+     * @param nation   the nation to verify
      * @param checksum the verification checksum
      * @return a new verify query
      */
-    public VerifyQuery verifyNation(String nation, String checksum);
+    public VerifyQuery verifyNation(@NonNull String nation, @NonNull String checksum);
 
     /**
      * Starts building a query that sends (a) telegram(s).
      *
-     * @param clientKey the client key
+     * @param clientKey  the client key
      * @param telegramId the telegram id
-     * @param secretKey the telegram's secret key
-     * @param nations the nation(s) to send the telegram to
+     * @param secretKey  the telegram's secret key
+     * @param nations    the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
+    public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
+            @NonNull String... nations);
 
     /**
      * Starts building a query that retrieves the daily region dump.
      *
-     * @param mode the daily dump mode to use
+     * @param mode   the daily dump mode to use
      * @param filter filter used for selecting regions
      * @return a new daily region dump query
      */
-    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
+    public RegionDumpQuery getRegionDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Region> filter);
 
     /**
      * Starts building a query that retrieves the daily nation dump.
@@ -128,9 +131,9 @@ public interface INationStates {
      * java.lang.OutOfMemoryError on older machines due to the sheer number of
      * Nation objects being created from parsing the retrieved XML file.
      *
-     * @param mode the daily dump mode to use
+     * @param mode   the daily dump mode to use
      * @param filter filter used for selecting nations
      * @return a new daily nation dump query
      */
-    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
+    public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter);
 }

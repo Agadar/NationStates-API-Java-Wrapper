@@ -1,7 +1,10 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.NationStatesAPIException;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
+
+import lombok.NonNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,16 +59,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      */
     protected final Predicate<R> filter;
 
-    /**
-     * Constructor.
-     *
-     * @param baseUrl
-     * @param userAgent
-     * @param defaultDirectory
-     * @param mode the daily dump mode to use
-     * @param filter used for selecting a subset of the parsed daily dump file.
-     */
-    public DailyDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode, Predicate<R> filter) {
+    public DailyDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode,
+            Predicate<R> filter) {
         super(baseUrl, userAgent);
         this.mode = mode;
         this.defaultDirectory = defaultDirectory;
@@ -73,14 +68,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     /**
-     * Sets a specific directory to download the gzip file in, which will be
-     * used instead of the default directory.
+     * Sets a specific directory to download the gzip file in, which will be used
+     * instead of the default directory.
      *
      * @param dir a specific directory to download the gzip in
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q downloadDir(String dir) {
+    public final Q downloadDir(@NonNull String dir) {
         this.downloadDir = dir;
         return (Q) this;
     }
@@ -93,7 +88,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q readFromDir(String dir) {
+    public final Q readFromDir(@NonNull String dir) {
         this.readFromDir = dir;
         return (Q) this;
     }
@@ -109,15 +104,13 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
             // Download.
-            final String dir = downloadDir != null && !downloadDir.isEmpty()
-                    ? downloadDir : defaultDirectory;
+            final String dir = downloadDir != null && !downloadDir.isEmpty() ? downloadDir : defaultDirectory;
             download(dir);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             // Read locally.
-            final String dir = readFromDir != null && !readFromDir.isEmpty()
-                    ? readFromDir : defaultDirectory;
+            final String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
             return readLocal(dir);
         } else if (mode == DailyDumpMode.READ_REMOTE) {
             // Read remotely.
@@ -135,8 +128,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     protected abstract String getFileName();
 
     /**
-     * Translates the stream response to the set this Query wishes to return via
-     * its execute() function.
+     * Translates the stream response to the set this Query wishes to return via its
+     * execute() function.
      *
      * @param stream the GZIP input stream, as all dump files are in GZIP format
      * @return the translated response
@@ -158,8 +151,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the
-     * call failed. If the requested nations/regions/etc. simply weren't found, it
+     * Makes a GET request to the NationStates API. Throws exceptions if the call
+     * failed. If the requested nations/regions/etc. simply weren't found, it
      * returns an empty set.
      *
      * @param urlStr the url to make the request to
@@ -189,9 +182,9 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             } else {
                 closeInputStreamQuietly(stream);
 
-                // If the resource simply wasn't found, just return null.
+                // If the resource wasn't found...
                 if (responseCode == 404) {
-                    return new HashSet<R>();
+                    throw new NationStatesResourceNotFoundException();
                 }
 
                 // Else, something worse is going on. Throw an exception.
@@ -208,10 +201,10 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     /**
-     * Downloads the gzip file. This code is almost identical to
-     * makeRequest(...), only it doesn't return anything, 404-codes throw
-     * exceptions, and instead of sending the retrieved InputStream to
-     * translateResponse(...), it is saved to the file system.
+     * Downloads the gzip file. This code is almost identical to makeRequest(...),
+     * only it doesn't return anything, 404-codes throw exceptions, and instead of
+     * sending the retrieved InputStream to translateResponse(...), it is saved to
+     * the file system.
      *
      * @param directory the directory to download it to
      */
@@ -252,8 +245,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     }
 
     /**
-     * Reads the gzip file from the target directory, returning its parsed
-     * contents.
+     * Reads the gzip file from the target directory, returning its parsed contents.
      *
      * @param directory the target directory
      * @return the retrieved daily dump data
