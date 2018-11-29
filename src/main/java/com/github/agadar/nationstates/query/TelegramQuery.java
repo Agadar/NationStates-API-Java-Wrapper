@@ -57,7 +57,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     /**
      * Whether the telegram to send is a recruitment telegram.
      */
-    private boolean isRecruitment = false;
+    private boolean sendAsRecruitmentTelegram = false;
 
     public TelegramQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
             IRateLimiter telegramRateLimiter, IRateLimiter recruitmentTelegramRateLimiter, String baseUrl,
@@ -79,8 +79,8 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      *
      * @return this
      */
-    public TelegramQuery isRecruitment() {
-        isRecruitment = true;
+    public TelegramQuery sendAsRecruitmentTelegram() {
+        sendAsRecruitmentTelegram = true;
         return this;
     }
 
@@ -115,7 +115,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         }
 
         // Calculate and return estimated time
-        final int individual = isRecruitment ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
+        final int individual = sendAsRecruitmentTelegram ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
                 : this.telegramRateLimiter.getMillisecondsBetweenLocks();
         return (nations.length - 1) * individual;
     }
@@ -197,7 +197,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
 
     @Override
     protected IRateLimiter getRateLimiter() {
-        if (isRecruitment) {
+        if (sendAsRecruitmentTelegram) {
             return recruitmentTelegramRateLimiter;
         }
         return telegramRateLimiter;
