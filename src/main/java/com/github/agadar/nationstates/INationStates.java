@@ -6,8 +6,6 @@ import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.shard.WorldShard;
 
-import lombok.NonNull;
-
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
 import com.github.agadar.nationstates.query.RegionDumpQuery;
@@ -37,7 +35,7 @@ public interface INationStates {
      * @param userAgent the User Agent to use for API calls
      * @throws IllegalArgumentException if userAgent is null or empty.
      */
-    public void setUserAgent(@NonNull String userAgent);
+    public void setUserAgent(String userAgent);
 
     /**
      * Performs a simple version check, logging the results in the console.
@@ -52,7 +50,7 @@ public interface INationStates {
      *
      * @param types the classes to add to the JAXB context
      */
-    public void registerTypes(@NonNull Class<?>... types);
+    public void registerTypes(Class<?>... types);
 
     /**
      * Starts building a nation query, using the given nation name.
@@ -60,7 +58,7 @@ public interface INationStates {
      * @param nationName name of the nation to query
      * @return a new nation query
      */
-    public NationQuery getNation(@NonNull String nationName);
+    public NationQuery getNation(String nationName);
 
     /**
      * Starts building a region query, using the given region name.
@@ -68,7 +66,7 @@ public interface INationStates {
      * @param regionName name of the region to query
      * @return a new region query
      */
-    public RegionQuery getRegion(@NonNull String regionName);
+    public RegionQuery getRegion(String regionName);
 
     /**
      * Starts building a world query, using the selected shards.
@@ -76,7 +74,7 @@ public interface INationStates {
      * @param shards the selected shards
      * @return a new world query
      */
-    public WorldQuery getWorld(@NonNull WorldShard... shards);
+    public WorldQuery getWorld(WorldShard... shards);
 
     /**
      * Starts building a World Assembly query, using the selected council type.
@@ -84,7 +82,7 @@ public interface INationStates {
      * @param council the council type to query
      * @return a new World Assembly query
      */
-    public WorldAssemblyQuery getWorldAssembly(@NonNull Council council);
+    public WorldAssemblyQuery getWorldAssembly(Council council);
 
     /**
      * Starts building a query that retrieves the version number of the latest live
@@ -101,7 +99,7 @@ public interface INationStates {
      * @param checksum the verification checksum
      * @return a new verify query
      */
-    public VerifyQuery verifyNation(@NonNull String nation, @NonNull String checksum);
+    public VerifyQuery verifyNation(String nation, String checksum);
 
     /**
      * Starts building a query that sends (a) telegram(s).
@@ -112,8 +110,7 @@ public interface INationStates {
      * @param nations    the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
-            @NonNull String... nations);
+    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
 
     /**
      * Starts building a query that retrieves the daily region dump.
@@ -122,7 +119,7 @@ public interface INationStates {
      * @param filter filter used for selecting regions
      * @return a new daily region dump query
      */
-    public RegionDumpQuery getRegionDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Region> filter);
+    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
 
     /**
      * Starts building a query that retrieves the daily nation dump.
@@ -135,5 +132,5 @@ public interface INationStates {
      * @param filter filter used for selecting nations
      * @return a new daily nation dump query
      */
-    public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter);
+    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
 }
