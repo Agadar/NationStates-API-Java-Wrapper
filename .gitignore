@@ -4,3 +4,5 @@
 .project
 .settings/
 /bin/
+target\\nations.xml.gz
+target\\regions.xml.gz
