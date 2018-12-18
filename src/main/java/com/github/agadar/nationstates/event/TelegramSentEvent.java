@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.event;
 
 import java.util.EventObject;
+import java.util.Optional;
 
 import lombok.Getter;
 
@@ -20,15 +21,9 @@ public class TelegramSentEvent extends EventObject {
     private final String recipient;
 
     /**
-     * Whether or not the telegram was successfully queued.
+     * The exception that caused the telegram to fail to be sent, if applicable.
      */
-    private final boolean queued;
-
-    /**
-     * Contains a message elaborating on why the telegram failed to be sent, if
-     * applicable.
-     */
-    private final String errorMessage;
+    private final Exception exception;
 
     /**
      * The position of the sent telegram in the query. Starts at 0 and increments by
@@ -41,17 +36,18 @@ public class TelegramSentEvent extends EventObject {
      *
      * @param source          the object that fired the event
      * @param recipient       the name of the nation the telegram was sent to
-     * @param queued          whether or not the telegram was successfully queued
-     * @param errorMessage    a message elaborating on why the telegram failed to be
+     * @param exception       the exception that caused the telegram to fail to be
      *                        sent, if applicable
      * @param positionInQuery the position of the sent telegram in the query
      */
-    public TelegramSentEvent(Object source, String recipient, boolean queued, String errorMessage,
-            int positionInQuery) {
+    public TelegramSentEvent(Object source, String recipient, Exception exception, int positionInQuery) {
         super(source);
         this.recipient = recipient;
-        this.queued = queued;
-        this.errorMessage = errorMessage;
+        this.exception = exception;
         this.positionInQuery = positionInQuery;
+    }
+
+    public Optional<Exception> getException() {
+        return Optional.ofNullable(exception);
     }
 }

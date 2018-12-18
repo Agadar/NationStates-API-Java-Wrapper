@@ -1,16 +1,15 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
-import lombok.NonNull;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
 
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
@@ -32,7 +31,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     /**
      * List of listeners.
      */
-    private final List<TelegramSentListener> listeners = new ArrayList<>();
+    private final Collection<TelegramSentListener> listeners = new HashSet<>();
 
     /**
      * The client key for sending telegrams.
@@ -93,9 +92,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     public TelegramQuery addListeners(@NonNull TelegramSentListener... newListeners) {
         synchronized (listeners) {
             for (TelegramSentListener listener : newListeners) {
-                if (!listeners.contains(listener)) {
-                    listeners.add(listener);
-                }
+                listeners.add(listener);
             }
         }
         return this;
@@ -129,24 +126,21 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         // For each addressee, call makeRequest(...) if it isn't a dry run.
         for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
             // Build final url and wait for the rate limiter to go.
-            final String nation = nations[i];
-            final String url = baseUrl + nation.replace(' ', '_');
-            boolean queued = true;
-            String message = "";
+            String nation = nations[i];
+            String url = baseUrl + nation.replace(' ', '_');
+            Exception exception = null;
 
             try {
                 makeRequest(url, type);
             } catch (Exception ex) {
-                // If anything went wrong, make sure we log it in the event.
-                queued = false;
-                message = ex.getMessage();
+                exception = ex;
             } finally {
                 // Always unlock the rate limiter to prevent deadlock.
                 getRateLimiter().unlock();
             }
 
             // Fire a new telegram sent event.
-            final TelegramSentEvent event = new TelegramSentEvent(this, nation, queued, message, i);
+            var event = new TelegramSentEvent(this, nation, exception, i);
             synchronized (listeners) {
                 listeners.stream().forEach((tsl) -> {
                     tsl.handleTelegramSent(event);
