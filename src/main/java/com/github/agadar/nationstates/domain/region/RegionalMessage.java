@@ -1,13 +1,7 @@
 package com.github.agadar.nationstates.domain.region;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
-import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,6 +9,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a message on a regional message board.
@@ -69,8 +69,8 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      * List of nations that liked this message
      */
     @XmlElement(name = "LIKERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    private Set<String> likedBy = new HashSet<String>();
+    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> likedBy = new LinkedHashSet<String>();
 
     /**
      * The text of the message

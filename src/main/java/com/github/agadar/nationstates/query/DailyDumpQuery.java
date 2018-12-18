@@ -1,27 +1,24 @@
 package com.github.agadar.nationstates.query;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.function.Predicate;
+import java.util.zip.GZIPInputStream;
+
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 
 import lombok.NonNull;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Query for retrieving daily dumps from NationStates.
@@ -98,25 +95,25 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      *
      * @return the result
      */
-    public Set<R> execute() {
+    public Collection<R> execute() {
         validateQueryParameters();
-        final boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
+        boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
             // Download.
-            final String dir = downloadDir != null && !downloadDir.isEmpty() ? downloadDir : defaultDirectory;
+            String dir = downloadDir != null && !downloadDir.isEmpty() ? downloadDir : defaultDirectory;
             download(dir);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             // Read locally.
-            final String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
+            String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
             return readLocal(dir);
         } else if (mode == DailyDumpMode.READ_REMOTE) {
             // Read remotely.
             return makeRequest(buildURL());
         }
-        return new HashSet<>();
+        return Collections.emptyList();
     }
 
     /**
@@ -134,7 +131,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param stream the GZIP input stream, as all dump files are in GZIP format
      * @return the translated response
      */
-    protected abstract Set<R> translateResponse(GZIPInputStream stream);
+    protected abstract Collection<R> translateResponse(GZIPInputStream stream);
 
     @Override
     protected String buildURL() {
@@ -158,16 +155,16 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param urlStr the url to make the request to
      * @return the retrieved data, or empty if the resource wasn't found
      */
-    private Set<R> makeRequest(String urlStr) {
+    private Collection<R> makeRequest(String urlStr) {
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
-            final URL url = new URL(urlStr);
+            URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", userAgent);
-            final int responseCode = conn.getResponseCode();
-            final String response = String.format("NationStates API returned: '%s' from URL: %s",
+            int responseCode = conn.getResponseCode();
+            String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);
 
             // Depending on whether or not an error was returned, either throw
@@ -175,8 +172,8 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
                 stream = conn.getInputStream();
-                final GZIPInputStream gzipStream = new GZIPInputStream(stream);
-                final Set<R> result = translateResponse(gzipStream);
+                var gzipStream = new GZIPInputStream(stream);
+                var result = translateResponse(gzipStream);
                 closeInputStreamQuietly(gzipStream);
                 return result;
             } else {
@@ -212,20 +209,20 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         // Prepare request, then make it
         HttpURLConnection conn = null;
         try {
-            final String urlStr = buildURL();
-            final URL url = new URL(urlStr);
+            String urlStr = buildURL();
+            URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", userAgent);
-            final int responseCode = conn.getResponseCode();
-            final String response = String.format("NationStates API returned: '%s' from URL: %s",
+            int responseCode = conn.getResponseCode();
+            String response = String.format("NationStates API returned: '%s' from URL: %s",
                     responseCode + " " + conn.getResponseMessage(), urlStr);
 
             // Depending on whether or not an error was returned, either throw
             // it or continue as planned.
             InputStream stream = conn.getErrorStream();
             if (stream == null) {
-                final Path path = new File(directory + "\\" + getFileName()).toPath();
+                Path path = new File(directory + "\\" + getFileName()).toPath();
                 stream = conn.getInputStream();
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
                 closeInputStreamQuietly(stream);
@@ -250,10 +247,10 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private Set<R> readLocal(String directory) {
+    private Collection<R> readLocal(String directory) {
         try {
-            final GZIPInputStream stream = new GZIPInputStream(new FileInputStream(directory + "\\" + getFileName()));
-            final Set<R> obj = translateResponse(stream);
+            var stream = new GZIPInputStream(new FileInputStream(directory + "\\" + getFileName()));
+            var obj = translateResponse(stream);
             closeInputStreamQuietly(stream);
             return obj;
         } catch (IOException ex) {

@@ -1,12 +1,12 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     /**
      * The rate limiter for normal telegrams.
      */
-    private final IRateLimiter telegramRateLimiter;
+    private final RateLimiter telegramRateLimiter;
 
     /**
      * The rate limiter for recruitment telegrams.
      */
-    private final IRateLimiter recruitmentTelegramRateLimiter;
+    private final RateLimiter recruitmentTelegramRateLimiter;
 
     /**
      * List of listeners.
@@ -59,8 +59,8 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      */
     private boolean sendAsRecruitmentTelegram = false;
 
-    public TelegramQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
-            IRateLimiter telegramRateLimiter, IRateLimiter recruitmentTelegramRateLimiter, String baseUrl,
+    public TelegramQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
+            RateLimiter telegramRateLimiter, RateLimiter recruitmentTelegramRateLimiter, String baseUrl,
             String userAgent, int apiVersion, String clientKey, String telegramId, String secretKey,
             String... nations) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "sendTG");
@@ -196,7 +196,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     @Override
-    protected IRateLimiter getRateLimiter() {
+    protected RateLimiter getRateLimiter() {
         if (sendAsRecruitmentTelegram) {
             return recruitmentTelegramRateLimiter;
         }

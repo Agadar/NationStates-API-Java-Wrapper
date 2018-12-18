@@ -1,14 +1,8 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Objects;
-
-import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,6 +10,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A proposal to the World Assembly, awaiting approval from the delegates.
@@ -81,8 +80,8 @@ public class Proposal {
      * The list of delegates that approved this proposal.
      */
     @XmlElement(name = "APPROVALS")
-    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    private Set<String> approvedBy = new HashSet<String>();
+    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> approvedBy = new LinkedHashSet<String>();
 
     @Override
     public int hashCode() {

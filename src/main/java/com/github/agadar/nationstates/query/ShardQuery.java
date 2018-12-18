@@ -1,10 +1,10 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
 
 /**
@@ -24,7 +24,7 @@ public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> exten
      */
     protected S[] shards;
 
-    public ShardQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    public ShardQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
     }

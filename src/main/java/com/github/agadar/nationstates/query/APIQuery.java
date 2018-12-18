@@ -1,12 +1,12 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 
 import java.io.InputStream;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * The general rate limiter for all API calls.
      */
-    protected final IRateLimiter generalRateLimiter;
+    protected final RateLimiter generalRateLimiter;
 
     /**
      * The resource value, e.g. the nation's or region's name. Set by the
@@ -43,12 +43,12 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     /**
      * Used for XML conversions.
      */
-    private final IXmlConverter xmlConverter;
+    private final XmlConverter xmlConverter;
 
     /**
      * Rate limiter for API calls when scraping.
      */
-    private final IRateLimiter scrapingRateLimiter;
+    private final RateLimiter scrapingRateLimiter;
 
     /**
      * The version of the NationStates API to target.
@@ -67,7 +67,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @param apiVersion          The version of the API to expect to consume
      * @param scrapingRateLimiter Rate limiter used when 'scraping'
      */
-    protected APIQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    protected APIQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {
         super(baseUrl, userAgent);
         this.resourceValue = resourceValue;
@@ -126,7 +126,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @return the rate limiter to use in the makeRequest()-function
      */
-    protected IRateLimiter getRateLimiter() {
+    protected RateLimiter getRateLimiter() {
         return slowMode ? scrapingRateLimiter : generalRateLimiter;
     }
 

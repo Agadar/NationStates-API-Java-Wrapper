@@ -1,18 +1,11 @@
 package com.github.agadar.nationstates;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
-import lombok.NonNull;
-
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
-import com.github.agadar.nationstates.enumerator.Council;
-import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
-import com.github.agadar.nationstates.domain.world.World;
+import com.github.agadar.nationstates.enumerator.Council;
+import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.shard.WorldShard;
+
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
 import com.github.agadar.nationstates.query.RegionDumpQuery;
@@ -22,17 +15,8 @@ import com.github.agadar.nationstates.query.VerifyQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
-import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
-
-import java.io.File;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
 
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The starting point for consumers of this Java wrapper for the NationStates
@@ -40,172 +24,113 @@ import java.util.logging.Logger;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class NationStates implements INationStates {
-
-    private final static Logger LOGGER = Logger.getLogger(NationStates.class.getName());
+public interface NationStates {
 
     /**
-     * The NationStates API version this wrapper uses.
-     */
-    private final int apiVersion = 9;
-
-    /**
-     * Base URL for all NationStates calls.
-     */
-    private final String baseUrl = "https://www.nationstates.net/";
-
-    /**
-     * The general rate limiter for all API calls. The mandated rate limit is 50
-     * requests per 30 seconds. To make sure we're on the safe side, we reduce this
-     * to 50 requests per 30.05 seconds. To get a spread-like pattern instead of a
-     * burst-like pattern, we make this into 10 requests per 6.01 seconds.
-     */
-    private final IRateLimiter generalRateLimiter = new RateLimiter(10, 6010);
-
-    /**
-     * Rate limiter for API calls when scraping. Reduces the rate limit further to
-     * just 1 request per second, as suggested by the official documentation.
-     */
-    private final IRateLimiter scrapingRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 1000);
-
-    /**
-     * The rate limiter for normal telegrams. The mandated rate limit is 1 telegram
-     * per 30 seconds. To make sure we're on the safe side, we reduce this to 1
-     * telegram per 30.05 seconds.
-     */
-    private final IRateLimiter telegramRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 30050);
-
-    /**
-     * The rate limiter for recruitment telegrams. The mandated rate limit is 1
-     * telegram per 180 seconds. To make sure we're on the safe side, we reduce this
-     * to 1 telegram per 180.05 seconds.
-     */
-    private final IRateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1,
-            180050);
-
-    /**
-     * For converting xml input from the API to domain classes.
-     */
-    private final IXmlConverter xmlConverter = new XmlConverter();
-
-    /**
-     * The default directory for dump files retrieved from the API.
-     */
-    private final String defaultDumpDirectory;
-
-    /**
-     * The user agent with which this library makes requests.
-     */
-    private String userAgent;
-
-    /**
-     * Instantiates a new service and sets the User Agent. NationStates moderators
-     * should be able to identify you and your script via your User Agent. As such,
-     * try providing at least your nation name, and preferably include your e-mail
-     * address, a link to a website you own, or something else that can help them
-     * contact you if needed.
+     * Sets the User Agent. NationStates moderators should be able to identify you
+     * and your script via your User Agent. As such, try providing at least your
+     * nation name, and preferably include your e-mail address, a link to a website
+     * you own, or something else that can help them contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
+     * @throws IllegalArgumentException if userAgent is null or empty.
      */
-    public NationStates(@NonNull String userAgent) {
-        this.setUserAgent(userAgent);
-        this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
+    public void setUserAgent(String userAgent);
 
-        try {
-            final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
-            final File jarFile = new File(codeSource.getLocation().toURI().getPath());
-            defaultDumpDirectory = jarFile.getParentFile().getPath();
-        } catch (URISyntaxException ex) {
-            throw new NationStatesAPIException(ex);
-        }
-    }
+    /**
+     * Performs a simple version check, logging the results in the console.
+     */
+    public void doVersionCheck();
 
-    @Override
-    public void setUserAgent(@NonNull String userAgent) {
-        if (userAgent == null || userAgent.isEmpty()) {
-            throw new IllegalArgumentException("User Agent may not be null or empty");
-        }
-        this.userAgent = userAgent;
-    }
+    /**
+     * Adds the given classes to the JAXB context so that they can be parsed to from
+     * retrieved XML responses and files. Classes that inherit any of the classes in
+     * the domain-package don't need any xml-annotations. Classes that do no inherit
+     * those classes, do need xml-annotations.
+     *
+     * @param types the classes to add to the JAXB context
+     */
+    public void registerTypes(Class<?>... types);
 
-    @Override
-    public void doVersionCheck() {
-        int version = getVersion().execute();
-        logNationStatesApiVersion(version);
-    }
+    /**
+     * Starts building a nation query, using the given nation name.
+     *
+     * @param nationName name of the nation to query
+     * @return a new nation query
+     */
+    public NationQuery getNation(String nationName);
 
-    @Override
-    public final void registerTypes(@NonNull Class<?>... types) {
-        xmlConverter.registerTypes(types);
-    }
+    /**
+     * Starts building a region query, using the given region name.
+     *
+     * @param regionName name of the region to query
+     * @return a new region query
+     */
+    public RegionQuery getRegion(String regionName);
 
-    @Override
-    public NationQuery getNation(@NonNull String nationName) {
-        return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                nationName);
-    }
+    /**
+     * Starts building a world query, using the selected shards.
+     *
+     * @param shards the selected shards
+     * @return a new world query
+     */
+    public WorldQuery getWorld(WorldShard... shards);
 
-    @Override
-    public RegionQuery getRegion(@NonNull String regionName) {
-        return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                regionName);
-    }
+    /**
+     * Starts building a World Assembly query, using the selected council type.
+     *
+     * @param council the council type to query
+     * @return a new World Assembly query
+     */
+    public WorldAssemblyQuery getWorldAssembly(Council council);
 
-    @Override
-    public WorldQuery getWorld(@NonNull WorldShard... shards) {
-        return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                shards);
-    }
+    /**
+     * Starts building a query that retrieves the version number of the latest live
+     * NationStates API.
+     *
+     * @return a new version query
+     */
+    public VersionQuery getVersion();
 
-    @Override
-    public WorldAssemblyQuery getWorldAssembly(@NonNull Council council) {
-        return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent,
-                apiVersion, council);
-    }
+    /**
+     * Starts building a query that verifies a nation.
+     *
+     * @param nation   the nation to verify
+     * @param checksum the verification checksum
+     * @return a new verify query
+     */
+    public VerifyQuery verifyNation(String nation, String checksum);
 
-    @Override
-    public VersionQuery getVersion() {
-        return new VersionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion);
-    }
+    /**
+     * Starts building a query that sends (a) telegram(s).
+     *
+     * @param clientKey  the client key
+     * @param telegramId the telegram id
+     * @param secretKey  the telegram's secret key
+     * @param nations    the nation(s) to send the telegram to
+     * @return a new telegram query
+     */
+    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
 
-    @Override
-    public VerifyQuery verifyNation(@NonNull String nation, @NonNull String checksum) {
-        return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                nation, checksum);
-    }
+    /**
+     * Starts building a query that retrieves the daily region dump.
+     *
+     * @param mode   the daily dump mode to use
+     * @param filter filter used for selecting regions
+     * @return a new daily region dump query
+     */
+    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
 
-    @Override
-    public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
-            @NonNull String... nations) {
-        return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter,
-                recruitmentTelegramRateLimiter, baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey,
-                nations);
-    }
-
-    @Override
-    public RegionDumpQuery getRegionDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Region> filter) {
-        return new RegionDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
-    }
-
-    @Override
-    public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter) {
-        return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
-    }
-
-    private void logNationStatesApiVersion(int version) {
-        var logText = String.format("Version check: wrapper wants to use version '%s', latest live version is '%s'.",
-                apiVersion, version);
-
-        switch (version) {
-        case apiVersion:
-            LOGGER.log(Level.INFO, "{0} Wrapper should work correctly.", logText);
-            break;
-        case apiVersion + 1:
-            LOGGER.log(Level.WARNING, "{0} Wrapper may fail to load daily " + "dumps. Please update the wrapper.",
-                    logText);
-            break;
-        default:
-            LOGGER.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please" + " update the wrapper.", logText);
-        }
-    }
+    /**
+     * Starts building a query that retrieves the daily nation dump.
+     *
+     * Warning: reading the XML file and parsing it to objects may cause a
+     * java.lang.OutOfMemoryError on older machines due to the sheer number of
+     * Nation objects being created from parsing the retrieved XML file.
+     *
+     * @param mode   the daily dump mode to use
+     * @param filter filter used for selecting nations
+     * @return a new daily nation dump query
+     */
+    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
 }

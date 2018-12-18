@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 
@@ -9,7 +9,7 @@ import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 import com.github.agadar.nationstates.enumerator.HappeningsFilter;
 import com.github.agadar.nationstates.enumerator.RegionTag;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
 
 /**
@@ -89,7 +89,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      */
     private long happeningsBeforeTime;
 
-    public WorldQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    public WorldQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, WorldShard... shards) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "");
         this.shards = shards;

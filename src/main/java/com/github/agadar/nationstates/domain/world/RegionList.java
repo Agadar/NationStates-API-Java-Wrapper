@@ -1,18 +1,18 @@
 package com.github.agadar.nationstates.domain.world;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The Regions tag can be found up to two times within the World root tag: once
@@ -32,6 +32,6 @@ public class RegionList {
      * This wrapper's list of regions.
      */
     @XmlValue
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    private Set<String> regions = new HashSet<String>();
+    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> regions = new LinkedHashSet<String>();
 }

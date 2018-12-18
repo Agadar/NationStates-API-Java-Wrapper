@@ -1,12 +1,12 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 
 import com.github.agadar.nationstates.enumerator.CensusId;
 import com.github.agadar.nationstates.enumerator.CensusMode;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
 
 /**
@@ -41,7 +41,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      */
     private long censusHistoryTo;
 
-    public CensusQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    public CensusQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String resourceValue) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
     }

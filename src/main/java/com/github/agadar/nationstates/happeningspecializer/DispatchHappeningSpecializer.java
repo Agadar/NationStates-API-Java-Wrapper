@@ -11,7 +11,7 @@ import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
-public class DispatchHappeningSpecializer implements IHappeningSpecializer<DispatchHappening> {
+public class DispatchHappeningSpecializer implements HappeningSpecializer<DispatchHappening> {
 
     @Override
     public boolean isOfSpecializedType(Happening happening) {

@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.xmlconverter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.region.Embassy;
 import com.github.agadar.nationstates.domain.region.Officer;
@@ -26,7 +26,7 @@ import com.github.agadar.nationstates.enumerator.WorldAssemblyBadgeType;
  */
 public class RegionSaxHandler extends DefaultHandler {
 
-    public final Set<Region> filteredRegions = new HashSet<>();
+    public final Collection<Region> filteredRegions = new LinkedHashSet<>();
 
     private final String regionTag = "REGION";
     private final String waBadgesTag = "WABADGES";
@@ -37,7 +37,7 @@ public class RegionSaxHandler extends DefaultHandler {
     private final String embassyTag = "EMBASSY";
     private final String officerTag = "OFFICER";
 
-    private final ColonSeparatedToSetAdapter colonAdapter = new ColonSeparatedToSetAdapter();
+    private final ColonSeparatedToLinkedHashSetAdapter colonAdapter = new ColonSeparatedToLinkedHashSetAdapter();
     private final Authority.Adapter authorityAdapter = new Authority.Adapter();
     private final EmbassyStatus.Adapter embassyAdapter = new EmbassyStatus.Adapter();
     private final Predicate<Region> regionFilter;

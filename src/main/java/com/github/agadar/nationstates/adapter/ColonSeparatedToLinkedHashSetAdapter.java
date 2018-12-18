@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.adapter;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
@@ -11,16 +11,16 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class ColonSeparatedToSetAdapter extends XmlAdapter<String, Set<String>> {
+public class ColonSeparatedToLinkedHashSetAdapter extends XmlAdapter<String, Collection<String>> {
 
     @Override
-    public String marshal(Set<String> bt) {
+    public String marshal(Collection<String> bt) {
         return String.join(":", bt);
     }
 
     @Override
-    public Set<String> unmarshal(String vt) {
-        return new HashSet<>(Arrays.asList(vt.split(":")));
+    public Collection<String> unmarshal(String vt) {
+        return new LinkedHashSet<>(Arrays.asList(vt.split(":")));
     }
 
 }

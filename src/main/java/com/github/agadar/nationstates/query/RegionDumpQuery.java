@@ -1,21 +1,19 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.xmlconverter.RegionSaxHandler;
-
 import java.io.IOException;
-
-import java.util.Set;
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
+
+import com.github.agadar.nationstates.domain.region.Region;
+import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.xmlconverter.RegionSaxHandler;
 
 /**
  * Query for retrieving daily region dumps from NationStates.
@@ -34,10 +32,10 @@ public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
     }
 
     @Override
-    protected Set<Region> translateResponse(GZIPInputStream stream) {
+    protected Collection<Region> translateResponse(GZIPInputStream stream) {
         try {
-            final SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
-            final RegionSaxHandler nationSaxHandler = new RegionSaxHandler(filter);
+            var saxParser = SAXParserFactory.newInstance().newSAXParser();
+            var nationSaxHandler = new RegionSaxHandler(filter);
             saxParser.parse(stream, nationSaxHandler);
             return nationSaxHandler.filteredRegions;
         } catch (SAXException | IOException | ParserConfigurationException ex) {

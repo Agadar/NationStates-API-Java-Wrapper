@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
 
 /**
@@ -21,8 +21,8 @@ public abstract class CensusRankQuery<Q extends CensusRankQuery, R, S extends Sh
      */
     private int censusRanksStart;
 
-    public CensusRankQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter,
-            IRateLimiter scrapingRateLimiter, String baseUrl, String userAgent, int apiVersion, String resourceValue) {
+    public CensusRankQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter,
+            RateLimiter scrapingRateLimiter, String baseUrl, String userAgent, int apiVersion, String resourceValue) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
     }
 

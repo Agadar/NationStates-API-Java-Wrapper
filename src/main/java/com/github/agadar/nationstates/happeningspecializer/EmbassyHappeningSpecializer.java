@@ -16,7 +16,7 @@ import com.github.agadar.nationstates.exception.NationStatesAPIException;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
-public class EmbassyHappeningSpecializer implements IHappeningSpecializer<EmbassyHappening> {
+public class EmbassyHappeningSpecializer implements HappeningSpecializer<EmbassyHappening> {
 
     private final Map<EmbassyHappeningType, String[]> texts = new HashMap<>();
     private final Map<EmbassyHappeningType, BiFunction<Happening, EmbassyHappeningType, EmbassyHappening>> functions = new HashMap<>();

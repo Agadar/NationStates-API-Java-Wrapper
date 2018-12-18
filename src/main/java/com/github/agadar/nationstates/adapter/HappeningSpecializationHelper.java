@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
@@ -13,7 +11,7 @@ import com.github.agadar.nationstates.happeningspecializer.ChangeHappeningSpecia
 import com.github.agadar.nationstates.happeningspecializer.DispatchHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.EjectedHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.EmbassyHappeningSpecializer;
-import com.github.agadar.nationstates.happeningspecializer.IHappeningSpecializer;
+import com.github.agadar.nationstates.happeningspecializer.HappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.LawHappeningSpecializer;
 
 /**
@@ -25,7 +23,7 @@ import com.github.agadar.nationstates.happeningspecializer.LawHappeningSpecializ
  */
 public final class HappeningSpecializationHelper {
 
-    private static List<IHappeningSpecializer<? extends Happening>> happeningSpecializers;
+    private static Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers;
 
     static {
         happeningSpecializers = new ArrayList<>();
@@ -43,12 +41,9 @@ public final class HappeningSpecializationHelper {
      * @param happenings
      * @return
      */
-    public static SortedSet<Happening> specializeHappenings(Collection<Happening> happenings) {
-        if (happenings == null) {
-            return new TreeSet<Happening>();
-        }
-        return new TreeSet<>(happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
-                .collect(Collectors.toSet()));
+    public static List<Happening> specializeHappenings(Collection<Happening> happenings) {
+        return happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
+                .collect(Collectors.toList());
 
     }
 
@@ -57,7 +52,7 @@ public final class HappeningSpecializationHelper {
                 .map((specializer) -> (Happening) specializer.toSpecializedType(happening)).orElse(happening);
     }
 
-    private static Optional<IHappeningSpecializer<? extends Happening>> getCorrectSpecializer(Happening happening) {
+    private static Optional<HappeningSpecializer<? extends Happening>> getCorrectSpecializer(Happening happening) {
         return happeningSpecializers.stream().filter((specializer) -> specializer.isOfSpecializedType(happening))
                 .findAny();
     }

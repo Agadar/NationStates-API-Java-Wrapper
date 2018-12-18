@@ -1,7 +1,21 @@
 package com.github.agadar.nationstates.domain.world;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
-import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
@@ -12,21 +26,6 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of the world. This class' fields have a 1:1 correspondence
@@ -45,7 +44,7 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Set<CensusScore> census = new HashSet<CensusScore>();
+    private Collection<CensusScore> census = new LinkedHashSet<CensusScore>();
 
     /**
      * Id of the current census.
@@ -94,7 +93,7 @@ public class World {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    private Set<Dispatch> dispatches = new HashSet<Dispatch>();
+    private Collection<Dispatch> dispatches = new LinkedHashSet<Dispatch>();
 
     /**
      * Name of today's featured region.
@@ -107,14 +106,14 @@ public class World {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private SortedSet<Happening> happenings = new TreeSet<Happening>();
+    private List<Happening> happenings = new ArrayList<Happening>();
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    private Set<String> nations = new HashSet<String>();
+    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> nations = new LinkedHashSet<String>();
 
     /**
      * List of newest nations.
@@ -157,7 +156,7 @@ public class World {
      *
      * @return region names
      */
-    public Set<String> getRegions() {
+    public Collection<String> getRegions() {
         return regions.isEmpty() ? new HashSet<String>() : regions.get(0).getRegions();
     }
 
@@ -168,12 +167,12 @@ public class World {
      *
      * @return region names
      */
-    public Set<String> getRegionsByTag() {
+    public Collection<String> getRegionsByTag() {
         return regions.size() < 2 ? getRegions() : regions.get(1).getRegions();
     }
 
     /**
-     * Executed after JAXB finishes unmmarshalling.
+     * Executed after JAXB finishes unmarshalling.
      * 
      * @param unmarshaller
      * @param parent

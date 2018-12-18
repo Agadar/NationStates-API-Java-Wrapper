@@ -1,12 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToSetAdapter;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,6 +9,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * An option for a regional poll.
@@ -48,8 +48,8 @@ public class PollOption {
      * Names of the nations that voted for this option.
      */
     @XmlElement(name = "VOTERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToSetAdapter.class)
-    private Set<String> voterNames = new HashSet<String>();
+    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> voterNames = new LinkedHashSet<String>();
 
     @Override
     public int hashCode() {

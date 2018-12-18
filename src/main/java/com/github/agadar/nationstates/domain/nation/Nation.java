@@ -1,6 +1,21 @@
 package com.github.agadar.nationstates.domain.nation;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
@@ -12,23 +27,6 @@ import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of a nation. This class' fields have a 1:1 correspondence with
@@ -83,7 +81,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "BANNERS")
     @XmlElement(name = "BANNER")
-    private Set<String> banners = new HashSet<String>();
+    private Collection<String> banners = new LinkedHashSet<String>();
 
     /**
      * This nation's capital. Has default value if none is set.
@@ -102,7 +100,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Set<CensusScore> census = new HashSet<CensusScore>();
+    private Collection<CensusScore> census = new LinkedHashSet<CensusScore>();
 
     /**
      * Description of crime in this nation.
@@ -139,7 +137,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DEATHS")
     @XmlElement(name = "CAUSE")
-    private Set<DeathCause> deaths = new HashSet<DeathCause>();
+    private Collection<DeathCause> deaths = new LinkedHashSet<DeathCause>();
 
     /**
      * Primary demonym.
@@ -171,14 +169,14 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    private Set<Dispatch> dispatches = new HashSet<Dispatch>();
+    private Collection<Dispatch> dispatches = new LinkedHashSet<Dispatch>();
 
     /**
      * List of nation names that endorsed this nation.
      */
     @XmlElement(name = "ENDORSEMENTS")
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    private Set<String> endorsedBy = new HashSet<String>();
+    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> endorsedBy = new LinkedHashSet<String>();
 
     /**
      * Number of factbooks written by this nation.
@@ -192,7 +190,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "FACTBOOKLIST")
     @XmlElement(name = "FACTBOOK")
-    private Set<Dispatch> factbooks = new HashSet<Dispatch>();
+    private Collection<Dispatch> factbooks = new LinkedHashSet<Dispatch>();
 
     /**
      * UNIX timestamp of when the nation first logged in.
@@ -271,7 +269,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
+    private List<Happening> recentHappenings = new ArrayList<Happening>();
 
     /**
      * The nation's regional influence rank.
@@ -436,7 +434,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    private Set<WorldAssemblyBadge> worldAssemblyBadges = new HashSet<WorldAssemblyBadge>();
+    private Collection<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<WorldAssemblyBadge>();
 
     /**
      * String indicating whether the nation is a member of the World Assembly.
@@ -472,7 +470,7 @@ public class Nation {
      *
      * @return the URLs that point to the images behind Banners.
      */
-    public Set<String> getBannersAsURLs() {
+    public Collection<String> getBannersAsURLs() {
         return banners.stream().map(riftCode -> riftCodeToURL(riftCode)).collect(Collectors.toSet());
     }
 

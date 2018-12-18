@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.RegionShard;
 
 /**
@@ -40,7 +40,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      */
     private long postsTo;
 
-    public RegionQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    public RegionQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion, String regionName) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
     }

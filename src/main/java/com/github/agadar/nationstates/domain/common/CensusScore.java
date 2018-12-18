@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -69,7 +69,7 @@ public class CensusScore {
      * for Id will not be retrieved.
      */
     @XmlElement(name = "POINT")
-    private SortedSet<CensusScoreHistory> history = new TreeSet<CensusScoreHistory>();
+    private List<CensusScoreHistory> history = new ArrayList<CensusScoreHistory>();
 
     @Override
     public int hashCode() {

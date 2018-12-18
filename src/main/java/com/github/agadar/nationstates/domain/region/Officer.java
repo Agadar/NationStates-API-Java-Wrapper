@@ -1,19 +1,19 @@
 package com.github.agadar.nationstates.domain.region;
 
-import com.github.agadar.nationstates.enumerator.Authority;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.enumerator.Authority;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A regional officer.
@@ -43,7 +43,7 @@ public class Officer {
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Set<Authority> authorities = new HashSet<Authority>();
+    private Collection<Authority> authorities = new LinkedHashSet<Authority>();
 
     /**
      * UNIX timestamp of when this officer position was assigned.

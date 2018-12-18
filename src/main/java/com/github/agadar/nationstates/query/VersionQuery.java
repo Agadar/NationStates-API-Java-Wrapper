@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.IXmlConverter;
-import com.github.agadar.nationstates.ratelimiter.IRateLimiter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class VersionQuery extends APIQuery<VersionQuery, Integer> {
 
-    public VersionQuery(IXmlConverter xmlConverter, IRateLimiter generalRateLimiter, IRateLimiter scrapingRateLimiter,
+    public VersionQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
             String baseUrl, String userAgent, int apiVersion) {
         super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "version");
     }

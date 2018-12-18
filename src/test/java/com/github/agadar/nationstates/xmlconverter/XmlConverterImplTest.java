@@ -17,18 +17,18 @@ import static org.junit.Assert.*;
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
-public class XmlConverterTest {
+public class XmlConverterImplTest {
 
     private final String xmlString = "<EVENT id=\"183475995\"><TIMESTAMP>1514247453</TIMESTAMP><TEXT>@@einigkeitreich@@ relocated from %%the_pacific%% to %%the_rejected_realms%%.</TEXT></EVENT>";
     private final long expectedId = 183475995;
     private final String expectedText = "@@einigkeitreich@@ relocated from %%the_pacific%% to %%the_rejected_realms%%.";
     private final long expectedTimestamp = 1514247453;
 
-    private XmlConverter xmlConverter;
+    private XmlConverterImpl xmlConverter;
 
     @Before
     public void setUp() {
-        xmlConverter = new XmlConverter();
+        xmlConverter = new XmlConverterImpl();
         xmlConverter.registerTypes(Happening.class);
     }
 

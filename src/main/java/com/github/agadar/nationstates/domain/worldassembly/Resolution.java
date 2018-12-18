@@ -1,14 +1,9 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import com.github.agadar.nationstates.enumerator.Council;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,6 +11,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.github.agadar.nationstates.enumerator.Council;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A resolution by either of the World Assembly councils.
@@ -152,7 +152,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    private SortedSet<DelegateLogsEntry> delegateLog = new TreeSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateLog = new LinkedHashSet<DelegateLogsEntry>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -160,7 +160,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    private SortedSet<DelegateLogsEntry> delegateVotesFor = new TreeSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateVotesFor = new LinkedHashSet<DelegateLogsEntry>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -168,7 +168,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    private SortedSet<DelegateLogsEntry> delegateVotesAgainst = new TreeSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateVotesAgainst = new LinkedHashSet<DelegateLogsEntry>();
 
     /**
      * A track record of the total FOR votes of the resolution currently at vote.

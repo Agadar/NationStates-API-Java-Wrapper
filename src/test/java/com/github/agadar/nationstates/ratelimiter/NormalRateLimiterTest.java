@@ -7,9 +7,9 @@ import static org.junit.Assert.*;
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
-public class RateLimiterTest {
+public class NormalRateLimiterTest {
 
-    private RateLimiter rateLimiter;
+    private NormalRateLimiter rateLimiter;
 
     @After
     public void tearDown() {
@@ -26,7 +26,7 @@ public class RateLimiterTest {
         System.out.println("lock unlock");
 
         // Arrange
-        rateLimiter = new RateLimiter(1, 1000);
+        rateLimiter = new NormalRateLimiter(1, 1000);
         final TestRunnable foo = new TestRunnable(rateLimiter);
         final TestRunnable bar = new TestRunnable(rateLimiter);
         final Thread fooThread = new Thread(foo);
@@ -57,7 +57,7 @@ public class RateLimiterTest {
         System.out.println("getMillisecondsBetweenLocks");
 
         // Arrange
-        rateLimiter = new RateLimiter(5, 250);
+        rateLimiter = new NormalRateLimiter(5, 250);
         final int expected = 50;
 
         // Act
@@ -70,9 +70,9 @@ public class RateLimiterTest {
     private class TestRunnable implements Runnable {
 
         public boolean called = false;
-        private final RateLimiter rateLimiter;
+        private final NormalRateLimiter rateLimiter;
 
-        TestRunnable(RateLimiter rateLimiter) {
+        TestRunnable(NormalRateLimiter rateLimiter) {
             this.rateLimiter = rateLimiter;
         }
 

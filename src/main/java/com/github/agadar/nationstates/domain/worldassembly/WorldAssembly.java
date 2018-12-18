@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 
@@ -51,36 +51,36 @@ public class WorldAssembly {
      * The list of delegates. Same for both councils.
      */
     @XmlElement(name = "DELEGATES")
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    private Set<String> delegates = new HashSet<String>();
+    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> delegates = new LinkedHashSet<String>();
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
-    @XmlJavaTypeAdapter(CommaSeparatedToSetAdapter.class)
-    private Set<String> members = new HashSet<String>();
+    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    private Collection<String> members = new LinkedHashSet<String>();
 
     /**
      * Most recent happenings. Same for both councils.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private SortedSet<Happening> recentHappenings = new TreeSet<Happening>();
+    private List<Happening> recentHappenings = new ArrayList<Happening>();
 
     /**
      * Most recent member log entries. Same for both councils.
      */
     @XmlElementWrapper(name = "MEMBERLOG")
     @XmlElement(name = "EVENT")
-    private SortedSet<Happening> recentMemberLog = new TreeSet<Happening>();
+    private List<Happening> recentMemberLog = new ArrayList<Happening>();
 
     /**
      * Current proposed resolutions.
      */
     @XmlElementWrapper(name = "PROPOSALS")
     @XmlElement(name = "PROPOSAL")
-    private Set<Proposal> currentProposals = new HashSet<Proposal>();
+    private Collection<Proposal> currentProposals = new LinkedHashSet<Proposal>();
 
     /**
      * The current resolution at vote, or a specific one if an id is supplied.

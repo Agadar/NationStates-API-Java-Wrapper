@@ -5,12 +5,12 @@ package com.github.agadar.nationstates.ratelimiter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class DependantRateLimiter extends RateLimiter {
+public class DependantRateLimiter extends NormalRateLimiter {
 
     /**
      * The rate limiter this one is dependant on.
      */
-    private final IRateLimiter dependant;
+    private final RateLimiter dependant;
 
     /**
      * Constructs a new RateLimiter.
@@ -19,7 +19,7 @@ public class DependantRateLimiter extends RateLimiter {
      * @param milliseconds the y in 'x requests per y milliseconds
      * @param dependant the rate limiter this one is dependant on
      */
-    public DependantRateLimiter(IRateLimiter dependant, int requests, int milliseconds) {
+    public DependantRateLimiter(RateLimiter dependant, int requests, int milliseconds) {
         super(requests, milliseconds);
 
         if (dependant == null) {

@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
@@ -78,15 +78,14 @@ public enum Authority {
      * Converts a String containing authority codes to a List of Authority
      * values, and vice versa.
      */
-    public static class Adapter extends XmlAdapter<String, Set<Authority>> {
+    public static class Adapter extends XmlAdapter<String, Collection<Authority>> {
 
         @Override
-        public Set<Authority> unmarshal(String vt) {
-            final Set<Authority> authorities = new HashSet<>();
-
+        public Collection<Authority> unmarshal(String vt) {
+            var authorities = new LinkedHashSet<Authority>();
             for (char code : vt.toCharArray()) {
-                final Authority auth = Authority.fromChar(code);
-
+                var auth = Authority.fromChar(code);
+                
                 if (auth != Authority.NULL) {
                     authorities.add(auth);
                 }
@@ -95,8 +94,8 @@ public enum Authority {
         }
 
         @Override
-        public String marshal(Set<Authority> bt) {
-            final StringBuilder builder = new StringBuilder();
+        public String marshal(Collection<Authority> bt) {
+            var builder = new StringBuilder();
             bt.stream()
                     .filter((auth) -> auth != Authority.NULL)
                     .forEach((auth) -> builder.append(auth.authCode));

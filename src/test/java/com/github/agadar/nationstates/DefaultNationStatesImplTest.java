@@ -1,34 +1,35 @@
 package com.github.agadar.nationstates;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.function.Predicate;
+
+import org.junit.Test;
+
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
-import com.github.agadar.nationstates.query.RegionDumpQuery;
 import com.github.agadar.nationstates.query.RegionQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 import com.github.agadar.nationstates.shard.WorldShard;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Simple integration test to check existence of presumably most-used endpoints.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class NationStatesTest {
+public class DefaultNationStatesImplTest {
 
-    private final NationStates nationStates = new NationStates("Integration tests by Agadar");
+    private final DefaultNationStatesImpl nationStates = new DefaultNationStatesImpl("Integration tests by Agadar");
 
     /**
      * Test of getNation method, of class NationStates.
@@ -131,11 +132,11 @@ public class NationStatesTest {
         System.out.println("getRegionDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
-        final Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
-        final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
+        Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
+        var query = nationStates.getRegionDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
 
         // Act
-        final Set<Region> regions = query.execute();
+        var regions = query.execute();
 
         // Assert
         assertNotNull(regions);
@@ -153,11 +154,11 @@ public class NationStatesTest {
         System.out.println("getRegionDump (READ_REMOTE)");
 
         // Arrange
-        final Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
-        final RegionDumpQuery query = nationStates.getRegionDump(DailyDumpMode.READ_REMOTE, filter);
+        Predicate<Region> filter = region -> region.getName().equals("The Western Isles");
+        var query = nationStates.getRegionDump(DailyDumpMode.READ_REMOTE, filter);
 
         // Act
-        final Set<Region> regions = query.execute();
+        var regions = query.execute();
 
         // Assert
         assertNotNull(regions);
@@ -175,11 +176,11 @@ public class NationStatesTest {
         System.out.println("getNationDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
-        final Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
-        final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
+        Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
+        var query = nationStates.getNationDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
 
         // Act
-        final Set<Nation> nations = query.execute();
+        var nations = query.execute();
 
         // Assert
         assertNotNull(nations);
@@ -197,11 +198,11 @@ public class NationStatesTest {
         System.out.println("getNationDump (READ_REMOTE)");
 
         // Arrange
-        final Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
-        final NationDumpQuery query = nationStates.getNationDump(DailyDumpMode.READ_REMOTE, filter);
+        Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
+        var query = nationStates.getNationDump(DailyDumpMode.READ_REMOTE, filter);
 
         // Act
-        final Set<Nation> nations = query.execute();
+        var nations = query.execute();
 
         // Assert
         assertNotNull(nations);

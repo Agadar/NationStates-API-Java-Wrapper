@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.domain.common;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -71,7 +71,7 @@ public class Poll {
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    private Set<PollOption> options = new HashSet<PollOption>();
+    private Collection<PollOption> options = new LinkedHashSet<PollOption>();
 
     @Override
     public int hashCode() {

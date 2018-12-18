@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.xmlconverter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToSetAdapter;
+import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.nation.DeathCause;
 import com.github.agadar.nationstates.domain.nation.Nation;
@@ -25,7 +25,7 @@ import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
  */
 public class NationSaxHandler extends DefaultHandler {
 
-    public final Set<Nation> filteredNations = new HashSet<>();
+    public final Collection<Nation> filteredNations = new LinkedHashSet<>();
 
     private final String nationTag = "NATION";
     private final String freedomTag = "FREEDOM";
@@ -37,7 +37,7 @@ public class NationSaxHandler extends DefaultHandler {
     private final String deathTag = "CAUSE";
     private final String waBadgeTag = "WABADGE";
 
-    private final CommaSeparatedToSetAdapter commaAdapter = new CommaSeparatedToSetAdapter();
+    private final CommaSeparatedToLinkedHashSetAdapter commaAdapter = new CommaSeparatedToLinkedHashSetAdapter();
     private final Predicate<Nation> nationFilter;
     private final StringBuilder stringBuilder = new StringBuilder();
 
