@@ -140,11 +140,7 @@ public enum RegionTag {
      */
     public static RegionTag fromString(String stringValue) {
         stringValue = stringValue.toLowerCase().replace(' ', '_').replace(":", "");
-
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return RegionTag.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, RegionTag.NULL);
     }
 
     /**

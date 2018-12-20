@@ -44,10 +44,7 @@ public enum WorldAssemblyStatus {
      * @return the corresponding WorldAssemblyStatus
      */
     public static WorldAssemblyStatus fromString(String underlying) {
-        if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            return WorldAssemblyStatus.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(underlying);
+        return STRINGS_TO_ENUMS.getOrDefault(underlying, WorldAssemblyStatus.NULL);
     }
 
     /**

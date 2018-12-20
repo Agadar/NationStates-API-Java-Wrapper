@@ -78,10 +78,7 @@ public enum InfluenceRank {
      * @return the InfluenceRank represented by the supplied string.
      */
     public static InfluenceRank fromString(String stringValue) {
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return InfluenceRank.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, InfluenceRank.NULL);
     }
 
     /**

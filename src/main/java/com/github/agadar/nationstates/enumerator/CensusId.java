@@ -1,8 +1,5 @@
 package com.github.agadar.nationstates.enumerator;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Enumerator for the id's of the various census scales.
  *
@@ -96,21 +93,6 @@ public enum CensusId {
      * The underlying id.
      */
     private final int id;
-
-    /**
-     * Map for reverse look-up via id.
-     */
-    private final static Map<Integer, CensusId> INTS_TO_ENUMS;
-
-    /**
-     * Static 'constructor' for filling the reverse map.
-     */
-    static {
-        INTS_TO_ENUMS = new HashMap<>();
-        for (CensusId censusId : values()) {
-            INTS_TO_ENUMS.put(censusId.id, censusId);
-        }
-    }
 
     /**
      * Returns the id.

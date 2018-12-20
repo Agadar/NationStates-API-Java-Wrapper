@@ -14,14 +14,8 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public enum Authority {
 
-    EXECUTIVE('X'),
-    WORLD_ASSEMBLY('W'),
-    APPEARANCE('A'),
-    BORDER_CONTROL('B'),
-    COMMUNICATIONS('C'),
-    EMBASSIES('E'),
-    POLLS('P'),
-    NULL('?');
+    EXECUTIVE('X'), WORLD_ASSEMBLY('W'), APPEARANCE('A'), BORDER_CONTROL('B'), COMMUNICATIONS('C'), EMBASSIES('E'),
+    POLLS('P'), NULL('?');
 
     /**
      * Reverse mapping.
@@ -50,10 +44,7 @@ public enum Authority {
      * @return the corresponding Authority.
      */
     public static Authority fromChar(char authCode) {
-        if (!CHARS_TO_ENUMS.containsKey(authCode)) {
-            return Authority.NULL;
-        }
-        return CHARS_TO_ENUMS.get(authCode);
+        return CHARS_TO_ENUMS.getOrDefault(authCode, Authority.NULL);
     }
 
     /**
@@ -75,8 +66,8 @@ public enum Authority {
     }
 
     /**
-     * Converts a String containing authority codes to a List of Authority
-     * values, and vice versa.
+     * Converts a String containing authority codes to a List of Authority values,
+     * and vice versa.
      */
     public static class Adapter extends XmlAdapter<String, Collection<Authority>> {
 
@@ -85,7 +76,7 @@ public enum Authority {
             var authorities = new LinkedHashSet<Authority>();
             for (char code : vt.toCharArray()) {
                 var auth = Authority.fromChar(code);
-                
+
                 if (auth != Authority.NULL) {
                     authorities.add(auth);
                 }
@@ -96,9 +87,7 @@ public enum Authority {
         @Override
         public String marshal(Collection<Authority> bt) {
             var builder = new StringBuilder();
-            bt.stream()
-                    .filter((auth) -> auth != Authority.NULL)
-                    .forEach((auth) -> builder.append(auth.authCode));
+            bt.stream().filter((auth) -> auth != Authority.NULL).forEach((auth) -> builder.append(auth.authCode));
             return builder.toString();
         }
     }

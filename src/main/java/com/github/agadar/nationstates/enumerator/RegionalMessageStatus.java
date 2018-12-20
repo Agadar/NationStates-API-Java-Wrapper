@@ -54,10 +54,7 @@ public enum RegionalMessageStatus {
      * @return the RegionalMessageStatus represented by the supplied integer.
      */
     public static RegionalMessageStatus fromInt(int intValue) {
-        if (!INTS_TO_ENUMS.containsKey(intValue)) {
-            return RegionalMessageStatus.NULL;
-        }
-        return INTS_TO_ENUMS.get(intValue);
+        return INTS_TO_ENUMS.getOrDefault(intValue, RegionalMessageStatus.NULL);
     }
 
     /**

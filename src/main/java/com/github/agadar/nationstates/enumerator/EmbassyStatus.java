@@ -48,10 +48,7 @@ public enum EmbassyStatus {
      * @return the corresponding EmbassyStatus
      */
     public static EmbassyStatus fromString(String underlying) {
-        if (!STRINGS_TO_ENUMS.containsKey(underlying)) {
-            return EmbassyStatus.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(underlying);
+        return STRINGS_TO_ENUMS.getOrDefault(underlying, EmbassyStatus.NULL);
     }
 
     /**

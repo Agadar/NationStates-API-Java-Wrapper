@@ -76,10 +76,7 @@ public enum DispatchSubCategory {
      * @return the DispatchSubCategory represented by the supplied string.
      */
     public static DispatchSubCategory fromString(String stringValue) {
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return DispatchSubCategory.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, DispatchSubCategory.NULL);
     }
 
     /**

@@ -49,10 +49,7 @@ public enum WorldAssemblyBadgeType {
      * @return the WorldAssemblyBadgeType represented by the supplied string.
      */
     public static WorldAssemblyBadgeType fromString(String stringValue) {
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return WorldAssemblyBadgeType.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, WorldAssemblyBadgeType.NULL);
     }
 
     /**

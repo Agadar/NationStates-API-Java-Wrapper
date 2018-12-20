@@ -13,10 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public enum DelegateAction {
 
-    FOR("FOR"),
-    AGAINST("AGAINST"),
-    WITHDREW("WITHDREW"),
-    NULL("NULL");
+    FOR("FOR"), AGAINST("AGAINST"), WITHDREW("WITHDREW"), NULL("NULL");
 
     /**
      * The string representation of this DispatchCategory.
@@ -50,10 +47,7 @@ public enum DelegateAction {
      * @return the DelegateAction represented by the supplied string.
      */
     public static DelegateAction fromString(String stringValue) {
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return DelegateAction.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, DelegateAction.NULL);
     }
 
     /**

@@ -12,11 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public enum DispatchCategory {
 
-    FACTBOOK("Factbook"),
-    BULLETIN("Bulletin"),
-    ACCOUNT("Account"),
-    META("Meta"),
-    NULL("NULL");
+    FACTBOOK("Factbook"), BULLETIN("Bulletin"), ACCOUNT("Account"), META("Meta"), NULL("NULL");
 
     /**
      * The string representation of this DispatchCategory.
@@ -50,10 +46,7 @@ public enum DispatchCategory {
      * @return the DispatchCategory represented by the supplied string.
      */
     public static DispatchCategory fromString(String stringValue) {
-        if (!STRINGS_TO_ENUMS.containsKey(stringValue)) {
-            return DispatchCategory.NULL;
-        }
-        return STRINGS_TO_ENUMS.get(stringValue);
+        return STRINGS_TO_ENUMS.getOrDefault(stringValue, DispatchCategory.NULL);
     }
 
     /**
