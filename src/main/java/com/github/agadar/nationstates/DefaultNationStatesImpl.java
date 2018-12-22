@@ -35,8 +35,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The starting point for consumers of this Java wrapper for the NationStates
- * API.
+ * The default starting point for consumers of this Java wrapper for the
+ * NationStates API.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -80,8 +80,7 @@ public class DefaultNationStatesImpl implements NationStates {
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce this
      * to 1 telegram per 180.05 seconds.
      */
-    private final RateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1,
-            180050);
+    private final RateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1, 180050);
 
     /**
      * For converting xml input from the API to domain classes.
@@ -112,8 +111,8 @@ public class DefaultNationStatesImpl implements NationStates {
         this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
 
         try {
-            final CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
-            final File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
+            File jarFile = new File(codeSource.getLocation().toURI().getPath());
             defaultDumpDirectory = jarFile.getParentFile().getPath();
         } catch (URISyntaxException ex) {
             throw new NationStatesAPIException(ex);
@@ -122,9 +121,6 @@ public class DefaultNationStatesImpl implements NationStates {
 
     @Override
     public void setUserAgent(@NonNull String userAgent) {
-        if (userAgent == null || userAgent.isEmpty()) {
-            throw new IllegalArgumentException("User Agent may not be null or empty");
-        }
         this.userAgent = userAgent;
     }
 
@@ -193,7 +189,7 @@ public class DefaultNationStatesImpl implements NationStates {
     }
 
     private void logNationStatesApiVersion(int version) {
-        var logText = String.format("Version check: wrapper wants to use version '%s', latest live version is '%s'.",
+        String logText = String.format("Version check: wrapper wants to use version '%s', latest live version is '%s'.",
                 apiVersion, version);
 
         switch (version) {
