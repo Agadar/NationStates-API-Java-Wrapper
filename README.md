@@ -18,7 +18,7 @@ the wrapper itself is outdated, so that you don't have to worry about any of tho
 Instantiating a NationStates object and setting a User Agent is the first thing you'll have to do, ensuring NationStates admins can identify your script:
 
 ```
-NationStates nationStates = new NationStates("Example Nation's Script (example@example.com)");
+NationStates nationStates = new DefaultNationStatesImpl("Example Nation's Script (example@example.com)");
 ```
 
 That's all you need to do to be able to use the wrapper! Now we can, say, retrieve the national animal name of a nation:
