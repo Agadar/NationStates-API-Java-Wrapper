@@ -30,7 +30,8 @@ public class EjectedHappening extends Happening {
     private boolean banned;
 
     /**
-     * The region the nation was ejected from.
+     * The region the nation was ejected from. Empty if this happening
+     * was retrieved from the Region shard.
      */
     private String fromRegion;
 
