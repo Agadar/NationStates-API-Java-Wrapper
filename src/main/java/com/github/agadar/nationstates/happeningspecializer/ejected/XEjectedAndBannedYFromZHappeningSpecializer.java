@@ -14,7 +14,7 @@ import com.github.agadar.nationstates.happeningspecializer.HappeningSpecializer;
  */
 public class XEjectedAndBannedYFromZHappeningSpecializer implements HappeningSpecializer<EjectedHappening> {
 
-	private final Pattern pattern = Pattern.compile("@@(\\w+)@@ ejected and banned @@(\\w+)@@ from %%(\\w+)%%\\.");
+	private final Pattern pattern = Pattern.compile("@@(.+)@@ ejected and banned @@(.+)@@ from %%(.+)%%\\.");
 
 	@Override
 	public boolean isOfSpecializedType(Happening happening) {

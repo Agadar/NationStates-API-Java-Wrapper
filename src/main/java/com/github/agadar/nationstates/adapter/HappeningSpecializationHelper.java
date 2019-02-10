@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.happeningspecializer.ChangeHappeningSpecializer;
-import com.github.agadar.nationstates.happeningspecializer.DispatchHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.EmbassyHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.HappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.LawHappeningSpecializer;
+import com.github.agadar.nationstates.happeningspecializer.dispatch.DispatchHappeningSpecializer;
+import com.github.agadar.nationstates.happeningspecializer.dispatch.DispatchHappeningWithIdSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.ejected.XEjectedAndBannedYFromZHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.ejected.XEjectedAndBannedYHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.ejected.XEjectedYFromZHappeningSpecializer;
@@ -31,8 +32,8 @@ public final class HappeningSpecializationHelper {
 	private static Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers = new HashSet<>();
 
 	static {
-		registerSpecializer(new ChangeHappeningSpecializer());
 		registerSpecializer(new DispatchHappeningSpecializer());
+		registerSpecializer(new DispatchHappeningWithIdSpecializer());
 
 		registerSpecializer(new XEjectedAndBannedYFromZHappeningSpecializer());
 		registerSpecializer(new XEjectedAndBannedYHappeningSpecializer());
@@ -43,6 +44,7 @@ public final class HappeningSpecializationHelper {
 
 		registerSpecializer(new EmbassyHappeningSpecializer());
 		registerSpecializer(new LawHappeningSpecializer());
+		registerSpecializer(new ChangeHappeningSpecializer());
 	}
 
 	/**

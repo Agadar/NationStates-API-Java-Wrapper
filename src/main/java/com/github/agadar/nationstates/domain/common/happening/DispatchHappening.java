@@ -24,7 +24,7 @@ public class DispatchHappening extends Happening {
     private String nation;
 
     /**
-     * The unique identifier of the dispatch.
+     * The unique identifier of the dispatch. Not supplied when retrieved from Nation resource.
      */
     private long dispatchId;
 
