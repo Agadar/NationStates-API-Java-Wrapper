@@ -7,7 +7,7 @@
     <!-- General properties -->
     <groupId>com.github.agadar</groupId>
     <artifactId>nationstates-api-java-wrapper</artifactId>
-    <version>5.0.1</version>
+    <version>5.1.0</version>
     <packaging>jar</packaging>
     <name>NationStates API Java Wrapper</name>
     <description>A Java library for consuming the NationStates API.</description>
@@ -152,6 +152,11 @@
             <version>1.18.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.28</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -166,6 +171,13 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.7.28</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <!-- Other properties -->

@@ -3,6 +3,7 @@ package com.github.agadar.nationstates;
 import com.github.agadar.nationstates.xmlconverter.XmlConverterImpl;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.enumerator.Council;
@@ -31,8 +32,6 @@ import java.net.URISyntaxException;
 import java.security.CodeSource;
 
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The default starting point for consumers of this Java wrapper for the
@@ -40,9 +39,8 @@ import java.util.logging.Logger;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class DefaultNationStatesImpl implements NationStates {
-
-    private final static Logger LOGGER = Logger.getLogger(DefaultNationStatesImpl.class.getName());
 
     /**
      * The NationStates API version this wrapper uses.
@@ -193,15 +191,15 @@ public class DefaultNationStatesImpl implements NationStates {
                 apiVersion, version);
 
         switch (version) {
-        case apiVersion:
-            LOGGER.log(Level.INFO, "{0} Wrapper should work correctly.", logText);
-            break;
-        case apiVersion + 1:
-            LOGGER.log(Level.WARNING, "{0} Wrapper may fail to load daily " + "dumps. Please update the wrapper.",
-                    logText);
-            break;
-        default:
-            LOGGER.log(Level.SEVERE, "{0} Wrapper may not work correctly. Please" + " update the wrapper.", logText);
+            case apiVersion:
+                log.info("{} Wrapper should work correctly.", logText);
+                break;
+            case apiVersion + 1:
+                log.warn("{} Wrapper may fail to load daily dumps. Please update the wrapper.", logText);
+                break;
+            default:
+                log.error("{} Wrapper may not work correctly. Please" + " update the wrapper.", logText);
+                break;
         }
     }
 }
