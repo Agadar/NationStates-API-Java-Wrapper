@@ -3,6 +3,7 @@ package com.github.agadar.nationstates.query;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
@@ -22,6 +23,7 @@ import java.net.URL;
  * @param <R> the type the child class' execute()-function returns
  */
 @SuppressWarnings("rawtypes")
+@Slf4j
 public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R> {
 
     /**
@@ -111,8 +113,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
             try {
                 validateQueryParameters();
                 return makeRequest(buildURL().replace(' ', '_'), type);
-            } catch (Exception ex) {
-                throw ex;
+                
             } finally {
                 getRateLimiter().unlock();
             }
@@ -221,6 +222,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
                 throw new NationStatesAPIException(response);
             }
         } catch (IOException ex) {
+            log.error("An error occured while making a request to the API", ex);
             throw new NationStatesAPIException(ex);
         } finally {
             // Always close the HttpURLConnection

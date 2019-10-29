@@ -15,11 +15,14 @@ import javax.xml.transform.stream.StreamSource;
 
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Converts XML streams to properly annotated objects, and vice versa.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class XmlConverterImpl implements XmlConverter {
 
     /**
@@ -50,6 +53,7 @@ public class XmlConverterImpl implements XmlConverter {
         try {
             jaxbContext = JAXBContext.newInstance(JAXB_CONTEXT_CLASSES.toArray(new Class[numberOfClasses]));
         } catch (JAXBException ex) {
+            log.error("An error occured while (re)initialising the JAXB context", ex);
             throw new NationStatesAPIException(ex);
         }
     }
@@ -71,6 +75,7 @@ public class XmlConverterImpl implements XmlConverter {
             JAXBElement<T> je1 = unmarshaller.unmarshal(xmlstream, toType);
             return je1.getValue();
         } catch (JAXBException ex) {
+            log.error("An error occured while parsing a XML stream to an object", ex);
             throw new NationStatesAPIException(ex);
         }
     }
@@ -90,6 +95,7 @@ public class XmlConverterImpl implements XmlConverter {
             marshaller.marshal(obj, stream);
             return stream;
         } catch (JAXBException ex) {
+            log.error("An error occured while parsing an object to a XML stream", ex);
             throw new NationStatesAPIException(ex);
         }
     }

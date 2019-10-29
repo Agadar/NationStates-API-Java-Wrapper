@@ -84,7 +84,6 @@ public class NormalRateLimiterTest {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                e.printStackTrace();
             }
             rateLimiter.unlock();
         }

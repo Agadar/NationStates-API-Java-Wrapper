@@ -19,6 +19,7 @@ import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Query for retrieving daily dumps from NationStates.
@@ -29,6 +30,7 @@ import lombok.NonNull;
  * @param <R> the type the child class' execute()-function returns
  */
 @SuppressWarnings("rawtypes")
+@Slf4j
 public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R> {
 
     /**
@@ -188,6 +190,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
                 throw new NationStatesAPIException(response);
             }
         } catch (IOException ex) {
+            log.error("An error occured while making a request to the API", ex);
             throw new NationStatesAPIException(ex);
         } finally {
             // Always close the HttpURLConnection
@@ -232,6 +235,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
                 throw new NationStatesAPIException(response);
             }
         } catch (IOException ex) {
+            log.error("An error occured while downloading the dump file", ex);
             throw new NationStatesAPIException(ex);
         } finally {
             // Always close the HttpURLConnection
@@ -254,6 +258,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             closeInputStreamQuietly(stream);
             return obj;
         } catch (IOException ex) {
+            log.error("An error occured while reading the dump file", ex);
             throw new NationStatesAPIException(ex);
         }
     }

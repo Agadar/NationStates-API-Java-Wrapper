@@ -113,6 +113,7 @@ public class DefaultNationStatesImpl implements NationStates {
             File jarFile = new File(codeSource.getLocation().toURI().getPath());
             defaultDumpDirectory = jarFile.getParentFile().getPath();
         } catch (URISyntaxException ex) {
+            log.error("An error occured while deriving the default dump directory", ex);
             throw new NationStatesAPIException(ex);
         }
     }

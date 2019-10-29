@@ -10,12 +10,14 @@ import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * A query to the NationStates API's utility resource, sending (a) telegram(s).
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
 
     /**
@@ -133,6 +135,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
             try {
                 makeRequest(url, type);
             } catch (Exception ex) {
+                log.error("An error occured while sending a telegram", ex);
                 exception = ex;
             } finally {
                 // Always unlock the rate limiter to prevent deadlock.

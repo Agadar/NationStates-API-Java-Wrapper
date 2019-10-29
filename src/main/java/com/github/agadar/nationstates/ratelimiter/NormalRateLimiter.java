@@ -2,9 +2,12 @@ package com.github.agadar.nationstates.ratelimiter;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class NormalRateLimiter implements RateLimiter {
 
     /**
@@ -65,6 +68,7 @@ public class NormalRateLimiter implements RateLimiter {
                 Thread.sleep(sleepFor);
             } catch (InterruptedException ex) {
                 // We were interrupted, so unlock to prevent a deadlock, then return false.
+                log.error("The sleeping thread was interrupted", ex);
                 Thread.currentThread().interrupt();
                 lock.unlock();
                 return false;

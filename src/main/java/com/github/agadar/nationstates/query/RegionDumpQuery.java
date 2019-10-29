@@ -15,11 +15,14 @@ import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.RegionSaxHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Query for retrieving daily region dumps from NationStates.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
 
     public RegionDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode, Predicate<Region> filter) {
@@ -35,10 +38,11 @@ public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
     protected Collection<Region> translateResponse(GZIPInputStream stream) {
         try {
             var saxParser = SAXParserFactory.newInstance().newSAXParser();
-            var nationSaxHandler = new RegionSaxHandler(filter);
-            saxParser.parse(stream, nationSaxHandler);
-            return nationSaxHandler.filteredRegions;
+            var regionSaxHandler = new RegionSaxHandler(filter);
+            saxParser.parse(stream, regionSaxHandler);
+            return regionSaxHandler.filteredRegions;
         } catch (SAXException | IOException | ParserConfigurationException ex) {
+            log.error("An error occured while parsing the dump file", ex);
             throw new NationStatesAPIException(ex);
         }
     }

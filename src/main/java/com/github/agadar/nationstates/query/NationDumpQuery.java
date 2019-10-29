@@ -15,11 +15,14 @@ import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.NationSaxHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Query for retrieving daily nation dumps from NationStates.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Slf4j
 public class NationDumpQuery extends DailyDumpQuery<NationDumpQuery, Nation> {
 
     public NationDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode, Predicate<Nation> filter) {
@@ -39,6 +42,7 @@ public class NationDumpQuery extends DailyDumpQuery<NationDumpQuery, Nation> {
             saxParser.parse(stream, nationSaxHandler);
             return nationSaxHandler.filteredNations;
         } catch (SAXException | IOException | ParserConfigurationException ex) {
+            log.error("An error occured while parsing the dump file", ex);
             throw new NationStatesAPIException(ex);
         }
     }

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Top parent class for all Queries to NationStates in general.
  *
@@ -13,6 +15,7 @@ import java.lang.reflect.ParameterizedType;
  * @param <R> the type the child class' execute()-function returns
  */
 @SuppressWarnings("rawtypes")
+@Slf4j
 public abstract class AbstractQuery<Q extends AbstractQuery, R> {
 
     /**
@@ -82,7 +85,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
         try {
             stream.close();
         } catch (IOException ex) {
-            // Ignore.
+            log.error("An error occured while silently closing the input stream", ex);
         }
     }
 }
