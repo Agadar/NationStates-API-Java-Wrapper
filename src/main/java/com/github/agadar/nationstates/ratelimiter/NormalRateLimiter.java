@@ -29,7 +29,7 @@ public class NormalRateLimiter implements RateLimiter {
     private int index = 0;
 
     /**
-     * @param requests the x in x requests per y milliseconds
+     * @param requests     the x in x requests per y milliseconds
      * @param milliseconds the y in x requests per y milliseconds
      */
     public NormalRateLimiter(int requests, int milliseconds) {
@@ -68,7 +68,7 @@ public class NormalRateLimiter implements RateLimiter {
                 Thread.sleep(sleepFor);
             } catch (InterruptedException ex) {
                 // We were interrupted, so unlock to prevent a deadlock, then return false.
-                log.error("The sleeping thread was interrupted", ex);
+                log.info("The sleeping thread was interrupted");
                 Thread.currentThread().interrupt();
                 lock.unlock();
                 return false;
