@@ -1,31 +1,25 @@
 package com.github.agadar.nationstates.query;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.zip.GZIPInputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.SAXException;
 
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.xmlconverter.RegionSaxHandler;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Query for retrieving daily region dumps from NationStates.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-@Slf4j
 public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
 
-    public RegionDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode, Predicate<Region> filter) {
+    public RegionDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode,
+            Predicate<Region> filter) {
         super(baseUrl, userAgent, defaultDirectory, mode, filter);
     }
 
@@ -35,16 +29,12 @@ public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
     }
 
     @Override
-    protected Collection<Region> translateResponse(GZIPInputStream stream) {
-        try {
-            var saxParser = SAXParserFactory.newInstance().newSAXParser();
-            var regionSaxHandler = new RegionSaxHandler(filter);
-            saxParser.parse(stream, regionSaxHandler);
-            return regionSaxHandler.filteredRegions;
-        } catch (SAXException | IOException | ParserConfigurationException ex) {
-            log.error("An error occured while parsing the dump file", ex);
-            throw new NationStatesAPIException(ex);
-        }
+    protected Collection<Region> translateResponse(InputStream stream) throws Exception {
+        stream = new GZIPInputStream(stream);
+        var saxParser = SAXParserFactory.newInstance().newSAXParser();
+        var regionSaxHandler = new RegionSaxHandler(filter);
+        saxParser.parse(stream, regionSaxHandler);
+        return regionSaxHandler.filteredRegions;
     }
 
 }

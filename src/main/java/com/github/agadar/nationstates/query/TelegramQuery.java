@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.query;
 
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -114,7 +113,8 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         }
 
         // Calculate and return estimated time
-        final int individual = sendAsRecruitmentTelegram ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
+        final int individual = sendAsRecruitmentTelegram
+                ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
                 : this.telegramRateLimiter.getMillisecondsBetweenLocks();
         return (nations.length - 1) * individual;
     }
@@ -133,7 +133,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
             Exception exception = null;
 
             try {
-                makeRequest(url, type);
+                makeRequest(url, input -> null);
             } catch (Exception ex) {
                 log.error("An error occured while sending a telegram", ex);
                 exception = ex;
@@ -177,11 +177,6 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         if (nations == null || nations.length < 1) {
             throw new IllegalArgumentException("No addressees supplied!");
         }
-    }
-
-    @Override
-    protected <T> T translateResponse(InputStream response, Class<T> type) {
-        return null;
     }
 
     @Override

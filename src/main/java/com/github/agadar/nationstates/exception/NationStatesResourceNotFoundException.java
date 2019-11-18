@@ -12,7 +12,7 @@ public class NationStatesResourceNotFoundException extends NationStatesAPIExcept
 
     private static final long serialVersionUID = 1L;
 
-    public NationStatesResourceNotFoundException() {
-        super("Resource not found");
+    public NationStatesResourceNotFoundException(String message) {
+        super(message);
     }
 }

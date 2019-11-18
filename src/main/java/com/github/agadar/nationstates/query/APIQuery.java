@@ -1,18 +1,12 @@
 package com.github.agadar.nationstates.query;
 
+import java.io.InputStream;
+
+import com.github.agadar.nationstates.misc.CheckedFunction;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
-
-import java.io.InputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Top parent class for all Queries to the NationStates API.
@@ -23,7 +17,6 @@ import java.net.URL;
  * @param <R> the type the child class' execute()-function returns
  */
 @SuppressWarnings("rawtypes")
-@Slf4j
 public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R> {
 
     /**
@@ -112,8 +105,10 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
         if (getRateLimiter().lock()) {
             try {
                 validateQueryParameters();
-                return makeRequest(buildURL().replace(' ', '_'), type);
-                
+                CheckedFunction<InputStream, T> resultHandler = (istream) -> translateResponse(istream, type);
+                String url = buildURL().replace(' ', '_');
+                return makeRequest(url, resultHandler);
+
             } finally {
                 getRateLimiter().unlock();
             }
@@ -134,13 +129,13 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     @Override
     protected void validateQueryParameters() {
         super.validateQueryParameters();
-        final String resourceString = resourceString();
+        String resourceString = resourceString();
 
         // Ensure resourceValue is not null or empty if the resource string isn't
         // either.
         if (resourceString != null && !resourceString.isEmpty() && (resourceValue == null || resourceValue.isEmpty())) {
             throw new IllegalArgumentException(
-                    "'resourceValue' may not be " + "null or empty if 'resourceString' isn't null or empty!");
+                    "'resourceValue' may not be null or empty if 'resourceString' isn't null or empty!");
         }
     }
 
@@ -160,19 +155,12 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Gives the resource string of this Query, e.g. 'nation', 'region', etc.
-     *
-     * @return the resource string of this Query
-     */
-    protected abstract String resourceString();
-
-    /**
      * Translates the stream response to the object this Query wishes to return via
      * its execute() function. The standard way to translate is via JAXB, which
      * assumes the stream is in a valid XML-format. Child classes might want to
      * override this function if they wish to return primitives or something else.
      *
-     * @param          <T> type to parse to
+     * @param <T>      type to parse to
      * @param response the response to translate
      * @param type     type to parse to
      * @return the translated response
@@ -182,53 +170,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the call
-     * failed. If the requested nation/region/etc. simply wasn't found, it returns
-     * an empty optional.
+     * Gives the resource string of this Query, e.g. 'nation', 'region', etc.
      *
-     * @param urlStr the url to make the request to
-     * @param type   type to parse to
-     * @return the retrieved data
+     * @return the resource string of this Query
      */
-    protected final <T> T makeRequest(String urlStr, Class<T> type) {
-        // Prepare request, then make it
-        HttpURLConnection conn = null;
-        try {
-            final URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", userAgent);
-            final int responseCode = conn.getResponseCode();
-            final String response = String.format("NationStates API returned: '%s' from URL: %s",
-                    responseCode + " " + conn.getResponseMessage(), urlStr);
-
-            // Depending on whether or not an error was returned, either throw
-            // it or continue as planned.
-            InputStream stream = conn.getErrorStream();
-            if (stream == null) {
-                stream = conn.getInputStream();
-                final T result = translateResponse(stream, type);
-                closeInputStreamQuietly(stream);
-                return result;
-            } else {
-                closeInputStreamQuietly(stream);
-
-                // If the resource wasn't found...
-                if (responseCode == 404) {
-                    throw new NationStatesResourceNotFoundException();
-                }
-
-                // Else, something worse is going on. Throw an exception.
-                throw new NationStatesAPIException(response);
-            }
-        } catch (IOException ex) {
-            log.error("An error occured while making a request to the API", ex);
-            throw new NationStatesAPIException(ex);
-        } finally {
-            // Always close the HttpURLConnection
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-    }
+    protected abstract String resourceString();
 }

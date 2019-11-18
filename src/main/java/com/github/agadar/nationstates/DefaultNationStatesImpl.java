@@ -199,7 +199,7 @@ public class DefaultNationStatesImpl implements NationStates {
                 log.warn("{} Wrapper may fail to load daily dumps. Please update the wrapper.", logText);
                 break;
             default:
-                log.error("{} Wrapper may not work correctly. Please" + " update the wrapper.", logText);
+                log.error("{} Wrapper may not work correctly. Please update the wrapper.", logText);
                 break;
         }
     }

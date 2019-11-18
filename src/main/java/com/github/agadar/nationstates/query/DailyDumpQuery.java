@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Predicate;
-import java.util.zip.GZIPInputStream;
 
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -102,18 +98,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
-            // Download.
-            String dir = downloadDir != null && !downloadDir.isEmpty() ? downloadDir : defaultDirectory;
-            download(dir);
+            makeRequest(buildURL(), this::saveToFile);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
-            // Read locally.
-            String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
-            return readLocal(dir);
+            return readLocal();
+
         } else if (mode == DailyDumpMode.READ_REMOTE) {
-            // Read remotely.
-            return makeRequest(buildURL());
+            return makeRequest(buildURL(), this::translateResponse);
         }
         return Collections.emptyList();
     }
@@ -130,10 +122,10 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Translates the stream response to the set this Query wishes to return via its
      * execute() function.
      *
-     * @param stream the GZIP input stream, as all dump files are in GZIP format
-     * @return the translated response
+     * @param stream The input stream.
+     * @return The translated response.
      */
-    protected abstract Collection<R> translateResponse(GZIPInputStream stream);
+    protected abstract Collection<R> translateResponse(InputStream stream) throws Exception;
 
     @Override
     protected String buildURL() {
@@ -149,117 +141,32 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         }
     }
 
-    /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the call
-     * failed. If the requested nations/regions/etc. simply weren't found, it
-     * returns an empty set.
-     *
-     * @param urlStr the url to make the request to
-     * @return the retrieved data, or empty if the resource wasn't found
-     */
-    private Collection<R> makeRequest(String urlStr) {
-        // Prepare request, then make it
-        HttpURLConnection conn = null;
-        try {
-            URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", userAgent);
-            int responseCode = conn.getResponseCode();
-            String response = String.format("NationStates API returned: '%s' from URL: %s",
-                    responseCode + " " + conn.getResponseMessage(), urlStr);
-
-            // Depending on whether or not an error was returned, either throw
-            // it or continue as planned.
-            InputStream stream = conn.getErrorStream();
-            if (stream == null) {
-                stream = conn.getInputStream();
-                var gzipStream = new GZIPInputStream(stream);
-                var result = translateResponse(gzipStream);
-                closeInputStreamQuietly(gzipStream);
-                return result;
-            } else {
-                closeInputStreamQuietly(stream);
-
-                // If the resource wasn't found...
-                if (responseCode == 404) {
-                    throw new NationStatesResourceNotFoundException();
-                }
-
-                // Else, something worse is going on. Throw an exception.
-                throw new NationStatesAPIException(response);
-            }
-        } catch (IOException ex) {
-            log.error("An error occured while making a request to the API", ex);
-            throw new NationStatesAPIException(ex);
-        } finally {
-            // Always close the HttpURLConnection
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-    }
-
-    /**
-     * Downloads the gzip file. This code is almost identical to makeRequest(...),
-     * only it doesn't return anything, 404-codes throw exceptions, and instead of
-     * sending the retrieved InputStream to translateResponse(...), it is saved to
-     * the file system.
-     *
-     * @param directory the directory to download it to
-     */
-    private void download(String directory) {
-        // Prepare request, then make it
-        HttpURLConnection conn = null;
-        try {
-            String urlStr = buildURL();
-            URL url = new URL(urlStr);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", userAgent);
-            int responseCode = conn.getResponseCode();
-            String response = String.format("NationStates API returned: '%s' from URL: %s",
-                    responseCode + " " + conn.getResponseMessage(), urlStr);
-
-            // Depending on whether or not an error was returned, either throw
-            // it or continue as planned.
-            InputStream stream = conn.getErrorStream();
-            if (stream == null) {
-                Path path = new File(directory + "\\" + getFileName()).toPath();
-                stream = conn.getInputStream();
-                Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
-                closeInputStreamQuietly(stream);
-            } else {
-                // Else, throw an exception.
-                closeInputStreamQuietly(stream);
-                throw new NationStatesAPIException(response);
-            }
-        } catch (IOException ex) {
-            log.error("An error occured while downloading the dump file", ex);
-            throw new NationStatesAPIException(ex);
-        } finally {
-            // Always close the HttpURLConnection
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
+    private Collection<R> saveToFile(InputStream inputStream) throws IOException {
+        String dir = decideDownloadDirectory();
+        Path path = new File(dir + "\\" + getFileName()).toPath();
+        Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+        return Collections.emptyList();
     }
 
     /**
      * Reads the gzip file from the target directory, returning its parsed contents.
      *
-     * @param directory the target directory
      * @return the retrieved daily dump data
      */
-    private Collection<R> readLocal(String directory) {
+    private Collection<R> readLocal() {
         try {
-            var stream = new GZIPInputStream(new FileInputStream(directory + "\\" + getFileName()));
+            String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
+            var stream = new FileInputStream(dir + "\\" + getFileName());
             var obj = translateResponse(stream);
             closeInputStreamQuietly(stream);
             return obj;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             log.error("An error occured while reading the dump file", ex);
             throw new NationStatesAPIException(ex);
         }
+    }
+
+    private String decideDownloadDirectory() {
+        return downloadDir != null && !downloadDir.isEmpty() ? downloadDir : defaultDirectory;
     }
 }

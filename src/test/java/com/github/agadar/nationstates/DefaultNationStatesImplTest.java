@@ -10,15 +10,8 @@ import org.junit.Test;
 
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.domain.world.World;
-import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.query.NationQuery;
-import com.github.agadar.nationstates.query.RegionQuery;
-import com.github.agadar.nationstates.query.VersionQuery;
-import com.github.agadar.nationstates.query.WorldAssemblyQuery;
-import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 import com.github.agadar.nationstates.shard.WorldShard;
 
@@ -39,10 +32,10 @@ public class DefaultNationStatesImplTest {
         System.out.println("getNation");
 
         // Arrange
-        final NationQuery query = nationStates.getNation("testlandia");
+        var query = nationStates.getNation("testlandia");
 
         // Act
-        final Nation result = query.execute();
+        var result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -57,10 +50,10 @@ public class DefaultNationStatesImplTest {
         System.out.println("getRegion");
 
         // Arrange
-        final RegionQuery query = nationStates.getRegion("the rejected realms");
+        var query = nationStates.getRegion("the rejected realms");
 
         // Act
-        final Region result = query.execute();
+        var result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -75,10 +68,10 @@ public class DefaultNationStatesImplTest {
         System.out.println("getWorld");
 
         // Arrange
-        final WorldQuery query = nationStates.getWorld(WorldShard.NUMBER_OF_NATIONS);
+        var query = nationStates.getWorld(WorldShard.NUMBER_OF_NATIONS);
 
         // Act
-        final World result = query.execute();
+        var result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -93,11 +86,11 @@ public class DefaultNationStatesImplTest {
         System.out.println("getWorldAssembly");
 
         // Arrange
-        final WorldAssemblyQuery query = nationStates.getWorldAssembly(Council.GENERAL_ASSEMBLY)
+        var query = nationStates.getWorldAssembly(Council.GENERAL_ASSEMBLY)
                 .shards(WorldAssemblyShard.NUMBER_OF_MEMBERS);
 
         // Act
-        final WorldAssembly result = query.execute();
+        var result = query.execute();
 
         // Assert
         assertNotNull(result);
@@ -112,10 +105,10 @@ public class DefaultNationStatesImplTest {
         System.out.println("getVersion");
 
         // Arrange
-        final VersionQuery query = nationStates.getVersion();
+        var query = nationStates.getVersion();
 
         // Act
-        final int version = query.execute();
+        int version = query.execute();
 
         // Assert
         assertNotNull(version);
