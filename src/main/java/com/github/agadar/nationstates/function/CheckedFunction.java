@@ -1,4 +1,4 @@
-package com.github.agadar.nationstates.misc;
+package com.github.agadar.nationstates.function;
 
 import java.util.function.Function;
 

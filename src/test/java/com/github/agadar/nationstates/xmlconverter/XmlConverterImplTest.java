@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +28,7 @@ public class XmlConverterImplTest {
     private XmlConverterImpl xmlConverter;
 
     @Before
-    public void setUp() {
+    public void setUp() throws NationStatesAPIException {
         xmlConverter = new XmlConverterImpl();
         xmlConverter.registerTypes(Happening.class);
     }
@@ -41,9 +42,10 @@ public class XmlConverterImplTest {
      * Test of xmlToObject method, of class XmlConverter.
      *
      * @throws java.io.UnsupportedEncodingException
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testXmlToObject() throws UnsupportedEncodingException {
+    public void testXmlToObject() throws UnsupportedEncodingException, NationStatesAPIException {
         System.out.println("xmlToObject");
 
         // Arrange
@@ -63,9 +65,10 @@ public class XmlConverterImplTest {
      * Test of objectToXml method, of class XmlConverter.
      *
      * @throws java.io.UnsupportedEncodingException
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testObjectToXml() throws UnsupportedEncodingException {
+    public void testObjectToXml() throws UnsupportedEncodingException, NationStatesAPIException {
         System.out.println("objectToXml");
 
         // Arrange

@@ -8,7 +8,7 @@ import java.net.URL;
 
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
-import com.github.agadar.nationstates.misc.CheckedFunction;
+import com.github.agadar.nationstates.function.CheckedFunction;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -96,15 +96,17 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     }
 
     /**
-     * Makes a GET request to the NationStates API. Throws exceptions if the call
+     * Makes a GET request to the NationStates API. Throws exception if the call
      * failed.
      *
      * @param urlStr        The url to make the request to.
      * @param resultHandler The result handler, expected to parse an InputStream to
      *                      the desired result.
      * @return The parsed result.
+     * @throws NationStatesAPIException
      */
-    protected final <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler) {
+    protected final <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
+            throws NationStatesAPIException {
         HttpURLConnection conn = null;
         try {
             URL url = new URL(urlStr);

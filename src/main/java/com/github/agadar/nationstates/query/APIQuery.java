@@ -2,7 +2,8 @@ package com.github.agadar.nationstates.query;
 
 import java.io.InputStream;
 
-import com.github.agadar.nationstates.misc.CheckedFunction;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.function.CheckedFunction;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
@@ -90,8 +91,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * Executes this query, returning any result.
      *
      * @return the result
+     * @throws NationStatesAPIException
      */
-    public R execute() {
+    public R execute() throws NationStatesAPIException {
         return execute(returnType);
     }
 
@@ -100,8 +102,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @param type the type to return
      * @return the result
+     * @throws NationStatesAPIException
      */
-    public <T> T execute(@NonNull Class<T> type) {
+    public <T> T execute(@NonNull Class<T> type) throws NationStatesAPIException {
         if (getRateLimiter().lock()) {
             try {
                 validateQueryParameters();
@@ -164,8 +167,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @param response the response to translate
      * @param type     type to parse to
      * @return the translated response
+     * @throws NationStatesAPIException
      */
-    protected <T> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T translateResponse(InputStream response, Class<T> type) throws NationStatesAPIException {
         return xmlConverter.xmlToObject(response, type);
     }
 

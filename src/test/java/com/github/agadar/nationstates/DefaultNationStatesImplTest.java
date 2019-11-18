@@ -6,12 +6,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.function.Predicate;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 import com.github.agadar.nationstates.shard.WorldShard;
 
@@ -22,13 +24,20 @@ import com.github.agadar.nationstates.shard.WorldShard;
  */
 public class DefaultNationStatesImplTest {
 
-    private final DefaultNationStatesImpl nationStates = new DefaultNationStatesImpl("Integration tests by Agadar");
+    private DefaultNationStatesImpl nationStates;
+
+    @Before
+    public void initialise() throws NationStatesAPIException {
+        nationStates = new DefaultNationStatesImpl("Integration tests by Agadar");
+    }
 
     /**
      * Test of getNation method, of class NationStates.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetNation() {
+    public void testGetNation() throws NationStatesAPIException {
         System.out.println("getNation");
 
         // Arrange
@@ -44,9 +53,11 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getRegion method, of class NationStates.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetRegion() {
+    public void testGetRegion() throws NationStatesAPIException {
         System.out.println("getRegion");
 
         // Arrange
@@ -62,9 +73,11 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getWorld method, of class NationStates.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetWorld() {
+    public void testGetWorld() throws NationStatesAPIException {
         System.out.println("getWorld");
 
         // Arrange
@@ -80,9 +93,11 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getWorldAssembly method, of class NationStates.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetWorldAssembly() {
+    public void testGetWorldAssembly() throws NationStatesAPIException {
         System.out.println("getWorldAssembly");
 
         // Arrange
@@ -99,9 +114,11 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getVersion method, of class NationStates.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetVersion() {
+    public void testGetVersion() throws NationStatesAPIException {
         System.out.println("getVersion");
 
         // Arrange
@@ -119,9 +136,11 @@ public class DefaultNationStatesImplTest {
      * Test of getRegionDump method, of class NationStates.
      * <p>
      * Tests the "download then read locally" method.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetRegionDump_downloadAndRead() {
+    public void testGetRegionDump_downloadAndRead() throws NationStatesAPIException {
         System.out.println("getRegionDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
@@ -141,9 +160,11 @@ public class DefaultNationStatesImplTest {
      * Test of getRegionDump method, of class NationStates.
      * <p>
      * Tests the "read remote" method.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetRegionDump_readRemote() {
+    public void testGetRegionDump_readRemote() throws NationStatesAPIException {
         System.out.println("getRegionDump (READ_REMOTE)");
 
         // Arrange
@@ -163,9 +184,11 @@ public class DefaultNationStatesImplTest {
      * Test of getNationDump method, of class NationStates.
      * <p>
      * Tests the "download then read locally" method.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetNationDump_downloadAndRead() {
+    public void testGetNationDump_downloadAndRead() throws NationStatesAPIException {
         System.out.println("getNationDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
@@ -185,9 +208,11 @@ public class DefaultNationStatesImplTest {
      * Test of getNationDump method, of class NationStates.
      * <p>
      * Tests the "read remote" method.
+     * 
+     * @throws NationStatesAPIException
      */
     @Test
-    public void testGetNationDump_readRemote() {
+    public void testGetNationDump_readRemote() throws NationStatesAPIException {
         System.out.println("getNationDump (READ_REMOTE)");
 
         // Arrange

@@ -92,8 +92,9 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Executes this query, returning the result.
      *
      * @return the result
+     * @throws NationStatesAPIException
      */
-    public Collection<R> execute() {
+    public Collection<R> execute() throws NationStatesAPIException {
         validateQueryParameters();
         boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
@@ -152,8 +153,9 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Reads the gzip file from the target directory, returning its parsed contents.
      *
      * @return the retrieved daily dump data
+     * @throws NationStatesAPIException
      */
-    private Collection<R> readLocal() {
+    private Collection<R> readLocal() throws NationStatesAPIException {
         try {
             String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
             var stream = new FileInputStream(dir + "\\" + getFileName());

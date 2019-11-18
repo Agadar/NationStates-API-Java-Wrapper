@@ -1,13 +1,11 @@
 package com.github.agadar.nationstates.exception;
 
 /**
- * Custom unchecked exception for Agadar's NationStates API Java Wrapper.
- * Commonly used to wrap checked exceptions so that users of this library don't
- * have to catch all sorts of checked exceptions.
+ * Custom checked exception for Agadar's NationStates API Java Wrapper.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class NationStatesAPIException extends RuntimeException {
+public class NationStatesAPIException extends Exception {
 
     private static final long serialVersionUID = 1L;
 

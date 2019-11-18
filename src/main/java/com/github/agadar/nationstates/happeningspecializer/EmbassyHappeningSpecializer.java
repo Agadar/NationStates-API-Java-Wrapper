@@ -2,13 +2,15 @@ package com.github.agadar.nationstates.happeningspecializer;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 import com.github.agadar.nationstates.domain.common.happening.EmbassyHappening;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.EmbassyHappeningType;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.function.CheckedBiFunction;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Specializes generic Happenings to EmbassyHappenings.
@@ -16,10 +18,11 @@ import com.github.agadar.nationstates.exception.NationStatesAPIException;
  * @author Agadar (https://github.com/Agadar/)
  *
  */
+@Slf4j
 public class EmbassyHappeningSpecializer implements HappeningSpecializer<EmbassyHappening> {
 
     private final Map<EmbassyHappeningType, String[]> texts = new HashMap<>();
-    private final Map<EmbassyHappeningType, BiFunction<Happening, EmbassyHappeningType, EmbassyHappening>> functions = new HashMap<>();
+    private final Map<EmbassyHappeningType, CheckedBiFunction<Happening, EmbassyHappeningType, EmbassyHappening>> functions = new HashMap<>();
 
     public EmbassyHappeningSpecializer() {
         texts.put(EmbassyHappeningType.CONSTRUCTION_ABORTED, new String[] { "aborted construction of embassies between",
@@ -57,7 +60,16 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
         return texts.entrySet().stream()
                 .filter((entry) -> Stream.of(entry.getValue())
                         .anyMatch(text -> happening.getDescription().contains(text)))
-                .map(entry -> functions.get(entry.getKey()).apply(happening, entry.getKey())).findAny().get();
+                .map(entry -> {
+                    try {
+                        return functions.get(entry.getKey()).apply(happening, entry.getKey());
+                    } catch (Exception ex) {
+                        log.error("An error occured during happening specialization", ex);
+                        return null;
+                    }
+                })
+                .filter(h -> h != null)
+                .findAny().get();
     }
 
     /**
@@ -69,9 +81,11 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
      *                             EmbassyHappeningType.EMBASSY_CANCELLED or
      *                             EmbassyHappeningType.EMBASSY_ESTABLISHED.
      * @return
+     * @throws NationStatesAPIException If a happening description is not supported
+     *                                  for the embassy happening type.
      */
     private EmbassyHappening happeningFromRegionalHistory(Happening happening,
-            EmbassyHappeningType embassyHappeningType) {
+            EmbassyHappeningType embassyHappeningType) throws NationStatesAPIException {
         var texts = this.texts.get(embassyHappeningType);
         String description = happening.getDescription();
 
@@ -84,7 +98,6 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
                     embassyHappeningType);
         }
         throw new NationStatesAPIException("Unsupported happening description for the embassy happening type");
-
     }
 
     /**
@@ -94,8 +107,11 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
      * @param embassyHappeningType Should always be of type
      *                             EmbassyHappeningType.CONSTRUCTION_ABORTED.
      * @return
+     * @throws NationStatesAPIException If a happening description is not supported
+     *                                  for the embassy happening type.
      */
-    private EmbassyHappening constructionAborted(Happening happening, EmbassyHappeningType embassyHappeningType) {
+    private EmbassyHappening constructionAborted(Happening happening, EmbassyHappeningType embassyHappeningType)
+            throws NationStatesAPIException {
         var texts = this.texts.get(embassyHappeningType);
         if (happening.getDescription().contains(texts[0])) {
             return this.happeningWithNation(happening, embassyHappeningType);

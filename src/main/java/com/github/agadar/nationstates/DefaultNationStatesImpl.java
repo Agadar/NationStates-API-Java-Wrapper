@@ -103,8 +103,9 @@ public class DefaultNationStatesImpl implements NationStates {
      * contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
+     * @throws NationStatesAPIException
      */
-    public DefaultNationStatesImpl(@NonNull String userAgent) {
+    public DefaultNationStatesImpl(@NonNull String userAgent) throws NationStatesAPIException {
         this.setUserAgent(userAgent);
         this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
 
@@ -124,13 +125,13 @@ public class DefaultNationStatesImpl implements NationStates {
     }
 
     @Override
-    public void doVersionCheck() {
+    public void doVersionCheck() throws NationStatesAPIException {
         int version = getVersion().execute();
         logNationStatesApiVersion(version);
     }
 
     @Override
-    public final void registerTypes(@NonNull Class<?>... types) {
+    public final void registerTypes(@NonNull Class<?>... types) throws NationStatesAPIException {
         xmlConverter.registerTypes(types);
     }
 

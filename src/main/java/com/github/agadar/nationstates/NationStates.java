@@ -4,6 +4,7 @@ import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.shard.WorldShard;
 
 import com.github.agadar.nationstates.query.NationDumpQuery;
@@ -39,8 +40,10 @@ public interface NationStates {
 
     /**
      * Performs a simple version check, logging the results in the console.
+     * 
+     * @throws NationStatesAPIException
      */
-    public void doVersionCheck();
+    public void doVersionCheck() throws NationStatesAPIException;
 
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to from
@@ -49,8 +52,9 @@ public interface NationStates {
      * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
+     * @throws NationStatesAPIException
      */
-    public void registerTypes(Class<?>... types);
+    public void registerTypes(Class<?>... types) throws NationStatesAPIException;
 
     /**
      * Starts building a nation query, using the given nation name.
