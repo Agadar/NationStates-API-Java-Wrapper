@@ -107,7 +107,10 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      */
     protected final <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
             throws NationStatesAPIException {
+
         HttpURLConnection conn = null;
+        InputStream istream = null;
+
         try {
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
@@ -116,16 +119,14 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             int responseCode = conn.getResponseCode();
             String response = formatResponse(urlStr, conn, responseCode);
             log.info(response);
-            InputStream stream = conn.getErrorStream();
+            istream = conn.getErrorStream();
 
-            if (stream == null) {
-                stream = conn.getInputStream();
-                T result = resultHandler.apply(stream);
-                closeInputStreamQuietly(stream);
+            if (istream == null) {
+                istream = conn.getInputStream();
+                T result = resultHandler.apply(istream);
                 return result;
 
             } else {
-                closeInputStreamQuietly(stream);
                 if (responseCode == 404) {
                     throw new NationStatesResourceNotFoundException(response);
                 }
@@ -136,6 +137,9 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             throw new NationStatesAPIException(ex);
 
         } finally {
+            if (istream != null) {
+                closeInputStreamQuietly(istream);
+            }
             if (conn != null) {
                 conn.disconnect();
             }
