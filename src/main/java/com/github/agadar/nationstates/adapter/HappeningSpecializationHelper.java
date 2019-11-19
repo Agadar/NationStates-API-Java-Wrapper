@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.happeningspecializer.ChangeHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.EmbassyHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.HappeningSpecializer;
@@ -20,6 +21,8 @@ import com.github.agadar.nationstates.happeningspecializer.ejected.XEjectedYHapp
 import com.github.agadar.nationstates.happeningspecializer.ejected.XWasEjectedAndBannedFromYByZHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.ejected.XWasEjectedFromYByZHappeningSpecializer;
 
+import lombok.SneakyThrows;
+
 /**
  * Takes a collection of happenings and returns a sorted set containing those
  * same happenings, specialized to corresponding subclasses where applicable.
@@ -29,54 +32,63 @@ import com.github.agadar.nationstates.happeningspecializer.ejected.XWasEjectedFr
  */
 public final class HappeningSpecializationHelper {
 
-	private static Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers = new HashSet<>();
+    private static Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers = new HashSet<>();
 
-	static {
-		registerSpecializer(new DispatchHappeningSpecializer());
-		registerSpecializer(new DispatchHappeningWithIdSpecializer());
+    static {
+        registerSpecializer(new DispatchHappeningSpecializer());
+        registerSpecializer(new DispatchHappeningWithIdSpecializer());
 
-		registerSpecializer(new XEjectedAndBannedYFromZHappeningSpecializer());
-		registerSpecializer(new XEjectedAndBannedYHappeningSpecializer());
-		registerSpecializer(new XEjectedYFromZHappeningSpecializer());
-		registerSpecializer(new XEjectedYHappeningSpecializer());
-		registerSpecializer(new XWasEjectedAndBannedFromYByZHappeningSpecializer());
-		registerSpecializer(new XWasEjectedFromYByZHappeningSpecializer());
+        registerSpecializer(new XEjectedAndBannedYFromZHappeningSpecializer());
+        registerSpecializer(new XEjectedAndBannedYHappeningSpecializer());
+        registerSpecializer(new XEjectedYFromZHappeningSpecializer());
+        registerSpecializer(new XEjectedYHappeningSpecializer());
+        registerSpecializer(new XWasEjectedAndBannedFromYByZHappeningSpecializer());
+        registerSpecializer(new XWasEjectedFromYByZHappeningSpecializer());
 
-		registerSpecializer(new EmbassyHappeningSpecializer());
-		registerSpecializer(new LawHappeningSpecializer());
-		registerSpecializer(new ChangeHappeningSpecializer());
-	}
+        registerSpecializer(new EmbassyHappeningSpecializer());
+        registerSpecializer(new LawHappeningSpecializer());
+        registerSpecializer(new ChangeHappeningSpecializer());
+    }
 
-	/**
-	 * Takes a collection of happenings and returns a sorted set containing those
-	 * same happenings, specialized to corresponding subclasses where applicable.
-	 * 
-	 * @param happenings
-	 * @return
-	 */
-	public static List<Happening> specializeHappenings(Collection<Happening> happenings) {
-		return happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
-				.collect(Collectors.toList());
+    /**
+     * Takes a collection of happenings and returns a sorted set containing those
+     * same happenings, specialized to corresponding subclasses where applicable.
+     * 
+     * @param happenings
+     * @return The specialized happenings.
+     * @throws NationStatesAPIException If a happening could not be specialized
+     *                                  correctly.
+     */
+    public static List<Happening> specializeHappenings(Collection<Happening> happenings)
+            throws NationStatesAPIException {
+        return happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
+                .collect(Collectors.toList());
 
-	}
+    }
 
-	/**
-	 * Register a new specializer to this helper.
-	 * 
-	 * @param specializer
-	 */
-	public static void registerSpecializer(HappeningSpecializer<? extends Happening> specializer) {
-		happeningSpecializers.add(specializer);
-	}
+    /**
+     * Register a new specializer to this helper.
+     * 
+     * @param specializer
+     */
+    public static void registerSpecializer(HappeningSpecializer<? extends Happening> specializer) {
+        happeningSpecializers.add(specializer);
+    }
 
-	private static Happening specializeHappeningIfPossible(Happening happening) {
-		return getCorrectSpecializer(happening)
-				.map((specializer) -> (Happening) specializer.toSpecializedType(happening)).orElse(happening);
-	}
+    private static Happening specializeHappeningIfPossible(Happening happening) {
+        return getCorrectSpecializer(happening)
+                .map((specializer) -> toSpecializedType(specializer, happening))
+                .orElse(happening);
+    }
 
-	private static Optional<HappeningSpecializer<? extends Happening>> getCorrectSpecializer(Happening happening) {
-		return happeningSpecializers.stream().filter((specializer) -> specializer.isOfSpecializedType(happening))
-				.findAny();
-	}
+    private static Optional<HappeningSpecializer<? extends Happening>> getCorrectSpecializer(Happening happening) {
+        return happeningSpecializers.stream().filter((specializer) -> specializer.isOfSpecializedType(happening))
+                .findAny();
+    }
+
+    @SneakyThrows
+    private static Happening toSpecializedType(HappeningSpecializer<?> specializer, Happening happening) {
+        return specializer.toSpecializedType(happening);
+    }
 
 }

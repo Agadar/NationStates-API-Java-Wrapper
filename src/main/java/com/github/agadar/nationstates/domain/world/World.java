@@ -22,6 +22,7 @@ import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -176,9 +177,10 @@ public class World {
      * 
      * @param unmarshaller
      * @param parent
+     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
         this.happenings = HappeningSpecializationHelper.specializeHappenings(this.happenings);
     }
 }

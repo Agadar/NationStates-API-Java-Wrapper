@@ -25,6 +25,7 @@ import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
 import com.github.agadar.nationstates.enumerator.RegionTag;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -256,9 +257,10 @@ public class Region {
      * 
      * @param unmarshaller
      * @param parent
+     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
         this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
         this.history = HappeningSpecializationHelper.specializeHappenings(this.history);
     }

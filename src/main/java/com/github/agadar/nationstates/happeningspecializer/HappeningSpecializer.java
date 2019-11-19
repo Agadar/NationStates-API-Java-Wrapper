@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.happeningspecializer;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 /**
  * Responsible for converting generic Happenings to a specialized type.
@@ -25,8 +26,9 @@ public interface HappeningSpecializer<T extends Happening> {
      * responsible for.
      * 
      * @param happening
-     * @return An optional containing the specialized type, or an empty optional if
-     *         conversion wasn't possible.
+     * @return The specialized type.
+     * @throws NationStatesAPIException If the happening is not of the specialized
+     *                                  type.
      */
-    public T toSpecializedType(Happening happening);
+    public T toSpecializedType(Happening happening) throws NationStatesAPIException;
 }

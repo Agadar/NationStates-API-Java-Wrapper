@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.github.agadar.nationstates.domain.common.happening.EmbassyHappening;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.EmbassyHappeningType;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 public class EmbassyHappeningSpecializerTest {
 
@@ -216,7 +217,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_1() {
+    public void toSpecializedType_1() throws NationStatesAPIException {
         System.out.println("toSpecializedType_1");
 
         // Arrange
@@ -238,7 +239,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_2() {
+    public void toSpecializedType_2() throws NationStatesAPIException {
         System.out.println("toSpecializedType_2");
 
         // Arrange
@@ -260,7 +261,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_3() {
+    public void toSpecializedType_3() throws NationStatesAPIException {
         System.out.println("toSpecializedType_3");
 
         // Arrange
@@ -282,7 +283,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_4() {
+    public void toSpecializedType_4() throws NationStatesAPIException {
         System.out.println("toSpecializedType_4");
 
         // Arrange
@@ -304,7 +305,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_5() {
+    public void toSpecializedType_5() throws NationStatesAPIException {
         System.out.println("toSpecializedType_5");
 
         // Arrange
@@ -326,7 +327,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_6() {
+    public void toSpecializedType_6() throws NationStatesAPIException {
         System.out.println("toSpecializedType_6");
 
         // Arrange
@@ -348,7 +349,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_7() {
+    public void toSpecializedType_7() throws NationStatesAPIException {
         System.out.println("toSpecializedType_7");
 
         // Arrange
@@ -370,7 +371,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_8() {
+    public void toSpecializedType_8() throws NationStatesAPIException {
         System.out.println("toSpecializedType_8");
 
         // Arrange
@@ -392,7 +393,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_9() {
+    public void toSpecializedType_9() throws NationStatesAPIException {
         System.out.println("toSpecializedType_9");
 
         // Arrange
@@ -414,7 +415,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_10() {
+    public void toSpecializedType_10() throws NationStatesAPIException {
         System.out.println("toSpecializedType_10");
 
         // Arrange
@@ -436,7 +437,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_11() {
+    public void toSpecializedType_11() throws NationStatesAPIException {
         System.out.println("toSpecializedType_11");
 
         // Arrange
@@ -457,7 +458,7 @@ public class EmbassyHappeningSpecializerTest {
     }
 
     @Test
-    public void toSpecializedType_12() {
+    public void toSpecializedType_12() throws NationStatesAPIException {
         System.out.println("toSpecializedType_12");
 
         // Arrange

@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -99,9 +100,10 @@ public class WorldAssembly {
      * 
      * @param unmarshaller
      * @param parent
+     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
         this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
         this.recentMemberLog = HappeningSpecializationHelper.specializeHappenings(this.recentMemberLog);
     }
