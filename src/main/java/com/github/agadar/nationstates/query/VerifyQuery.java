@@ -71,7 +71,7 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected <T> T translateResponse(InputStream response, Class<T> type) {
+    protected <T> T parseResponse(InputStream response, Class<T> type) {
         @SuppressWarnings("resource")
         Scanner s = new Scanner(response).useDelimiter("\\A");
         String body = s.hasNext() ? s.next().trim() : "";

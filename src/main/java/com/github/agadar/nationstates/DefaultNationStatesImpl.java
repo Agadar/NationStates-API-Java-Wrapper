@@ -1,19 +1,16 @@
 package com.github.agadar.nationstates;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverterImpl;
+import java.io.File;
+import java.security.CodeSource;
+import java.util.function.Predicate;
 
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.domain.nation.Nation;
+import com.github.agadar.nationstates.domain.region.Region;
+import com.github.agadar.nationstates.domain.world.World;
+import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.domain.nation.Nation;
-import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
-import com.github.agadar.nationstates.domain.world.World;
-import com.github.agadar.nationstates.shard.WorldShard;
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
 import com.github.agadar.nationstates.query.RegionDumpQuery;
@@ -24,14 +21,14 @@ import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.ratelimiter.NormalRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import com.github.agadar.nationstates.shard.WorldShard;
+import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.xmlconverter.XmlConverterImpl;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
-
-import java.util.function.Predicate;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The default starting point for consumers of this Java wrapper for the
@@ -103,7 +100,9 @@ public class DefaultNationStatesImpl implements NationStates {
      * contact you if needed.
      *
      * @param userAgent the User Agent to use for API calls
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If registering the relevant classes to the
+     *                                  JAXB context or deriving the default dump
+     *                                  directory failed.
      */
     public DefaultNationStatesImpl(@NonNull String userAgent) throws NationStatesAPIException {
         this.setUserAgent(userAgent);
@@ -113,7 +112,7 @@ public class DefaultNationStatesImpl implements NationStates {
             CodeSource codeSource = this.getClass().getProtectionDomain().getCodeSource();
             File jarFile = new File(codeSource.getLocation().toURI().getPath());
             defaultDumpDirectory = jarFile.getParentFile().getPath();
-        } catch (URISyntaxException ex) {
+        } catch (Exception ex) {
             log.error("An error occured while deriving the default dump directory", ex);
             throw new NationStatesAPIException(ex);
         }

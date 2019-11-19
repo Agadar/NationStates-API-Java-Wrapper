@@ -29,7 +29,7 @@ public class NationDumpQuery extends DailyDumpQuery<NationDumpQuery, Nation> {
     }
 
     @Override
-    protected Collection<Nation> translateResponse(InputStream stream) throws Exception {
+    protected Collection<Nation> parseResponse(InputStream stream) throws Exception {
         stream = new GZIPInputStream(stream);
         var saxParser = SAXParserFactory.newInstance().newSAXParser();
         var nationSaxHandler = new NationSaxHandler(filter);

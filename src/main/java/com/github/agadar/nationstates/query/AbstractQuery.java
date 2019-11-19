@@ -103,7 +103,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param resultHandler The result handler, expected to parse an InputStream to
      *                      the desired result.
      * @return The parsed result.
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the call failed.
      */
     protected final <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
             throws NationStatesAPIException {

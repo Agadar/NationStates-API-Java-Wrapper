@@ -29,7 +29,7 @@ public class RegionDumpQuery extends DailyDumpQuery<RegionDumpQuery, Region> {
     }
 
     @Override
-    protected Collection<Region> translateResponse(InputStream stream) throws Exception {
+    protected Collection<Region> parseResponse(InputStream stream) throws Exception {
         stream = new GZIPInputStream(stream);
         var saxParser = SAXParserFactory.newInstance().newSAXParser();
         var regionSaxHandler = new RegionSaxHandler(filter);

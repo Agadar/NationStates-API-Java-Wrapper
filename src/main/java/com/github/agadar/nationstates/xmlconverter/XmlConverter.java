@@ -19,7 +19,8 @@ public interface XmlConverter {
      * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the classes could not be registered to
+     *                                  the JAXB context.
      */
     public void registerTypes(Class<?>... types) throws NationStatesAPIException;
 
@@ -31,7 +32,8 @@ public interface XmlConverter {
      * @param xml    the XML stream
      * @param toType the type to parse to
      * @return instance of the specified type
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the stream could not be parsed to the
+     *                                  specified type.
      */
     public <T> T xmlToObject(InputStream xml, Class<T> toType) throws NationStatesAPIException;
 
@@ -40,7 +42,8 @@ public interface XmlConverter {
      *
      * @param obj object to parse to output stream
      * @return an output stream
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the object could not be parsed to a
+     *                                  stream.
      */
     public ByteArrayOutputStream objectToXml(Object obj) throws NationStatesAPIException;
 }

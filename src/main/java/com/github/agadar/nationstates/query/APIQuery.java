@@ -91,7 +91,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * Executes this query, returning any result.
      *
      * @return the result
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the query failed.
      */
     public R execute() throws NationStatesAPIException {
         return execute(returnType);
@@ -102,13 +102,13 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      *
      * @param type the type to return
      * @return the result
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the query failed.
      */
     public <T> T execute(@NonNull Class<T> type) throws NationStatesAPIException {
         if (getRateLimiter().lock()) {
             try {
                 validateQueryParameters();
-                CheckedFunction<InputStream, T> resultHandler = (istream) -> translateResponse(istream, type);
+                CheckedFunction<InputStream, T> resultHandler = (istream) -> parseResponse(istream, type);
                 String url = buildURL().replace(' ', '_');
                 return makeRequest(url, resultHandler);
 
@@ -158,18 +158,18 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     }
 
     /**
-     * Translates the stream response to the object this Query wishes to return via
-     * its execute() function. The standard way to translate is via JAXB, which
-     * assumes the stream is in a valid XML-format. Child classes might want to
-     * override this function if they wish to return primitives or something else.
+     * Parses the stream response to the object this Query wishes to return via its
+     * execute() function. The standard way to translate is via JAXB, which assumes
+     * the stream is in a valid XML-format. Child classes might want to override
+     * this function if they wish to return primitives or something else.
      *
      * @param <T>      type to parse to
      * @param response the response to translate
      * @param type     type to parse to
      * @return the translated response
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If parsing the response failed.
      */
-    protected <T> T translateResponse(InputStream response, Class<T> type) throws NationStatesAPIException {
+    protected <T> T parseResponse(InputStream response, Class<T> type) throws NationStatesAPIException {
         return xmlConverter.xmlToObject(response, type);
     }
 

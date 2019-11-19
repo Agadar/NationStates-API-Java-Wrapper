@@ -41,7 +41,8 @@ public interface NationStates {
     /**
      * Performs a simple version check, logging the results in the console.
      * 
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If something failed during the version
+     *                                  check.
      */
     public void doVersionCheck() throws NationStatesAPIException;
 
@@ -52,7 +53,8 @@ public interface NationStates {
      * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If adding the types to the JAXB context
+     *                                  failed.
      */
     public void registerTypes(Class<?>... types) throws NationStatesAPIException;
 

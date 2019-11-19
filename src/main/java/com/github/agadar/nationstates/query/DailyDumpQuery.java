@@ -92,7 +92,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Executes this query, returning the result.
      *
      * @return the result
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If the query failed.
      */
     public Collection<R> execute() throws NationStatesAPIException {
         validateQueryParameters();
@@ -106,7 +106,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             return readLocal();
 
         } else if (mode == DailyDumpMode.READ_REMOTE) {
-            return makeRequest(buildURL(), this::translateResponse);
+            return makeRequest(buildURL(), this::parseResponse);
         }
         return Collections.emptyList();
     }
@@ -120,13 +120,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     protected abstract String getFileName();
 
     /**
-     * Translates the stream response to the set this Query wishes to return via its
+     * Parses the stream response to the set this Query wishes to return via its
      * execute() function.
      *
      * @param stream The input stream.
      * @return The translated response.
+     * @throws Exception If for any reason parsing failed.
      */
-    protected abstract Collection<R> translateResponse(InputStream stream) throws Exception;
+    protected abstract Collection<R> parseResponse(InputStream stream) throws Exception;
 
     @Override
     protected String buildURL() {
@@ -153,13 +154,13 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Reads the gzip file from the target directory, returning its parsed contents.
      *
      * @return the retrieved daily dump data
-     * @throws NationStatesAPIException
+     * @throws NationStatesAPIException If an error occured while reading locally.
      */
     private Collection<R> readLocal() throws NationStatesAPIException {
         try {
             String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
             var stream = new FileInputStream(dir + "\\" + getFileName());
-            var obj = translateResponse(stream);
+            var obj = parseResponse(stream);
             closeInputStreamQuietly(stream);
             return obj;
         } catch (Exception ex) {
