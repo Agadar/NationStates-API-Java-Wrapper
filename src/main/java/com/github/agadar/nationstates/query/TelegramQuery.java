@@ -121,24 +121,26 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
 
     @Override
     public <T> T execute(Class<T> type) {
-        // Validate parameters and build base url.
+
         validateQueryParameters();
         String baseUrl = buildURL();
 
-        // For each addressee, call makeRequest(...) if it isn't a dry run.
         for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
-            // Build final url and wait for the rate limiter to go.
+
             String nation = nations[i];
             String url = baseUrl + nation.replace(' ', '_');
             Exception exception = null;
 
             try {
                 makeRequest(url, input -> null);
+                log.info("Queued a telegram to nation '{}'", nation);
+
             } catch (Exception ex) {
-                log.error("An error occured while sending a telegram", ex);
+                String message = String.format("An error occured while queueing a telegram to nation '%s'", nation);
+                log.error(message, ex);
                 exception = ex;
+
             } finally {
-                // Always unlock the rate limiter to prevent deadlock.
                 getRateLimiter().unlock();
             }
 
@@ -182,8 +184,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     @Override
     protected String buildURL() {
         String url = super.buildURL();
-        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey, telegramId, secretKey); // Append telegram
-                                                                                                 // fields.
+        url += String.format("&client=%s&tgid=%s&key=%s&to=", clientKey, telegramId, secretKey);
         return url;
     }
 
