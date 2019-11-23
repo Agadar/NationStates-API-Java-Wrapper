@@ -10,6 +10,7 @@ import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 import com.github.agadar.nationstates.function.CheckedFunction;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -47,7 +48,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      *                  recognized.
      */
     @SuppressWarnings("unchecked")
-    protected AbstractQuery(String baseUrl, String userAgent) {
+    protected AbstractQuery(@NonNull String baseUrl, @NonNull String userAgent) {
         returnType = ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1]);
         this.baseUrl = baseUrl;
         this.userAgent = userAgent;
@@ -87,7 +88,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      *
      * @param stream the InputStream to close
      */
-    protected final void closeInputStreamQuietly(InputStream stream) {
+    protected void closeInputStreamQuietly(InputStream stream) {
         try {
             stream.close();
         } catch (IOException ex) {
@@ -105,7 +106,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @return The parsed result.
      * @throws NationStatesAPIException If the call failed.
      */
-    protected final <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
+    protected <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
             throws NationStatesAPIException {
 
         HttpURLConnection conn = null;
@@ -125,15 +126,18 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
                 istream = conn.getInputStream();
                 T result = resultHandler.apply(istream);
                 return result;
-
-            } else {
-                if (responseCode == 404) {
-                    throw new NationStatesResourceNotFoundException(response);
-                }
-                throw new NationStatesAPIException(response);
             }
+
+            if (responseCode == 404) {
+                throw new NationStatesResourceNotFoundException(response);
+            }
+            throw new NationStatesAPIException(response);
+
         } catch (Exception ex) {
             log.error("An error occured while handling a request to the API", ex);
+            if (ex instanceof NationStatesAPIException) {
+                throw (NationStatesAPIException) ex;
+            }
             throw new NationStatesAPIException(ex);
 
         } finally {
@@ -147,7 +151,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     }
 
     private String formatResponse(String urlStr, HttpURLConnection conn, int responseCode) throws IOException {
-        return String.format("NationStates API returned: '%s %s' from URL: %s", responseCode, conn.getResponseMessage(),
-                urlStr);
+        return String.format("NationStates API returned: '%s %s' from URL: %s",
+                responseCode, conn.getResponseMessage(), urlStr);
     }
 }

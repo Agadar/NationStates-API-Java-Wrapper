@@ -6,7 +6,6 @@ import java.util.HashSet;
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -59,11 +58,10 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      */
     private boolean sendAsRecruitmentTelegram = false;
 
-    public TelegramQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            RateLimiter telegramRateLimiter, RateLimiter recruitmentTelegramRateLimiter, String baseUrl,
-            String userAgent, int apiVersion, String clientKey, String telegramId, String secretKey,
-            String... nations) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "sendTG");
+    public TelegramQuery(@NonNull QueryDependencies queryDependencies, @NonNull RateLimiter telegramRateLimiter,
+            @NonNull RateLimiter recruitmentTelegramRateLimiter, @NonNull String clientKey, @NonNull String telegramId,
+            @NonNull String secretKey, @NonNull String... nations) {
+        super(queryDependencies, "sendTG");
         this.telegramRateLimiter = telegramRateLimiter;
         this.recruitmentTelegramRateLimiter = recruitmentTelegramRateLimiter;
         this.clientKey = clientKey;

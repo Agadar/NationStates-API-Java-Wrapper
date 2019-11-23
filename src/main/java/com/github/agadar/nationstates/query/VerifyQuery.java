@@ -1,12 +1,9 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
-import lombok.NonNull;
-
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import java.io.InputStream;
 import java.util.Scanner;
+
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's utility resource, verifying a user. Users
@@ -31,11 +28,18 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
      */
     private String token;
 
-    public VerifyQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String nation, String code) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "verify");
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param nation            The name of the nation to verify.
+     * @param checksum          The verification checksum.
+     **/
+    public VerifyQuery(@NonNull QueryDependencies queryDependencies, @NonNull String nation, @NonNull String checksum) {
+        super(queryDependencies, "verify");
         this.nation = nation;
-        this.checksum = code;
+        this.checksum = checksum;
     }
 
     /**
@@ -46,7 +50,7 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
      * @param token application-specific token
      * @return this
      */
-    public final VerifyQuery token(@NonNull String token) {
+    public VerifyQuery token(@NonNull String token) {
         this.token = token;
         return this;
     }
@@ -72,10 +76,12 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
     @SuppressWarnings("unchecked")
     @Override
     protected <T> T parseResponse(InputStream response, Class<T> type) {
-        @SuppressWarnings("resource")
-        Scanner s = new Scanner(response).useDelimiter("\\A");
-        String body = s.hasNext() ? s.next().trim() : "";
+        Scanner scanner = new Scanner(response);
+        scanner.useDelimiter("\\A");
+        String body = scanner.hasNext() ? scanner.next().trim() : "";
+        scanner.close();
         return (T) Boolean.valueOf(body.equals("1"));
+
     }
 
     @Override

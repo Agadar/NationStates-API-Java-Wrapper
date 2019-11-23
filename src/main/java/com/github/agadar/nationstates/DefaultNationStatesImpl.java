@@ -13,6 +13,7 @@ import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.query.NationDumpQuery;
 import com.github.agadar.nationstates.query.NationQuery;
+import com.github.agadar.nationstates.query.QueryDependencies;
 import com.github.agadar.nationstates.query.RegionDumpQuery;
 import com.github.agadar.nationstates.query.RegionQuery;
 import com.github.agadar.nationstates.query.TelegramQuery;
@@ -136,45 +137,39 @@ public class DefaultNationStatesImpl implements NationStates {
 
     @Override
     public NationQuery getNation(@NonNull String nationName) {
-        return new NationQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                nationName);
+        return new NationQuery(collectDependencies(), nationName);
     }
 
     @Override
     public RegionQuery getRegion(@NonNull String regionName) {
-        return new RegionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                regionName);
+        return new RegionQuery(collectDependencies(), regionName);
     }
 
     @Override
     public WorldQuery getWorld(@NonNull WorldShard... shards) {
-        return new WorldQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                shards);
+        return new WorldQuery(collectDependencies(), shards);
     }
 
     @Override
     public WorldAssemblyQuery getWorldAssembly(@NonNull Council council) {
-        return new WorldAssemblyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent,
-                apiVersion, council);
+        return new WorldAssemblyQuery(collectDependencies(), council);
     }
 
     @Override
     public VersionQuery getVersion() {
-        return new VersionQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion);
+        return new VersionQuery(collectDependencies());
     }
 
     @Override
     public VerifyQuery verifyNation(@NonNull String nation, @NonNull String checksum) {
-        return new VerifyQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                nation, checksum);
+        return new VerifyQuery(collectDependencies(), nation, checksum);
     }
 
     @Override
     public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
             @NonNull String... nations) {
-        return new TelegramQuery(xmlConverter, generalRateLimiter, scrapingRateLimiter, telegramRateLimiter,
-                recruitmentTelegramRateLimiter, baseUrl, userAgent, apiVersion, clientKey, telegramId, secretKey,
-                nations);
+        return new TelegramQuery(collectDependencies(), telegramRateLimiter, recruitmentTelegramRateLimiter, clientKey,
+                telegramId, secretKey, nations);
     }
 
     @Override
@@ -185,6 +180,16 @@ public class DefaultNationStatesImpl implements NationStates {
     @Override
     public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter) {
         return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
+    }
+
+    private QueryDependencies collectDependencies() {
+        return QueryDependencies.builder()
+                .apiVersion(apiVersion)
+                .baseUrl(baseUrl)
+                .generalRateLimiter(generalRateLimiter)
+                .scrapingRateLimiter(scrapingRateLimiter)
+                .userAgent(userAgent)
+                .xmlConverter(xmlConverter).build();
     }
 
     private void logNationStatesApiVersion(int version) {

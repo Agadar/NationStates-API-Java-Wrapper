@@ -1,11 +1,8 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.shard.Shard;
 
 import lombok.NonNull;
-
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
-import com.github.agadar.nationstates.shard.Shard;
 
 /**
  * Intermediate parent class that adds support for shards.
@@ -24,9 +21,15 @@ public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> exten
      */
     protected S[] shards;
 
-    public ShardQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String resourceValue) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param resourceValue     The resource value, e.g. a nation or region name.
+     */
+    public ShardQuery(@NonNull QueryDependencies queryDependencies, @NonNull String resourceValue) {
+        super(queryDependencies, resourceValue);
     }
 
     /**
@@ -36,7 +39,7 @@ public abstract class ShardQuery<Q extends ShardQuery, R, S extends Shard> exten
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q shards(@NonNull S... shards) {
+    public Q shards(@NonNull S... shards) {
         this.shards = shards;
         return (Q) this;
     }

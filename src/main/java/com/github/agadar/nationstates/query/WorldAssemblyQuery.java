@@ -1,10 +1,10 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
+
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's World Assembly resource.
@@ -18,10 +18,15 @@ public class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, WorldAsse
      */
     private int resolutionId;
 
-    public WorldAssemblyQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter,
-            RateLimiter scrapingRateLimiter, String baseUrl, String userAgent, int apiVersion, Council council) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion,
-                String.valueOf(council.toInt()));
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param council           The council to query.
+     */
+    public WorldAssemblyQuery(@NonNull QueryDependencies queryDependencies, @NonNull Council council) {
+        super(queryDependencies, String.valueOf(council.toInt()));
     }
 
     /**
@@ -31,7 +36,7 @@ public class WorldAssemblyQuery extends ShardQuery<WorldAssemblyQuery, WorldAsse
      * @param resolutionId the id of the resolution to retrieve
      * @return this
      */
-    public final WorldAssemblyQuery resolutionId(int resolutionId) {
+    public WorldAssemblyQuery resolutionId(int resolutionId) {
         this.resolutionId = resolutionId;
         return this;
     }

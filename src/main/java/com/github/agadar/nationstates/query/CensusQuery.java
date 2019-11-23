@@ -1,13 +1,10 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
-import lombok.NonNull;
-
 import com.github.agadar.nationstates.enumerator.CensusId;
 import com.github.agadar.nationstates.enumerator.CensusMode;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
+
+import lombok.NonNull;
 
 /**
  * Intermediate parent class that adds options for censuses.
@@ -41,9 +38,15 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      */
     private long censusHistoryTo;
 
-    public CensusQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String resourceValue) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param resourceValue     The resource value, e.g. a nation or region name.
+     */
+    public CensusQuery(@NonNull QueryDependencies queryDependencies, @NonNull String resourceValue) {
+        super(queryDependencies, resourceValue);
     }
 
     /**
@@ -57,7 +60,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusIds(@NonNull CensusId... censusIds) {
+    public Q censusIds(@NonNull CensusId... censusIds) {
         this.censusIds = censusIds;
         return (Q) this;
     }
@@ -70,7 +73,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusModes(@NonNull CensusMode... censusModes) {
+    public Q censusModes(@NonNull CensusMode... censusModes) {
         this.censusModes = censusModes;
         return (Q) this;
     }
@@ -84,7 +87,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusHistoryFrom(long timestamp) {
+    public Q censusHistoryFrom(long timestamp) {
         this.censusHistoryFrom = timestamp;
         return (Q) this;
     }
@@ -98,7 +101,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusHistoryTo(long timestamp) {
+    public Q censusHistoryTo(long timestamp) {
         this.censusHistoryTo = timestamp;
         return (Q) this;
     }

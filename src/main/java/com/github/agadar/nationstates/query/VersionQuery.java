@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import java.io.InputStream;
 import java.util.Scanner;
+
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's utility resource, retrieving the version
@@ -13,9 +13,14 @@ import java.util.Scanner;
  */
 public class VersionQuery extends APIQuery<VersionQuery, Integer> {
 
-    public VersionQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "version");
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     **/
+    public VersionQuery(@NonNull QueryDependencies queryDependencies) {
+        super(queryDependencies, "version");
     }
 
     @Override
@@ -26,9 +31,10 @@ public class VersionQuery extends APIQuery<VersionQuery, Integer> {
     @SuppressWarnings("unchecked")
     @Override
     protected <T> T parseResponse(InputStream response, Class<T> type) {
-        @SuppressWarnings("resource")
-        Scanner s = new Scanner(response).useDelimiter("\\A");
-        String body = s.hasNext() ? s.next().trim() : "";
+        Scanner scanner = new Scanner(response);
+        scanner.useDelimiter("\\A");
+        String body = scanner.hasNext() ? scanner.next().trim() : "";
+        scanner.close();
         return (T) Integer.valueOf(body);
     }
 }

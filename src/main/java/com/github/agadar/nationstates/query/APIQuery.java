@@ -52,25 +52,19 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     private final int apiVersion;
 
     /**
-     * Constructor. Sets the resource value, e.g. the nation's or region's name.
+     * Constructor.
      *
-     * @param xmlConverter        The converter for translating XML from the API to
-     *                            objects.
-     * @param resourceValue       The resource value (e.g. 'nation', 'region'...)
-     * @param generalRateLimiter  The default rate limiter
-     * @param baseUrl             The URL to the API to consume
-     * @param userAgent           The User Agent to communicate with
-     * @param apiVersion          The version of the API to expect to consume
-     * @param scrapingRateLimiter Rate limiter used when 'scraping'
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param resourceValue     The resource value, e.g. a nation or region name.
      */
-    protected APIQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String resourceValue) {
-        super(baseUrl, userAgent);
+    protected APIQuery(@NonNull QueryDependencies queryDependencies, @NonNull String resourceValue) {
+        super(queryDependencies.getBaseUrl(), queryDependencies.getUserAgent());
+        generalRateLimiter = queryDependencies.getGeneralRateLimiter();
+        scrapingRateLimiter = queryDependencies.getScrapingRateLimiter();
+        apiVersion = queryDependencies.getApiVersion();
+        xmlConverter = queryDependencies.getXmlConverter();
         this.resourceValue = resourceValue;
-        this.generalRateLimiter = generalRateLimiter;
-        this.scrapingRateLimiter = scrapingRateLimiter;
-        this.apiVersion = apiVersion;
-        this.xmlConverter = xmlConverter;
     }
 
     /**

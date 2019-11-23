@@ -1,12 +1,9 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
+import com.github.agadar.nationstates.domain.nation.Nation;
+import com.github.agadar.nationstates.shard.NationShard;
 
 import lombok.NonNull;
-
-import com.github.agadar.nationstates.domain.nation.Nation;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
-import com.github.agadar.nationstates.shard.NationShard;
 
 /**
  * A query to the NationStates API's nation resource.
@@ -20,9 +17,15 @@ public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
      */
     private String canReceiveTelegramFromRegion;
 
-    public NationQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String nationName) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, nationName);
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param nationName        The name of the nation to query.
+     */
+    public NationQuery(@NonNull QueryDependencies queryDependencies, @NonNull String nationName) {
+        super(queryDependencies, nationName);
     }
 
     /**
@@ -32,7 +35,7 @@ public class NationQuery extends CensusQuery<NationQuery, Nation, NationShard> {
      * @param region the specified region.
      * @return this
      */
-    public final NationQuery canReceiveTelegramFromRegion(@NonNull String region) {
+    public NationQuery canReceiveTelegramFromRegion(@NonNull String region) {
         this.canReceiveTelegramFromRegion = region.trim();
         return this;
     }

@@ -70,7 +70,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q downloadDir(@NonNull String dir) {
+    public Q downloadDir(@NonNull String dir) {
         this.downloadDir = dir;
         return (Q) this;
     }
@@ -83,7 +83,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q readFromDir(@NonNull String dir) {
+    public Q readFromDir(@NonNull String dir) {
         this.readFromDir = dir;
         return (Q) this;
     }

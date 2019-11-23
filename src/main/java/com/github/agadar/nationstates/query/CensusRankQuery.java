@@ -1,8 +1,8 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.Shard;
+
+import lombok.NonNull;
 
 /**
  * Intermediate parent class that adds options for census ranks.
@@ -21,9 +21,15 @@ public abstract class CensusRankQuery<Q extends CensusRankQuery, R, S extends Sh
      */
     private int censusRanksStart;
 
-    public CensusRankQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter,
-            RateLimiter scrapingRateLimiter, String baseUrl, String userAgent, int apiVersion, String resourceValue) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, resourceValue);
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param resourceValue     The resource value, e.g. a nation or region name.
+     */
+    public CensusRankQuery(@NonNull QueryDependencies queryDependencies, @NonNull String resourceValue) {
+        super(queryDependencies, resourceValue);
     }
 
     /**
@@ -34,7 +40,7 @@ public abstract class CensusRankQuery<Q extends CensusRankQuery, R, S extends Sh
      * @return this
      */
     @SuppressWarnings("unchecked")
-    public final Q censusRanksStart(int rank) {
+    public Q censusRanksStart(int rank) {
         this.censusRanksStart = rank;
         return (Q) this;
     }

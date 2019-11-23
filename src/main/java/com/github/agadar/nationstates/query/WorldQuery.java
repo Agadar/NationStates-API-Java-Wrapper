@@ -1,16 +1,13 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
-import lombok.NonNull;
-
 import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 import com.github.agadar.nationstates.enumerator.HappeningsFilter;
 import com.github.agadar.nationstates.enumerator.RegionTag;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
+
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's world resource.
@@ -89,9 +86,15 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      */
     private long happeningsBeforeTime;
 
-    public WorldQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, WorldShard... shards) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, "");
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param shards            The shards to query.
+     */
+    public WorldQuery(@NonNull QueryDependencies queryDependencies, @NonNull WorldShard... shards) {
+        super(queryDependencies, "");
         this.shards = shards;
     }
 
@@ -102,7 +105,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param nation the author to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchAuthor(@NonNull String nation) {
+    public WorldQuery dispatchAuthor(@NonNull String nation) {
         this.dispatchAuthor = nation;
         return this;
     }
@@ -114,7 +117,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param category the category to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchCategory(@NonNull DispatchCategory category) {
+    public WorldQuery dispatchCategory(@NonNull DispatchCategory category) {
         this.dispatchCategory = category;
         return this;
     }
@@ -126,7 +129,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param subcategory the subcategory to list dispatches of
      * @return this
      */
-    public final WorldQuery dispatchSubcategory(@NonNull DispatchSubCategory subcategory) {
+    public WorldQuery dispatchSubcategory(@NonNull DispatchSubCategory subcategory) {
         this.dispatchSubcategory = subcategory;
         return this;
     }
@@ -137,7 +140,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      *
      * @return this
      */
-    public final WorldQuery dispatchGetBest() {
+    public WorldQuery dispatchGetBest() {
         this.dispatchGetBest = true;
         return this;
     }
@@ -149,7 +152,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param dispatchId id of the dispatch to select.
      * @return this
      */
-    public final WorldQuery dispatchId(int dispatchId) {
+    public WorldQuery dispatchId(int dispatchId) {
         this.dispatchId = dispatchId;
         return this;
     }
@@ -161,7 +164,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithTags(@NonNull RegionTag... tags) {
+    public WorldQuery regionsWithTags(@NonNull RegionTag... tags) {
         regionsWithTags = tags;
         return this;
     }
@@ -173,7 +176,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param tags the tags
      * @return this
      */
-    public final WorldQuery regionsWithoutTags(@NonNull RegionTag... tags) {
+    public WorldQuery regionsWithoutTags(@NonNull RegionTag... tags) {
         regionsWithoutTags = tags;
         return this;
     }
@@ -185,7 +188,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param nation the nation(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfNation(@NonNull String... nation) {
+    public WorldQuery happeningsOfNation(@NonNull String... nation) {
         this.happeningsView = nation.length == 1 ? "nation." : "nations.";
         this.happeningsView += nation[0];
 
@@ -203,7 +206,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param region the region(s) to view happenings of
      * @return this
      */
-    public final WorldQuery happeningsOfRegion(@NonNull String... region) {
+    public WorldQuery happeningsOfRegion(@NonNull String... region) {
         this.happeningsView = region.length == 1 ? "region." : "regions.";
         this.happeningsView += region[0];
 
@@ -221,7 +224,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param filters the filters for happenings
      * @return this
      */
-    public final WorldQuery happeningsFilter(@NonNull HappeningsFilter... filters) {
+    public WorldQuery happeningsFilter(@NonNull HappeningsFilter... filters) {
         this.happeningsFilter = filters;
         return this;
     }
@@ -233,7 +236,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param limit the maximum number of happenings to retrieve
      * @return this
      */
-    public final WorldQuery happeningsLimit(int limit) {
+    public WorldQuery happeningsLimit(int limit) {
         this.happeningsLimit = limit;
         return this;
     }
@@ -245,7 +248,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param id the id
      * @return this
      */
-    public final WorldQuery happeningsSinceId(long id) {
+    public WorldQuery happeningsSinceId(long id) {
         this.happeningsSinceId = id;
         return this;
     }
@@ -257,7 +260,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param id the id
      * @return this
      */
-    public final WorldQuery happeningsBeforeId(long id) {
+    public WorldQuery happeningsBeforeId(long id) {
         this.happeningsBeforeId = id;
         return this;
     }
@@ -269,7 +272,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param time the timestamp
      * @return this
      */
-    public final WorldQuery happeningsSinceTime(long time) {
+    public WorldQuery happeningsSinceTime(long time) {
         this.happeningsSinceTime = time;
         return this;
     }
@@ -281,7 +284,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param time the timestamp
      * @return this
      */
-    public final WorldQuery happeningsBeforeTime(long time) {
+    public WorldQuery happeningsBeforeTime(long time) {
         this.happeningsBeforeTime = time;
         return this;
     }
@@ -324,7 +327,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
             url += "&dispatchid=" + dispatchId;
         }
 
-        final boolean hasWithTags = regionsWithTags != null && regionsWithTags.length > 0;
+        boolean hasWithTags = regionsWithTags != null && regionsWithTags.length > 0;
 
         if (hasWithTags) {
             url += "&tags=" + regionsWithTags[0].toString();

@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.query;
 
-import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.domain.region.Region;
-import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.RegionShard;
+
+import lombok.NonNull;
 
 /**
  * A query to the NationStates API's region resource.
@@ -40,9 +40,15 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      */
     private long postsTo;
 
-    public RegionQuery(XmlConverter xmlConverter, RateLimiter generalRateLimiter, RateLimiter scrapingRateLimiter,
-            String baseUrl, String userAgent, int apiVersion, String regionName) {
-        super(xmlConverter, generalRateLimiter, scrapingRateLimiter, baseUrl, userAgent, apiVersion, regionName);
+    /**
+     * Constructor.
+     *
+     * @param queryDependencies Contains the basic dependencies required for most
+     *                          queries.
+     * @param regionName        The name of the region to query.
+     */
+    public RegionQuery(@NonNull QueryDependencies queryDependencies, @NonNull String regionName) {
+        super(queryDependencies, regionName);
     }
 
     /**
@@ -52,7 +58,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      * @param offset the offset for the 10 most recent regional messages
      * @return this
      */
-    public final RegionQuery messagesOffset(int offset) {
+    public RegionQuery messagesOffset(int offset) {
         this.offset = offset;
         return this;
     }
@@ -64,7 +70,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      * @param id the id of the post to start from
      * @return this
      */
-    public final RegionQuery messagesFromId(long id) {
+    public RegionQuery messagesFromId(long id) {
         this.fromId = id;
         return this;
     }
@@ -78,7 +84,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      * @param limit maximum number of posts or results to retrieve
      * @return this
      */
-    public final RegionQuery messagesLimit(int limit) {
+    public RegionQuery messagesLimit(int limit) {
         this.limit = limit;
         return this;
     }
@@ -90,7 +96,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      * @param postsFrom earliest epoch date of messages to take into account
      * @return this
      */
-    public final RegionQuery postsFrom(long postsFrom) {
+    public RegionQuery postsFrom(long postsFrom) {
         this.postsFrom = postsFrom;
         return this;
     }
@@ -102,7 +108,7 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
      * @param postsTo latest epoch date of messages to take into account
      * @return this
      */
-    public final RegionQuery postsTo(long postsTo) {
+    public RegionQuery postsTo(long postsTo) {
         this.postsTo = postsTo;
         return this;
     }
