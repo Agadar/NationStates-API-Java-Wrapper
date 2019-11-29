@@ -10,7 +10,6 @@ import lombok.Getter;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-@Getter
 public class TelegramSentEvent extends EventObject {
 
     private static final long serialVersionUID = -4487722764290395846L;
@@ -18,6 +17,7 @@ public class TelegramSentEvent extends EventObject {
     /**
      * Name of the nation the telegram was sent to.
      */
+    @Getter
     private final String recipient;
 
     /**
@@ -29,6 +29,7 @@ public class TelegramSentEvent extends EventObject {
      * The position of the sent telegram in the query. Starts at 0 and increments by
      * 1 for each telegram sent.
      */
+    @Getter
     private final int positionInQuery;
 
     /**

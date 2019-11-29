@@ -28,17 +28,6 @@ import java.util.function.Predicate;
 public interface NationStates {
 
     /**
-     * Sets the User Agent. NationStates moderators should be able to identify you
-     * and your script via your User Agent. As such, try providing at least your
-     * nation name, and preferably include your e-mail address, a link to a website
-     * you own, or something else that can help them contact you if needed.
-     *
-     * @param userAgent the User Agent to use for API calls
-     * @throws IllegalArgumentException if userAgent is null or empty.
-     */
-    public void setUserAgent(String userAgent);
-
-    /**
      * Performs a simple version check, logging the results in the console.
      * 
      * @throws NationStatesAPIException If something failed during the version

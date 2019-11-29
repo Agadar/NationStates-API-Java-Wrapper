@@ -91,7 +91,7 @@ public class DefaultNationStatesImpl implements NationStates {
     /**
      * The user agent with which this library makes requests.
      */
-    private String userAgent;
+    private final String userAgent;
 
     /**
      * Instantiates a new service and sets the User Agent. NationStates moderators
@@ -106,7 +106,7 @@ public class DefaultNationStatesImpl implements NationStates {
      *                                  directory failed.
      */
     public DefaultNationStatesImpl(@NonNull String userAgent) throws NationStatesAPIException {
-        this.setUserAgent(userAgent);
+        this.userAgent = userAgent;
         this.xmlConverter.registerTypes(Nation.class, Region.class, World.class, WorldAssembly.class);
 
         try {
@@ -117,11 +117,6 @@ public class DefaultNationStatesImpl implements NationStates {
             log.error("An error occured while deriving the default dump directory", ex);
             throw new NationStatesAPIException(ex);
         }
-    }
-
-    @Override
-    public void setUserAgent(@NonNull String userAgent) {
-        this.userAgent = userAgent;
     }
 
     @Override
