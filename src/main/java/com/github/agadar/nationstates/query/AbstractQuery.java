@@ -89,6 +89,9 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
      * @param stream the InputStream to close
      */
     protected void closeInputStreamQuietly(InputStream stream) {
+        if (stream == null) {
+            return;
+        }
         try {
             stream.close();
         } catch (IOException ex) {
@@ -133,7 +136,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             }
             throw new NationStatesAPIException(response);
 
-        } catch (Exception ex) {
+        } catch (Exception | OutOfMemoryError ex) {
             log.error("An error occured while handling a request to the API", ex);
             if (ex instanceof NationStatesAPIException) {
                 throw (NationStatesAPIException) ex;
@@ -141,9 +144,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             throw new NationStatesAPIException(ex);
 
         } finally {
-            if (istream != null) {
-                closeInputStreamQuietly(istream);
-            }
+            closeInputStreamQuietly(istream);
             if (conn != null) {
                 conn.disconnect();
             }

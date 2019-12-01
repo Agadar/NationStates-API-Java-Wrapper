@@ -157,15 +157,18 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * @throws NationStatesAPIException If an error occured while reading locally.
      */
     private Collection<R> readLocal() throws NationStatesAPIException {
+        FileInputStream stream = null;
         try {
             String dir = readFromDir != null && !readFromDir.isEmpty() ? readFromDir : defaultDirectory;
-            var stream = new FileInputStream(dir + "\\" + getFileName());
-            var obj = parseResponse(stream);
-            closeInputStreamQuietly(stream);
-            return obj;
-        } catch (Exception ex) {
+            stream = new FileInputStream(dir + "\\" + getFileName());
+            return parseResponse(stream);
+
+        } catch (Exception | OutOfMemoryError ex) {
             log.error("An error occured while reading the dump file", ex);
             throw new NationStatesAPIException(ex);
+
+        } finally {
+            closeInputStreamQuietly(stream);
         }
     }
 
