@@ -7,7 +7,6 @@ import com.github.agadar.nationstates.domain.common.happening.DispatchHappening;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
-import com.github.agadar.nationstates.happeningspecializer.dispatch.DispatchHappeningSpecializer;
 
 public class DispatchHappeningSpecializerTest {
 

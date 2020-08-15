@@ -129,7 +129,7 @@ public class DefaultNationStatesImplTest {
 
         // Assert
         assertNotNull(version);
-        assertEquals(9, version);
+        assertEquals(11, version);
     }
 
     /**
