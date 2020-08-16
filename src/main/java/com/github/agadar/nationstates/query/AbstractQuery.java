@@ -137,10 +137,10 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             throw new NationStatesAPIException(response);
 
         } catch (Exception | OutOfMemoryError ex) {
-            log.error("An error occured while handling a request to the API", ex);
             if (ex instanceof NationStatesAPIException) {
                 throw (NationStatesAPIException) ex;
             }
+            log.error("An error occured while handling a request to the API", ex);
             throw new NationStatesAPIException(ex);
 
         } finally {

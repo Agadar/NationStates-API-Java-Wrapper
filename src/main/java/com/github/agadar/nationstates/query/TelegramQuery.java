@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import com.github.agadar.nationstates.event.TelegramSentEvent;
 import com.github.agadar.nationstates.event.TelegramSentListener;
+import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 
 import lombok.NonNull;
@@ -133,9 +134,12 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 makeRequest(url, input -> null);
                 log.info("Queued a telegram to nation '{}'", nation);
 
+            } catch (NationStatesResourceNotFoundException ex) {
+                log.info("Nation '{}' was not found or doesn't exist", nation);
+                exception = ex;
+                
             } catch (Exception ex) {
-                String message = String.format("An error occured while queueing a telegram to nation '%s'", nation);
-                log.error(message, ex);
+                log.error(String.format("An error occured while queueing a telegram to nation '%s'", nation), ex);
                 exception = ex;
 
             } finally {
