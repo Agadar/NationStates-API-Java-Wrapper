@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
@@ -176,7 +176,7 @@ public class Nation {
      * List of nation names that endorsed this nation.
      */
     @XmlElement(name = "ENDORSEMENTS")
-    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
     private Collection<String> endorsedBy = new LinkedHashSet<String>();
 
     /**

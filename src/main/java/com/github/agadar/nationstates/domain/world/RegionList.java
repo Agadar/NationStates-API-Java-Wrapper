@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +32,6 @@ public class RegionList {
      * This wrapper's list of regions.
      */
     @XmlValue
-    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
     private Collection<String> regions = new LinkedHashSet<String>();
 }

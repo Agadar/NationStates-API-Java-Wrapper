@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
@@ -52,14 +52,14 @@ public class WorldAssembly {
      * The list of delegates. Same for both councils.
      */
     @XmlElement(name = "DELEGATES")
-    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
     private Collection<String> delegates = new LinkedHashSet<String>();
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
-    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
     private Collection<String> members = new LinkedHashSet<String>();
 
     /**

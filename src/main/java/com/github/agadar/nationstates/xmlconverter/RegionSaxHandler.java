@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.region.Embassy;
 import com.github.agadar.nationstates.domain.region.Officer;
@@ -37,7 +37,7 @@ public class RegionSaxHandler extends DefaultHandler {
     private final String embassyTag = "EMBASSY";
     private final String officerTag = "OFFICER";
 
-    private final ColonSeparatedToLinkedHashSetAdapter colonAdapter = new ColonSeparatedToLinkedHashSetAdapter();
+    private final ColonStringToStringSetAdapter colonAdapter = new ColonStringToStringSetAdapter();
     private final Authority.Adapter authorityAdapter = new Authority.Adapter();
     private final EmbassyStatus.Adapter embassyAdapter = new EmbassyStatus.Adapter();
     private final Predicate<Region> regionFilter;

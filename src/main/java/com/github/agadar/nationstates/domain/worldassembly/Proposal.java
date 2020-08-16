@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -80,7 +80,7 @@ public class Proposal {
      * The list of delegates that approved this proposal.
      */
     @XmlElement(name = "APPROVALS")
-    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
     private Collection<String> approvedBy = new LinkedHashSet<String>();
 
     @Override

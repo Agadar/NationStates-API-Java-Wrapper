@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +48,7 @@ public class PollOption {
      * Names of the nations that voted for this option.
      */
     @XmlElement(name = "VOTERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
     private Collection<String> voterNames = new LinkedHashSet<String>();
 
     @Override

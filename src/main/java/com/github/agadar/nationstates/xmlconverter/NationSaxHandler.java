@@ -9,7 +9,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.nation.DeathCause;
 import com.github.agadar.nationstates.domain.nation.Nation;
@@ -37,7 +37,7 @@ public class NationSaxHandler extends DefaultHandler {
     private final String deathTag = "CAUSE";
     private final String waBadgeTag = "WABADGE";
 
-    private final CommaSeparatedToLinkedHashSetAdapter commaAdapter = new CommaSeparatedToLinkedHashSetAdapter();
+    private final CsvStringToStringSetAdapter commaAdapter = new CsvStringToStringSetAdapter();
     private final Predicate<Nation> nationFilter;
     private final StringBuilder stringBuilder = new StringBuilder();
 

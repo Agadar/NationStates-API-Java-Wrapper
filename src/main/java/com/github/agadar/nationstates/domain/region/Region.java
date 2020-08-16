@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.CsvStringToLongSetSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
@@ -205,7 +205,7 @@ public class Region {
      * List of nations that inhabit this region.
      */
     @XmlElement(name = "NATIONS")
-    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
     private Collection<String> nationNames = new LinkedHashSet<String>();
 
     /**

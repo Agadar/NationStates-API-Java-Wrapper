@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
 import lombok.Getter;
@@ -69,7 +69,7 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      * List of nations that liked this message
      */
     @XmlElement(name = "LIKERS")
-    @XmlJavaTypeAdapter(ColonSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
     private Collection<String> likedBy = new LinkedHashSet<String>();
 
     /**

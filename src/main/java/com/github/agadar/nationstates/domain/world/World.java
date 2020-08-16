@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.github.agadar.nationstates.adapter.CommaSeparatedToLinkedHashSetAdapter;
-import com.github.agadar.nationstates.adapter.CommaSeparatedToListAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringListAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
@@ -113,14 +113,14 @@ public class World {
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
-    @XmlJavaTypeAdapter(CommaSeparatedToLinkedHashSetAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
     private Collection<String> nations = new LinkedHashSet<String>();
 
     /**
      * List of newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
-    @XmlJavaTypeAdapter(CommaSeparatedToListAdapter.class)
+    @XmlJavaTypeAdapter(CsvStringToStringListAdapter.class)
     private List<String> newestNations = new ArrayList<String>();
 
     /**
