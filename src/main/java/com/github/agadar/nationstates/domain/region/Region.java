@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.github.agadar.nationstates.adapter.ColonSeparatedToLinkedHashSetAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToLongSetSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
@@ -80,6 +81,13 @@ public class Region {
      */
     @XmlElement(name = "DELEGATEVOTES")
     private int delegateEndorsements;
+    
+    /**
+     * The unique identifiers of this region's pinned dispatches.
+     */
+    @XmlElement(name = "DISPATCHES")
+    @XmlJavaTypeAdapter(CsvStringToLongSetSetAdapter.class)
+    private Collection<Long> dispatches = new LinkedHashSet<Long>(); 
 
     /**
      * The region's embassies.

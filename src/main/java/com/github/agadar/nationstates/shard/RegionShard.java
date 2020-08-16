@@ -30,6 +30,10 @@ public enum RegionShard implements Shard {
      */
     DELEGATE_ENDORSEMENTS("DELEGATEVOTES"),
     /**
+     * The unique identifiers of this region's pinned dispatches. 
+     */
+    DISPATCHES("DISPATCHES"),
+    /**
      * The region's embassies.
      */
     EMBASSIES("EMBASSIES"),

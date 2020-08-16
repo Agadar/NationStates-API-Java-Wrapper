@@ -39,7 +39,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     /**
      * Id of the dispatch to select.
      */
-    private int dispatchId;
+    private long dispatchId;
 
     /**
      * Regions WITH these tags are retrieved.
@@ -152,7 +152,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param dispatchId id of the dispatch to select.
      * @return this
      */
-    public WorldQuery dispatchId(int dispatchId) {
+    public WorldQuery dispatchId(long dispatchId) {
         this.dispatchId = dispatchId;
         return this;
     }

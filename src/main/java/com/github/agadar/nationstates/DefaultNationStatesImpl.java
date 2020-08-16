@@ -43,7 +43,7 @@ public class DefaultNationStatesImpl implements NationStates {
     /**
      * The NationStates API version this wrapper uses.
      */
-    private final int apiVersion = 9;
+    private final int apiVersion = 11;
 
     /**
      * Base URL for all NationStates calls.
