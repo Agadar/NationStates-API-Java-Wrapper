@@ -172,7 +172,7 @@ public class DefaultNationStatesImplTest {
         System.out.println("getNationDump (DOWNLOAD_THEN_READ_LOCAL)");
 
         // Arrange
-        Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
+        Predicate<Nation> filter = nation -> nation.getName().equals("Testlandia");
         var query = nationStates.getNationDump(DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL, filter);
 
         // Act
@@ -181,7 +181,7 @@ public class DefaultNationStatesImplTest {
         // Assert
         assertNotNull(nations);
         assertEquals(1, nations.size());
-        assertEquals("Agadar", nations.iterator().next().getName());
+        assertEquals("Testlandia", nations.iterator().next().getName());
     }
 
     /**
@@ -194,7 +194,7 @@ public class DefaultNationStatesImplTest {
         System.out.println("getNationDump (READ_REMOTE)");
 
         // Arrange
-        Predicate<Nation> filter = nation -> nation.getName().equals("Agadar");
+        Predicate<Nation> filter = nation -> nation.getName().equals("Testlandia");
         var query = nationStates.getNationDump(DailyDumpMode.READ_REMOTE, filter);
 
         // Act
@@ -203,6 +203,6 @@ public class DefaultNationStatesImplTest {
         // Assert
         assertNotNull(nations);
         assertEquals(1, nations.size());
-        assertEquals("Agadar", nations.iterator().next().getName());
+        assertEquals("Testlandia", nations.iterator().next().getName());
     }
 }
