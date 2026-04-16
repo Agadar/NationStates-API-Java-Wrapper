@@ -3,15 +3,10 @@ package com.github.agadar.nationstates.domain.common;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Representation of a dispatch. Also used for factbooks, as those are a type of

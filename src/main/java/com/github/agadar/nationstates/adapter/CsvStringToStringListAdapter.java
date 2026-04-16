@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.adapter;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.Arrays;
 import java.util.List;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Converts a comma-separated String to a List of Strings and vice versa.

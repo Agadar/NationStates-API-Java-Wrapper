@@ -1,8 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Represents the different kinds of permissions a region can have set regarding
@@ -25,7 +26,7 @@ public enum EmbassiesRmbPermissions {
      */
     private final static Map<String, EmbassiesRmbPermissions> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static init for filling the reverse mapping.
      */
     static {
@@ -65,7 +66,7 @@ public enum EmbassiesRmbPermissions {
      *
      * @param underlying The underlying string.
      */
-    private EmbassiesRmbPermissions(String underlying) {
+    EmbassiesRmbPermissions(String underlying) {
         this.underlying = underlying;
     }
 

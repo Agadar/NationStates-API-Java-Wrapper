@@ -1,10 +1,10 @@
 package com.github.agadar.nationstates.happeningspecializer;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.domain.common.happening.LawHappening;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LawHappeningSpecializerTest {
 
@@ -21,7 +21,7 @@ public class LawHappeningSpecializerTest {
         final boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
 
         // Assert
-        Assert.assertTrue(isOfSpecializedType);
+        assertTrue(isOfSpecializedType);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class LawHappeningSpecializerTest {
         final boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
 
         // Assert
-        Assert.assertFalse(isOfSpecializedType);
+        assertFalse(isOfSpecializedType);
     }
 
     @Test
@@ -53,11 +53,11 @@ public class LawHappeningSpecializerTest {
         final LawHappening lawHappening = specializer.toSpecializedType(happening);
 
         // Assert
-        Assert.assertEquals(happening.getId(), lawHappening.getId());
-        Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
-        Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
-        Assert.assertEquals("terkaulia", lawHappening.getNation());
-        Assert.assertEquals("naturists are jailed regularly for indecent exposure", lawHappening.getResult());
+        assertEquals(happening.getId(), lawHappening.getId());
+        assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+        assertEquals(happening.getDescription(), lawHappening.getDescription());
+        assertEquals("terkaulia", lawHappening.getNation());
+        assertEquals("naturists are jailed regularly for indecent exposure", lawHappening.getResult());
     }
 
 }

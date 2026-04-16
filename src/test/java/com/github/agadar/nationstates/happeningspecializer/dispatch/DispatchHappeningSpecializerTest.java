@@ -1,12 +1,12 @@
 package com.github.agadar.nationstates.happeningspecializer.dispatch;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.github.agadar.nationstates.domain.common.happening.DispatchHappening;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DispatchHappeningSpecializerTest {
 
@@ -23,7 +23,7 @@ public class DispatchHappeningSpecializerTest {
 		boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
 
 		// Assert
-		Assert.assertTrue(isOfSpecializedType);
+		assertTrue(isOfSpecializedType);
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class DispatchHappeningSpecializerTest {
 		boolean isOfSpecializedType = specializer.isOfSpecializedType(happening);
 
 		// Assert
-		Assert.assertFalse(isOfSpecializedType);
+		assertFalse(isOfSpecializedType);
 	}
 
 	@Test
@@ -55,14 +55,14 @@ public class DispatchHappeningSpecializerTest {
 		final DispatchHappening lawHappening = specializer.toSpecializedType(happening);
 
 		// Assert
-		Assert.assertEquals(happening.getId(), lawHappening.getId());
-		Assert.assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
-		Assert.assertEquals(happening.getDescription(), lawHappening.getDescription());
-		Assert.assertEquals("euro-slavia", lawHappening.getNation());
-		Assert.assertEquals(0L, lawHappening.getDispatchId());
-		Assert.assertEquals("People's Union of Indochina", lawHappening.getDispatchName());
-		Assert.assertEquals(DispatchCategory.FACTBOOK, lawHappening.getDispatchCategory());
-		Assert.assertEquals(DispatchSubCategory.OVERVIEW, lawHappening.getDispatchSubCategory());
+		assertEquals(happening.getId(), lawHappening.getId());
+		assertEquals(happening.getTimestamp(), lawHappening.getTimestamp());
+		assertEquals(happening.getDescription(), lawHappening.getDescription());
+		assertEquals("euro-slavia", lawHappening.getNation());
+		assertEquals(0L, lawHappening.getDispatchId());
+		assertEquals("People's Union of Indochina", lawHappening.getDispatchName());
+		assertEquals(DispatchCategory.FACTBOOK, lawHappening.getDispatchCategory());
+		assertEquals(DispatchSubCategory.OVERVIEW, lawHappening.getDispatchSubCategory());
 	}
 
 }

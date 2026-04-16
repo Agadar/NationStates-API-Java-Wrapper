@@ -93,7 +93,7 @@ public enum WorldShard implements Shard {
      *
      * @param shardName the name of the underlying shard
      */
-    private WorldShard(String shardName) {
+    WorldShard(String shardName) {
         this.shardName = shardName;
     }
 

@@ -12,5 +12,5 @@ public interface Shard {
      *
      * @return the underlying name of the shard
      */
-    public String shardName();
+    String shardName();
 }

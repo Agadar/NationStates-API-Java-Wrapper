@@ -32,7 +32,7 @@ import lombok.SneakyThrows;
  */
 public final class HappeningSpecializationHelper {
 
-    private static Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers = new HashSet<>();
+    private static final Collection<HappeningSpecializer<? extends Happening>> happeningSpecializers = new HashSet<>();
 
     static {
         registerSpecializer(new DispatchHappeningSpecializer());
@@ -54,22 +54,19 @@ public final class HappeningSpecializationHelper {
      * Takes a collection of happenings and returns a sorted set containing those
      * same happenings, specialized to corresponding subclasses where applicable.
      * 
-     * @param happenings
      * @return The specialized happenings.
      * @throws NationStatesAPIException If a happening could not be specialized
      *                                  correctly.
      */
     public static List<Happening> specializeHappenings(Collection<Happening> happenings)
             throws NationStatesAPIException {
-        return happenings.stream().map(happening -> specializeHappeningIfPossible(happening))
+        return happenings.stream().map(HappeningSpecializationHelper::specializeHappeningIfPossible)
                 .collect(Collectors.toList());
 
     }
 
     /**
      * Register a new specializer to this helper.
-     * 
-     * @param specializer
      */
     public static void registerSpecializer(HappeningSpecializer<? extends Happening> specializer) {
         happeningSpecializers.add(specializer);

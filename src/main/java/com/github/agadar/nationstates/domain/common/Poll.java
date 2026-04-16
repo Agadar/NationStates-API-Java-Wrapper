@@ -3,13 +3,7 @@ package com.github.agadar.nationstates.domain.common;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
+import jakarta.xml.bind.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -71,7 +65,7 @@ public class Poll {
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    private Collection<PollOption> options = new LinkedHashSet<PollOption>();
+    private Collection<PollOption> options = new LinkedHashSet<>();
 
     @Override
     public int hashCode() {

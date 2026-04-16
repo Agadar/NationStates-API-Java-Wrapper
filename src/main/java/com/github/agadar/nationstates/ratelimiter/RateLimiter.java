@@ -13,16 +13,16 @@ public interface RateLimiter {
      *
      * @return True if the thread was not interrupted while waiting to continue.
      */
-    public boolean lock();
+    boolean lock();
 
     /**
      * Call this AFTER executing code that needs to be rate limited. Failure to
      * call this will result in other threads being blocked indefinitely.
      */
-    public void unlock();
+    void unlock();
     
     /**
      * @return The aforementioned y divided by the aforementioned x.
      */
-    public int getMillisecondsBetweenLocks();
+    int getMillisecondsBetweenLocks();
 }

@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different World Assembly badge types a nation or region can have.
@@ -27,7 +27,7 @@ public enum WorldAssemblyBadgeType {
      */
     private final static Map<String, WorldAssemblyBadgeType> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -58,7 +58,7 @@ public enum WorldAssemblyBadgeType {
      *
      * @param stringValue the supplied string.
      */
-    private WorldAssemblyBadgeType(String stringValue) {
+    WorldAssemblyBadgeType(String stringValue) {
         this.stringValue = stringValue;
     }
 

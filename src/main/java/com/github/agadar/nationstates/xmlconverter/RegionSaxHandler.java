@@ -55,37 +55,26 @@ public class RegionSaxHandler extends DefaultHandler {
     @Override
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
         switch (qName) {
-        case regionTag:
-            this.currentRegion = new Region();
-            this.elementHandler = this::handleRegionElement;
-            break;
-        case waBadgesTag:
-            this.elementHandler = this::handleWaBadgesElement;
-            break;
-        case embassiesTag:
-            this.elementHandler = this::handleEmbassiesElement;
-            break;
-        case officersTag:
-            this.elementHandler = this::handleOfficersElement;
-            break;
-
-        case officerTag:
-            this.currentOfficer = new Officer();
-            this.elementHandler = this::handleOfficerElement;
-            break;
-
-        case embassyTag:
-        case waBadgeTag:
-            this.currentAttributeValue = atts.getValue("type");
-            break;
-        default:
-            break;
+            case regionTag -> {
+                this.currentRegion = new Region();
+                this.elementHandler = this::handleRegionElement;
+            }
+            case waBadgesTag -> this.elementHandler = this::handleWaBadgesElement;
+            case embassiesTag -> this.elementHandler = this::handleEmbassiesElement;
+            case officersTag -> this.elementHandler = this::handleOfficersElement;
+            case officerTag -> {
+                this.currentOfficer = new Officer();
+                this.elementHandler = this::handleOfficerElement;
+            }
+            case embassyTag, waBadgeTag -> this.currentAttributeValue = atts.getValue("type");
+            default -> {
+            }
         }
         this.stringBuilder.setLength(0);
     }
 
     @Override
-    public void characters(char ch[], int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length) throws SAXException {
         for (int i = start; i < start + length; i++) {
             this.stringBuilder.append(ch[i]);
         }
@@ -116,44 +105,20 @@ public class RegionSaxHandler extends DefaultHandler {
 
     private void handleRegionElement(String currentElement, String value) {
         switch (currentElement) {
-        case "NAME":
-            currentRegion.setName(value);
-            break;
-        case "FLAG":
-            currentRegion.setFlagUrl(value);
-            break;
-        case "FACTBOOK":
-            currentRegion.setFactbook(value);
-            break;
-        case "LASTUPDATE":
-            currentRegion.setLastUpdate(Long.parseLong(value));
-            break;
-        case "DELEGATEAUTH":
-            currentRegion.setDelegateAuthorities(authorityAdapter.unmarshal(value));
-            break;
-        case "FOUNDER":
-            currentRegion.setFounder(value);
-            break;
-        case "NUMNATIONS":
-            currentRegion.setNumberOfNations(Integer.parseInt(value));
-            break;
-        case "DELEGATEVOTES":
-            currentRegion.setDelegateEndorsements(Integer.parseInt(value));
-            break;
-        case "DELEGATE":
-            currentRegion.setDelegate(value);
-            break;
-        case "FOUNDERAUTH":
-            currentRegion.setFounderAuthorities(authorityAdapter.unmarshal(value));
-            break;
-        case "POWER":
-            currentRegion.setPower(value);
-            break;
-        case "NATIONS":
-            currentRegion.setNationNames(colonAdapter.unmarshal(value));
-            break;
-        default:
-            break;
+            case "NAME" -> currentRegion.setName(value);
+            case "FLAG" -> currentRegion.setFlagUrl(value);
+            case "FACTBOOK" -> currentRegion.setFactbook(value);
+            case "LASTUPDATE" -> currentRegion.setLastUpdate(Long.parseLong(value));
+            case "DELEGATEAUTH" -> currentRegion.setDelegateAuthorities(authorityAdapter.unmarshal(value));
+            case "FOUNDER" -> currentRegion.setFounder(value);
+            case "NUMNATIONS" -> currentRegion.setNumberOfNations(Integer.parseInt(value));
+            case "DELEGATEVOTES" -> currentRegion.setDelegateEndorsements(Integer.parseInt(value));
+            case "DELEGATE" -> currentRegion.setDelegate(value);
+            case "FOUNDERAUTH" -> currentRegion.setFounderAuthorities(authorityAdapter.unmarshal(value));
+            case "POWER" -> currentRegion.setPower(value);
+            case "NATIONS" -> currentRegion.setNationNames(colonAdapter.unmarshal(value));
+            default -> {
+            }
         }
     }
 
@@ -178,26 +143,14 @@ public class RegionSaxHandler extends DefaultHandler {
 
     private void handleOfficerElement(String currentElement, String value) {
         switch (currentElement) {
-        case "NATION":
-            currentOfficer.setNationName(value);
-            break;
-        case "OFFICE":
-            currentOfficer.setOfficeName(value);
-            break;
-        case "ORDER":
-            currentOfficer.setOrder(Integer.parseInt(value));
-            break;
-        case "BY":
-            currentOfficer.setAssignedBy(value);
-            break;
-        case "AUTHORITY":
-            currentOfficer.setAuthorities(authorityAdapter.unmarshal(value));
-            break;
-        case "TIME":
-            currentOfficer.setAssignedOn(Long.parseLong(value));
-            break;
-        default:
-            break;
+            case "NATION" -> currentOfficer.setNationName(value);
+            case "OFFICE" -> currentOfficer.setOfficeName(value);
+            case "ORDER" -> currentOfficer.setOrder(Integer.parseInt(value));
+            case "BY" -> currentOfficer.setAssignedBy(value);
+            case "AUTHORITY" -> currentOfficer.setAuthorities(authorityAdapter.unmarshal(value));
+            case "TIME" -> currentOfficer.setAssignedOn(Long.parseLong(value));
+            default -> {
+            }
         }
     }
 }

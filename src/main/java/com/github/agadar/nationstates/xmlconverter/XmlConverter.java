@@ -15,14 +15,14 @@ public interface XmlConverter {
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to from
      * retrieved XML responses and files. Classes that inherit any of the classes in
-     * the domain-package don't need any xml-annotations. Classes that do no inherit
+     * the domain-package don't need any xml-annotations. Classes that do not inherit
      * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
      * @throws NationStatesAPIException If the classes could not be registered to
      *                                  the JAXB context.
      */
-    public void registerTypes(Class<?>... types) throws NationStatesAPIException;
+    void registerTypes(Class<?>... types) throws NationStatesAPIException;
 
     /**
      * Uses JAXB to parse the supplied XML stream to an instance of the specified
@@ -35,7 +35,7 @@ public interface XmlConverter {
      * @throws NationStatesAPIException If the stream could not be parsed to the
      *                                  specified type.
      */
-    public <T> T xmlToObject(InputStream xml, Class<T> toType) throws NationStatesAPIException;
+    <T> T xmlToObject(InputStream xml, Class<T> toType) throws NationStatesAPIException;
 
     /**
      * Uses JAXB to parse an object to an output stream.
@@ -45,5 +45,5 @@ public interface XmlConverter {
      * @throws NationStatesAPIException If the object could not be parsed to a
      *                                  stream.
      */
-    public ByteArrayOutputStream objectToXml(Object obj) throws NationStatesAPIException;
+    ByteArrayOutputStream objectToXml(Object obj) throws NationStatesAPIException;
 }

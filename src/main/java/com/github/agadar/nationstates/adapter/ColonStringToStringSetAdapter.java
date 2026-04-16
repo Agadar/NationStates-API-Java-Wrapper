@@ -1,10 +1,10 @@
 package com.github.agadar.nationstates.adapter;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Converts a colon-separated String to a Set of Strings and vice versa.

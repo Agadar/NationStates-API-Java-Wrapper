@@ -1,6 +1,7 @@
 package com.github.agadar.nationstates.query;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 import com.github.agadar.nationstates.event.TelegramSentEvent;
@@ -72,9 +73,9 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
     }
 
     /**
-     * Ensures the telegram will be send as if it is a recruitment telegram. If
+     * Ensures the telegram will be sent as if it is a recruitment telegram. If
      * you're sending a recruitment telegram, then this should be set, or the
-     * mandated rate limit might be violated and your telegrams won't be send.
+     * mandated rate limit might be violated and your telegrams won't be sent.
      *
      * @return this
      */
@@ -91,9 +92,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
      */
     public TelegramQuery addListeners(@NonNull TelegramSentListener... newListeners) {
         synchronized (listeners) {
-            for (TelegramSentListener listener : newListeners) {
-                listeners.add(listener);
-            }
+            Collections.addAll(listeners, newListeners);
         }
         return this;
     }
@@ -115,7 +114,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         final int individual = sendAsRecruitmentTelegram
                 ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
                 : this.telegramRateLimiter.getMillisecondsBetweenLocks();
-        return (nations.length - 1) * individual;
+        return (long) (nations.length - 1) * individual;
     }
 
     @Override
@@ -139,7 +138,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 exception = ex;
                 
             } catch (Exception ex) {
-                log.error(String.format("An error occured while queueing a telegram to nation '%s'", nation), ex);
+                log.error(String.format("An error occurred while queueing a telegram to nation '%s'", nation), ex);
                 exception = ex;
 
             } finally {
@@ -149,9 +148,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
             // Fire a new telegram sent event.
             var event = new TelegramSentEvent(this, nation, exception, i);
             synchronized (listeners) {
-                listeners.stream().forEach((tsl) -> {
-                    tsl.handleTelegramSent(event);
-                });
+                listeners.forEach((tsl) -> tsl.handleTelegramSent(event));
             }
         }
         return null;

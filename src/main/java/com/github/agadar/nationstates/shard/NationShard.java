@@ -273,7 +273,7 @@ public enum NationShard implements Shard {
      *
      * @param shardName the name of the underlying shard
      */
-    private NationShard(String shardName) {
+    NationShard(String shardName) {
         this.shardName = shardName;
     }
 

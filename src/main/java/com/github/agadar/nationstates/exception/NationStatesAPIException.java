@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates.exception;
 
+import java.io.Serial;
+
 /**
  * Custom checked exception for Agadar's NationStates API Java Wrapper.
  *
@@ -7,6 +9,7 @@ package com.github.agadar.nationstates.exception;
  */
 public class NationStatesAPIException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public NationStatesAPIException() {

@@ -6,13 +6,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
 
 import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.CsvStringToStringListAdapter;
@@ -24,6 +19,7 @@ import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,10 +41,10 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Collection<CensusScore> census = new LinkedHashSet<CensusScore>();
+    private Collection<CensusScore> census = new LinkedHashSet<>();
 
     /**
-     * Id of the current census.
+     * ID of the current census.
      */
     @XmlElement(name = "CENSUSID")
     private int censusId;
@@ -94,7 +90,7 @@ public class World {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    private Collection<Dispatch> dispatches = new LinkedHashSet<Dispatch>();
+    private Collection<Dispatch> dispatches = new LinkedHashSet<>();
 
     /**
      * Name of today's featured region.
@@ -107,21 +103,21 @@ public class World {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> happenings = new ArrayList<Happening>();
+    private List<Happening> happenings = new ArrayList<>();
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> nations = new LinkedHashSet<String>();
+    private Collection<String> nations = new LinkedHashSet<>();
 
     /**
-     * List of newest nations.
+     * List of the newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringListAdapter.class)
-    private List<String> newestNations = new ArrayList<String>();
+    private List<String> newestNations = new ArrayList<>();
 
     /**
      * The number of nations in the world.
@@ -148,22 +144,22 @@ public class World {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @XmlElement(name = "REGIONS")
-    private List<RegionList> regions = new ArrayList<RegionList>();
+    private List<RegionList> regions = new ArrayList<>();
 
     /**
-     * If the Regions shard was used alone or together with RegionsByTag, then this
+     * If the 'Regions' shard was used alone or together with RegionsByTag, then this
      * returns the retrieved Regions. If ONLY the RegionsByTag shard was used, this
      * returns the retrieved RegionsByTag. Else, returns an empty set.
      *
      * @return region names
      */
     public Collection<String> getRegions() {
-        return regions.isEmpty() ? new HashSet<String>() : regions.get(0).getRegions();
+        return regions.isEmpty() ? new HashSet<>() : regions.get(0).getRegions();
     }
 
     /**
      * If the RegionsByTag shard was used alone or together with Regions, then this
-     * returns the retrieved RegionsByTag. If ONLY the Regions shard was used, this
+     * returns the retrieved RegionsByTag. If ONLY the 'Regions' shard was used, this
      * returns the retrieved Regions. Else, returns an empty set.
      *
      * @return region names
@@ -174,9 +170,7 @@ public class World {
 
     /**
      * Executed after JAXB finishes unmarshalling.
-     * 
-     * @param unmarshaller
-     * @param parent
+     *
      * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")

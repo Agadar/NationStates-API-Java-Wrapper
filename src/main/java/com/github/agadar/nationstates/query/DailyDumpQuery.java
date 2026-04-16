@@ -154,7 +154,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      * Reads the gzip file from the target directory, returning its parsed contents.
      *
      * @return the retrieved daily dump data
-     * @throws NationStatesAPIException If an error occured while reading locally.
+     * @throws NationStatesAPIException If an error occurred while reading locally.
      */
     private Collection<R> readLocal() throws NationStatesAPIException {
         FileInputStream stream = null;
@@ -164,7 +164,7 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
             return parseResponse(stream);
 
         } catch (Exception | OutOfMemoryError ex) {
-            log.error("An error occured while reading the dump file", ex);
+            log.error("An error occurred while reading the dump file", ex);
             throw new NationStatesAPIException(ex);
 
         } finally {

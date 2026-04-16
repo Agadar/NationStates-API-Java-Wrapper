@@ -2,11 +2,11 @@ package com.github.agadar.nationstates.adapter;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class CsvStringToLongSetSetAdapter extends XmlAdapter<String, Collection<
 
     @Override
     public String marshal(Collection<Long> bt) {
-        return bt.stream().map(element -> element.toString()).collect(Collectors.joining(","));
+        return bt.stream().map(Object::toString).collect(Collectors.joining(","));
     }
 
     @Override
@@ -31,6 +31,6 @@ public class CsvStringToLongSetSetAdapter extends XmlAdapter<String, Collection<
                 log.error("Failed to parse value '" + element + "' to Long", ex);
                 return null;
             }
-        }).filter(value -> value != null).collect(Collectors.toCollection(LinkedHashSet::new));
+        }).filter(Objects::nonNull).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

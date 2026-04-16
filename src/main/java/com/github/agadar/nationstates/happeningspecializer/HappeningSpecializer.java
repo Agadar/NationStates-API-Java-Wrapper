@@ -16,19 +16,17 @@ public interface HappeningSpecializer<T extends Happening> {
      * Checks whether the supplied happening is of the type this specializer can
      * handle.
      * 
-     * @param happening
      * @return True if it is, otherwise false.
      */
-    public boolean isOfSpecializedType(Happening happening);
+    boolean isOfSpecializedType(Happening happening);
 
     /**
      * Converts a generic Happening to the specialized type this specializer is
      * responsible for.
      * 
-     * @param happening
      * @return The specialized type.
      * @throws NationStatesAPIException If the happening is not of the specialized
      *                                  type.
      */
-    public T toSpecializedType(Happening happening) throws NationStatesAPIException;
+    T toSpecializedType(Happening happening) throws NationStatesAPIException;
 }

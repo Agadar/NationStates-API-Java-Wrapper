@@ -1,5 +1,6 @@
 package com.github.agadar.nationstates.event;
 
+import java.io.Serial;
 import java.util.EventObject;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import lombok.Getter;
  */
 public class TelegramSentEvent extends EventObject {
 
+    @Serial
     private static final long serialVersionUID = -4487722764290395846L;
 
     /**

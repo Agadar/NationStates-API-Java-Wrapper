@@ -8,7 +8,6 @@ import com.github.agadar.nationstates.enumerator.WorldAssemblyBadgeType;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,90 +20,149 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
 public class NationSaxHandlerTest {
 
-    final String nationsXml = "<NATIONS api_version=\"9\">\n" + "    <NATION>\n"
-            + "        <NAME>Join Colorado</NAME>\n" + "        <TYPE>Queen's State</TYPE>\n"
-            + "        <FULLNAME>The Queen's State of Join Colorado</FULLNAME>\n"
-            + "        <MOTTO>Official Recruiting Nation</MOTTO>\n" + "        <CATEGORY>Anarchy</CATEGORY>\n"
-            + "        <UNSTATUS>WA Member</UNSTATUS>\n" + "        <ENDORSEMENTS>agadar,vancouvia</ENDORSEMENTS>\n"
-            + "        <FREEDOM>\n" + "            <CIVILRIGHTS>Excessive</CIVILRIGHTS>\n"
-            + "            <ECONOMY>Very Strong</ECONOMY>\n"
-            + "            <POLITICALFREEDOM>Corrupted</POLITICALFREEDOM>\n" + "        </FREEDOM>\n"
-            + "        <REGION>Double Funky 7</REGION>\n" + "        <POPULATION>5533</POPULATION>\n"
-            + "        <TAX>5.8</TAX>\n" + "        <ANIMAL>deer</ANIMAL>\n" + "        <CURRENCY>betale</CURRENCY>\n"
-            + "        <DEMONYM>Join Coloradoan</DEMONYM>\n" + "        <DEMONYM2>Join Coloradoan</DEMONYM2>\n"
-            + "        <DEMONYM2PLURAL>Join Coloradoans</DEMONYM2PLURAL>\n"
-            + "        <FLAG>https://www.nationstates.net/images/flags/Maldives.png</FLAG>\n"
-            + "        <MAJORINDUSTRY>Basket Weaving</MAJORINDUSTRY>\n"
-            + "        <GOVTPRIORITY>Commerce</GOVTPRIORITY>\n" + "        <GOVT>\n"
-            + "            <ADMINISTRATION>1.0</ADMINISTRATION>\n" + "            <DEFENCE>2.0</DEFENCE>\n"
-            + "            <EDUCATION>3.0</EDUCATION>\n" + "            <ENVIRONMENT>4.0</ENVIRONMENT>\n"
-            + "            <HEALTHCARE>5.0</HEALTHCARE>\n" + "            <COMMERCE>100.0</COMMERCE>\n"
-            + "            <INTERNATIONALAID>6.0</INTERNATIONALAID>\n" + "            <LAWANDORDER>7.0</LAWANDORDER>\n"
-            + "            <PUBLICTRANSPORT>8.0</PUBLICTRANSPORT>\n"
-            + "            <SOCIALEQUALITY>9.0</SOCIALEQUALITY>\n" + "            <SPIRITUALITY>10.0</SPIRITUALITY>\n"
-            + "            <WELFARE>11.0</WELFARE>\n" + "        </GOVT>\n"
-            + "        <FOUNDED>4 years 44 days ago</FOUNDED>\n" + "        <FIRSTLOGIN>1387103882</FIRSTLOGIN>\n"
-            + "        <LASTLOGIN>1515878943</LASTLOGIN>\n" + "        <LASTACTIVITY>14 days ago</LASTACTIVITY>\n"
-            + "        <INFLUENCE>Ambassador</INFLUENCE>\n" + "        <FREEDOMSCORES>\n"
-            + "            <CIVILRIGHTS>87</CIVILRIGHTS>\n" + "            <ECONOMY>75</ECONOMY>\n"
-            + "            <POLITICALFREEDOM>100</POLITICALFREEDOM>\n" + "        </FREEDOMSCORES>\n"
-            + "        <PUBLICSECTOR>3.5</PUBLICSECTOR>\n" + "        <DEATHS>\n"
-            + "            <CAUSE type=\"Old Age\">63.6</CAUSE>\n"
-            + "            <CAUSE type=\"Exposure\">16.0</CAUSE>\n" + "        </DEATHS>\n"
-            + "        <LEADER>the Governor</LEADER>\n" + "        <CAPITAL>Capital Heights</CAPITAL>\n"
-            + "        <RELIGION>Temple of Doom</RELIGION>\n" + "        <FACTBOOKS>2</FACTBOOKS>\n"
-            + "        <DISPATCHES>3</DISPATCHES>\n" + "        <WABADGES>\n"
-            + "            <WABADGE type=\"commend\">420</WABADGE>\n"
-            + "            <WABADGE type=\"condemn\">69</WABADGE>\n" + "        </WABADGES>\n" + "    </NATION>\n"
-            + "    <NATION>\n" + "        <NAME>Join Alabama</NAME>\n" + "        <TYPE>Queen's State</TYPE>\n"
-            + "        <FULLNAME>The Queen's State of Join Colorado</FULLNAME>\n"
-            + "        <MOTTO>Official Recruiting Nation</MOTTO>\n" + "        <CATEGORY>Anarchy</CATEGORY>\n"
-            + "        <UNSTATUS>WA Member</UNSTATUS>\n" + "        <ENDORSEMENTS>agadar,vancouvia</ENDORSEMENTS>\n"
-            + "        <FREEDOM>\n" + "            <CIVILRIGHTS>Excessive</CIVILRIGHTS>\n"
-            + "            <ECONOMY>Very Strong</ECONOMY>\n"
-            + "            <POLITICALFREEDOM>Corrupted</POLITICALFREEDOM>\n" + "        </FREEDOM>\n"
-            + "        <REGION>Double Funky 7</REGION>\n" + "        <POPULATION>5533</POPULATION>\n"
-            + "        <TAX>5.8</TAX>\n" + "        <ANIMAL>deer</ANIMAL>\n" + "        <CURRENCY>betale</CURRENCY>\n"
-            + "        <DEMONYM>Join Coloradoan</DEMONYM>\n" + "        <DEMONYM2>Join Coloradoan</DEMONYM2>\n"
-            + "        <DEMONYM2PLURAL>Join Coloradoans</DEMONYM2PLURAL>\n"
-            + "        <FLAG>https://www.nationstates.net/images/flags/Maldives.png</FLAG>\n"
-            + "        <MAJORINDUSTRY>Basket Weaving</MAJORINDUSTRY>\n"
-            + "        <GOVTPRIORITY>Commerce</GOVTPRIORITY>\n" + "        <GOVT>\n"
-            + "            <ADMINISTRATION>1.0</ADMINISTRATION>\n" + "            <DEFENCE>2.0</DEFENCE>\n"
-            + "            <EDUCATION>3.0</EDUCATION>\n" + "            <ENVIRONMENT>4.0</ENVIRONMENT>\n"
-            + "            <HEALTHCARE>5.0</HEALTHCARE>\n" + "            <COMMERCE>100.0</COMMERCE>\n"
-            + "            <INTERNATIONALAID>6.0</INTERNATIONALAID>\n" + "            <LAWANDORDER>7.0</LAWANDORDER>\n"
-            + "            <PUBLICTRANSPORT>8.0</PUBLICTRANSPORT>\n"
-            + "            <SOCIALEQUALITY>9.0</SOCIALEQUALITY>\n" + "            <SPIRITUALITY>10.0</SPIRITUALITY>\n"
-            + "            <WELFARE>11.0</WELFARE>\n" + "        </GOVT>\n"
-            + "        <FOUNDED>4 years 44 days ago</FOUNDED>\n" + "        <FIRSTLOGIN>1387103882</FIRSTLOGIN>\n"
-            + "        <LASTLOGIN>1515878943</LASTLOGIN>\n" + "        <LASTACTIVITY>14 days ago</LASTACTIVITY>\n"
-            + "        <INFLUENCE>Ambassador</INFLUENCE>\n" + "        <FREEDOMSCORES>\n"
-            + "            <CIVILRIGHTS>87</CIVILRIGHTS>\n" + "            <ECONOMY>75</ECONOMY>\n"
-            + "            <POLITICALFREEDOM>100</POLITICALFREEDOM>\n" + "        </FREEDOMSCORES>\n"
-            + "        <PUBLICSECTOR>3.5</PUBLICSECTOR>\n" + "        <DEATHS>\n"
-            + "            <CAUSE type=\"Old Age\">63.6</CAUSE>\n"
-            + "            <CAUSE type=\"Exposure\">16.0</CAUSE>\n" + "        </DEATHS>\n"
-            + "        <LEADER>the Governor</LEADER>\n" + "        <CAPITAL>Capital Heights</CAPITAL>\n"
-            + "        <RELIGION>Temple of Doom</RELIGION>\n" + "        <FACTBOOKS>2</FACTBOOKS>\n"
-            + "        <DISPATCHES>3</DISPATCHES>\n" + "        <WABADGES>\n"
-            + "            <WABADGE type=\"commend\">420</WABADGE>\n"
-            + "            <WABADGE type=\"condemn\">69</WABADGE>\n" + "        </WABADGES>\n" + "    </NATION>\n"
-            + "</NATIONS>";
+    final String nationsXml = """
+            <NATIONS api_version="9">
+                <NATION>
+                    <NAME>Join Colorado</NAME>
+                    <TYPE>Queen's State</TYPE>
+                    <FULLNAME>The Queen's State of Join Colorado</FULLNAME>
+                    <MOTTO>Official Recruiting Nation</MOTTO>
+                    <CATEGORY>Anarchy</CATEGORY>
+                    <UNSTATUS>WA Member</UNSTATUS>
+                    <ENDORSEMENTS>agadar,vancouvia</ENDORSEMENTS>
+                    <FREEDOM>
+                        <CIVILRIGHTS>Excessive</CIVILRIGHTS>
+                        <ECONOMY>Very Strong</ECONOMY>
+                        <POLITICALFREEDOM>Corrupted</POLITICALFREEDOM>
+                    </FREEDOM>
+                    <REGION>Double Funky 7</REGION>
+                    <POPULATION>5533</POPULATION>
+                    <TAX>5.8</TAX>
+                    <ANIMAL>deer</ANIMAL>
+                    <CURRENCY>betale</CURRENCY>
+                    <DEMONYM>Join Coloradoan</DEMONYM>
+                    <DEMONYM2>Join Coloradoan</DEMONYM2>
+                    <DEMONYM2PLURAL>Join Coloradoans</DEMONYM2PLURAL>
+                    <FLAG>https://www.nationstates.net/images/flags/Maldives.png</FLAG>
+                    <MAJORINDUSTRY>Basket Weaving</MAJORINDUSTRY>
+                    <GOVTPRIORITY>Commerce</GOVTPRIORITY>
+                    <GOVT>
+                        <ADMINISTRATION>1.0</ADMINISTRATION>
+                        <DEFENCE>2.0</DEFENCE>
+                        <EDUCATION>3.0</EDUCATION>
+                        <ENVIRONMENT>4.0</ENVIRONMENT>
+                        <HEALTHCARE>5.0</HEALTHCARE>
+                        <COMMERCE>100.0</COMMERCE>
+                        <INTERNATIONALAID>6.0</INTERNATIONALAID>
+                        <LAWANDORDER>7.0</LAWANDORDER>
+                        <PUBLICTRANSPORT>8.0</PUBLICTRANSPORT>
+                        <SOCIALEQUALITY>9.0</SOCIALEQUALITY>
+                        <SPIRITUALITY>10.0</SPIRITUALITY>
+                        <WELFARE>11.0</WELFARE>
+                    </GOVT>
+                    <FOUNDED>4 years 44 days ago</FOUNDED>
+                    <FIRSTLOGIN>1387103882</FIRSTLOGIN>
+                    <LASTLOGIN>1515878943</LASTLOGIN>
+                    <LASTACTIVITY>14 days ago</LASTACTIVITY>
+                    <INFLUENCE>Ambassador</INFLUENCE>
+                    <FREEDOMSCORES>
+                        <CIVILRIGHTS>87</CIVILRIGHTS>
+                        <ECONOMY>75</ECONOMY>
+                        <POLITICALFREEDOM>100</POLITICALFREEDOM>
+                    </FREEDOMSCORES>
+                    <PUBLICSECTOR>3.5</PUBLICSECTOR>
+                    <DEATHS>
+                        <CAUSE type="Old Age">63.6</CAUSE>
+                        <CAUSE type="Exposure">16.0</CAUSE>
+                    </DEATHS>
+                    <LEADER>the Governor</LEADER>
+                    <CAPITAL>Capital Heights</CAPITAL>
+                    <RELIGION>Temple of Doom</RELIGION>
+                    <FACTBOOKS>2</FACTBOOKS>
+                    <DISPATCHES>3</DISPATCHES>
+                    <WABADGES>
+                        <WABADGE type="commend">420</WABADGE>
+                        <WABADGE type="condemn">69</WABADGE>
+                    </WABADGES>
+                </NATION>
+                <NATION>
+                    <NAME>Join Alabama</NAME>
+                    <TYPE>Queen's State</TYPE>
+                    <FULLNAME>The Queen's State of Join Colorado</FULLNAME>
+                    <MOTTO>Official Recruiting Nation</MOTTO>
+                    <CATEGORY>Anarchy</CATEGORY>
+                    <UNSTATUS>WA Member</UNSTATUS>
+                    <ENDORSEMENTS>agadar,vancouvia</ENDORSEMENTS>
+                    <FREEDOM>
+                        <CIVILRIGHTS>Excessive</CIVILRIGHTS>
+                        <ECONOMY>Very Strong</ECONOMY>
+                        <POLITICALFREEDOM>Corrupted</POLITICALFREEDOM>
+                    </FREEDOM>
+                    <REGION>Double Funky 7</REGION>
+                    <POPULATION>5533</POPULATION>
+                    <TAX>5.8</TAX>
+                    <ANIMAL>deer</ANIMAL>
+                    <CURRENCY>betale</CURRENCY>
+                    <DEMONYM>Join Coloradoan</DEMONYM>
+                    <DEMONYM2>Join Coloradoan</DEMONYM2>
+                    <DEMONYM2PLURAL>Join Coloradoans</DEMONYM2PLURAL>
+                    <FLAG>https://www.nationstates.net/images/flags/Maldives.png</FLAG>
+                    <MAJORINDUSTRY>Basket Weaving</MAJORINDUSTRY>
+                    <GOVTPRIORITY>Commerce</GOVTPRIORITY>
+                    <GOVT>
+                        <ADMINISTRATION>1.0</ADMINISTRATION>
+                        <DEFENCE>2.0</DEFENCE>
+                        <EDUCATION>3.0</EDUCATION>
+                        <ENVIRONMENT>4.0</ENVIRONMENT>
+                        <HEALTHCARE>5.0</HEALTHCARE>
+                        <COMMERCE>100.0</COMMERCE>
+                        <INTERNATIONALAID>6.0</INTERNATIONALAID>
+                        <LAWANDORDER>7.0</LAWANDORDER>
+                        <PUBLICTRANSPORT>8.0</PUBLICTRANSPORT>
+                        <SOCIALEQUALITY>9.0</SOCIALEQUALITY>
+                        <SPIRITUALITY>10.0</SPIRITUALITY>
+                        <WELFARE>11.0</WELFARE>
+                    </GOVT>
+                    <FOUNDED>4 years 44 days ago</FOUNDED>
+                    <FIRSTLOGIN>1387103882</FIRSTLOGIN>
+                    <LASTLOGIN>1515878943</LASTLOGIN>
+                    <LASTACTIVITY>14 days ago</LASTACTIVITY>
+                    <INFLUENCE>Ambassador</INFLUENCE>
+                    <FREEDOMSCORES>
+                        <CIVILRIGHTS>87</CIVILRIGHTS>
+                        <ECONOMY>75</ECONOMY>
+                        <POLITICALFREEDOM>100</POLITICALFREEDOM>
+                    </FREEDOMSCORES>
+                    <PUBLICSECTOR>3.5</PUBLICSECTOR>
+                    <DEATHS>
+                        <CAUSE type="Old Age">63.6</CAUSE>
+                        <CAUSE type="Exposure">16.0</CAUSE>
+                    </DEATHS>
+                    <LEADER>the Governor</LEADER>
+                    <CAPITAL>Capital Heights</CAPITAL>
+                    <RELIGION>Temple of Doom</RELIGION>
+                    <FACTBOOKS>2</FACTBOOKS>
+                    <DISPATCHES>3</DISPATCHES>
+                    <WABADGES>
+                        <WABADGE type="commend">420</WABADGE>
+                        <WABADGE type="condemn">69</WABADGE>
+                    </WABADGES>
+                </NATION>
+            </NATIONS>""";
 
     @Test
     public void testParseAndFilterByName()
-            throws ParserConfigurationException, SAXException, FileNotFoundException, IOException {
+            throws ParserConfigurationException, SAXException, IOException {
         System.out.println("testParseAndFilterByName");
 
         // Arrange

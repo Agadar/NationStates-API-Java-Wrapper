@@ -5,14 +5,8 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
 
 import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.CsvStringToLongSetSetAdapter;
@@ -28,6 +22,7 @@ import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
 import com.github.agadar.nationstates.enumerator.RegionTag;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,7 +49,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Collection<CensusScore> census = new LinkedHashSet<CensusScore>();
+    private Collection<CensusScore> census = new LinkedHashSet<>();
 
     /**
      * The census scale scores of this region's nations.
@@ -74,7 +69,7 @@ public class Region {
      */
     @XmlElement(name = "DELEGATEAUTH")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Collection<Authority> delegateAuthorities = new LinkedHashSet<Authority>();
+    private Collection<Authority> delegateAuthorities = new LinkedHashSet<>();
 
     /**
      * The number of endorsements the region's world assembly delegate has.
@@ -87,14 +82,14 @@ public class Region {
      */
     @XmlElement(name = "DISPATCHES")
     @XmlJavaTypeAdapter(CsvStringToLongSetSetAdapter.class)
-    private Collection<Long> dispatches = new LinkedHashSet<Long>(); 
+    private Collection<Long> dispatches = new LinkedHashSet<>();
 
     /**
      * The region's embassies.
      */
     @XmlElementWrapper(name = "EMBASSIES")
     @XmlElement(name = "EMBASSY")
-    private Collection<Embassy> embassies = new LinkedHashSet<Embassy>();
+    private Collection<Embassy> embassies = new LinkedHashSet<>();
 
     /**
      * Regional Message Board permissions for regions with which this region
@@ -139,7 +134,7 @@ public class Region {
      */
     @XmlElement(name = "FOUNDERAUTH")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Collection<Authority> founderAuthorities = new LinkedHashSet<Authority>();
+    private Collection<Authority> founderAuthorities = new LinkedHashSet<>();
 
     /**
      * The region's votes for the current General Assembly resolution.
@@ -152,14 +147,14 @@ public class Region {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> recentHappenings = new ArrayList<Happening>();
+    private List<Happening> recentHappenings = new ArrayList<>();
 
     /**
      * List of the most recent history.
      */
     @XmlElementWrapper(name = "HISTORY")
     @XmlElement(name = "EVENT")
-    private List<Happening> history = new ArrayList<Happening>();
+    private List<Happening> history = new ArrayList<>();
 
     /**
      * UNIX timestamp of when this region was last updated.
@@ -172,28 +167,28 @@ public class Region {
      */
     @XmlElementWrapper(name = "MESSAGES")
     @XmlElement(name = "POST")
-    private List<RegionalMessage> regionalMessages = new ArrayList<RegionalMessage>();
+    private List<RegionalMessage> regionalMessages = new ArrayList<>();
 
     /**
      * Rankings of nations with most RMB posts made.
      */
     @XmlElementWrapper(name = "MOSTPOSTS")
     @XmlElement(name = "NATION")
-    private List<MostPostsRank> mostPostsRanks = new ArrayList<MostPostsRank>();
+    private List<MostPostsRank> mostPostsRanks = new ArrayList<>();
 
     /**
      * Rankings of nations with most RMB likes given.
      */
     @XmlElementWrapper(name = "MOSTLIKED")
     @XmlElement(name = "NATION")
-    private List<MostLikedRank> mostLikedRanks = new ArrayList<MostLikedRank>();
+    private List<MostLikedRank> mostLikedRanks = new ArrayList<>();
 
     /**
      * Rankings of nations with most RMB likes received.
      */
     @XmlElementWrapper(name = "MOSTLIKES")
     @XmlElement(name = "NATION")
-    private List<MostLikesRank> mostLikesRanks = new ArrayList<MostLikesRank>();
+    private List<MostLikesRank> mostLikesRanks = new ArrayList<>();
 
     /**
      * The region's name. Should be similar to id, but capitalized.
@@ -206,7 +201,7 @@ public class Region {
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> nationNames = new LinkedHashSet<String>();
+    private Collection<String> nationNames = new LinkedHashSet<>();
 
     /**
      * The number of nations that inhabit this region.
@@ -219,7 +214,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "OFFICERS")
     @XmlElement(name = "OFFICER")
-    private Collection<Officer> officers = new LinkedHashSet<Officer>();
+    private Collection<Officer> officers = new LinkedHashSet<>();
 
     /**
      * The regional poll that is currently being conducted.
@@ -245,14 +240,14 @@ public class Region {
     @XmlElementWrapper(name = "TAGS")
     @XmlElement(name = "TAG")
     @XmlJavaTypeAdapter(RegionTag.Adapter.class)
-    private Collection<RegionTag> tags = new LinkedHashSet<RegionTag>();
+    private Collection<RegionTag> tags = new LinkedHashSet<>();
 
     /**
      * The World Assembly badges granted to this region by the Security Council.
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    private Collection<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<WorldAssemblyBadge>();
+    private Collection<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<>();
 
     /**
      * This region's statistics of the current or last zombie event.
@@ -262,9 +257,7 @@ public class Region {
 
     /**
      * Executed after JAXB finishes unmarshalling.
-     * 
-     * @param unmarshaller
-     * @param parent
+     *
      * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")

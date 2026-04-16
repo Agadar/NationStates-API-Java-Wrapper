@@ -141,7 +141,7 @@ public enum RegionShard implements Shard {
      *
      * @param shardName the name of the underlying shard
      */
-    private RegionShard(String shardName) {
+    RegionShard(String shardName) {
         this.shardName = shardName;
     }
 

@@ -1,7 +1,7 @@
 package com.github.agadar.nationstates.ratelimiter;
 
 /**
- * A rate limiter that is also dependant on another rate limiter.
+ * A rate limiter that is also dependent on another rate limiter.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
@@ -30,7 +30,7 @@ public class DependantRateLimiter extends NormalRateLimiter {
 
     @Override
     public boolean lock() {
-        return super.lock() ? dependant.lock() : false;
+        return super.lock() && dependant.lock();
     }
 
     @Override

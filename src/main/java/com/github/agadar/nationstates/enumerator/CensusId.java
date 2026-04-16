@@ -108,7 +108,7 @@ public enum CensusId {
      *
      * @param id the id
      */
-    private CensusId(int id) {
+    CensusId(int id) {
         this.id = id;
     }
 }

@@ -33,19 +33,19 @@ public interface NationStates {
      * @throws NationStatesAPIException If something failed during the version
      *                                  check.
      */
-    public void doVersionCheck() throws NationStatesAPIException;
+    void doVersionCheck() throws NationStatesAPIException;
 
     /**
      * Adds the given classes to the JAXB context so that they can be parsed to from
      * retrieved XML responses and files. Classes that inherit any of the classes in
-     * the domain-package don't need any xml-annotations. Classes that do no inherit
+     * the domain-package don't need any xml-annotations. Classes that do not inherit
      * those classes, do need xml-annotations.
      *
      * @param types the classes to add to the JAXB context
      * @throws NationStatesAPIException If adding the types to the JAXB context
      *                                  failed.
      */
-    public void registerTypes(Class<?>... types) throws NationStatesAPIException;
+    void registerTypes(Class<?>... types) throws NationStatesAPIException;
 
     /**
      * Starts building a nation query, using the given nation name.
@@ -53,7 +53,7 @@ public interface NationStates {
      * @param nationName name of the nation to query
      * @return a new nation query
      */
-    public NationQuery getNation(String nationName);
+    NationQuery getNation(String nationName);
 
     /**
      * Starts building a region query, using the given region name.
@@ -61,7 +61,7 @@ public interface NationStates {
      * @param regionName name of the region to query
      * @return a new region query
      */
-    public RegionQuery getRegion(String regionName);
+    RegionQuery getRegion(String regionName);
 
     /**
      * Starts building a world query, using the selected shards.
@@ -69,7 +69,7 @@ public interface NationStates {
      * @param shards the selected shards
      * @return a new world query
      */
-    public WorldQuery getWorld(WorldShard... shards);
+    WorldQuery getWorld(WorldShard... shards);
 
     /**
      * Starts building a World Assembly query, using the selected council type.
@@ -77,7 +77,7 @@ public interface NationStates {
      * @param council the council type to query
      * @return a new World Assembly query
      */
-    public WorldAssemblyQuery getWorldAssembly(Council council);
+    WorldAssemblyQuery getWorldAssembly(Council council);
 
     /**
      * Starts building a query that retrieves the version number of the latest live
@@ -85,7 +85,7 @@ public interface NationStates {
      *
      * @return a new version query
      */
-    public VersionQuery getVersion();
+    VersionQuery getVersion();
 
     /**
      * Starts building a query that verifies a nation.
@@ -94,7 +94,7 @@ public interface NationStates {
      * @param checksum the verification checksum
      * @return a new verify query
      */
-    public VerifyQuery verifyNation(String nation, String checksum);
+    VerifyQuery verifyNation(String nation, String checksum);
 
     /**
      * Starts building a query that sends (a) telegram(s).
@@ -105,7 +105,7 @@ public interface NationStates {
      * @param nations    the nation(s) to send the telegram to
      * @return a new telegram query
      */
-    public TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
+    TelegramQuery sendTelegrams(String clientKey, String telegramId, String secretKey, String... nations);
 
     /**
      * Starts building a query that retrieves the daily region dump.
@@ -114,7 +114,7 @@ public interface NationStates {
      * @param filter filter used for selecting regions
      * @return a new daily region dump query
      */
-    public RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
+    RegionDumpQuery getRegionDump(DailyDumpMode mode, Predicate<Region> filter);
 
     /**
      * Starts building a query that retrieves the daily nation dump.
@@ -127,5 +127,5 @@ public interface NationStates {
      * @param filter filter used for selecting nations
      * @return a new daily nation dump query
      */
-    public NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
+    NationDumpQuery getNationDump(DailyDumpMode mode, Predicate<Nation> filter);
 }

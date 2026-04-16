@@ -1,13 +1,6 @@
 package com.github.agadar.nationstates;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.function.Predicate;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
@@ -16,6 +9,10 @@ import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.shard.WorldAssemblyShard;
 import com.github.agadar.nationstates.shard.WorldShard;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Simple integration test to check existence of presumably most-used endpoints.
@@ -26,15 +23,13 @@ public class DefaultNationStatesImplTest {
 
     private DefaultNationStatesImpl nationStates;
 
-    @Before
+    @BeforeEach
     public void initialise() throws NationStatesAPIException {
         nationStates = new DefaultNationStatesImpl("Integration tests by Agadar");
     }
 
     /**
      * Test of getNation method, of class NationStates.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetNation() throws NationStatesAPIException {
@@ -53,8 +48,6 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getRegion method, of class NationStates.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetRegion() throws NationStatesAPIException {
@@ -73,8 +66,6 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getWorld method, of class NationStates.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetWorld() throws NationStatesAPIException {
@@ -93,8 +84,6 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getWorldAssembly method, of class NationStates.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetWorldAssembly() throws NationStatesAPIException {
@@ -114,8 +103,6 @@ public class DefaultNationStatesImplTest {
 
     /**
      * Test of getVersion method, of class NationStates.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetVersion() throws NationStatesAPIException {
@@ -128,16 +115,13 @@ public class DefaultNationStatesImplTest {
         int version = query.execute();
 
         // Assert
-        assertNotNull(version);
-        assertEquals(11, version);
+        assertEquals(12, version);
     }
 
     /**
      * Test of getRegionDump method, of class NationStates.
      * <p>
      * Tests the "download then read locally" method.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetRegionDump_downloadAndRead() throws NationStatesAPIException {
@@ -160,8 +144,6 @@ public class DefaultNationStatesImplTest {
      * Test of getRegionDump method, of class NationStates.
      * <p>
      * Tests the "read remote" method.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetRegionDump_readRemote() throws NationStatesAPIException {
@@ -184,8 +166,6 @@ public class DefaultNationStatesImplTest {
      * Test of getNationDump method, of class NationStates.
      * <p>
      * Tests the "download then read locally" method.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetNationDump_downloadAndRead() throws NationStatesAPIException {
@@ -208,8 +188,6 @@ public class DefaultNationStatesImplTest {
      * Test of getNationDump method, of class NationStates.
      * <p>
      * Tests the "read remote" method.
-     * 
-     * @throws NationStatesAPIException
      */
     @Test
     public void testGetNationDump_readRemote() throws NationStatesAPIException {

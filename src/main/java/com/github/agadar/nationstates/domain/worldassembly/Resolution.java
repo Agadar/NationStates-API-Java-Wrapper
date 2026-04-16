@@ -5,15 +5,11 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.*;
 
 import com.github.agadar.nationstates.enumerator.Council;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -152,7 +148,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    private Collection<DelegateLogsEntry> delegateLog = new LinkedHashSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateLog = new LinkedHashSet<>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -160,7 +156,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    private Collection<DelegateLogsEntry> delegateVotesFor = new LinkedHashSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateVotesFor = new LinkedHashSet<>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -168,14 +164,14 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    private Collection<DelegateLogsEntry> delegateVotesAgainst = new LinkedHashSet<DelegateLogsEntry>();
+    private Collection<DelegateLogsEntry> delegateVotesAgainst = new LinkedHashSet<>();
 
     /**
      * A track record of the total FOR votes of the resolution currently at vote.
      */
     @XmlElementWrapper(name = "VOTE_TRACK_FOR")
     @XmlElement(name = "N")
-    private List<Integer> voteTrackFor = new ArrayList<Integer>();
+    private List<Integer> voteTrackFor = new ArrayList<>();
 
     /**
      * A track record of the total AGAINST votes of the resolution currently at
@@ -183,5 +179,5 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "VOTE_TRACK_AGAINST")
     @XmlElement(name = "N")
-    private List<Integer> voteTrackAgainst = new ArrayList<Integer>();
+    private List<Integer> voteTrackAgainst = new ArrayList<>();
 }

@@ -110,7 +110,7 @@ public abstract class CensusQuery<Q extends CensusQuery, R, S extends Shard> ext
     protected String buildURL() {
         String url = super.buildURL();
 
-        // If census id's were supplied, append them to url
+        // If census ids were supplied, append them to url
         if (censusIds != null && censusIds.length > 0) {
             url += "&scale=" + censusIds[0].toInt();
 

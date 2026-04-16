@@ -6,14 +6,14 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
@@ -27,22 +27,19 @@ public class XmlConverterImplTest {
 
     private XmlConverterImpl xmlConverter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws NationStatesAPIException {
         xmlConverter = new XmlConverterImpl();
         xmlConverter.registerTypes(Happening.class);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         xmlConverter = null;
     }
 
     /**
      * Test of xmlToObject method, of class XmlConverter.
-     *
-     * @throws java.io.UnsupportedEncodingException
-     * @throws NationStatesAPIException
      */
     @Test
     public void testXmlToObject() throws UnsupportedEncodingException, NationStatesAPIException {
@@ -63,9 +60,6 @@ public class XmlConverterImplTest {
 
     /**
      * Test of objectToXml method, of class XmlConverter.
-     *
-     * @throws java.io.UnsupportedEncodingException
-     * @throws NationStatesAPIException
      */
     @Test
     public void testObjectToXml() throws UnsupportedEncodingException, NationStatesAPIException {
@@ -79,7 +73,7 @@ public class XmlConverterImplTest {
 
         // Act
         final ByteArrayOutputStream stream = xmlConverter.objectToXml(happening);
-        final String xml = new String(stream.toByteArray(), StandardCharsets.UTF_8.name());
+        final String xml = stream.toString(StandardCharsets.UTF_8.name());
 
         // Assert
         assertEquals(xml, xmlString);

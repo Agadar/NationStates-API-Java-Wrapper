@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.github.agadar.nationstates.enumerator.Authority;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,7 +43,7 @@ public class Officer {
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Collection<Authority> authorities = new LinkedHashSet<Authority>();
+    private Collection<Authority> authorities = new LinkedHashSet<>();
 
     /**
      * UNIX timestamp of when this officer position was assigned.

@@ -6,15 +6,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
+import jakarta.xml.bind.*;
 import lombok.extern.slf4j.Slf4j;
 
 /**

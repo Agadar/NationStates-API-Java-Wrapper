@@ -1,8 +1,9 @@
 package com.github.agadar.nationstates.ratelimiter;
 
-import org.junit.After;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
@@ -11,15 +12,13 @@ public class NormalRateLimiterTest {
 
     private NormalRateLimiter rateLimiter;
 
-    @After
+    @AfterEach
     public void tearDown() {
         rateLimiter = null;
     }
 
     /**
      * Test of lock and unlock methods, of class RateLimiter.
-     *
-     * @throws java.lang.InterruptedException
      */
     @Test
     public void testLockAndUnlock() throws InterruptedException {
@@ -67,7 +66,7 @@ public class NormalRateLimiterTest {
         assertEquals(expected, actual);
     }
 
-    private class TestRunnable implements Runnable {
+    private static class TestRunnable implements Runnable {
 
         public boolean called = false;
         private final NormalRateLimiter rateLimiter;

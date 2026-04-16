@@ -44,8 +44,7 @@ public class VerifyQuery extends APIQuery<VerifyQuery, Boolean> {
 
     /**
      * Use an application-specific token. If a token is set, then users can retrieve
-     * their code at https://www.nationstates.net/page=verify_login?token=(Your
-     * token) instead.
+     * their code at https://www.nationstates.net/page=verify_login?token=(Your token) instead.
      *
      * @param token application-specific token
      * @return this

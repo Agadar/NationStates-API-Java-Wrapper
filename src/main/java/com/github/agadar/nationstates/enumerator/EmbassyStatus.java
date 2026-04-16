@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Represents the different statuses an embassy can be in.
@@ -26,7 +26,7 @@ public enum EmbassyStatus {
      */
     private final static Map<String, EmbassyStatus> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static init for filling the reverse mapping.
      */
     static {
@@ -66,7 +66,7 @@ public enum EmbassyStatus {
      *
      * @param underlying The underlying string.
      */
-    private EmbassyStatus(String underlying) {
+    EmbassyStatus(String underlying) {
         this.underlying = underlying;
     }
 

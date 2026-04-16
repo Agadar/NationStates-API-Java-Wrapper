@@ -127,8 +127,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
 
             if (istream == null) {
                 istream = conn.getInputStream();
-                T result = resultHandler.apply(istream);
-                return result;
+                return resultHandler.apply(istream);
             }
 
             if (responseCode == 404) {

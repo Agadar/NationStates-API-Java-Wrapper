@@ -1,11 +1,11 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different authorities regional officers can have.
@@ -22,7 +22,7 @@ public enum Authority {
      */
     private final static Map<Character, Authority> CHARS_TO_ENUMS;
 
-    /**
+    /*
      * Static init for filling the reverse mapping.
      */
     static {
@@ -61,7 +61,7 @@ public enum Authority {
      *
      * @param authCode the authority code.
      */
-    private Authority(char authCode) {
+    Authority(char authCode) {
         this.authCode = authCode;
     }
 

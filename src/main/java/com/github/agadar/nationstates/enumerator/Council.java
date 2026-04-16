@@ -1,6 +1,6 @@
 package com.github.agadar.nationstates.enumerator;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different councils within the World Assembly.
@@ -39,14 +39,11 @@ public enum Council {
      * @return the corresponding Council
      */
     public static Council fromInt(int councilNumber) {
-        switch (councilNumber) {
-            case 1:
-                return GENERAL_ASSEMBLY;
-            case 2:
-                return SECURITY_COUNCIL;
-            default:
-                throw new IllegalArgumentException("'councilNumber' should be either 1 or 2");
-        }
+        return switch (councilNumber) {
+            case 1 -> GENERAL_ASSEMBLY;
+            case 2 -> SECURITY_COUNCIL;
+            default -> throw new IllegalArgumentException("'councilNumber' should be either 1 or 2");
+        };
     }
 
     /**
@@ -54,7 +51,7 @@ public enum Council {
      *
      * @param councilNumber the underlying council number
      */
-    private Council(int councilNumber) {
+    Council(int councilNumber) {
         this.councilNumber = councilNumber;
     }
 

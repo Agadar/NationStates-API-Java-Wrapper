@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different tags a region can have.
@@ -115,7 +115,7 @@ public enum RegionTag {
      */
     private final static Map<String, RegionTag> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -148,7 +148,7 @@ public enum RegionTag {
      *
      * @param stringValue the supplied string.
      */
-    private RegionTag(String stringValue) {
+    RegionTag(String stringValue) {
         this.stringValue = stringValue;
     }
 

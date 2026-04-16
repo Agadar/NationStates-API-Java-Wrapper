@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Represents the different World Assembly statuses a nation can have.
@@ -22,7 +22,7 @@ public enum WorldAssemblyStatus {
      */
     private final static Map<String, WorldAssemblyStatus> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static init for filling the reverse mapping.
      */
     static {
@@ -62,7 +62,7 @@ public enum WorldAssemblyStatus {
      *
      * @param underlying The underlying string.
      */
-    private WorldAssemblyStatus(String underlying) {
+    WorldAssemblyStatus(String underlying) {
         this.underlying = underlying;
     }
 

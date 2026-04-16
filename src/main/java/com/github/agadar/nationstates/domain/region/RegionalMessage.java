@@ -3,16 +3,16 @@ package com.github.agadar.nationstates.domain.region;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,7 +70,7 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      */
     @XmlElement(name = "LIKERS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> likedBy = new LinkedHashSet<String>();
+    private Collection<String> likedBy = new LinkedHashSet<>();
 
     /**
      * The text of the message

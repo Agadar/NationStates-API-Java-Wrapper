@@ -54,9 +54,9 @@ public enum CensusMode {
     /**
      * Instantiate a new entry with the given option name.
      *
-     * @param authName the name of the underlying option
+     * @param option the name of the underlying option
      */
-    private CensusMode(String option) {
+    CensusMode(String option) {
         this.option = option;
     }
 }

@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Enumerator for the different statuses a regional message can have.
@@ -28,7 +28,7 @@ public enum RegionalMessageStatus {
      */
     private final static Map<Integer, RegionalMessageStatus> INTS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -63,7 +63,7 @@ public enum RegionalMessageStatus {
      *
      * @param intValue the supplied integer.
      */
-    private RegionalMessageStatus(int intValue) {
+    RegionalMessageStatus(int intValue) {
         this.intValue = intValue;
     }
 

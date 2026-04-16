@@ -1,5 +1,7 @@
 package com.github.agadar.nationstates.exception;
 
+import java.io.Serial;
+
 /**
  * Thrown when a NationStates resource (e.g. a nation or a region) was not
  * found. Specifically, this is thrown when the NationStates API returns HTTP
@@ -10,6 +12,7 @@ package com.github.agadar.nationstates.exception;
  */
 public class NationStatesResourceNotFoundException extends NationStatesAPIException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public NationStatesResourceNotFoundException(String message) {

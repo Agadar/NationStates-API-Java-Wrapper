@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The different regional influence ranks a nation can have in the region they
@@ -56,7 +56,7 @@ public enum InfluenceRank {
      */
     private final static Map<String, InfluenceRank> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -86,7 +86,7 @@ public enum InfluenceRank {
      *
      * @param stringValue the supplied string.
      */
-    private InfluenceRank(String stringValue) {
+    InfluenceRank(String stringValue) {
         this.stringValue = stringValue;
     }
 

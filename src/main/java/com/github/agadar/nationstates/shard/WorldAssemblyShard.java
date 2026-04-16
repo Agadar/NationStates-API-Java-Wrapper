@@ -74,7 +74,7 @@ public enum WorldAssemblyShard implements Shard {
      *
      * @param shardName the name of the underlying shard
      */
-    private WorldAssemblyShard(String shardName) {
+    WorldAssemblyShard(String shardName) {
         this.shardName = shardName;
     }
 

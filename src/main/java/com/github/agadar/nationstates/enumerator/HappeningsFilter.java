@@ -42,7 +42,7 @@ public enum HappeningsFilter {
      *
      * @param underlying The underlying string.
      */
-    private HappeningsFilter(String underlying) {
+    HappeningsFilter(String underlying) {
         this.underlying = underlying;
     }
 }

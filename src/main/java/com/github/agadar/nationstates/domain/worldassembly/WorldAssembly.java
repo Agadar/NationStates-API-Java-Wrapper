@@ -5,19 +5,15 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
 
 import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,35 +49,35 @@ public class WorldAssembly {
      */
     @XmlElement(name = "DELEGATES")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> delegates = new LinkedHashSet<String>();
+    private Collection<String> delegates = new LinkedHashSet<>();
 
     /**
      * The list of member nations. Same for both councils.
      */
     @XmlElement(name = "MEMBERS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> members = new LinkedHashSet<String>();
+    private Collection<String> members = new LinkedHashSet<>();
 
     /**
      * Most recent happenings. Same for both councils.
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> recentHappenings = new ArrayList<Happening>();
+    private List<Happening> recentHappenings = new ArrayList<>();
 
     /**
      * Most recent member log entries. Same for both councils.
      */
     @XmlElementWrapper(name = "MEMBERLOG")
     @XmlElement(name = "EVENT")
-    private List<Happening> recentMemberLog = new ArrayList<Happening>();
+    private List<Happening> recentMemberLog = new ArrayList<>();
 
     /**
      * Current proposed resolutions.
      */
     @XmlElementWrapper(name = "PROPOSALS")
     @XmlElement(name = "PROPOSAL")
-    private Collection<Proposal> currentProposals = new LinkedHashSet<Proposal>();
+    private Collection<Proposal> currentProposals = new LinkedHashSet<>();
 
     /**
      * The current resolution at vote, or a specific one if an id is supplied.
@@ -97,9 +93,7 @@ public class WorldAssembly {
 
     /**
      * Executed after JAXB finishes unmmarshalling.
-     * 
-     * @param unmarshaller
-     * @param parent
+     *
      * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")

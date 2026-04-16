@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The possible actions a delegate can have taken on the current proposal at
@@ -25,7 +25,7 @@ public enum DelegateAction {
      */
     private final static Map<String, DelegateAction> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -55,7 +55,7 @@ public enum DelegateAction {
      *
      * @param stringValue the supplied string.
      */
-    private DelegateAction(String stringValue) {
+    DelegateAction(String stringValue) {
         this.stringValue = stringValue;
     }
 

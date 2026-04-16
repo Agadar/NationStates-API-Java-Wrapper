@@ -1,9 +1,9 @@
 package com.github.agadar.nationstates.enumerator;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The possible sub-categories for dispatches.
@@ -54,7 +54,7 @@ public enum DispatchSubCategory {
      */
     private final static Map<String, DispatchSubCategory> STRINGS_TO_ENUMS;
 
-    /**
+    /*
      * Static 'constructor' for filling the reverse map.
      */
     static {
@@ -85,7 +85,7 @@ public enum DispatchSubCategory {
      *
      * @param stringValue the supplied string.
      */
-    private DispatchSubCategory(String stringValue) {
+    DispatchSubCategory(String stringValue) {
         this.stringValue = stringValue;
     }
 

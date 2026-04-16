@@ -7,7 +7,6 @@ import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassyStatus;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -20,47 +19,85 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
 public class RegionSaxHandlerTest {
 
-    final String regionsXml = "<REGIONS api_version=\"9\">\n" + "<REGION>\n" + "<NAME>Hearts of Iron</NAME>\n"
-            + "<FACTBOOK>factbook text</FACTBOOK>\n" + "<NUMNATIONS>6</NUMNATIONS>\n"
-            + "<NATIONS>greater_helan_eonis:azaroar:evergrand_imperium</NATIONS>\n" + "<DELEGATE>vancouvia</DELEGATE>\n"
-            + "<DELEGATEVOTES>420</DELEGATEVOTES>\n" + "<DELEGATEAUTH>WC</DELEGATEAUTH>\n"
-            + "<FOUNDER>azaroar</FOUNDER>\n" + "<FOUNDERAUTH>XA</FOUNDERAUTH>\n"
-            + "<OFFICERS><OFFICER><NATION>ace_morrigan</NATION>\n" + "<OFFICE>Public Relations Manager</OFFICE>\n"
-            + "<AUTHORITY>XA</AUTHORITY>\n" + "<TIME>1479126089</TIME>\n" + "<BY>azaroar</BY>\n" + "<ORDER>5</ORDER>\n"
-            + "</OFFICER>\n" + "<OFFICER><NATION>azaroar</NATION>\n"
-            + "<OFFICE>Chief of Scientific Advancement</OFFICE>\n" + "<AUTHORITY>WC</AUTHORITY>\n"
-            + "<TIME>1479183029</TIME>\n" + "<BY>azaroar</BY>\n" + "<ORDER>8</ORDER>\n" + "</OFFICER>\n"
-            + "</OFFICERS>\n" + "<POWER>Low</POWER>\n"
-            + "<FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>\n"
-            + "<EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>\n" + "<EMBASSY>Eden Prime</EMBASSY></EMBASSIES>\n" + "\n"
-            + "<LASTUPDATE>1517115631</LASTUPDATE>\n" + "</REGION>" + "<REGION>\n" + "<NAME>Hearts of Gold</NAME>\n"
-            + "<FACTBOOK>factbook text</FACTBOOK>\n" + "<NUMNATIONS>6</NUMNATIONS>\n"
-            + "<NATIONS>greater_helan_eonis:azaroar:evergrand_imperium:the_raze_wastes:zumundis:spiira</NATIONS>\n"
-            + "<DELEGATE>0</DELEGATE>\n" + "<DELEGATEVOTES>0</DELEGATEVOTES>\n" + "<DELEGATEAUTH>WCEP</DELEGATEAUTH>\n"
-            + "<FOUNDER>azaroar</FOUNDER>\n" + "<FOUNDERAUTH>XABCEP</FOUNDERAUTH>\n"
-            + "<OFFICERS><OFFICER><NATION>ace_morrigan</NATION>\n" + "<OFFICE>Public Relations Manager</OFFICE>\n"
-            + "<AUTHORITY>AC</AUTHORITY>\n" + "<TIME>1479126089</TIME>\n" + "<BY>azaroar</BY>\n" + "<ORDER>5</ORDER>\n"
-            + "</OFFICER>\n" + "<OFFICER><NATION>azaroar</NATION>\n"
-            + "<OFFICE>Chief of Scientific Advancement</OFFICE>\n" + "<AUTHORITY>P</AUTHORITY>\n"
-            + "<TIME>1479183029</TIME>\n" + "<BY>azaroar</BY>\n" + "<ORDER>8</ORDER>\n" + "</OFFICER>\n"
-            + "</OFFICERS>\n" + "<POWER>Low</POWER>\n"
-            + "<FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>\n"
-            + "<EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>\n" + "<EMBASSY>Eden Prime</EMBASSY></EMBASSIES>\n" + "\n"
-            + "<LASTUPDATE>1517115631</LASTUPDATE>\n" + "</REGION>" + "</REGIONS>";
+    final String regionsXml = """
+            <REGIONS api_version="9">
+            <REGION>
+            <NAME>Hearts of Iron</NAME>
+            <FACTBOOK>factbook text</FACTBOOK>
+            <NUMNATIONS>6</NUMNATIONS>
+            <NATIONS>greater_helan_eonis:azaroar:evergrand_imperium</NATIONS>
+            <DELEGATE>vancouvia</DELEGATE>
+            <DELEGATEVOTES>420</DELEGATEVOTES>
+            <DELEGATEAUTH>WC</DELEGATEAUTH>
+            <FOUNDER>azaroar</FOUNDER>
+            <FOUNDERAUTH>XA</FOUNDERAUTH>
+            <OFFICERS><OFFICER><NATION>ace_morrigan</NATION>
+            <OFFICE>Public Relations Manager</OFFICE>
+            <AUTHORITY>XA</AUTHORITY>
+            <TIME>1479126089</TIME>
+            <BY>azaroar</BY>
+            <ORDER>5</ORDER>
+            </OFFICER>
+            <OFFICER><NATION>azaroar</NATION>
+            <OFFICE>Chief of Scientific Advancement</OFFICE>
+            <AUTHORITY>WC</AUTHORITY>
+            <TIME>1479183029</TIME>
+            <BY>azaroar</BY>
+            <ORDER>8</ORDER>
+            </OFFICER>
+            </OFFICERS>
+            <POWER>Low</POWER>
+            <FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>
+            <EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>
+            <EMBASSY>Eden Prime</EMBASSY></EMBASSIES>
+
+            <LASTUPDATE>1517115631</LASTUPDATE>
+            </REGION><REGION>
+            <NAME>Hearts of Gold</NAME>
+            <FACTBOOK>factbook text</FACTBOOK>
+            <NUMNATIONS>6</NUMNATIONS>
+            <NATIONS>greater_helan_eonis:azaroar:evergrand_imperium:the_raze_wastes:zumundis:spiira</NATIONS>
+            <DELEGATE>0</DELEGATE>
+            <DELEGATEVOTES>0</DELEGATEVOTES>
+            <DELEGATEAUTH>WCEP</DELEGATEAUTH>
+            <FOUNDER>azaroar</FOUNDER>
+            <FOUNDERAUTH>XABCEP</FOUNDERAUTH>
+            <OFFICERS><OFFICER><NATION>ace_morrigan</NATION>
+            <OFFICE>Public Relations Manager</OFFICE>
+            <AUTHORITY>AC</AUTHORITY>
+            <TIME>1479126089</TIME>
+            <BY>azaroar</BY>
+            <ORDER>5</ORDER>
+            </OFFICER>
+            <OFFICER><NATION>azaroar</NATION>
+            <OFFICE>Chief of Scientific Advancement</OFFICE>
+            <AUTHORITY>P</AUTHORITY>
+            <TIME>1479183029</TIME>
+            <BY>azaroar</BY>
+            <ORDER>8</ORDER>
+            </OFFICER>
+            </OFFICERS>
+            <POWER>Low</POWER>
+            <FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>
+            <EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>
+            <EMBASSY>Eden Prime</EMBASSY></EMBASSIES>
+
+            <LASTUPDATE>1517115631</LASTUPDATE>
+            </REGION></REGIONS>""";
 
     @Test
     public void testParseAndFilterByName()
-            throws ParserConfigurationException, SAXException, FileNotFoundException, IOException {
+            throws ParserConfigurationException, SAXException, IOException {
         System.out.println("testParseAndFilterByName");
 
         // Arrange

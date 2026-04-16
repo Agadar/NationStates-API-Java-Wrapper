@@ -43,7 +43,7 @@ public class DefaultNationStatesImpl implements NationStates {
     /**
      * The NationStates API version this wrapper uses.
      */
-    private final int apiVersion = 11;
+    private final int apiVersion = 12;
 
     /**
      * Base URL for all NationStates calls.
@@ -114,7 +114,7 @@ public class DefaultNationStatesImpl implements NationStates {
             File jarFile = new File(codeSource.getLocation().toURI().getPath());
             defaultDumpDirectory = jarFile.getParentFile().getPath();
         } catch (Exception ex) {
-            log.error("An error occured while deriving the default dump directory", ex);
+            log.error("An error occurred while deriving the default dump directory", ex);
             throw new NationStatesAPIException(ex);
         }
     }
@@ -192,15 +192,9 @@ public class DefaultNationStatesImpl implements NationStates {
                 apiVersion, version);
 
         switch (version) {
-            case apiVersion:
-                log.info("{} Wrapper should work correctly.", logText);
-                break;
-            case apiVersion + 1:
-                log.warn("{} Wrapper may fail to load daily dumps. Please update the wrapper.", logText);
-                break;
-            default:
-                log.error("{} Wrapper may not work correctly. Please update the wrapper.", logText);
-                break;
+            case apiVersion -> log.info("{} Wrapper should work correctly.", logText);
+            case apiVersion + 1 -> log.warn("{} Wrapper may fail to load daily dumps. Please update the wrapper.", logText);
+            default -> log.error("{} Wrapper may not work correctly. Please update the wrapper.", logText);
         }
     }
 }

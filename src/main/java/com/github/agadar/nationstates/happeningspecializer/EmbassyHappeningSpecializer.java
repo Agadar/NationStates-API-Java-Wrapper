@@ -2,6 +2,7 @@ package com.github.agadar.nationstates.happeningspecializer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
@@ -60,7 +61,7 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
                 .filter((entry) -> Stream.of(entry.getValue())
                         .anyMatch(text -> happening.getDescription().contains(text)))
                 .map(entry -> functions.get(entry.getKey()).apply(happening, entry.getKey()))
-                .filter(h -> h != null)
+                .filter(Objects::nonNull)
                 .findAny().get();
     }
 
@@ -68,11 +69,9 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
      * Generic handler for embassy happenings that may have come from the regional
      * history list, which do not contain a second region nor an acting nation.
      * 
-     * @param happening
      * @param embassyHappeningType Should always be either
      *                             EmbassyHappeningType.EMBASSY_CANCELLED or
      *                             EmbassyHappeningType.EMBASSY_ESTABLISHED.
-     * @return
      * @throws NationStatesAPIException If a happening description is not supported
      *                                  for the embassy happening type.
      */
@@ -96,10 +95,8 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
     /**
      * Special handler for 'construction aborted' happenings.
      * 
-     * @param happening
      * @param embassyHappeningType Should always be of type
      *                             EmbassyHappeningType.CONSTRUCTION_ABORTED.
-     * @return
      * @throws NationStatesAPIException If a happening description is not supported
      *                                  for the embassy happening type.
      */
@@ -117,10 +114,6 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
     /**
      * Generic handler for embassy happenings in which the acting nation is
      * mentioned.
-     * 
-     * @param happening
-     * @param embassyHappeningType
-     * @return
      */
     private EmbassyHappening happeningWithNation(Happening happening, EmbassyHappeningType embassyHappeningType) {
         var splitOnAt = happening.getDescription().split("@@");
@@ -135,10 +128,6 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
     /**
      * Generic handler for embassy happenings in which the acting nation is NOT
      * mentioned or not applicable and thus absent.
-     * 
-     * @param happening
-     * @param embassyHappeningType
-     * @return
      */
     private EmbassyHappening happeningWithoutNation(Happening happening, EmbassyHappeningType embassyHappeningType) {
         var splitOnPercent = happening.getDescription().split("%%");

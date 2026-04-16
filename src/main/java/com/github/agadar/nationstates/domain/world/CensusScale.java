@@ -1,10 +1,6 @@
 package com.github.agadar.nationstates.domain.world;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.*;
 
 import lombok.Getter;
 import lombok.Setter;
