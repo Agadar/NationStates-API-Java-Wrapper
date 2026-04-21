@@ -7,22 +7,20 @@ import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassyStatus;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.junit.jupiter.api.Test;
-import org.xml.sax.SAXException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Agadar (https://github.com/Agadar/)
@@ -39,8 +37,9 @@ public class RegionSaxHandlerTest {
             <DELEGATE>vancouvia</DELEGATE>
             <DELEGATEVOTES>420</DELEGATEVOTES>
             <DELEGATEAUTH>WC</DELEGATEAUTH>
+            <FRONTIER>1</FRONTIER>
             <FOUNDER>azaroar</FOUNDER>
-            <FOUNDERAUTH>XA</FOUNDERAUTH>
+            <GOVERNOR>greater_helan</GOVERNOR>
             <OFFICERS><OFFICER><NATION>ace_morrigan</NATION>
             <OFFICE>Public Relations Manager</OFFICE>
             <AUTHORITY>XA</AUTHORITY>
@@ -57,12 +56,17 @@ public class RegionSaxHandlerTest {
             </OFFICER>
             </OFFICERS>
             <POWER>Low</POWER>
+            <MAGNETISM>5.0</MAGNETISM>
             <FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>
+            <BANNER>144160</BANNER>
+            <BANNERURL>/images/rbanners/uploads/the_rejected_realms__144160.jpg</BANNERURL>
             <EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>
-            <EMBASSY>Eden Prime</EMBASSY></EMBASSIES>
-
+            <EMBASSY type="rejected">Eden Prime</EMBASSY></EMBASSIES>
             <LASTUPDATE>1517115631</LASTUPDATE>
-            </REGION><REGION>
+            <LASTMAJORUPDATE>1776484927</LASTMAJORUPDATE>
+            <LASTMINORUPDATE>1776441739</LASTMINORUPDATE>  
+            </REGION>    
+            <REGION>
             <NAME>Hearts of Gold</NAME>
             <FACTBOOK>factbook text</FACTBOOK>
             <NUMNATIONS>6</NUMNATIONS>
@@ -70,8 +74,9 @@ public class RegionSaxHandlerTest {
             <DELEGATE>0</DELEGATE>
             <DELEGATEVOTES>0</DELEGATEVOTES>
             <DELEGATEAUTH>WCEP</DELEGATEAUTH>
+            <FRONTIER>0</FRONTIER>
             <FOUNDER>azaroar</FOUNDER>
-            <FOUNDERAUTH>XABCEP</FOUNDERAUTH>
+            <GOVERNOR>0</GOVERNOR>
             <OFFICERS><OFFICER><NATION>ace_morrigan</NATION>
             <OFFICE>Public Relations Manager</OFFICE>
             <AUTHORITY>AC</AUTHORITY>
@@ -88,16 +93,20 @@ public class RegionSaxHandlerTest {
             </OFFICER>
             </OFFICERS>
             <POWER>Low</POWER>
+            <MAGNETISM>0</MAGNETISM>
             <FLAG>https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png</FLAG>
+            <BANNER>144161</BANNER>
+            <BANNERURL>/images/rbanners/uploads/the_rejected_realms__144161.jpg</BANNERURL>
             <EMBASSIES><EMBASSY>Double Funky 7</EMBASSY>
             <EMBASSY>Eden Prime</EMBASSY></EMBASSIES>
-
             <LASTUPDATE>1517115631</LASTUPDATE>
-            </REGION></REGIONS>""";
+            <LASTMAJORUPDATE>1776484928</LASTMAJORUPDATE>
+            <LASTMINORUPDATE>1776441740</LASTMINORUPDATE>
+            </REGION>
+            </REGIONS>""";
 
     @Test
-    public void testParseAndFilterByName()
-            throws ParserConfigurationException, SAXException, IOException {
+    public void testParseAndFilterByName() throws Exception {
         System.out.println("testParseAndFilterByName");
 
         // Arrange
@@ -110,22 +119,22 @@ public class RegionSaxHandlerTest {
         expectedDelegateAuths.add(Authority.WORLD_ASSEMBLY);
         expectedDelegateAuths.add(Authority.COMMUNICATIONS);
 
-        final Set<Authority> expectedFounderAuths = new HashSet<>();
-        expectedFounderAuths.add(Authority.EXECUTIVE);
-        expectedFounderAuths.add(Authority.APPEARANCE);
+        final Set<Authority> expectedAuths = new HashSet<>();
+        expectedAuths.add(Authority.EXECUTIVE);
+        expectedAuths.add(Authority.APPEARANCE);
 
         final Set<Officer> expectedOfficers = new HashSet<>();
         final Officer officer1 = new Officer();
         officer1.setAssignedBy("azaroar");
-        officer1.setAssignedOn(1479126089);
-        officer1.setAuthorities(expectedFounderAuths);
+        officer1.setAssignedOn(Instant.ofEpochSecond(1479126089));
+        officer1.setAuthorities(expectedAuths);
         officer1.setNationName("ace_morrigan");
         officer1.setOfficeName("Public Relations Manager");
         officer1.setOrder(5);
         final Officer officer2 = new Officer();
         officer2.setAssignedBy("azaroar");
-        officer2.setAssignedOn(1479183029);
-        officer2.setAuthorities(expectedFounderAuths);
+        officer2.setAssignedOn(Instant.ofEpochSecond(1479183029));
+        officer2.setAuthorities(expectedAuths);
         officer2.setNationName("azaroar");
         officer2.setOfficeName("Chief of Scientific Advancement");
         officer2.setOrder(8);
@@ -138,7 +147,7 @@ public class RegionSaxHandlerTest {
         embassy1.setStatus(EmbassyStatus.ESTABLISHED);
         final Embassy embassy2 = new Embassy();
         embassy2.setRegionName("Eden Prime");
-        embassy2.setStatus(EmbassyStatus.ESTABLISHED);
+        embassy2.setStatus(EmbassyStatus.REJECTED);
         expectedEmbassies.add(embassy1);
         expectedEmbassies.add(embassy2);
 
@@ -160,13 +169,19 @@ public class RegionSaxHandlerTest {
         assertEquals("vancouvia", region.getDelegate());
         assertEquals(420, region.getDelegateEndorsements());
         assertEquals(expectedDelegateAuths, region.getDelegateAuthorities());
+        assertTrue(region.isFrontier());
         assertEquals("azaroar", region.getFounder());
-        assertEquals(expectedFounderAuths, region.getFounderAuthorities());
+        assertEquals("greater_helan", region.getGovernor());
         assertEquals(expectedOfficers, region.getOfficers());
         assertEquals("Low", region.getPower());
+        assertEquals(5.0f, region.getMagnetism());
         assertEquals("https://www.nationstates.net/images/flags/uploads/rflags/hearts_of_iron__785233.png",
                 region.getFlagUrl());
+        assertEquals("144160", region.getBanner());
+        assertEquals("/images/rbanners/uploads/the_rejected_realms__144160.jpg", region.getBannerUrl());
         assertEquals(expectedEmbassies, region.getEmbassies());
-        assertEquals(1517115631, region.getLastUpdate());
+        assertEquals(Instant.ofEpochSecond(1517115631), region.getLastUpdate());
+        assertEquals(Instant.ofEpochSecond(1776484927), region.getLastMajorUpdate());
+        assertEquals(Instant.ofEpochSecond(1776441739), region.getLastMinorUpdate());
     }
 }

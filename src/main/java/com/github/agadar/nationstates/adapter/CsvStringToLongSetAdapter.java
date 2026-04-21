@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Agadar (https://github.com/Agadar/)
  */
 @Slf4j
-public class CsvStringToLongSetSetAdapter extends XmlAdapter<String, Collection<Long>> {
+public class CsvStringToLongSetAdapter extends XmlAdapter<String, Collection<Long>> {
 
     @Override
     public String marshal(Collection<Long> bt) {

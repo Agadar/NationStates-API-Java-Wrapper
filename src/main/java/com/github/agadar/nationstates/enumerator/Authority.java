@@ -14,8 +14,15 @@ import java.util.Map;
  */
 public enum Authority {
 
-    EXECUTIVE('X'), WORLD_ASSEMBLY('W'), APPEARANCE('A'), BORDER_CONTROL('B'), COMMUNICATIONS('C'), EMBASSIES('E'),
-    POLLS('P'), NULL('?');
+    EXECUTIVE('X'),
+    WORLD_ASSEMBLY('W'),
+    SUCCESSION('S'),
+    APPEARANCE('A'),
+    BORDER_CONTROL('B'),
+    COMMUNICATIONS('C'),
+    EMBASSIES('E'),
+    POLLS('P'),
+    NULL('?');
 
     /**
      * Reverse mapping.

@@ -1,9 +1,14 @@
 package com.github.agadar.nationstates.domain.common;
 
+import java.time.Instant;
+
+import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +27,8 @@ public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
      * The UNIX timestamp of this record.
      */
     @XmlElement(name = "TIMESTAMP")
-    private long timestamp;
+    @XmlJavaTypeAdapter(StringToInstantAdapter.class)
+    private Instant timestamp;
 
     /**
      * What was scored that timestamp.
@@ -33,7 +39,8 @@ public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 71 * hash + (int) (this.timestamp ^ (this.timestamp >>> 32));
+        long epochSeconds = this.timestamp.getEpochSecond();
+        hash = 71 * hash + (int) (epochSeconds ^ (epochSeconds >>> 32));
         return hash;
     }
 
@@ -49,14 +56,17 @@ public class CensusScoreHistory implements Comparable<CensusScoreHistory> {
             return false;
         }
         final CensusScoreHistory other = (CensusScoreHistory) obj;
-        return this.timestamp == other.timestamp;
+        return this.timestamp.getEpochSecond() == other.timestamp.getEpochSecond();
     }
 
     @Override
     public int compareTo(CensusScoreHistory o) {
-        if (this.timestamp > o.timestamp) {
+    	var epochSeconds1 = timestamp.getEpochSecond();
+    	var epochSeconds2 = o.timestamp.getEpochSecond();
+    	
+        if (epochSeconds1 > epochSeconds2) {
             return -1;
-        } else if (this.timestamp < o.timestamp) {
+        } else if (epochSeconds1 < epochSeconds2) {
             return 1;
         }
         return 0;

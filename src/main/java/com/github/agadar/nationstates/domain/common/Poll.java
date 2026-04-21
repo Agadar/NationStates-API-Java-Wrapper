@@ -1,9 +1,13 @@
 package com.github.agadar.nationstates.domain.common;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
+
 import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,13 +50,15 @@ public class Poll {
      * UNIX timestamp on which the poll opened.
      */
     @XmlElement(name = "START")
-    private long openedOn;
+    @XmlJavaTypeAdapter(StringToInstantAdapter.class)
+    private Instant openedOn;
 
     /**
      * UNIX timestamp on which the poll will close.
      */
     @XmlElement(name = "STOP")
-    private long closingOn;
+    @XmlJavaTypeAdapter(StringToInstantAdapter.class)
+    private Instant closingOn;
 
     /**
      * Name of the nation that opened the poll.

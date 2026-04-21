@@ -7,7 +7,23 @@ package com.github.agadar.nationstates.shard;
  * @author Agadar (https://github.com/Agadar/)
  */
 public enum RegionShard implements Shard {
-
+	
+	/**
+	 * List of banned nations.
+	 */
+	BANLIST("BANLIST"),
+	/**
+	 * Id of the regional banner.
+	 */
+	BANNER("BANNER"),
+	/**
+	 * Name of the nation that set the regional banner.
+	 */
+	BANNER_BY("BANNERBY"),
+	/**
+	 * Full path of the regional banner.
+	 */
+	BANNER_URL("BANNERURL"),
     /**
      * This region's census scale scores.
      */
@@ -16,6 +32,10 @@ public enum RegionShard implements Shard {
      * The census scale scores of this region's nations.
      */
     CENSUS_RANKS("CENSUSRANKS"),
+    /**
+     * Database id of the region.
+     */
+    DBID("DBID"),
     /**
      * The name of the nation that is the region's world assembly delegate.
      * Returns '0' if no delegate exists.
@@ -63,37 +83,49 @@ public enum RegionShard implements Shard {
      */
     FOUNDER("FOUNDER"),
     /**
-     * The authorities granted to the region's founder.
+     * If this region is a frontier region or not.
      */
-    FOUNDER_AUTHORITIES("FOUNDERAUTH"),
+    FRONTIER("FRONTIER"),
     /**
      * The region's votes for the current General Assembly resolution.
      */
     GENERAL_ASSEMBLY_VOTE("GAVOTE"),
     /**
+     * The region's governor. Returns '0' if none exists.
+     */
+    GOVERNOR("GOVERNOR"),
+    /**
+     * The region's governor's title. Empty if no regional governor exists.
+     */
+    GOVERNOR_TITLE("GOVERNORTITLE"),
+    /**
      * List of the most recent of this region's happenings.
      */
     RECENT_HAPPENINGS("HAPPENINGS"),
     /**
-     * List of history. Not sure what these are.
+     * List of history.
      */
     HISTORY("HISTORY"),
+    /**
+     * UNIX timestamp of when this region was last updated.
+     */
+    LAST_UPDATE("LASTUPDATE"),
+    /**
+     * UNIX timestamp of when this region was last majorly updated.
+     */
+    LAST_MAJOR_UPDATE("LASTMAJORUPDATE"),
+    /**
+     * UNIX timestamp of when this region was last minorly updated.
+     */
+    LAST_MINOR_UPDATE("LASTMINORUPDATE"),
+    /**
+     * The region's magnetism. See https://www.nationstates.net/page=faq#magnetism.
+     */
+    MAGNETISM("MAGNETISM"),
     /**
      * List of 10 most recent regional messages.
      */
     REGIONAL_MESSAGES("MESSAGES"),
-    /**
-     * Ranking of nations with most RMB likes given.
-     */
-    MOST_LIKED("MOSTLIKED"),
-    /**
-     * Ranking of nations with most RMB likes received.
-     */
-    MOST_LIKES("MOSTLIKES"),
-    /**
-     * Ranking of nations with most RMB posts made.
-     */
-    MOST_POSTS("MOSTPOSTS"),
     /**
      * The region's name.
      */
@@ -107,6 +139,14 @@ public enum RegionShard implements Shard {
      */
     NUMBER_OF_NATIONS("NUMNATIONS"),
     /**
+     * The region's nations that are members of the World Assembly.
+     */
+    WORLD_ASSEMBLY_NATIONS("WANATIONS"),
+    /**
+     * The number of the region's nations that are members of the World Assembly.
+     */
+    NUMBER_OF_WORLD_ASSEMBLY_NATIONS("NUMWANATIONS"),
+    /**
      * List of regional officers.
      */
     OFFICERS("OFFICERS"),
@@ -119,6 +159,10 @@ public enum RegionShard implements Shard {
      */
     POWER("POWER"),
     /**
+     * The nations that are allowed to send recruitment telegrams for the region.
+     */
+    RECRUITERS("RECRUITERS"),
+    /**
      * The region's votes for the current Security Council resolution.
      */
     SECURITY_COUNCIL_VOTE("SCVOTE"),
@@ -126,6 +170,10 @@ public enum RegionShard implements Shard {
      * The region's tags.
      */
     TAGS("TAGS"),
+    /**
+     * The World Assembly badges granted to this region by the Security Council.
+     */
+    WORLD_ASSEMBLY_BADGES("WABADGES"),
     /**
      * This region's statistics of the current or last zombie event.
      */

@@ -1,5 +1,6 @@
 package com.github.agadar.nationstates.domain.region;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
@@ -10,6 +11,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
+import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
 import com.github.agadar.nationstates.enumerator.RegionalMessageStatus;
 
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -37,7 +39,8 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      * UNIX timestamp of when this message was posted
      */
     @XmlElement(name = "TIMESTAMP")
-    private long timestamp;
+    @XmlJavaTypeAdapter(StringToInstantAdapter.class)
+    private Instant timestamp;
 
     /**
      * Name of the nation that posted the message
@@ -102,9 +105,12 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
 
     @Override
     public int compareTo(RegionalMessage o) {
-        if (this.timestamp > o.timestamp) {
+    	var epochSeconds1 = timestamp.getEpochSecond();
+    	var epochSeconds2 = o.timestamp.getEpochSecond();
+    	
+        if (epochSeconds1 > epochSeconds2) {
             return -1;
-        } else if (this.timestamp < o.timestamp) {
+        } else if (epochSeconds1 < epochSeconds2) {
             return 1;
         }
         return 0;

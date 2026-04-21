@@ -4,7 +4,6 @@ import com.github.agadar.nationstates.domain.world.World;
 import com.github.agadar.nationstates.enumerator.DispatchCategory;
 import com.github.agadar.nationstates.enumerator.DispatchSubCategory;
 import com.github.agadar.nationstates.enumerator.HappeningsFilter;
-import com.github.agadar.nationstates.enumerator.RegionTag;
 import com.github.agadar.nationstates.shard.WorldShard;
 
 import lombok.NonNull;
@@ -44,12 +43,12 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
     /**
      * Regions WITH these tags are retrieved.
      */
-    private RegionTag[] regionsWithTags;
+    private String[] regionsWithTags;
 
     /**
      * Regions WITHOUT these tags are retrieved.
      */
-    private RegionTag[] regionsWithoutTags;
+    private String[] regionsWithoutTags;
 
     /**
      * The nation or region to view happenings of.
@@ -164,7 +163,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param tags the tags
      * @return this
      */
-    public WorldQuery regionsWithTags(@NonNull RegionTag... tags) {
+    public WorldQuery regionsWithTags(@NonNull String... tags) {
         regionsWithTags = tags;
         return this;
     }
@@ -176,7 +175,7 @@ public class WorldQuery extends CensusRankQuery<WorldQuery, World, WorldShard> {
      * @param tags the tags
      * @return this
      */
-    public WorldQuery regionsWithoutTags(@NonNull RegionTag... tags) {
+    public WorldQuery regionsWithoutTags(@NonNull String... tags) {
         regionsWithoutTags = tags;
         return this;
     }

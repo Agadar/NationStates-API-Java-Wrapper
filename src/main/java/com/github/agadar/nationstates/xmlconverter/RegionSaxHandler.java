@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
+import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
 import com.github.agadar.nationstates.domain.common.WorldAssemblyBadge;
 import com.github.agadar.nationstates.domain.region.Embassy;
 import com.github.agadar.nationstates.domain.region.Officer;
@@ -38,8 +39,10 @@ public class RegionSaxHandler extends DefaultHandler {
     private final String officerTag = "OFFICER";
 
     private final ColonStringToStringSetAdapter colonAdapter = new ColonStringToStringSetAdapter();
+    private final StringToInstantAdapter instantAdapter = new StringToInstantAdapter();
     private final Authority.Adapter authorityAdapter = new Authority.Adapter();
     private final EmbassyStatus.Adapter embassyAdapter = new EmbassyStatus.Adapter();
+    
     private final Predicate<Region> regionFilter;
     private final StringBuilder stringBuilder = new StringBuilder();
 
@@ -106,17 +109,23 @@ public class RegionSaxHandler extends DefaultHandler {
     private void handleRegionElement(String currentElement, String value) {
         switch (currentElement) {
             case "NAME" -> currentRegion.setName(value);
-            case "FLAG" -> currentRegion.setFlagUrl(value);
             case "FACTBOOK" -> currentRegion.setFactbook(value);
-            case "LASTUPDATE" -> currentRegion.setLastUpdate(Long.parseLong(value));
-            case "DELEGATEAUTH" -> currentRegion.setDelegateAuthorities(authorityAdapter.unmarshal(value));
-            case "FOUNDER" -> currentRegion.setFounder(value);
             case "NUMNATIONS" -> currentRegion.setNumberOfNations(Integer.parseInt(value));
-            case "DELEGATEVOTES" -> currentRegion.setDelegateEndorsements(Integer.parseInt(value));
-            case "DELEGATE" -> currentRegion.setDelegate(value);
-            case "FOUNDERAUTH" -> currentRegion.setFounderAuthorities(authorityAdapter.unmarshal(value));
-            case "POWER" -> currentRegion.setPower(value);
             case "NATIONS" -> currentRegion.setNationNames(colonAdapter.unmarshal(value));
+            case "DELEGATE" -> currentRegion.setDelegate(value);
+            case "DELEGATEVOTES" -> currentRegion.setDelegateEndorsements(Integer.parseInt(value));
+            case "DELEGATEAUTH" -> currentRegion.setDelegateAuthorities(authorityAdapter.unmarshal(value));
+            case "FRONTIER" -> currentRegion.setFrontier("1".equals(value));
+            case "FOUNDER" -> currentRegion.setFounder(value);
+            case "GOVERNOR" -> currentRegion.setGovernor(value);
+            case "POWER" -> currentRegion.setPower(value);
+            case "MAGNETISM" -> currentRegion.setMagnetism(Float.parseFloat(value));
+            case "FLAG" -> currentRegion.setFlagUrl(value);
+            case "BANNER" -> currentRegion.setBanner(value);
+            case "BANNERURL" -> currentRegion.setBannerUrl(value);    
+            case "LASTUPDATE" -> currentRegion.setLastUpdate(instantAdapter.unmarshal(value));
+            case "LASTMAJORUPDATE" -> currentRegion.setLastMajorUpdate(instantAdapter.unmarshal(value));
+            case "LASTMINORUPDATE" -> currentRegion.setLastMinorUpdate(instantAdapter.unmarshal(value));
             default -> {
             }
         }
@@ -145,10 +154,10 @@ public class RegionSaxHandler extends DefaultHandler {
         switch (currentElement) {
             case "NATION" -> currentOfficer.setNationName(value);
             case "OFFICE" -> currentOfficer.setOfficeName(value);
-            case "ORDER" -> currentOfficer.setOrder(Integer.parseInt(value));
-            case "BY" -> currentOfficer.setAssignedBy(value);
             case "AUTHORITY" -> currentOfficer.setAuthorities(authorityAdapter.unmarshal(value));
-            case "TIME" -> currentOfficer.setAssignedOn(Long.parseLong(value));
+            case "TIME" -> currentOfficer.setAssignedOn(instantAdapter.unmarshal(value));
+            case "BY" -> currentOfficer.setAssignedBy(value);
+            case "ORDER" -> currentOfficer.setOrder(Integer.parseInt(value));
             default -> {
             }
         }

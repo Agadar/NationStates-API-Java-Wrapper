@@ -1,5 +1,6 @@
 package com.github.agadar.nationstates.domain.region;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
 import com.github.agadar.nationstates.enumerator.Authority;
 
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -49,7 +51,8 @@ public class Officer {
      * UNIX timestamp of when this officer position was assigned.
      */
     @XmlElement(name = "TIME")
-    private long assignedOn;
+    @XmlJavaTypeAdapter(StringToInstantAdapter.class)
+    private Instant assignedOn;
 
     /**
      * Name of the nation by which this officer position was assigned.
