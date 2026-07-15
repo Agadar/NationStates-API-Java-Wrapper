@@ -123,7 +123,7 @@ public enum RegionShard implements Shard {
      */
     MAGNETISM("MAGNETISM"),
     /**
-     * List of 10 most recent regional messages.
+     * List of x (default: 10) most recent regional messages.
      */
     REGIONAL_MESSAGES("MESSAGES"),
     /**

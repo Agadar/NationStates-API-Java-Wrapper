@@ -2,7 +2,6 @@ package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.shard.RegionShard;
-
 import lombok.NonNull;
 
 /**
@@ -13,32 +12,19 @@ import lombok.NonNull;
 public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShard> {
 
     /**
-     * Offset for the 10 most recent regional messages.
-     */
-    private int offset;
-
-    /**
-     * The id of the post to start from.
-     */
-    private long fromId;
-
-    /**
-     * The maximum number of posts to retrieve, or the maximum number of results to
-     * return for 'mostposts', 'mostliked', and 'mostlikes' to retrieve.
+     * The maximum number of posts to retrieve (see REGIONAL_MESSAGES shard).
      */
     private long limit;
 
     /**
-     * Earliest epoch date of messages to take into account for MostPosts,
-     * MostLiked, and MostLikes shards.
+     * Offset for the most recent regional messages (see REGIONAL_MESSAGES shard).
      */
-    private long postsFrom;
+    private int offset;
 
     /**
-     * Latest epoch date of messages to take into account for 'mostposts',
-     * 'mostliked', and 'mostlikes'.
+     * The id of the post to start from (see REGIONAL_MESSAGES shard).
      */
-    private long postsTo;
+    private long fromId;
 
     /**
      * Constructor.
@@ -76,40 +62,13 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
     }
 
     /**
-     * Sets the maximum number of posts to retrieve, or the maximum number of
-     * results to return for MostLiked, MostLikes, or MostPosts to retrieve. Does
-     * nothing if the RegionalMessages, MostLiked, MostLikes, or MostPosts shard is
-     * not selected.
+     * Sets the maximum number of posts to retrieve. Does nothing if the RegionalMessages shard is not selected.
      *
      * @param limit maximum number of posts or results to retrieve
      * @return this
      */
     public RegionQuery messagesLimit(int limit) {
         this.limit = limit;
-        return this;
-    }
-
-    /**
-     * Sets the earliest epoch date of messages to take into account for MostPosts,
-     * MostLiked, and MostLikes shards.
-     *
-     * @param postsFrom earliest epoch date of messages to take into account
-     * @return this
-     */
-    public RegionQuery postsFrom(long postsFrom) {
-        this.postsFrom = postsFrom;
-        return this;
-    }
-
-    /**
-     * Sets the latest epoch date of messages to take into account for MostPosts,
-     * MostLiked, and MostLikes shards.
-     *
-     * @param postsTo latest epoch date of messages to take into account
-     * @return this
-     */
-    public RegionQuery postsTo(long postsTo) {
-        this.postsTo = postsTo;
         return this;
     }
 
@@ -133,8 +92,6 @@ public class RegionQuery extends CensusRankQuery<RegionQuery, Region, RegionShar
         url += offset == 0 ? "" : "&offset=" + offset;
         url += fromId == 0 ? "" : "&fromid=" + fromId;
         url += limit == 0 ? "" : "&limit=" + limit;
-        url += postsFrom == 0 ? "" : "&from=" + postsFrom;
-        url += postsTo == 0 ? "" : "&to=" + postsTo;
         return url;
     }
 }
