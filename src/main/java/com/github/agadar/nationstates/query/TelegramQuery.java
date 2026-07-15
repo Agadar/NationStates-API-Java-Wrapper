@@ -123,14 +123,14 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         validateQueryParameters();
         String baseUrl = buildURL();
 
-        for (int i = 0; i < nations.length && getRateLimiter().lock(); i++) {
+        for (int i = 0; i < nations.length && !Thread.currentThread().isInterrupted(); i++) {
 
             String nation = nations[i];
             String url = baseUrl + nation.replace(' ', '_');
             Exception exception = null;
 
             try {
-                makeRequest(url, input -> null);
+                makeRequest(url, input -> null, getRateLimiter());
                 log.info("Queued a telegram to nation '{}'", nation);
 
             } catch (NationStatesResourceNotFoundException ex) {
@@ -141,8 +141,6 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
                 log.error(String.format("An error occurred while queueing a telegram to nation '%s'", nation), ex);
                 exception = ex;
 
-            } finally {
-                getRateLimiter().unlock();
             }
 
             // Fire a new telegram sent event.

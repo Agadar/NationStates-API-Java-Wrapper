@@ -5,9 +5,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * TODO: To be removed and replaced by HeadersBasedRateLimiter.
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
 @Slf4j
+@Deprecated
 public class NormalRateLimiter implements RateLimiter {
 
     /**
@@ -76,6 +79,11 @@ public class NormalRateLimiter implements RateLimiter {
         }
         // We weren't interrupted, so return true.
         return true;
+    }
+
+    @Override
+    public void updateValues(int rateLimitRemaining, int rateLimitReset, int retryAfter) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

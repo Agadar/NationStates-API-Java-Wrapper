@@ -1,25 +1,24 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
+import com.github.agadar.nationstates.function.CheckedFunction;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.exception.NationStatesResourceNotFoundException;
-import com.github.agadar.nationstates.function.CheckedFunction;
-
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Top parent class for all Queries to NationStates in general.
  *
- * @author Agadar (https://github.com/Agadar/)
- *
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
+ * @author Agadar (https://github.com/Agadar/)
  */
 @SuppressWarnings("rawtypes")
 @Slf4j
@@ -100,18 +99,20 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     }
 
     /**
-     * Makes a GET request to the NationStates API. Throws exception if the call
-     * failed.
+     * Makes a GET request to the NationStates API. Throws exception if the call failed.
      *
      * @param urlStr        The url to make the request to.
-     * @param resultHandler The result handler, expected to parse an InputStream to
-     *                      the desired result.
+     * @param resultHandler The result handler, expected to parse an InputStream to the desired result.
+     * @param rateLimiter   Rate limiter.
      * @return The parsed result.
      * @throws NationStatesAPIException If the call failed.
      */
-    protected <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler)
+    protected <T> T makeRequest(String urlStr, CheckedFunction<InputStream, T> resultHandler, RateLimiter rateLimiter)
             throws NationStatesAPIException {
 
+        if (!rateLimiter.lock()) {
+            return null;
+        }
         HttpURLConnection conn = null;
         InputStream istream = null;
 
@@ -120,26 +121,40 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("User-Agent", userAgent);
+
             int responseCode = conn.getResponseCode();
             String response = formatResponse(urlStr, conn, responseCode);
             log.info(response);
             istream = conn.getErrorStream();
 
+            updateRateLimiterValues(rateLimiter, conn);
+
+            // On successful input stream, parse and return.
             if (istream == null) {
                 istream = conn.getInputStream();
+                log.debug("Successful response from URL: {}", urlStr);
                 return resultHandler.apply(istream);
             }
-
+            // On HTTP 429, we violated the rate limit. Queue anew.
+            if (responseCode == 429) {
+                log.debug("Rate limit violated. Request will be retried for URL: {}", urlStr);
+                return makeRequest(urlStr, resultHandler, rateLimiter);
+            }
+            // On HTTP 404, a country or w/e was not found.
             if (responseCode == 404) {
+                log.debug("Resource not found for URL: {}", urlStr);
                 throw new NationStatesResourceNotFoundException(response);
             }
+            // On any other HTTP code, throw exception.
+            log.error("Error returned for URL: {}", urlStr);
             throw new NationStatesAPIException(response);
 
         } catch (Exception | OutOfMemoryError ex) {
             if (ex instanceof NationStatesAPIException) {
                 throw (NationStatesAPIException) ex;
             }
-            log.error("An error occured while handling a request to the API", ex);
+            log.error("An error occurred while handling a request to the API", ex);
+            rateLimiter.unlock();
             throw new NationStatesAPIException(ex);
 
         } finally {
@@ -153,5 +168,14 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
     private String formatResponse(String urlStr, HttpURLConnection conn, int responseCode) throws IOException {
         return String.format("NationStates API returned: '%s %s' from URL: %s",
                 responseCode, conn.getResponseMessage(), urlStr);
+    }
+
+    private void updateRateLimiterValues(RateLimiter rateLimiter, HttpURLConnection conn) {
+        int rateLimitRemaining = conn.getHeaderFieldInt("RateLimit-Remaining", 50);
+        int rateLimitReset = conn.getHeaderFieldInt("RateLimit-Reset", 30);
+        int retryAfter = conn.getHeaderFieldInt("Retry-After", 0);
+
+        rateLimiter.updateValues(rateLimitRemaining, rateLimitReset, retryAfter);
+        rateLimiter.unlock();
     }
 }

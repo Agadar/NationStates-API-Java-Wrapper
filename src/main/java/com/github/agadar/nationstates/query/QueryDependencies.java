@@ -27,11 +27,6 @@ public class QueryDependencies {
     @NonNull
     private RateLimiter generalRateLimiter;
     /**
-     * Rate limiter for API calls when scraping.
-     */
-    @NonNull
-    private RateLimiter scrapingRateLimiter;
-    /**
      * The URL to the API to consume.
      */
     @NonNull

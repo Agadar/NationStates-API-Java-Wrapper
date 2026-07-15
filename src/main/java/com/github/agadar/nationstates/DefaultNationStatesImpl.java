@@ -22,7 +22,7 @@ import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
 import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
-import com.github.agadar.nationstates.ratelimiter.NormalRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.HeadersBasedRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
@@ -43,7 +43,7 @@ public class DefaultNationStatesImpl implements NationStates {
     /**
      * The NationStates API version this wrapper uses.
      */
-    private final int apiVersion = 12;
+    private final int apiVersion = 13;
 
     /**
      * Base URL for all NationStates calls.
@@ -51,18 +51,9 @@ public class DefaultNationStatesImpl implements NationStates {
     private final String baseUrl = "https://www.nationstates.net/";
 
     /**
-     * The general rate limiter for all API calls. The mandated rate limit is 50
-     * requests per 30 seconds. To make sure we're on the safe side, we reduce this
-     * to 50 requests per 30.05 seconds. To get a spread-like pattern instead of a
-     * burst-like pattern, we make this into 10 requests per 6.01 seconds.
+     * The general rate limiter for all API calls, based on HTTP header values from the NS API.
      */
-    private final RateLimiter generalRateLimiter = new NormalRateLimiter(10, 6010);
-
-    /**
-     * Rate limiter for API calls when scraping. Reduces the rate limit further to
-     * just 1 request per second, as suggested by the official documentation.
-     */
-    private final RateLimiter scrapingRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 1000);
+    private final RateLimiter generalRateLimiter = new HeadersBasedRateLimiter();
 
     /**
      * The rate limiter for normal telegrams. The mandated rate limit is 1 telegram
@@ -182,7 +173,6 @@ public class DefaultNationStatesImpl implements NationStates {
                 .apiVersion(apiVersion)
                 .baseUrl(baseUrl)
                 .generalRateLimiter(generalRateLimiter)
-                .scrapingRateLimiter(scrapingRateLimiter)
                 .userAgent(userAgent)
                 .xmlConverter(xmlConverter).build();
     }

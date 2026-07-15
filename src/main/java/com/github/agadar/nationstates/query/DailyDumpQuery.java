@@ -1,5 +1,12 @@
 package com.github.agadar.nationstates.query;
 
+import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.exception.NationStatesAPIException;
+import com.github.agadar.nationstates.ratelimiter.NoOpRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,23 +18,21 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Predicate;
 
-import com.github.agadar.nationstates.enumerator.DailyDumpMode;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
-
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * Query for retrieving daily dumps from NationStates.
  *
- * @author Agadar (https://github.com/Agadar/)
- *
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
+ * @author Agadar (https://github.com/Agadar/)
  */
 @SuppressWarnings("rawtypes")
 @Slf4j
 public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends AbstractQuery<Q, R> {
+
+    /**
+     * Filter used for selecting a subset of the parsed daily dump file.
+     */
+    protected final Predicate<R> filter;
 
     /**
      * Path to the default download directory.
@@ -50,12 +55,12 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     private String readFromDir;
 
     /**
-     * Filter used for selecting a subset of the parsed daily dump file.
+     * No-op rate limiter, as daily data dumps are not rate limited.
      */
-    protected final Predicate<R> filter;
+    private final RateLimiter noOpRateLimiter = new NoOpRateLimiter();
 
     public DailyDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode,
-            Predicate<R> filter) {
+                          Predicate<R> filter) {
         super(baseUrl, userAgent);
         this.mode = mode;
         this.defaultDirectory = defaultDirectory;
@@ -99,14 +104,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
-            makeRequest(buildURL(), this::saveToFile);
+            makeRequest(buildURL(), this::saveToFile, noOpRateLimiter);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             return readLocal();
 
         } else if (mode == DailyDumpMode.READ_REMOTE) {
-            return makeRequest(buildURL(), this::parseResponse);
+            return makeRequest(buildURL(), this::parseResponse, noOpRateLimiter);
         }
         return Collections.emptyList();
     }

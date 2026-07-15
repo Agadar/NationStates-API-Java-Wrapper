@@ -3,8 +3,11 @@ package com.github.agadar.nationstates.ratelimiter;
 /**
  * A rate limiter that is also dependent on another rate limiter.
  *
+ * TODO: To be removed and replaced by HeadersBasedRateLimiter.
+ *
  * @author Agadar (https://github.com/Agadar/)
  */
+@Deprecated
 public class DependantRateLimiter extends NormalRateLimiter {
 
     /**

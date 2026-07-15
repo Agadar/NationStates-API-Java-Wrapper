@@ -1,21 +1,19 @@
 package com.github.agadar.nationstates.query;
 
-import java.io.InputStream;
-
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.function.CheckedFunction;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
-
 import lombok.NonNull;
+
+import java.io.InputStream;
 
 /**
  * Top parent class for all Queries to the NationStates API.
  *
- * @author Agadar (https://github.com/Agadar/)
- *
  * @param <Q> the child class that extends this abstract class
  * @param <R> the type the child class' execute()-function returns
+ * @author Agadar (https://github.com/Agadar/)
  */
 @SuppressWarnings("rawtypes")
 public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R> {
@@ -32,19 +30,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     protected final String resourceValue;
 
     /**
-     * Whether to use the reduced rate limiter.
-     */
-    private boolean slowMode = false;
-
-    /**
      * Used for XML conversions.
      */
     private final XmlConverter xmlConverter;
-
-    /**
-     * Rate limiter for API calls when scraping.
-     */
-    private final RateLimiter scrapingRateLimiter;
 
     /**
      * The version of the NationStates API to target.
@@ -61,24 +49,9 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
     protected APIQuery(@NonNull QueryDependencies queryDependencies, @NonNull String resourceValue) {
         super(queryDependencies.getBaseUrl(), queryDependencies.getUserAgent());
         generalRateLimiter = queryDependencies.getGeneralRateLimiter();
-        scrapingRateLimiter = queryDependencies.getScrapingRateLimiter();
         apiVersion = queryDependencies.getApiVersion();
         xmlConverter = queryDependencies.getXmlConverter();
         this.resourceValue = resourceValue;
-    }
-
-    /**
-     * Makes the Query execute in slow mode, reducing the rate limit from 6 requests
-     * per 4 seconds to only 1 request per second. This is suggested by the official
-     * documentations when scraping i.e. when requesting a LOT of data that cannot
-     * be retrieved from the daily dumps.
-     *
-     * @return this
-     */
-    @SuppressWarnings("unchecked")
-    public Q slowMode() {
-        slowMode = true;
-        return (Q) this;
     }
 
     /**
@@ -99,18 +72,10 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @throws NationStatesAPIException If the query failed.
      */
     public <T> T execute(@NonNull Class<T> type) throws NationStatesAPIException {
-        if (getRateLimiter().lock()) {
-            try {
-                validateQueryParameters();
-                CheckedFunction<InputStream, T> resultHandler = (istream) -> parseResponse(istream, type);
-                String url = buildURL().replace(' ', '_');
-                return makeRequest(url, resultHandler);
-
-            } finally {
-                getRateLimiter().unlock();
-            }
-        }
-        return null;
+        validateQueryParameters();
+        CheckedFunction<InputStream, T> resultHandler = (istream) -> parseResponse(istream, type);
+        String url = buildURL().replace(' ', '_');
+        return makeRequest(url, resultHandler, generalRateLimiter);
     }
 
     /**
@@ -120,7 +85,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
      * @return the rate limiter to use in the makeRequest()-function
      */
     protected RateLimiter getRateLimiter() {
-        return slowMode ? scrapingRateLimiter : generalRateLimiter;
+        return generalRateLimiter;
     }
 
     @Override
@@ -128,8 +93,7 @@ public abstract class APIQuery<Q extends APIQuery, R> extends AbstractQuery<Q, R
         super.validateQueryParameters();
         String resourceString = resourceString();
 
-        // Ensure resourceValue is not null or empty if the resource string isn't
-        // either.
+        // Ensure resourceValue is not null or empty if the resource string isn't either.
         if (resourceString != null && !resourceString.isEmpty() && (resourceValue == null || resourceValue.isEmpty())) {
             throw new IllegalArgumentException(
                     "'resourceValue' may not be null or empty if 'resourceString' isn't null or empty!");
