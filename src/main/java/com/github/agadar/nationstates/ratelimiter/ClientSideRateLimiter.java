@@ -1,17 +1,16 @@
 package com.github.agadar.nationstates.ratelimiter;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
- * TODO: To be removed and replaced by HeadersBasedRateLimiter.
+ * Rate limiter based on local timekeeping.
  *
  * @author Agadar (https://github.com/Agadar/)
  */
 @Slf4j
-@Deprecated
-public class NormalRateLimiter implements RateLimiter {
+public class ClientSideRateLimiter implements RateLimiter {
 
     /**
      * The round buffer we're using, with length set to x in x requests per y
@@ -35,7 +34,7 @@ public class NormalRateLimiter implements RateLimiter {
      * @param requests     the x in x requests per y milliseconds
      * @param milliseconds the y in x requests per y milliseconds
      */
-    public NormalRateLimiter(int requests, int milliseconds) {
+    public ClientSideRateLimiter(int requests, int milliseconds) {
         if (requests <= 0) {
             throw new IllegalArgumentException("'requests' must be > 0");
         }
@@ -59,21 +58,30 @@ public class NormalRateLimiter implements RateLimiter {
         // Block until we've obtained the lock.
         lock.lock();
 
+        // Thread was interrupted while we waited to obtain the lock.
+        if (Thread.currentThread().isInterrupted()) {
+            lock.unlock();
+            log.debug("The current thread was interrupted");
+            return false;
+        }
+
         // Retrieve oldest and current timestamps, calculate difference.
-        final long diff = System.currentTimeMillis() - roundBuffer[index];
+        long diff = System.currentTimeMillis() - roundBuffer[index];
 
         // If the difference is less than the y in 'x requests per y milliseconds'
         // then sleep for the duration of the difference.
         if (diff < milliseconds) {
-            final long sleepFor = milliseconds - diff;
-
             try {
+                long sleepFor = milliseconds - diff;
+                log.debug("Rate limit reached, sleeping for {} milliseconds...", sleepFor);
                 Thread.sleep(sleepFor);
+                log.debug("Thread has awoken");
+
             } catch (InterruptedException ex) {
                 // We were interrupted, so unlock to prevent a deadlock, then return false.
-                log.info("The sleeping thread was interrupted");
                 Thread.currentThread().interrupt();
                 lock.unlock();
+                log.debug("The current thread was interrupted");
                 return false;
             }
         }
@@ -83,7 +91,7 @@ public class NormalRateLimiter implements RateLimiter {
 
     @Override
     public void updateValues(int rateLimitRemaining, int rateLimitReset, int retryAfter) {
-        throw new UnsupportedOperationException();
+        // No-op as this rate limiter doesn't use HTTP header values, only client side values.
     }
 
     @Override
@@ -101,6 +109,6 @@ public class NormalRateLimiter implements RateLimiter {
 
     @Override
     public int getMillisecondsBetweenLocks() {
-        return Math.round(milliseconds / roundBuffer.length);
+        return Math.round(milliseconds / (float) roundBuffer.length);
     }
 }

@@ -31,7 +31,7 @@ public interface RateLimiter {
     void unlock();
 
     /**
-     * @return The aforementioned y divided by the aforementioned x.
+     * @return The calculated milliseconds between each lock.
      */
     int getMillisecondsBetweenLocks();
 }

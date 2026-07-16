@@ -140,12 +140,12 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
                 log.debug("Rate limit violated. Request will be retried for URL: {}", urlStr);
                 return makeRequest(urlStr, resultHandler, rateLimiter);
             }
-            // On HTTP 404, a country or w/e was not found.
+            // On HTTP 404, a country or w/e was not found. Throw 'not found' error.
             if (responseCode == 404) {
                 log.debug("Resource not found for URL: {}", urlStr);
                 throw new NationStatesResourceNotFoundException(response);
             }
-            // On any other HTTP code, throw exception.
+            // On any other HTTP code, throw generic error.
             log.error("Error returned for URL: {}", urlStr);
             throw new NationStatesAPIException(response);
 
@@ -154,7 +154,7 @@ public abstract class AbstractQuery<Q extends AbstractQuery, R> {
                 throw (NationStatesAPIException) ex;
             }
             log.error("An error occurred while handling a request to the API", ex);
-            rateLimiter.unlock();
+            rateLimiter.unlock();   // Prevent deadlock.
             throw new NationStatesAPIException(ex);
 
         } finally {

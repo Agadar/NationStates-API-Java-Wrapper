@@ -111,9 +111,7 @@ public class TelegramQuery extends APIQuery<TelegramQuery, Void> {
         }
 
         // Calculate and return estimated time
-        final int individual = sendAsRecruitmentTelegram
-                ? this.recruitmentTelegramRateLimiter.getMillisecondsBetweenLocks()
-                : this.telegramRateLimiter.getMillisecondsBetweenLocks();
+        int individual = getRateLimiter().getMillisecondsBetweenLocks();
         return (long) (nations.length - 1) * individual;
     }
 

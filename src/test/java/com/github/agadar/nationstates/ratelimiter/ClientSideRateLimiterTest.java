@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Agadar (https://github.com/Agadar/)
  */
-public class NormalRateLimiterTest {
+public class ClientSideRateLimiterTest {
 
-    private NormalRateLimiter rateLimiter;
+    private ClientSideRateLimiter rateLimiter;
 
     @AfterEach
     public void tearDown() {
@@ -25,7 +25,7 @@ public class NormalRateLimiterTest {
         System.out.println("lock unlock");
 
         // Arrange
-        rateLimiter = new NormalRateLimiter(1, 1000);
+        rateLimiter = new ClientSideRateLimiter(1, 1000);
         final TestRunnable foo = new TestRunnable(rateLimiter);
         final TestRunnable bar = new TestRunnable(rateLimiter);
         final Thread fooThread = new Thread(foo);
@@ -56,7 +56,7 @@ public class NormalRateLimiterTest {
         System.out.println("getMillisecondsBetweenLocks");
 
         // Arrange
-        rateLimiter = new NormalRateLimiter(5, 250);
+        rateLimiter = new ClientSideRateLimiter(5, 250);
         final int expected = 50;
 
         // Act
@@ -69,9 +69,9 @@ public class NormalRateLimiterTest {
     private static class TestRunnable implements Runnable {
 
         public boolean called = false;
-        private final NormalRateLimiter rateLimiter;
+        private final ClientSideRateLimiter rateLimiter;
 
-        TestRunnable(NormalRateLimiter rateLimiter) {
+        TestRunnable(ClientSideRateLimiter rateLimiter) {
             this.rateLimiter = rateLimiter;
         }
 

@@ -21,7 +21,7 @@ import com.github.agadar.nationstates.query.VerifyQuery;
 import com.github.agadar.nationstates.query.VersionQuery;
 import com.github.agadar.nationstates.query.WorldAssemblyQuery;
 import com.github.agadar.nationstates.query.WorldQuery;
-import com.github.agadar.nationstates.ratelimiter.DependantRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.ClientSideDependantRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.HeadersBasedRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
@@ -60,14 +60,14 @@ public class DefaultNationStatesImpl implements NationStates {
      * per 30 seconds. To make sure we're on the safe side, we reduce this to 1
      * telegram per 30.05 seconds.
      */
-    private final RateLimiter telegramRateLimiter = new DependantRateLimiter(generalRateLimiter, 1, 30050);
+    private final RateLimiter telegramRateLimiter = new ClientSideDependantRateLimiter(generalRateLimiter, 1, 30050);
 
     /**
      * The rate limiter for recruitment telegrams. The mandated rate limit is 1
      * telegram per 180 seconds. To make sure we're on the safe side, we reduce this
      * to 1 telegram per 180.05 seconds.
      */
-    private final RateLimiter recruitmentTelegramRateLimiter = new DependantRateLimiter(telegramRateLimiter, 1, 180050);
+    private final RateLimiter recruitmentTelegramRateLimiter = new ClientSideDependantRateLimiter(telegramRateLimiter, 1, 180050);
 
     /**
      * For converting xml input from the API to domain classes.

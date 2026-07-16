@@ -18,24 +18,16 @@ public class HeadersBasedRateLimiter implements RateLimiter {
     private final ReentrantLock lock = new ReentrantLock();
 
     /**
-     * Based on the latest RateLimit-Remaining header received. Starts at 50.
-     * This represents how many more requests can be made within the current time window.
+     * Based on the latest RateLimit-Remaining header received. If true, then the current time window is exhausted, and
+     * we must wait for the next one before we can continue making requests.
      */
-    private int rateLimitRemaining = 50;
+    private boolean currentTimeWindowExhausted = false;
 
     /**
-     * Based on the latest RateLimit-Reset header received. Starts at 30.
-     * This represents the number of seconds remaining in the current time window.
+     * Based on the latest RateLimit-Reset and/or Retry-After header received. Represents when the next time window starts
+     * (and thus when we can make a new set of requests).
      */
-    private int rateLimitReset = 30;
-
-    /**
-     * Based on the latest Retry-After header received. Starts at 0.
-     * Once blocked from accessing the API, we wait this amount of seconds before trying again.
-     * If we properly adhere to RateLimit-Remaining and RateLimit-Reset, then this should only happen in
-     * exceptional circumstances.
-     */
-    private int retryAfter = 0;
+    private long nextTimeWindowStart = System.currentTimeMillis();
 
     @Override
     public boolean lock() {
@@ -50,23 +42,28 @@ public class HeadersBasedRateLimiter implements RateLimiter {
         // Thread was interrupted while we waited to obtain the lock.
         if (Thread.currentThread().isInterrupted()) {
             lock.unlock();
+            log.debug("The current thread was interrupted");
             return false;
         }
 
-        // Determine seconds to sleep, with retryAfter taking priority.
-        int sleepSeconds = retryAfter > 0 ? retryAfter : rateLimitRemaining <= 0 ? rateLimitReset : 0;
+        // Recalculate currentTimeWindowExhausted as we may have reached the timestamp already.
+        long currentTime = System.currentTimeMillis();
+        currentTimeWindowExhausted = currentTimeWindowExhausted && nextTimeWindowStart > currentTime;
+        log.trace("currentTimeWindowExhausted set to {}", currentTimeWindowExhausted);
 
         // Sleep until we can make calls again.
-        if (sleepSeconds > 0) {
+        if (currentTimeWindowExhausted) {
             try {
-                log.debug("Rate limit reached, sleeping for {} seconds...", sleepSeconds);
-                Thread.sleep(sleepSeconds);
+                long sleepFor = nextTimeWindowStart - currentTime;
+                log.debug("Rate limit reached, sleeping for {} milliseconds...", sleepFor);
+                Thread.sleep(sleepFor);
+                log.debug("Thread has awoken");
 
             } catch (InterruptedException ex) {
                 // We were interrupted, so unlock to prevent a deadlock, then return false.
-                log.debug("The sleeping thread was interrupted");
                 Thread.currentThread().interrupt();
                 lock.unlock();
+                log.debug("The current thread was interrupted");
                 return false;
             }
         }
@@ -79,10 +76,12 @@ public class HeadersBasedRateLimiter implements RateLimiter {
         if (!lock.isHeldByCurrentThread()) {
             throw new IllegalStateException("Lock is not being held by current thread");
         }
-        log.trace("Setting rateLimitRemaining to {}, rateLimitReset to {}, retryAfter to {}", rateLimitRemaining, rateLimitReset, retryAfter);
-        this.rateLimitRemaining = rateLimitRemaining;
-        this.rateLimitReset = rateLimitReset;
-        this.retryAfter = retryAfter;
+        long longestWait = retryAfter > 0 ? retryAfter : rateLimitRemaining <= 0 ? rateLimitReset : 0;
+        nextTimeWindowStart = System.currentTimeMillis() + longestWait * 1000;
+        currentTimeWindowExhausted = retryAfter > 0 || rateLimitRemaining <= 0;
+
+        log.trace("currentTimeWindowExhausted set to {} and nextTimeWindowStart set to {} using rateLimitRemaining {}, rateLimitReset {}, retryAfter {}",
+                currentTimeWindowExhausted, nextTimeWindowStart, rateLimitRemaining, rateLimitReset, retryAfter);
     }
 
     @Override
@@ -95,6 +94,6 @@ public class HeadersBasedRateLimiter implements RateLimiter {
 
     @Override
     public int getMillisecondsBetweenLocks() {
-        throw new UnsupportedOperationException("Not yet implemented"); // TODO: Implement(?).
+        return 0;   // Cannot be calculated for this rate limiter type.
     }
 }
