@@ -9,7 +9,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
+import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.xmlconverter.NationSaxHandler;
+import lombok.NonNull;
 
 /**
  * Query for retrieving daily nation dumps from NationStates.
@@ -18,9 +20,9 @@ import com.github.agadar.nationstates.xmlconverter.NationSaxHandler;
  */
 public class NationDumpQuery extends DailyDumpQuery<NationDumpQuery, Nation> {
 
-    public NationDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode,
-            Predicate<Nation> filter) {
-        super(baseUrl, userAgent, defaultDirectory, mode, filter);
+    public NationDumpQuery(@NonNull String baseUrl, @NonNull String userAgent, @NonNull RateLimiter dumpFileRateLimiter,
+                           @NonNull String defaultDirectory, @NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter) {
+        super(baseUrl, userAgent, dumpFileRateLimiter, defaultDirectory, mode, filter);
     }
 
     @Override

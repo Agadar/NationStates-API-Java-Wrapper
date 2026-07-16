@@ -12,12 +12,12 @@ public class NoOpRateLimiter implements RateLimiter {
 
     @Override
     public void updateValues(int rateLimitRemaining, int rateLimitReset, int retryAfter) {
-
+        // No-op
     }
 
     @Override
     public void unlock() {
-
+        // No-op
     }
 
     @Override

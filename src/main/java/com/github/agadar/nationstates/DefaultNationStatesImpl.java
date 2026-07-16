@@ -1,9 +1,5 @@
 package com.github.agadar.nationstates;
 
-import java.io.File;
-import java.security.CodeSource;
-import java.util.function.Predicate;
-
 import com.github.agadar.nationstates.domain.nation.Nation;
 import com.github.agadar.nationstates.domain.region.Region;
 import com.github.agadar.nationstates.domain.world.World;
@@ -11,25 +7,20 @@ import com.github.agadar.nationstates.domain.worldassembly.WorldAssembly;
 import com.github.agadar.nationstates.enumerator.Council;
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.query.NationDumpQuery;
-import com.github.agadar.nationstates.query.NationQuery;
-import com.github.agadar.nationstates.query.QueryDependencies;
-import com.github.agadar.nationstates.query.RegionDumpQuery;
-import com.github.agadar.nationstates.query.RegionQuery;
-import com.github.agadar.nationstates.query.TelegramQuery;
-import com.github.agadar.nationstates.query.VerifyQuery;
-import com.github.agadar.nationstates.query.VersionQuery;
-import com.github.agadar.nationstates.query.WorldAssemblyQuery;
-import com.github.agadar.nationstates.query.WorldQuery;
+import com.github.agadar.nationstates.query.*;
 import com.github.agadar.nationstates.ratelimiter.ClientSideDependantRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.HeadersBasedRateLimiter;
+import com.github.agadar.nationstates.ratelimiter.NoOpRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import com.github.agadar.nationstates.shard.WorldShard;
 import com.github.agadar.nationstates.xmlconverter.XmlConverter;
 import com.github.agadar.nationstates.xmlconverter.XmlConverterImpl;
-
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.security.CodeSource;
+import java.util.function.Predicate;
 
 /**
  * The default starting point for consumers of this Java wrapper for the
@@ -49,6 +40,11 @@ public class DefaultNationStatesImpl implements NationStates {
      * Base URL for all NationStates calls.
      */
     private final String baseUrl = "https://www.nationstates.net/";
+
+    /**
+     * The rate limiter used for non-API / dump file calls.
+     */
+    private final RateLimiter dumpFileRateLimiter = new NoOpRateLimiter();
 
     /**
      * The general rate limiter for all API calls, based on HTTP header values from the NS API.
@@ -153,19 +149,19 @@ public class DefaultNationStatesImpl implements NationStates {
 
     @Override
     public TelegramQuery sendTelegrams(@NonNull String clientKey, @NonNull String telegramId, @NonNull String secretKey,
-            @NonNull String... nations) {
+                                       @NonNull String... nations) {
         return new TelegramQuery(collectDependencies(), telegramRateLimiter, recruitmentTelegramRateLimiter, clientKey,
                 telegramId, secretKey, nations);
     }
 
     @Override
     public RegionDumpQuery getRegionDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Region> filter) {
-        return new RegionDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
+        return new RegionDumpQuery(baseUrl, userAgent, dumpFileRateLimiter, defaultDumpDirectory, mode, filter);
     }
 
     @Override
     public NationDumpQuery getNationDump(@NonNull DailyDumpMode mode, @NonNull Predicate<Nation> filter) {
-        return new NationDumpQuery(baseUrl, userAgent, defaultDumpDirectory, mode, filter);
+        return new NationDumpQuery(baseUrl, userAgent, dumpFileRateLimiter, defaultDumpDirectory, mode, filter);
     }
 
     private QueryDependencies collectDependencies() {

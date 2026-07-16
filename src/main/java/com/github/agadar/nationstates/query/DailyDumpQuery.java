@@ -2,7 +2,6 @@ package com.github.agadar.nationstates.query;
 
 import com.github.agadar.nationstates.enumerator.DailyDumpMode;
 import com.github.agadar.nationstates.exception.NationStatesAPIException;
-import com.github.agadar.nationstates.ratelimiter.NoOpRateLimiter;
 import com.github.agadar.nationstates.ratelimiter.RateLimiter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +44,11 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
     private final DailyDumpMode mode;
 
     /**
+     * The rate limiter used for non-API / dump file calls.
+     */
+    private RateLimiter dumpFileRateLimiter;
+
+    /**
      * The directory to download the gzip in, instead of the default directory.
      */
     private String downloadDir;
@@ -54,14 +58,11 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
      */
     private String readFromDir;
 
-    /**
-     * No-op rate limiter, as daily data dumps are not rate limited.
-     */
-    private final RateLimiter noOpRateLimiter = new NoOpRateLimiter();
-
-    public DailyDumpQuery(String baseUrl, String userAgent, String defaultDirectory, DailyDumpMode mode,
-                          Predicate<R> filter) {
+    public DailyDumpQuery(@NonNull String baseUrl, @NonNull String userAgent, @NonNull RateLimiter dumpFileRateLimiter,
+                          @NonNull String defaultDirectory, @NonNull DailyDumpMode mode, @NonNull Predicate<R> filter) {
         super(baseUrl, userAgent);
+
+        this.dumpFileRateLimiter = dumpFileRateLimiter;
         this.mode = mode;
         this.defaultDirectory = defaultDirectory;
         this.filter = filter;
@@ -104,14 +105,14 @@ public abstract class DailyDumpQuery<Q extends DailyDumpQuery, R> extends Abstra
         boolean downloadAndRead = mode == DailyDumpMode.DOWNLOAD_THEN_READ_LOCAL;
 
         if (downloadAndRead || mode == DailyDumpMode.DOWNLOAD) {
-            makeRequest(buildURL(), this::saveToFile, noOpRateLimiter);
+            makeRequest(buildURL(), this::saveToFile, dumpFileRateLimiter);
         }
 
         if (downloadAndRead || mode == DailyDumpMode.READ_LOCAL) {
             return readLocal();
 
         } else if (mode == DailyDumpMode.READ_REMOTE) {
-            return makeRequest(buildURL(), this::parseResponse, noOpRateLimiter);
+            return makeRequest(buildURL(), this::parseResponse, dumpFileRateLimiter);
         }
         return Collections.emptyList();
     }
