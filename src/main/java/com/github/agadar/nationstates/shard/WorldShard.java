@@ -9,6 +9,10 @@ package com.github.agadar.nationstates.shard;
 public enum WorldShard implements Shard {
 
     /**
+     * Gets the nation banners with the given id's.
+     */
+    BANNER("BANNER"),
+    /**
      * The world's census scores.
      */
     CENSUS("CENSUS"),
@@ -47,6 +51,14 @@ public enum WorldShard implements Shard {
      */
     DISPATCHES("DISPATCHLIST"),
     /**
+     * An N-Day faction. Only available during N-Day, when nations are conducting nuclear exchanges.
+     */
+    FACTION("FACTION"),
+    /**
+     * All N-Day factions. Only available during N-Day, when nations are conducting nuclear exchanges.
+     */
+    FACTIONS("FACTIONS"),
+    /**
      * Name of today's featured region.
      */
     FEATURED_REGION("FEATUREDREGION"),
@@ -55,6 +67,10 @@ public enum WorldShard implements Shard {
      */
     HAPPENINGS("HAPPENINGS"),
     /**
+     * ID of the last event.
+     */
+    LAST_EVENT_ID("LASTEVENTID"),
+    /**
      * List of all nations in the world.
      */
     NATIONS("NATIONS"),
@@ -62,6 +78,10 @@ public enum WorldShard implements Shard {
      * List of newest nations.
      */
     NEWEST_NATIONS("NEWNATIONS"),
+    /**
+     * Details of the newest nations.
+     */
+    NEWEST_NATIONS_DETAILS("NEWNATIONDETAILS"),
     /**
      * The number of nations in the world.
      */
@@ -81,7 +101,11 @@ public enum WorldShard implements Shard {
     /**
      * List of regions selected by tag. Tags must be supplied.
      */
-    REGIONS_BY_TAG("REGIONSBYTAG");
+    REGIONS_BY_TAG("REGIONSBYTAG"),
+    /**
+     * Information about the current telegram queue.
+     */
+    TELEGRAM_QUEUE("TGQUEUE");
 
     /**
      * The underlying shard name

@@ -30,6 +30,8 @@ import java.util.LinkedHashSet;
 @XmlRootElement(name = "WORLD")
 public class World {
 
+    // TODO: Banner
+
     /**
      * The world's census scores.
      */
@@ -86,6 +88,8 @@ public class World {
     @XmlElement(name = "DISPATCH")
     private LinkedHashSet<Dispatch> dispatches = new LinkedHashSet<>();
 
+    // TODO: faction and factions
+
     /**
      * Name of today's featured region.
      */
@@ -98,6 +102,8 @@ public class World {
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
     private ArrayList<Happening> happenings = new ArrayList<>();
+
+    // TODO: lasteventid
 
     /**
      * List of all nations in the world.
@@ -112,6 +118,8 @@ public class World {
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringListAdapter.class)
     private ArrayList<String> newestNations = new ArrayList<>();
+
+    // TODO: newnationdetails
 
     /**
      * The number of nations in the world.
@@ -139,6 +147,8 @@ public class World {
     @Setter(AccessLevel.NONE)
     @XmlElement(name = "REGIONS")
     private ArrayList<RegionList> regions = new ArrayList<>();
+
+    // TODO: tgqueue
 
     /**
      * If the 'Regions' shard was used alone or together with RegionsByTag, then this
