@@ -115,7 +115,7 @@ public class DefaultNationStatesImplTest {
         int version = query.execute();
 
         // Assert
-        assertEquals(12, version);
+        assertEquals(13, version);
     }
 
     /**
