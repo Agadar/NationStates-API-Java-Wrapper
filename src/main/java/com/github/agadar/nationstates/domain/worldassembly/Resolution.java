@@ -1,9 +1,7 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import jakarta.xml.bind.annotation.*;
 
@@ -148,7 +146,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELLOG")
     @XmlElement(name = "ENTRY")
-    private Collection<DelegateLogsEntry> delegateLog = new LinkedHashSet<>();
+    private LinkedHashSet<DelegateLogsEntry> delegateLog = new LinkedHashSet<>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -156,7 +154,7 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_FOR")
     @XmlElement(name = "DELEGATE")
-    private Collection<DelegateLogsEntry> delegateVotesFor = new LinkedHashSet<>();
+    private LinkedHashSet<DelegateLogsEntry> delegateVotesFor = new LinkedHashSet<>();
 
     /**
      * Same as DelegateLog, but only contains the LAST action for each delegate that
@@ -164,14 +162,14 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "DELVOTES_AGAINST")
     @XmlElement(name = "DELEGATE")
-    private Collection<DelegateLogsEntry> delegateVotesAgainst = new LinkedHashSet<>();
+    private LinkedHashSet<DelegateLogsEntry> delegateVotesAgainst = new LinkedHashSet<>();
 
     /**
      * A track record of the total FOR votes of the resolution currently at vote.
      */
     @XmlElementWrapper(name = "VOTE_TRACK_FOR")
     @XmlElement(name = "N")
-    private List<Integer> voteTrackFor = new ArrayList<>();
+    private ArrayList<Integer> voteTrackFor = new ArrayList<>();
 
     /**
      * A track record of the total AGAINST votes of the resolution currently at
@@ -179,5 +177,5 @@ public class Resolution {
      */
     @XmlElementWrapper(name = "VOTE_TRACK_AGAINST")
     @XmlElement(name = "N")
-    private List<Integer> voteTrackAgainst = new ArrayList<>();
+    private ArrayList<Integer> voteTrackAgainst = new ArrayList<>();
 }

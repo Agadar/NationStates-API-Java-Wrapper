@@ -72,8 +72,6 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
      * @param embassyHappeningType Should always be either
      *                             EmbassyHappeningType.EMBASSY_CANCELLED or
      *                             EmbassyHappeningType.EMBASSY_ESTABLISHED.
-     * @throws NationStatesAPIException If a happening description is not supported
-     *                                  for the embassy happening type.
      */
     @SneakyThrows
     private EmbassyHappening happeningFromRegionalHistory(Happening happening,
@@ -97,8 +95,6 @@ public class EmbassyHappeningSpecializer implements HappeningSpecializer<Embassy
      * 
      * @param embassyHappeningType Should always be of type
      *                             EmbassyHappeningType.CONSTRUCTION_ABORTED.
-     * @throws NationStatesAPIException If a happening description is not supported
-     *                                  for the embassy happening type.
      */
     @SneakyThrows
     private EmbassyHappening constructionAborted(Happening happening, EmbassyHappeningType embassyHappeningType) {

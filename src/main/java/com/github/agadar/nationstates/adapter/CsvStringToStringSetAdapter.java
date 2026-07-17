@@ -3,7 +3,6 @@ package com.github.agadar.nationstates.adapter;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 
 /**
@@ -11,15 +10,15 @@ import java.util.LinkedHashSet;
  *
  * @author Agadar (https://github.com/Agadar/)
  */
-public class CsvStringToStringSetAdapter extends XmlAdapter<String, Collection<String>> {
+public class CsvStringToStringSetAdapter extends XmlAdapter<String, LinkedHashSet<String>> {
 
     @Override
-    public String marshal(Collection<String> bt) {
+    public String marshal(LinkedHashSet<String> bt) {
         return String.join(",", bt);
     }
 
     @Override
-    public Collection<String> unmarshal(String vt) {
+    public LinkedHashSet<String> unmarshal(String vt) {
         return new LinkedHashSet<>(Arrays.asList(vt.split(",")));
     }
 

@@ -1,13 +1,9 @@
 package com.github.agadar.nationstates.adapter;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.github.agadar.nationstates.domain.common.happening.Happening;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
 import com.github.agadar.nationstates.happeningspecializer.ChangeHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.EmbassyHappeningSpecializer;
 import com.github.agadar.nationstates.happeningspecializer.HappeningSpecializer;
@@ -55,14 +51,11 @@ public final class HappeningSpecializationHelper {
      * same happenings, specialized to corresponding subclasses where applicable.
      * 
      * @return The specialized happenings.
-     * @throws NationStatesAPIException If a happening could not be specialized
-     *                                  correctly.
      */
-    public static List<Happening> specializeHappenings(Collection<Happening> happenings)
-            throws NationStatesAPIException {
-        return happenings.stream().map(HappeningSpecializationHelper::specializeHappeningIfPossible)
-                .collect(Collectors.toList());
-
+    public static ArrayList<Happening> specializeHappenings(Collection<Happening> happenings) {
+        return happenings.stream()
+                .map(HappeningSpecializationHelper::specializeHappeningIfPossible)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**

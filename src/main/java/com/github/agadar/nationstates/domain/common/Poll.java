@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import com.github.agadar.nationstates.adapter.StringToInstantAdapter;
@@ -71,7 +70,7 @@ public class Poll {
      */
     @XmlElementWrapper(name = "OPTIONS")
     @XmlElement(name = "OPTION")
-    private Collection<PollOption> options = new LinkedHashSet<>();
+    private LinkedHashSet<PollOption> options = new LinkedHashSet<>();
 
     @Override
     public int hashCode() {

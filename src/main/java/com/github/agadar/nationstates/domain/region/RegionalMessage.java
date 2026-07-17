@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.domain.region;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -73,7 +72,7 @@ public class RegionalMessage implements Comparable<RegionalMessage> {
      */
     @XmlElement(name = "LIKERS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> likedBy = new LinkedHashSet<>();
+    private LinkedHashSet<String> likedBy = new LinkedHashSet<>();
 
     /**
      * The text of the message

@@ -2,7 +2,6 @@ package com.github.agadar.nationstates.enumerator;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -76,10 +75,10 @@ public enum Authority {
      * Converts a String containing authority codes to a List of Authority values,
      * and vice versa.
      */
-    public static class Adapter extends XmlAdapter<String, Collection<Authority>> {
+    public static class Adapter extends XmlAdapter<String, LinkedHashSet<Authority>> {
 
         @Override
-        public Collection<Authority> unmarshal(String vt) {
+        public LinkedHashSet<Authority> unmarshal(String vt) {
             var authorities = new LinkedHashSet<Authority>();
             for (char code : vt.toCharArray()) {
                 var auth = Authority.fromChar(code);
@@ -92,7 +91,7 @@ public enum Authority {
         }
 
         @Override
-        public String marshal(Collection<Authority> bt) {
+        public String marshal(LinkedHashSet<Authority> bt) {
             var builder = new StringBuilder();
             bt.stream().filter((auth) -> auth != Authority.NULL).forEach((auth) -> builder.append(auth.authCode));
             return builder.toString();

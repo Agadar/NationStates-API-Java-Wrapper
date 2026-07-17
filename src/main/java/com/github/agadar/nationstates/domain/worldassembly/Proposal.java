@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.domain.worldassembly;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
@@ -81,7 +80,7 @@ public class Proposal {
      */
     @XmlElement(name = "APPROVALS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> approvedBy = new LinkedHashSet<>();
+    private LinkedHashSet<String> approvedBy = new LinkedHashSet<>();
 
     @Override
     public int hashCode() {

@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.adapter;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
  * @author Agadar (https://github.com/Agadar/)
  */
 @Slf4j
-public class CsvStringToLongSetAdapter extends XmlAdapter<String, Collection<Long>> {
+public class CsvStringToLongSetAdapter extends XmlAdapter<String, LinkedHashSet<Long>> {
 
     @Override
-    public String marshal(Collection<Long> bt) {
+    public String marshal(LinkedHashSet<Long> bt) {
         return bt.stream().map(Object::toString).collect(Collectors.joining(","));
     }
 
     @Override
-    public Collection<Long> unmarshal(String vt) {
+    public LinkedHashSet<Long> unmarshal(String vt) {
         return Stream.of(vt.split(",")).map(element -> {
             try {
                 return Long.parseLong(element);

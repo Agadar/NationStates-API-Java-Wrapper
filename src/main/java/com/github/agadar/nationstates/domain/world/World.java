@@ -1,28 +1,22 @@
 package com.github.agadar.nationstates.domain.world;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-
-import jakarta.xml.bind.Unmarshaller;
-import jakarta.xml.bind.annotation.*;
-
-import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.CsvStringToStringListAdapter;
+import com.github.agadar.nationstates.adapter.CsvStringToStringSetAdapter;
 import com.github.agadar.nationstates.adapter.HappeningSpecializationHelper;
 import com.github.agadar.nationstates.domain.common.CensusScore;
 import com.github.agadar.nationstates.domain.common.Dispatch;
 import com.github.agadar.nationstates.domain.common.NationCensusScoreRanks;
 import com.github.agadar.nationstates.domain.common.Poll;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
-
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 /**
  * Representation of the world. This class' fields have a 1:1 correspondence
@@ -41,7 +35,7 @@ public class World {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Collection<CensusScore> census = new LinkedHashSet<>();
+    private LinkedHashSet<CensusScore> census = new LinkedHashSet<>();
 
     /**
      * ID of the current census.
@@ -90,7 +84,7 @@ public class World {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    private Collection<Dispatch> dispatches = new LinkedHashSet<>();
+    private LinkedHashSet<Dispatch> dispatches = new LinkedHashSet<>();
 
     /**
      * Name of today's featured region.
@@ -103,21 +97,21 @@ public class World {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> happenings = new ArrayList<>();
+    private ArrayList<Happening> happenings = new ArrayList<>();
 
     /**
      * List of all nations in the world.
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> nations = new LinkedHashSet<>();
+    private LinkedHashSet<String> nations = new LinkedHashSet<>();
 
     /**
      * List of the newest nations.
      */
     @XmlElement(name = "NEWNATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringListAdapter.class)
-    private List<String> newestNations = new ArrayList<>();
+    private ArrayList<String> newestNations = new ArrayList<>();
 
     /**
      * The number of nations in the world.
@@ -144,7 +138,7 @@ public class World {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @XmlElement(name = "REGIONS")
-    private List<RegionList> regions = new ArrayList<>();
+    private ArrayList<RegionList> regions = new ArrayList<>();
 
     /**
      * If the 'Regions' shard was used alone or together with RegionsByTag, then this
@@ -153,8 +147,8 @@ public class World {
      *
      * @return region names
      */
-    public Collection<String> getRegions() {
-        return regions.isEmpty() ? new HashSet<>() : regions.get(0).getRegions();
+    public LinkedHashSet<String> getRegions() {
+        return regions.isEmpty() ? new LinkedHashSet<>() : regions.get(0).getRegions();
     }
 
     /**
@@ -164,17 +158,15 @@ public class World {
      *
      * @return region names
      */
-    public Collection<String> getRegionsByTag() {
+    public LinkedHashSet<String> getRegionsByTag() {
         return regions.size() < 2 ? getRegions() : regions.get(1).getRegions();
     }
 
     /**
      * Executed after JAXB finishes unmarshalling.
-     *
-     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         this.happenings = HappeningSpecializationHelper.specializeHappenings(this.happenings);
     }
 }

@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.domain.world;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -33,5 +32,5 @@ public class RegionList {
      */
     @XmlValue
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> regions = new LinkedHashSet<>();
+    private LinkedHashSet<String> regions = new LinkedHashSet<>();
 }

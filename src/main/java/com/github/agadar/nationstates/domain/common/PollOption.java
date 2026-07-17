@@ -1,6 +1,5 @@
 package com.github.agadar.nationstates.domain.common;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 
 import com.github.agadar.nationstates.adapter.ColonStringToStringSetAdapter;
@@ -44,7 +43,7 @@ public class PollOption {
      */
     @XmlElement(name = "VOTERS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> voterNames = new LinkedHashSet<>();
+    private LinkedHashSet<String> voterNames = new LinkedHashSet<>();
 
     @Override
     public int hashCode() {

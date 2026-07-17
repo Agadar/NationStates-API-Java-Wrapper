@@ -2,9 +2,7 @@ package com.github.agadar.nationstates.domain.region;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.*;
@@ -22,7 +20,6 @@ import com.github.agadar.nationstates.domain.common.ZombieInfo;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.Authority;
 import com.github.agadar.nationstates.enumerator.EmbassiesRmbPermissions;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
@@ -55,7 +52,7 @@ public class Region {
      */
     @XmlElement(name = "BANNED")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> banlist = new LinkedHashSet<>();
+    private LinkedHashSet<String> banlist = new LinkedHashSet<>();
 
     /**
      * Id of the regional banner.
@@ -88,7 +85,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Collection<CensusScore> census = new LinkedHashSet<>();
+    private LinkedHashSet<CensusScore> census = new LinkedHashSet<>();
 
     /**
      * The census scale scores of this region's nations.
@@ -122,7 +119,7 @@ public class Region {
      */
     @XmlElement(name = "DELEGATEAUTH")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Collection<Authority> delegateAuthorities = new LinkedHashSet<>();
+    private LinkedHashSet<Authority> delegateAuthorities = new LinkedHashSet<>();
 
     /**
      * The number of endorsements the region's world assembly delegate has.
@@ -139,7 +136,7 @@ public class Region {
      */
     @XmlElement(name = "DISPATCHES")
     @XmlJavaTypeAdapter(CsvStringToLongSetAdapter.class)
-    private Collection<Long> dispatches = new LinkedHashSet<>();
+    private LinkedHashSet<Long> dispatches = new LinkedHashSet<>();
 
     /**
      * The region's embassies.
@@ -148,7 +145,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "EMBASSIES")
     @XmlElement(name = "EMBASSY")
-    private Collection<Embassy> embassies = new LinkedHashSet<>();
+    private LinkedHashSet<Embassy> embassies = new LinkedHashSet<>();
 
     /**
      * Regional Message Board permissions for regions with which this region
@@ -240,7 +237,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> recentHappenings = new ArrayList<>();
+    private ArrayList<Happening> recentHappenings = new ArrayList<>();
 
     /**
      * List of the most recent history.
@@ -249,7 +246,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "HISTORY")
     @XmlElement(name = "EVENT")
-    private List<Happening> history = new ArrayList<>();
+    private ArrayList<Happening> history = new ArrayList<>();
 
     /**
      * UNIX timestamp of when this region was last updated.
@@ -293,7 +290,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "MESSAGES")
     @XmlElement(name = "POST")
-    private List<RegionalMessage> regionalMessages = new ArrayList<>();
+    private ArrayList<RegionalMessage> regionalMessages = new ArrayList<>();
     
     /**
      * The region's name.
@@ -310,7 +307,7 @@ public class Region {
      */
     @XmlElement(name = "NATIONS")
     @XmlJavaTypeAdapter(ColonStringToStringSetAdapter.class)
-    private Collection<String> nationNames = new LinkedHashSet<>();
+    private LinkedHashSet<String> nationNames = new LinkedHashSet<>();
 
     /**
      * The number of nations that inhabit this region.
@@ -327,7 +324,7 @@ public class Region {
      */
     @XmlElement(name = "WANATIONS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> worldAssemblyNations = new LinkedHashSet<>();
+    private LinkedHashSet<String> worldAssemblyNations = new LinkedHashSet<>();
 
     /**
      * The number of the region's nations that are members of the World Assembly.
@@ -344,7 +341,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "OFFICERS")
     @XmlElement(name = "OFFICER")
-    private Collection<Officer> officers = new LinkedHashSet<>();
+    private LinkedHashSet<Officer> officers = new LinkedHashSet<>();
 
     /**
      * The regional poll that is currently being conducted.
@@ -369,7 +366,7 @@ public class Region {
      */
     @XmlElement(name = "RECRUITERS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> recruiters = new LinkedHashSet<>();
+    private LinkedHashSet<String> recruiters = new LinkedHashSet<>();
 
     /**
      * The region's votes for the current Security Council resolution.
@@ -386,7 +383,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "TAGS")
     @XmlElement(name = "TAG")
-    private Collection<String> tags = new LinkedHashSet<>();
+    private LinkedHashSet<String> tags = new LinkedHashSet<>();
 
     /**
      * The World Assembly badges granted to this region by the Security Council.
@@ -395,7 +392,7 @@ public class Region {
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    private Collection<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<>();
+    private LinkedHashSet<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<>();
 
     /**
      * This region's statistics of the current or last zombie event.
@@ -407,11 +404,9 @@ public class Region {
 
     /**
      * Executed after JAXB finishes unmarshalling.
-     *
-     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
         this.history = HappeningSpecializationHelper.specializeHappenings(this.history);
     }

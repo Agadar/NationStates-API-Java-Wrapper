@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.domain.region;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 
@@ -45,7 +44,7 @@ public class Officer {
      */
     @XmlElement(name = "AUTHORITY")
     @XmlJavaTypeAdapter(Authority.Adapter.class)
-    private Collection<Authority> authorities = new LinkedHashSet<>();
+    private LinkedHashSet<Authority> authorities = new LinkedHashSet<>();
 
     /**
      * UNIX timestamp of when this officer position was assigned.

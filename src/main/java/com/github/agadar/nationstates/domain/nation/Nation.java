@@ -1,9 +1,7 @@
 package com.github.agadar.nationstates.domain.nation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.xml.bind.Unmarshaller;
@@ -18,7 +16,6 @@ import com.github.agadar.nationstates.domain.common.ZombieInfo;
 import com.github.agadar.nationstates.domain.common.happening.Happening;
 import com.github.agadar.nationstates.enumerator.InfluenceRank;
 import com.github.agadar.nationstates.enumerator.WorldAssemblyStatus;
-import com.github.agadar.nationstates.exception.NationStatesAPIException;
 
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.Getter;
@@ -77,7 +74,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "BANNERS")
     @XmlElement(name = "BANNER")
-    private Collection<String> banners = new LinkedHashSet<>();
+    private LinkedHashSet<String> banners = new LinkedHashSet<>();
 
     /**
      * This nation's capital. Has default value if none is set.
@@ -96,7 +93,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "CENSUS")
     @XmlElement(name = "SCALE")
-    private Collection<CensusScore> census = new LinkedHashSet<>();
+    private LinkedHashSet<CensusScore> census = new LinkedHashSet<>();
 
     /**
      * Description of crime in this nation.
@@ -133,7 +130,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DEATHS")
     @XmlElement(name = "CAUSE")
-    private Collection<DeathCause> deaths = new LinkedHashSet<>();
+    private LinkedHashSet<DeathCause> deaths = new LinkedHashSet<>();
 
     /**
      * Primary demonym.
@@ -165,14 +162,14 @@ public class Nation {
      */
     @XmlElementWrapper(name = "DISPATCHLIST")
     @XmlElement(name = "DISPATCH")
-    private Collection<Dispatch> dispatches = new LinkedHashSet<>();
+    private LinkedHashSet<Dispatch> dispatches = new LinkedHashSet<>();
 
     /**
      * List of nation names that endorsed this nation.
      */
     @XmlElement(name = "ENDORSEMENTS")
     @XmlJavaTypeAdapter(CsvStringToStringSetAdapter.class)
-    private Collection<String> endorsedBy = new LinkedHashSet<>();
+    private LinkedHashSet<String> endorsedBy = new LinkedHashSet<>();
 
     /**
      * Number of factbooks written by this nation.
@@ -186,7 +183,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "FACTBOOKLIST")
     @XmlElement(name = "FACTBOOK")
-    private Collection<Dispatch> factbooks = new LinkedHashSet<>();
+    private LinkedHashSet<Dispatch> factbooks = new LinkedHashSet<>();
 
     /**
      * UNIX timestamp of when the nation first logged in.
@@ -265,7 +262,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "HAPPENINGS")
     @XmlElement(name = "EVENT")
-    private List<Happening> recentHappenings = new ArrayList<>();
+    private ArrayList<Happening> recentHappenings = new ArrayList<>();
 
     /**
      * The nation's regional influence rank.
@@ -315,7 +312,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "LEGISLATION")
     @XmlElement(name = "LAW")
-    private List<String> recentLegislation = new ArrayList<>();
+    private ArrayList<String> recentLegislation = new ArrayList<>();
 
     /**
      * This nation's biggest industry.
@@ -430,7 +427,7 @@ public class Nation {
      */
     @XmlElementWrapper(name = "WABADGES")
     @XmlElement(name = "WABADGE")
-    private Collection<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<>();
+    private LinkedHashSet<WorldAssemblyBadge> worldAssemblyBadges = new LinkedHashSet<>();
 
     /**
      * String indicating whether the nation is a member of the World Assembly.
@@ -466,8 +463,10 @@ public class Nation {
      *
      * @return the URLs that point to the images behind Banners.
      */
-    public Collection<String> getBannersAsURLs() {
-        return banners.stream().map(Nation::riftCodeToURL).collect(Collectors.toSet());
+    public LinkedHashSet<String> getBannersAsURLs() {
+        return banners.stream()
+                .map(Nation::riftCodeToURL)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     /**
@@ -482,11 +481,9 @@ public class Nation {
 
     /**
      * Executed after JAXB finishes unmmarshalling.
-     *
-     * @throws NationStatesAPIException If happening specialization failed.
      */
     @SuppressWarnings("unused")
-    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) throws NationStatesAPIException {
+    private void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
         this.recentHappenings = HappeningSpecializationHelper.specializeHappenings(this.recentHappenings);
     }
 

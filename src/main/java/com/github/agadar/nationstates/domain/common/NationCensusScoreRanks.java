@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.xml.bind.annotation.*;
 import lombok.Getter;
@@ -30,7 +29,7 @@ public class NationCensusScoreRanks {
      */
     @XmlElementWrapper(name = "NATIONS")
     @XmlElement(name = "NATION")
-    private List<NationCensusScore> nations = new ArrayList<NationCensusScore>();
+    private ArrayList<NationCensusScore> nations = new ArrayList<>();
 
     @Override
     public int hashCode() {

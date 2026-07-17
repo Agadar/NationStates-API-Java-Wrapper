@@ -1,7 +1,6 @@
 package com.github.agadar.nationstates.domain.common;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import jakarta.xml.bind.annotation.*;
 import lombok.Getter;
@@ -64,7 +63,7 @@ public class CensusScore {
      * for Id will not be retrieved.
      */
     @XmlElement(name = "POINT")
-    private List<CensusScoreHistory> history = new ArrayList<>();
+    private ArrayList<CensusScoreHistory> history = new ArrayList<>();
 
     @Override
     public int hashCode() {
